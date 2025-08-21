@@ -1,0 +1,172 @@
+# Netlify deployment configuration for ERMITS CyberSoluce®
+
+[build]
+  publish = "dist"
+  command = "npm ci --production=false && npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
+  # Production optimizations
+  NODE_ENV = "production"
+  VITE_APP_ENV = "production"
+  CI = "true"
+
+# Redirect rules for SPA
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+  conditions = {Role = ["admin", "user"]}
+
+# Enhanced security headers for production
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Content Security Policy (will be overridden by meta tag)
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co;"
+    # Cross-Origin policies
+    Cross-Origin-Embedder-Policy = "require-corp"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
+
+# Enhanced caching for static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    # Add compression headers
+    Vary = "Accept-Encoding"
+
+# Cache JavaScript and CSS with versioning
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/javascript; charset=utf-8"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "text/css; charset=utf-8"
+
+# Cache fonts
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Cross-Origin-Resource-Policy = "cross-origin"
+
+# Cache service worker
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Content-Type = "application/javascript; charset=utf-8"
+
+# Cache manifest and other meta files
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "application/manifest+json; charset=utf-8"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "text/plain; charset=utf-8"
+
+# API route headers
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+# Environment variables for build
+[context.production.environment]
+  NODE_ENV = "production"
+  VITE_APP_ENV = "production"
+  VITE_DEBUG_MODE = "false"
+  VITE_ENABLE_ERROR_REPORTING = "true"
+
+[context.deploy-preview.environment]
+  NODE_ENV = "production"
+  VITE_APP_ENV = "preview"
+  VITE_DEBUG_MODE = "true"
+
+[context.branch-deploy.environment]
+  NODE_ENV = "production"
+  VITE_APP_ENV = "development"
+  VITE_DEBUG_MODE = "true"
+
+# Functions configuration
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # Production optimizations for functions
+  external_node_modules = ["@supabase/supabase-js"]
+
+# Enhanced plugin configuration
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+  
+  [plugins.inputs.settings]
+    output_path = "reports/lighthouse.html"
+    # Production performance budgets
+    budget_path = "lighthouse-budget.json"
+    
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+  
+  [plugins.inputs]
+    buildDir = "dist"
+    exclude = [
+      "/admin/**",
+      "/api/**"
+    ]
+
+[[plugins]]
+  package = "netlify-plugin-checklinks"
+  
+  [plugins.inputs]
+    entryPoints = ["dist/**/*.html"]
+    checkExternal = false
+    skipPatterns = ["localhost", "127.0.0.1"]
+
+# Performance and build optimizations
+[[plugins]]
+  package = "netlify-plugin-inline-critical-css"
+  
+  [plugins.inputs]
+    src = "dist"
+
+# Custom error pages
+[[redirects]]
+  from = "/admin/*"
+  to = "/401.html"
+  status = 401
+  force = true
+  conditions = {Role = ["!admin"]}
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Handle 404 errors
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404
+  force = false
