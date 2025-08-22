@@ -47,12 +47,9 @@ export const useAssetInventory = () => {
     const loadAssets = async () => {
       setState(prev => ({ ...prev, loading: true }));
       try {
-        console.log('Loading assets...');
         const assets = await assetService.getAssets();
-        console.log(`Loaded ${assets.length} assets successfully`);
         setState(prev => ({ ...prev, assets, loading: false }));
       } catch (error) {
-        console.warn('Failed to load assets, using sample data:', error);
         // Fallback to sample assets on any error
         setState(prev => ({ ...prev, assets: sampleAssets, loading: false }));
         toast('Using demo data - Supabase connection unavailable', {
@@ -93,7 +90,6 @@ export const useAssetInventory = () => {
     }, APP_CONFIG.SEARCH.DEBOUNCE_DELAY);
 
     return () => clearTimeout(timeoutId);
-  }, [state.filters, state.assets, state.sortConfig]);
 
   // Calculate statistics with error handling
   const stats = useMemo(() => {

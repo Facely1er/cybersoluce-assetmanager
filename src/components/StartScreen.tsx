@@ -46,13 +46,6 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
     }
   ];
 
-  // If user is authenticated, automatically proceed to main app
-  React.useEffect(() => {
-    if (user) {
-      onGetStarted();
-    }
-  }, [user, onGetStarted]);
-
   const [activeFeature, setActiveFeature] = useState(0);
 
   const features = [

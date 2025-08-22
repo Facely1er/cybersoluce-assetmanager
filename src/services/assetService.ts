@@ -175,59 +175,33 @@ const mapAssetToUpdate = (asset: Partial<Asset>): AssetUpdate => ({
 export const assetService = {
   // Get all assets for the current user
   async getAssets(): Promise<Asset[]> {
-    const cacheKey = 'all_assets';
-    const cached = assetCache.get<Asset[]>(cacheKey);
-    if (cached) return cached;
-
     // Demo mode - return sample assets
     if (!isSupabaseEnabled || !supabase) {
-      if (import.meta.env.DEV) {
-        console.log('Running in demo mode - returning sample assets');
-      }
       return Promise.resolve(sampleAssets);
     }
     
     try {
       // Test connectivity before making requests
       const { checkSupabaseConnectivity } = await import('../lib/supabase');
-      const isConnected = await retryRequest(checkSupabaseConnectivity, 2, 1000);
+      const isConnected = await checkSupabaseConnectivity();
       
       if (!isConnected) {
-        if (import.meta.env.DEV) {
-          console.log('Supabase not connected, using demo mode');
-        }
         return sampleAssets;
       }
       
-      if (import.meta.env.DEV) {
-        console.log('Attempting to fetch assets from Supabase...');
-      }
-      
-      const result = await retryRequest(() => supabase!
+      const result = await supabase!
         .from('assets')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(APP_CONFIG.PAGINATION.MAX_PAGE_SIZE * 4) // Reasonable limit
-      );
+        .limit(1000);
       
       if (result.error) {
         logError(result.error, 'assetService.getAssets');
-        if (import.meta.env.DEV) {
-          console.log('Falling back to demo mode due to query error');
-        }
         return sampleAssets;
       }
 
-      if (import.meta.env.DEV) {
-        console.log(`Successfully fetched ${result.data?.length || 0} assets from database`);
-      }
-      
-      const assets = await Promise.all(
-        (result.data || []).map(row => mapRowToAsset(row, true))
-      );
+      const assets = await Promise.all((result.data || []).map(row => mapRowToAsset(row)));
 
-      // Cache successful results
-      assetCache.set(cacheKey, assets, APP_CONFIG.CACHE.DEFAULT_TTL);
       return assets;
       
     } catch (error) {
@@ -239,15 +213,9 @@ export const assetService = {
         error.message.includes('NetworkError') ||
         error.name === 'TypeError'
       )) {
-        logError(error, 'assetService.getAssets.networkError');
-        if (import.meta.env.DEV) {
-          console.warn('Network error connecting to Supabase:', error.message);
-          console.log('Falling back to demo mode - using sample assets');
-        }
         return sampleAssets;
       }
       
-      logError(error, 'assetService.getAssets.unexpectedError');
       return sampleAssets;
     }
   },

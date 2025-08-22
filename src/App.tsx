@@ -11,38 +11,18 @@ import { performanceMonitor } from './utils/performance';
 // Enhanced App component with production optimizations
 const App: React.FC = () => {
   const [showStartScreen, setShowStartScreen] = useState(true);
-  const [appReady, setAppReady] = useState(false);
 
-  // Initialize monitoring and performance tracking
-  React.useEffect(() => {
-    const cleanup = monitorConnection();
-    
-    // Mark app as ready for performance monitoring
-    setAppReady(true);
-    
-    return cleanup;
+  const handleGetStarted = React.useCallback(() => {
+    setShowStartScreen(false);
   }, []);
 
-  // Performance monitoring for route changes
-  React.useEffect(() => {
-    if (appReady) {
-      performanceMonitor.measureFunction('app_render', () => {
-        // App render performance measurement
-      });
-    }
-  }, [showStartScreen, appReady]);
-
-  const handleGetStarted = () => {
+  const handleLoadDemo = React.useCallback(() => {
     setShowStartScreen(false);
-  };
+  }, []);
 
-  const handleLoadDemo = () => {
-    setShowStartScreen(false);
-  };
-
-  const handleShowStartScreen = () => {
+  const handleShowStartScreen = React.useCallback(() => {
     setShowStartScreen(true);
-  };
+  }, []);
 
   return (
     <ErrorBoundary>

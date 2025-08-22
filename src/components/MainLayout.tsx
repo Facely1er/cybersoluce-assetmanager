@@ -21,35 +21,20 @@ interface MainLayoutProps {
 export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => {
   const [activeView, setActiveView] = useState('dashboard');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [showImportModal, setShowImportModal] = useState(false);
-  const [showInventoryGenerator, setShowInventoryGenerator] = useState(false);
-  const [showTeamManagement, setShowTeamManagement] = useState(false);
   const { user, signOut } = useAuth();
   const { stats } = useAssetInventory();
 
-  const handleNavigateToAssets = () => {
+  const handleNavigateToAssets = React.useCallback(() => {
     setActiveView('assets');
-  };
+  }, []);
 
-  const handleNavigateToReports = () => {
+  const handleNavigateToReports = React.useCallback(() => {
     setActiveView('analytics');
-  };
+  }, []);
 
-  const handleNavigateToSettings = () => {
+  const handleNavigateToSettings = React.useCallback(() => {
     setActiveView('settings');
-  };
-
-  const handleShowImport = () => {
-    setShowImportModal(true);
-  };
-
-  const handleShowInventoryGenerator = () => {
-    setShowInventoryGenerator(true);
-  };
-
-  const handleShowTeamManagement = () => {
-    setShowTeamManagement(true);
-  };
+  }, []);
 
   const getCurrentStats = () => ({
     totalAssets: stats.total,
