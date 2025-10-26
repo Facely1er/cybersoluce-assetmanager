@@ -15,6 +15,7 @@ import {
   Zap,
   LogOut,
   Target,
+  Play,
   Database,
   Network,
   Lock
@@ -51,6 +52,12 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
       label: 'Setup Workflow',
       icon: Target,
       description: 'Guided setup and roadmap'
+    },
+    {
+      id: 'demo-scenarios',
+      label: 'Demo Scenarios',
+      icon: Play,
+      description: 'Industry use cases and demos'
     },
     {
       id: 'assets',

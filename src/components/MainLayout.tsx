@@ -19,6 +19,7 @@ const OrganizationManagement = lazy(() => import('./organizations/OrganizationMa
 const UserManagement = lazy(() => import('./users/UserManagement'));
 const ActivityLog = lazy(() => import('./activity/ActivityLog'));
 const SystemSettings = lazy(() => import('./settings/SystemSettings'));
+const DemoShowcase = lazy(() => import('./DemoShowcase'));
 
 interface MainLayoutProps {
   onShowStartScreen: () => void;
@@ -52,6 +53,17 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
 
   const handleShowTeamManagement = useCallback(() => {
     setActiveView('users');
+  }, []);
+
+  const handleStartDemo = React.useCallback((scenarioId: string) => {
+    // Load demo scenario and navigate to assets view
+    setActiveView('assets');
+    // TODO: Implement demo scenario loading
+  }, []);
+
+  const handleViewDemo = React.useCallback((scenarioId: string) => {
+    // Show demo details
+    setActiveView('demo-scenarios');
   }, []);
 
   const getCurrentStats = () => ({
@@ -160,6 +172,15 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
         return (
           <Suspense fallback={<LoadingFallback />}>
             <SystemSettings />
+          </Suspense>
+        );
+      case 'demo-scenarios':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <DemoShowcase 
+              onStartDemo={handleStartDemo}
+              onViewDemo={handleViewDemo}
+            />
           </Suspense>
         );
       case 'help':

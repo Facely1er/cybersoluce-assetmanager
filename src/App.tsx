@@ -19,6 +19,10 @@ const App: React.FC = () => {
     setShowStartScreen(false);
   }, []);
 
+  const handleShowDemoScenarios = useCallback(() => {
+    setShowStartScreen(false);
+  }, []);
+
   const handleShowStartScreen = useCallback(() => {
     setShowStartScreen(true);
   }, []);
@@ -89,6 +93,7 @@ const App: React.FC = () => {
               <StartScreen 
                 onGetStarted={handleGetStarted}
                 onLoadDemo={handleLoadDemo}
+                onShowDemoScenarios={handleShowDemoScenarios}
               />
             ) : (
               <AuthGuard 
