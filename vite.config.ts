@@ -34,7 +34,6 @@ export default defineConfig({
       '@supabase/supabase-js',
       'react-hot-toast',
       'date-fns',
-      'recharts',
       'lucide-react'
     ],
     // Exclude heavy libraries from pre-bundling to enable better code splitting
@@ -58,7 +57,21 @@ export default defineConfig({
         drop_console: process.env.NODE_ENV === 'production',
         drop_debugger: true,
         pure_funcs: process.env.NODE_ENV === 'production' ? ['console.log', 'console.info'] : [],
+        // Additional compression options
+        passes: 2,
+        unsafe: true,
+        unsafe_comps: true,
+        unsafe_math: true,
+        unsafe_proto: true,
+        unsafe_regexp: true,
+        unsafe_undefined: true,
       },
+      mangle: {
+        // Mangle property names for better compression
+        properties: {
+          regex: /^_/
+        }
+      }
     },
     // Enhanced bundle optimization
     rollupOptions: {
@@ -142,7 +155,14 @@ export default defineConfig({
             return `styles/[name]-[hash][extname]`;
           }
           return `assets/[name]-[hash][extname]`;
-        }
+        },
+        // Optimize chunk file names
+        chunkFileNames: (chunkInfo) => {
+          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
+          return `js/[name]-[hash].js`;
+        },
+        // Optimize entry file names
+        entryFileNames: 'js/[name]-[hash].js'
       }
     },
     // Reduce chunk size warning limit for better performance
