@@ -138,9 +138,6 @@ export default defineConfig({
             return 'vendor';
           }
         },
-        // Optimize chunk file naming
-        chunkFileNames: 'chunks/[name]-[hash].js',
-        entryFileNames: 'entries/[name]-[hash].js',
         // Optimize asset filenames
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name.split('.');
