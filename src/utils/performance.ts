@@ -201,7 +201,7 @@ export const usePerformanceMeasure = (componentName: string) => {
 export const analyzeBundleSize = () => {
   if (import.meta.env.DEV) {
     const scripts = document.querySelectorAll('script[src]');
-    let totalSize = 0;
+    const totalSize = 0;
     
     scripts.forEach(script => {
       const src = script.getAttribute('src');

@@ -3,7 +3,7 @@ import { BarChart3, Download, Calendar, Filter, TrendingUp, Shield, AlertTriangl
 import { Asset } from '../../types/asset';
 import { Report } from '../../types/organization';
 import { reportingService } from '../../services/reportingService';
-import { useAssetInventory } from '../../hooks/useAssetInventory';
+import { useAssetInventory } from '../../contexts/AssetInventoryContext';
 import { LoadingSpinner } from '../LoadingSpinner';
 import { 
   BarChartWrapper as BarChart, 

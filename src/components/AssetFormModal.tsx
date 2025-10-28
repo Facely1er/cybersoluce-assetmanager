@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Save, AlertCircle, Plus, Trash2 } from 'lucide-react';
+import { X, Save, AlertCircle } from 'lucide-react';
 import { Asset } from '../types/asset';
 import { complianceFrameworks, assetTypes, criticalityLevels, statusOptions } from '../data/sampleAssets';
 
@@ -79,7 +79,7 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
     setActiveTab('basic');
   }, [asset, isOpen]);
 
-  const handleInputChange = (field: keyof typeof formData, value: any) => {
+  const handleInputChange = (field: keyof typeof formData, value: string | string[] | number) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -200,7 +200,7 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
             ].map(({ id, label }) => (
               <button
                 key={id}
-                onClick={() => setActiveTab(id as any)}
+                onClick={() => setActiveTab(id as 'basic' | 'security' | 'compliance' | 'technical')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === id
                     ? 'border-command-blue-500 text-command-blue-600'

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   BarChart3,
   PieChart,
@@ -6,15 +6,10 @@ import {
   Activity,
   Target,
   Zap,
-  RefreshCw,
   Download,
   Maximize2,
   Minimize2,
-  Settings,
-  Filter,
-  Calendar,
-  Eye,
-  EyeOff
+  Settings
 } from 'lucide-react';
 import {
   BarChart,
@@ -38,9 +33,7 @@ import {
   PolarRadiusAxis,
   Radar,
   ComposedChart,
-  Legend,
-  ReferenceLine,
-  Brush
+  Legend
 } from 'recharts';
 import { Asset } from '../types/asset';
 import { EnrichmentData } from '../services/dataEnrichmentService';
@@ -71,8 +64,7 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     animation: true,
     theme: 'light'
   });
-  const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
-  const [visibleMetrics, setVisibleMetrics] = useState<Set<string>>(new Set(['risk', 'compliance', 'cost']));
+  // Removed unused state variables
 
   const COLORS = [
     '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', 
@@ -83,9 +75,9 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     if (isOpen && assets.length > 0) {
       loadData();
     }
-  }, [isOpen, assets]);
+  }, [isOpen, assets, loadData]);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       // Import services dynamically to avoid circular dependencies
       const { dataEnrichmentService } = await import('../services/dataEnrichmentService');
@@ -101,7 +93,7 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     } catch (error) {
       console.error('Error loading visualization data:', error);
     }
-  };
+  }, [assets]);
 
   const chartTypes = [
     { id: 'overview', name: 'Overview', icon: BarChart3 },
