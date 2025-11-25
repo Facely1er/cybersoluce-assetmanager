@@ -1,5 +1,6 @@
 // Re-export all hooks for easier imports
 // useAssetInventory has been moved to contexts/AssetInventoryContext
+export { useTheme } from './useTheme';
 
 // Additional custom hooks
 import { useState, useEffect, useCallback } from 'react';

@@ -1,5 +1,6 @@
 import React, { useState, Suspense, useCallback } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { AssetInventoryProvider } from './contexts/AssetInventoryContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -30,9 +31,10 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <AuthProvider>
-        <AssetInventoryProvider>
-          <div className="min-h-screen" role="main">
+      <ThemeProvider>
+        <AuthProvider>
+          <AssetInventoryProvider>
+            <div className="min-h-screen" role="main">
             {/* Global Toaster */}
             <Toaster 
               position="top-right"
@@ -110,9 +112,10 @@ const App: React.FC = () => {
                 </AuthGuard>
               )}
             </Suspense>
-          </div>
-        </AssetInventoryProvider>
-      </AuthProvider>
+            </div>
+          </AssetInventoryProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 };

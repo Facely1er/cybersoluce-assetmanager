@@ -1,4 +1,5 @@
 import React from 'react';
+import { User } from '@supabase/supabase-js';
 import { 
   Home, 
   Shield, 
@@ -22,13 +23,14 @@ import {
   CheckCircle2,
   TrendingUp
 } from 'lucide-react';
+import { ThemeToggle } from './common/ThemeToggle';
 
 interface NavigationSidebarProps {
   activeView: string;
   onViewChange: (view: string) => void;
   isCollapsed: boolean;
   onToggleCollapse: () => void;
-  user?: { id: string; email: string; full_name?: string };
+  user?: User | null;
   onShowTeamManagement?: () => void;
   signOut?: () => void;
 }
@@ -166,31 +168,35 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
   ];
 
   return (
-    <div className={`bg-white border-r border-gray-200 transition-all duration-300 ${
+    <div className={`bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ${
       isCollapsed ? 'w-16' : 'w-64'
     } flex flex-col h-full`}>
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between">
           {!isCollapsed && (
             <div className="flex items-center">
-              <Shield className="h-8 w-8 text-command-blue-600 mr-3" />
+              <Shield className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400 mr-3" />
               <div>
-                <div className="font-outfit font-bold text-gray-900">ERMITS</div>
-                <div className="text-xs text-gray-500">CyberSoluce®</div>
+                <div className="font-outfit font-bold text-gray-900 dark:text-white">ERMITS</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">CyberSoluce®</div>
               </div>
             </div>
           )}
-          <button
-            onClick={onToggleCollapse}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              onClick={onToggleCollapse}
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
             <div className={`w-4 h-4 border-2 border-gray-400 rounded transition-transform ${
               isCollapsed ? 'rotate-180' : ''
             }`}>
               <div className="w-0 h-0 border-l-2 border-l-gray-400 border-t-2 border-t-transparent border-b-2 border-b-transparent ml-1"></div>
-            </div>
-          </button>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -234,7 +240,7 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">
-                {user.user_metadata?.full_name || user.email}
+                {(user.user_metadata?.['full_name'] as string) || user.email}
               </p>
               <p className="text-xs text-gray-500 truncate">{user.email}</p>
             </div>
@@ -249,7 +255,7 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
             </button>
           )}
           <button
-            onClick={() => signOut()}
+            onClick={() => signOut?.()}
             className="w-full flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
           >
             <LogOut className="h-4 w-4 mr-2" />
