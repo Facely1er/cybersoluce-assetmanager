@@ -7,6 +7,7 @@ export * from './errorHandling';
 export * from './constants';
 export * from './dependencyUtils';
 export * from './logger';
+export * from './routeUtils';
 
 // Common utility functions
 export const formatDate = (date: Date): string => {

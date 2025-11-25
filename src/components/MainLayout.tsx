@@ -92,6 +92,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
             onNavigateToAssets={handleNavigateToAssets}
             onNavigateToReports={handleNavigateToReports}
             onNavigateToSettings={handleNavigateToSettings}
+            onNavigateToActivity={() => setActiveView('activity')}
           />
         );
       case 'assets':

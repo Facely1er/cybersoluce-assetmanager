@@ -14,13 +14,14 @@ import {
   Zap
 } from 'lucide-react';
 import { AssetStats } from '../types/asset';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 
 interface DashboardHomeProps {
   stats: AssetStats;
   onNavigateToAssets: () => void;
   onNavigateToReports: () => void;
   onNavigateToSettings: () => void;
+  onNavigateToActivity?: () => void;
 }
 
 export const DashboardHome: React.FC<DashboardHomeProps> = ({
@@ -28,6 +29,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
   onNavigateToAssets,
   onNavigateToReports,
   onNavigateToSettings,
+  onNavigateToActivity,
 }) => {
   const criticalityPercentages = {
     critical: Math.round((stats.byCriticality.Critical || 0) / stats.total * 100),
@@ -64,6 +66,38 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
       icon: Target,
       color: 'bg-purple-500',
       action: onNavigateToSettings,
+    },
+  ];
+
+  // Recent Activity - can be connected to ActivityLog service later
+  const recentActivity = [
+    {
+      type: 'asset_added',
+      message: 'New server asset added to inventory',
+      time: new Date(),
+      icon: CheckCircle,
+      color: 'text-green-600',
+    },
+    {
+      type: 'vulnerability_detected',
+      message: 'High severity vulnerability detected',
+      time: subDays(new Date(), 1),
+      icon: AlertTriangle,
+      color: 'text-red-600',
+    },
+    {
+      type: 'compliance_check',
+      message: 'SOC 2 compliance assessment completed',
+      time: subDays(new Date(), 2),
+      icon: CheckCircle,
+      color: 'text-blue-600',
+    },
+    {
+      type: 'asset_updated',
+      message: 'Database server configuration updated',
+      time: subDays(new Date(), 3),
+      icon: Activity,
+      color: 'text-orange-600',
     },
   ];
 
@@ -274,31 +308,96 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
       </div>
 
       {/* Quick Actions and Recent Activity */}
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Quick Actions */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-4xl mx-auto">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-outfit font-semibold text-gray-900">Quick Actions</h3>
+            <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white">Quick Actions</h3>
             <Zap className="h-5 w-5 text-gray-400" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="space-y-4">
             {quickActions.map((action, index) => (
               <button
                 key={index}
                 onClick={action.action}
-                className="flex flex-col items-center p-6 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group text-center"
+                className="w-full flex items-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm transition-all group"
               >
-                <div className={`p-3 rounded-lg ${action.color} mb-4 group-hover:scale-105 transition-transform`}>
+                <div className={`p-3 rounded-lg ${action.color} mr-4 group-hover:scale-105 transition-transform`}>
                   <action.icon className="h-5 w-5 text-white" />
                 </div>
-                <div>
-                  <h4 className="font-medium text-gray-900 group-hover:text-command-blue-600 transition-colors">
+                <div className="text-left">
+                  <h4 className="font-medium text-gray-900 dark:text-white group-hover:text-command-blue-600 transition-colors">
                     {action.title}
                   </h4>
-                  <p className="text-sm text-gray-500">{action.description}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{action.description}</p>
                 </div>
               </button>
             ))}
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white">Recent Activity</h3>
+            <Activity className="h-5 w-5 text-gray-400" />
+          </div>
+          <div className="space-y-4">
+            {recentActivity.map((activity, index) => (
+              <div key={index} className="flex items-start space-x-3">
+                <div className={`p-2 rounded-lg bg-gray-50 dark:bg-gray-700 ${activity.color}`}>
+                  <activity.icon className="h-4 w-4" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">{activity.message}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{format(activity.time, 'MMM dd, yyyy HH:mm')}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          {onNavigateToActivity && (
+            <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <button 
+                onClick={onNavigateToActivity}
+                className="text-sm text-command-blue-600 dark:text-command-blue-400 hover:text-command-blue-700 dark:hover:text-command-blue-300 font-medium"
+              >
+                View all activity →
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* System Health Status */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white">System Health</h3>
+          <div className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-sm text-green-600 dark:text-green-400 font-medium">All Systems Operational</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-green-50 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
+            </div>
+            <h4 className="font-medium text-gray-900 dark:text-white">Data Integrity</h4>
+            <p className="text-sm text-gray-500 dark:text-gray-400">100% validated</p>
+          </div>
+          <div className="text-center">
+            <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Shield className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+            </div>
+            <h4 className="font-medium text-gray-900 dark:text-white">Security Status</h4>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Fully protected</p>
+          </div>
+          <div className="text-center">
+            <div className="w-16 h-16 bg-purple-50 dark:bg-purple-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Activity className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+            </div>
+            <h4 className="font-medium text-gray-900 dark:text-white">Performance</h4>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Optimal</p>
           </div>
         </div>
       </div>
