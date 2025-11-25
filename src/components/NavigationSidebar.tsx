@@ -23,7 +23,8 @@ import {
   CheckCircle2,
   TrendingUp,
   Gift,
-  Globe
+  Globe,
+  Code
 } from 'lucide-react';
 import { ThemeToggle } from './common/ThemeToggle';
 
@@ -81,6 +82,12 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
       description: 'Browser-based assessment tools',
       external: true,
       href: '/tools/'
+    },
+    {
+      id: 'data-normalization',
+      label: 'Data Normalization',
+      icon: Code,
+      description: 'Transform and standardize data'
     },
     {
       id: 'assets',

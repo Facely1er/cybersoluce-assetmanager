@@ -24,6 +24,7 @@ const MitigationPageWrapper = lazy(() => import('./mitigation/MitigationPageWrap
 const BusinessImpactPageWrapper = lazy(() => import('./business-impact/BusinessImpactPageWrapper'));
 const NISTPageWrapper = lazy(() => import('./nist/NISTPageWrapper'));
 const FrameworkPageWrapper = lazy(() => import('./framework/FrameworkPageWrapper'));
+const DataNormalizationEngine = lazy(() => import('./DataNormalizationEngine'));
 
 interface MainLayoutProps {
   onShowStartScreen: () => void;
@@ -211,6 +212,12 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen, initi
               onStartDemo={handleStartDemo}
               onViewDemo={handleViewDemo}
             />
+          </Suspense>
+        );
+      case 'data-normalization':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <DataNormalizationEngine onViewChange={setActiveView} />
           </Suspense>
         );
       case 'help':
