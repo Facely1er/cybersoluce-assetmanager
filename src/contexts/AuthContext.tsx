@@ -47,7 +47,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const { checkSupabaseConnectivity } = await import('../lib/supabase');
         const isConnected = await checkSupabaseConnectivity();
         
-        if (!isConnected) {
+        if (!isConnected || !supabase) {
           logger.debug('Supabase connectivity failed, running in demo mode');
           setLoading(false);
           return;
@@ -77,6 +77,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Try to set up auth state listener with error handling
     try {
+      if (!supabase) {
+        return;
+      }
       const { data: { subscription } } = supabase.auth.onAuthStateChange(
         async (event, session) => {
           logger.debug('Auth state changed:', event, session?.user?.email);
@@ -106,6 +109,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signUp = async (email: string, password: string, fullName?: string) => {
+    if (!supabase) {
+      toast.error('Authentication is not available');
+      return;
+    }
     setLoading(true);
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -137,9 +144,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const signIn = async (email: string, password: string) => {
+    if (!supabase) {
+      toast.error('Authentication is not available');
+      return;
+    }
     setLoading(true);
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -159,6 +170,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const signOut = async () => {
+    if (!supabase) {
+      toast.error('Authentication is not available');
+      return;
+    }
     setLoading(true);
     try {
       const { error } = await supabase.auth.signOut();
@@ -176,6 +191,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const resetPassword = async (email: string) => {
+    if (!supabase) {
+      toast.error('Authentication is not available');
+      return;
+    }
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/reset-password`,
