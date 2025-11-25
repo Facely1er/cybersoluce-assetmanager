@@ -12,22 +12,26 @@ import { LoadingSpinner } from './components/LoadingSpinner';
 // Simplified App component with better performance
 const App: React.FC = () => {
   const [showStartScreen, setShowStartScreen] = useState(true);
+  const [initialView, setInitialView] = useState<string>('dashboard');
 
   const handleGetStarted = useCallback(() => {
+    setInitialView('dashboard');
     setShowStartScreen(false);
   }, []);
 
   const handleLoadDemo = useCallback(() => {
+    setInitialView('assets');
     setShowStartScreen(false);
   }, []);
 
   const handleShowDemoScenarios = useCallback(() => {
+    setInitialView('demo-scenarios');
     setShowStartScreen(false);
   }, []);
 
   const handleShowUserManual = useCallback(() => {
+    setInitialView('user-manual');
     setShowStartScreen(false);
-    // The MainLayout will handle showing the user manual
   }, []);
 
   const handleShowStartScreen = useCallback(() => {
@@ -114,7 +118,7 @@ const App: React.FC = () => {
                     </div>
                   }
                 >
-                  <MainLayout onShowStartScreen={handleShowStartScreen} />
+                  <MainLayout onShowStartScreen={handleShowStartScreen} initialView={initialView} />
                 </AuthGuard>
               )}
             </Suspense>

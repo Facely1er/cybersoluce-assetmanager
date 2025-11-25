@@ -27,10 +27,11 @@ const FrameworkPageWrapper = lazy(() => import('./framework/FrameworkPageWrapper
 
 interface MainLayoutProps {
   onShowStartScreen: () => void;
+  initialView?: string;
 }
 
-export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => {
-  const [activeView, setActiveView] = useState('dashboard');
+export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen, initialView = 'dashboard' }) => {
+  const [activeView, setActiveView] = useState(initialView);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { user, signOut } = useAuth();
   const { stats } = useAssetInventory();
