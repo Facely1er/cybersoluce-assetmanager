@@ -30,14 +30,16 @@ A production-ready, high-performance asset inventory management platform designe
 ## 🛠 Technology Stack
 
 - **Frontend**: React 18 with TypeScript
-- **Styling**: Tailwind CSS with custom design system
+- **Styling**: Tailwind CSS with CyberSoluce design system
+- **Theme**: Full dark mode support with theme switching
 - **Database**: PostgreSQL (via Supabase)
 - **Authentication**: Supabase Auth with enhanced security
 - **Real-time**: Supabase Realtime with optimized subscriptions
 - **Icons**: Lucide React (tree-shaken)
-- **Charts**: Recharts for data visualization
+- **Charts**: Recharts, Nivo (radar, heatmap) for advanced visualizations
 - **PDF Generation**: jsPDF with html2canvas
 - **Build Tool**: Vite with optimized configuration
+- **UI Components**: Custom component library with accessibility features
 
 ## 📦 Key Features
 
@@ -47,10 +49,25 @@ A production-ready, high-performance asset inventory management platform designe
 - **Bulk Operations**: Efficient bulk editing and management
 - **Asset Relationships**: Map dependencies and connections between assets
 - **Vulnerability Tracking**: Monitor and manage security vulnerabilities
+- **Dependency Mapping**: Visualize and manage asset dependencies
+
+### Risk Management
+- **Risk Assessment**: Automated risk scoring and analysis
+- **Risk-Dependency Linking**: Link risks to specific dependencies
+- **Mitigation Planning**: Track and manage mitigation actions
+- **Risk Categorization**: Organize risks by category and source
+
+### Business Continuity
+- **Business Impact Analysis (BIA)**: Comprehensive BIA capabilities
+- **Continuity Planning**: Create and manage continuity plans
+- **Recovery Objectives**: Track RTO/RPO for business functions
+- **Financial Impact Analysis**: Assess financial impact of disruptions
 
 ### Security & Compliance
-- **Built-in Compliance Frameworks**: SOC 2, PCI DSS, ISO 27001, GDPR, HIPAA, NIST
-- **Risk Assessment**: Automated risk scoring and analysis
+- **NIST Framework Integration**: Full NIST CSF v2.0 implementation
+- **Framework Implementation Tracking**: Track implementation phases
+- **Compliance Frameworks**: SOC 2, PCI DSS, ISO 27001, GDPR, HIPAA, NIST
+- **Security Categorization**: FIPS 199 security categorization
 - **Audit Logging**: Complete audit trail of all activities
 - **Role-based Access Control**: Granular permissions and user management
 
@@ -59,10 +76,13 @@ A production-ready, high-performance asset inventory management platform designe
 - **Export Capabilities**: PDF, Excel, and CSV report generation
 - **Compliance Reports**: Framework-specific compliance reporting
 - **Performance Analytics**: Built-in performance monitoring
+- **Advanced Visualizations**: Radar charts, heatmaps, and more
 
 ### Enterprise Features
 - **Multi-organization Support**: Manage multiple organizations
 - **Team Collaboration**: Real-time collaboration features
+- **Dark Mode**: Full theme support with light/dark modes
+- **Enhanced UI Components**: Modern, accessible component library
 - **API Integration**: RESTful API for external integrations
 - **Webhook Support**: Real-time notifications and integrations
 
@@ -248,16 +268,52 @@ For support and questions:
 - Contact the development team
 - Check the documentation
 
+## 🎨 Design System
+
+### CyberSoluce Theme
+- **Command Blue** (`#005B96`) - Primary brand color
+- **Action Cyan** (`#33A1DE`) - Secondary brand color
+- **Dark Mode** - Full dark mode support with automatic theme switching
+- **Accessibility** - WCAG compliant components with enhanced focus indicators
+
+### UI Component Library
+- **Modal** - Accessible modal dialogs with focus management
+- **Alert** - User feedback alerts (success, error, warning, info)
+- **Input/Select/Textarea** - Enhanced form components
+- **Button** - Buttons with loading states and icons
+- **Card** - Hoverable, elevated, and glass variants
+- **Badge** - Status badges
+- **Tooltip** - Hover tooltips
+- **EmptyState** - Empty state displays
+- **SkeletonLoader** - Loading skeletons
+
+See [NEW_COMPONENTS_GUIDE.md](./NEW_COMPONENTS_GUIDE.md) for detailed usage.
+
+## 📚 Documentation
+
+- **[MIGRATION_COMPLETE.md](./MIGRATION_COMPLETE.md)** - Complete migration status
+- **[NEW_COMPONENTS_GUIDE.md](./NEW_COMPONENTS_GUIDE.md)** - UI components usage guide
+- **[CYBERSOLUCE_THEME_INTEGRATION.md](./CYBERSOLUCE_THEME_INTEGRATION.md)** - Theme integration details
+- **[DARK_MODE_UPDATE_GUIDE.md](./DARK_MODE_UPDATE_GUIDE.md)** - Dark mode update guide
+- **[INTEGRATION_SUMMARY.md](./INTEGRATION_SUMMARY.md)** - Integration summary
+
 ## 🔄 Changelog
 
-### Version 1.0.0 (Enhanced)
-- ✅ Simplified architecture and reduced complexity
-- ✅ Enhanced performance and bundle optimization
-- ✅ Improved error handling and user experience
-- ✅ Better TypeScript types and validation
-- ✅ Enhanced security and accessibility
-- ✅ Comprehensive monitoring and analytics
+### Version 1.0.0 (Unified Platform)
+- ✅ **Complete Migration** - All features from DependencyManager and CyberSoluce integrated
+- ✅ **Unified Design System** - CyberSoluce theme throughout
+- ✅ **Dark Mode Support** - Full theme switching capability
+- ✅ **Enhanced UI Components** - Modern, accessible component library
+- ✅ **Mitigation Management** - Complete mitigation planning system
+- ✅ **Business Impact Analysis** - BIA and continuity planning
+- ✅ **NIST Framework** - Full NIST CSF implementation
+- ✅ **Framework Tracking** - Implementation phase tracking
+- ✅ **Simplified Architecture** - Reduced complexity and improved performance
+- ✅ **Enhanced Performance** - Bundle optimization and faster load times
+- ✅ **Better Error Handling** - Comprehensive error management
+- ✅ **TypeScript Types** - Improved type safety and validation
+- ✅ **Accessibility** - WCAG compliant components
 
 ---
 
-**ERMITS CyberSoluce®** - Enterprise-grade asset inventory management with enhanced performance and user experience.
+**ERMITS CyberSoluce®** - Unified enterprise-grade asset inventory management platform with comprehensive risk management, compliance, and business continuity features.

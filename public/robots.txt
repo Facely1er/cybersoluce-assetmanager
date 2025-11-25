@@ -1,0 +1,13 @@
+# ERMITS CyberSoluce® - Asset Inventory Management
+# Production robots.txt
+
+User-agent: *
+Allow: /
+
+# Disallow admin and API routes
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap (update with your actual domain)
+# Sitemap: https://your-domain.com/sitemap.xml
+
