@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Register Manager | ERMITS Corporation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // CyberSoluce Theme Configuration
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'command-blue': {
+                            50: '#F0F7FF',
+                            100: '#E6F2FF',
+                            400: '#33A1DE',
+                            500: '#0066B3',
+                            600: '#005B96',
+                            700: '#004A7A',
+                        },
+                        'action-cyan': {
+                            50: '#F0F9FC',
+                            100: '#E6F5FA',
+                            400: '#5BB8E8',
+                            500: '#33A1DE',
+                            600: '#2A8BC4',
+                        }
+                    }
+                }
+            },
+            darkMode: 'class'
+        };
+
+        // Theme Toggle Functionality
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            const theme = isDark ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            updateThemeIcon(theme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.innerHTML = theme === 'dark' 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initTheme);
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .btn-primary {
+            @apply bg-[#33A1DE] hover:bg-[#2A8BC4] dark:bg-[#5BB8E8] dark:hover:bg-[#33A1DE] text-white px-4 py-2 rounded-lg transition-colors;
+        }
+        .btn-secondary {
+            @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg transition-colors;
+        }
+        .modal {
+            display: none;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+            width: var(--progress-width, 0%);
+        }
+        .badge {
+            @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+        }
+        .card {
+            @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700;
+        }
+        .card-header {
+            @apply px-6 py-4 border-b border-gray-200 dark:border-gray-700;
+        }
+        .card-body {
+            @apply px-6 py-4;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <svg class="w-8 h-8 text-[#33A1DE] dark:text-[#5BB8E8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        Vendor Register Manager
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-400 mt-1">Comprehensive vendor risk management with gap analysis</p>
+                </div>
+                <div class="flex gap-2">
+                    <!-- Theme Toggle Button -->
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition-colors" title="Toggle theme">
+                        <svg id="theme-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                    <button onclick="showImportDialog()" class="btn-secondary flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        Import Register
+                    </button>
+                    <button onclick="exportVendors('csv', true)" class="btn-secondary flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        Export
+                    </button>
+                    <button onclick="showAddDialog()" class="btn-primary flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Add Vendor
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold" id="stat-total">0</div>
+                    <div class="text-sm text-gray-600">Total Vendors</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-red-600" id="stat-critical">0</div>
+                    <div class="text-sm text-gray-600">Critical</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-orange-600" id="stat-high-risk">0</div>
+                    <div class="text-sm text-gray-600">High Risk</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-yellow-600" id="stat-gaps">0</div>
+                    <div class="text-sm text-gray-600">With Gaps</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-[#33A1DE] dark:text-[#5BB8E8]" id="stat-completeness">0%</div>
+                    <div class="text-sm text-gray-600">Avg Completeness</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-purple-600" id="stat-risk-score">0</div>
+                    <div class="text-sm text-gray-600">Avg Risk Score</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="card mb-6">
+            <div class="card-body">
+                <div class="flex gap-4">
+                    <input type="text" id="search-input" placeholder="Search vendors..." 
+                           class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#33A1DE] dark:focus:ring-[#5BB8E8]-500 focus:border-transparent"
+                           onkeyup="filterVendors()">
+                    <select id="filter-criticality" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#33A1DE] dark:focus:ring-[#5BB8E8]-500" onchange="filterVendors()" aria-label="Filter by criticality" title="Filter by criticality">
+                        <option value="all">All Criticality</option>
+                        <option value="Critical">Critical</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                    <select id="filter-risk" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#33A1DE] dark:focus:ring-[#5BB8E8]-500" onchange="filterVendors()" aria-label="Filter by risk level" title="Filter by risk level">
+                        <option value="all">All Risk Levels</option>
+                        <option value="Critical">Critical</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="mb-6">
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-8">
+                    <button onclick="switchTab('vendors')" class="tab-button active px-1 py-4 text-sm font-medium border-b-2 border-[#33A1DE] dark:border-[#5BB8E8] text-[#33A1DE] dark:text-[#5BB8E8]">
+                        Vendors
+                    </button>
+                    <button onclick="switchTab('gaps')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                        Gap Analysis
+                    </button>
+                    <button onclick="switchTab('risk')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                        Risk Dashboard
+                    </button>
+                    <button onclick="switchTab('reports')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                        Reports
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div>
+            <!-- Vendors Tab -->
+            <div id="tab-vendors" class="tab-content active">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="col-span-1">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="text-lg font-semibold">Vendor List</h3>
+                                <p class="text-sm text-gray-600" id="vendor-count">0 vendors</p>
+                            </div>
+                            <div class="card-body max-h-[600px] overflow-y-auto" id="vendor-list">
+                                <div class="text-center py-12 text-gray-500">
+                                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                    </svg>
+                                    <p>No vendors found</p>
+                                    <button onclick="showAddDialog()" class="mt-4 btn-secondary text-sm">
+                                        Add Your First Vendor
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-2">
+                        <div class="card" id="vendor-details">
+                            <div class="card-body text-center py-20 text-gray-500">
+                                <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                </svg>
+                                <p class="text-lg">Select a vendor to view details</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gap Analysis Tab -->
+            <div id="tab-gaps" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Gap Analysis Overview</h3>
+                        <p class="text-sm text-gray-600">Vendor management gaps across your register</p>
+                    </div>
+                    <div class="card-body" id="gap-analysis-content">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Dashboard Tab -->
+            <div id="tab-risk" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Risk Dashboard</h3>
+                        <p class="text-sm text-gray-600">Vendor risk analysis and prioritization</p>
+                    </div>
+                    <div class="card-body" id="risk-dashboard-content">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="tab-reports" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Reports & Analytics</h3>
+                        <p class="text-sm text-gray-600">Generate comprehensive vendor management reports</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="exportVendors('csv', false)" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Export Basic Register (CSV)
+                            </button>
+                            <button onclick="exportVendors('csv', true)" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                                </svg>
+                                Export with Gap Analysis (CSV)
+                            </button>
+                            <button onclick="exportVendors('json', false)" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                                </svg>
+                                Export Basic Register (JSON)
+                            </button>
+                            <button onclick="exportGapAnalysisReport()" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                                Export Gap Analysis Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Dialog -->
+    <div id="import-dialog" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto m-4">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold">Import Vendor Register</h2>
+                <p class="text-sm text-gray-600">Upload your existing vendor register - supports CSV, JSON, and Excel</p>
+            </div>
+            
+            <div class="px-6 py-4">
+                <div id="import-step-1" class="import-step">
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                        <svg class="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        <p class="text-lg font-medium mb-2">Upload your vendor register</p>
+                        <p class="text-gray-500 mb-4">Supports CSV, JSON files</p>
+                        <input type="file" id="file-input" accept=".csv,.json" class="hidden" onchange="handleFileUpload(event)">
+                        <button onclick="document.getElementById('file-input').click()" class="btn-primary">
+                            Choose File
+                        </button>
+                    </div>
+                    <div id="file-info" class="mt-4 hidden"></div>
+                </div>
+
+                <div id="import-step-2" class="import-step hidden">
+                    <h3 class="font-semibold mb-4">Map Your Fields</h3>
+                    <div id="field-mapping-container" class="space-y-3 max-h-96 overflow-y-auto">
+                        <!-- Field mappings will be inserted here -->
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button onclick="importStep = 1; showImportStep()" class="btn-secondary">Back</button>
+                        <button onclick="validateImportData()" class="btn-primary">Continue to Preview</button>
+                    </div>
+                </div>
+
+                <div id="import-step-3" class="import-step hidden">
+                    <h3 class="font-semibold mb-4">Preview Import</h3>
+                    <div id="preview-container" class="space-y-2 max-h-96 overflow-y-auto">
+                        <!-- Preview will be inserted here -->
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button onclick="importStep = 2; showImportStep()" class="btn-secondary">Back</button>
+                        <button onclick="executeImport()" class="btn-primary">Import Vendors</button>
+                    </div>
+                </div>
+
+                <div id="import-step-4" class="import-step hidden">
+                    <div class="text-center py-8">
+                        <div class="animate-spin w-12 h-12 border-4 border-[#33A1DE] dark:border-[#5BB8E8] border-t-transparent rounded-full mx-auto mb-4"></div>
+                        <p class="text-lg font-medium mb-2">Importing Vendors...</p>
+                        <p class="text-gray-600">Please wait while we process your data</p>
+                        <div class="mt-4">
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div id="import-progress" class="progress-bar bg-[#33A1DE] dark:bg-[#5BB8E8] h-2 rounded-full"></div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">
+                                <span id="import-progress-text">0</span>% complete
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="import-step-5" class="import-step hidden">
+                    <div class="text-center py-8">
+                        <svg class="w-16 h-16 mx-auto text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-lg font-medium mb-2">Import Complete!</p>
+                        <p class="text-gray-600">
+                            Successfully imported <span id="import-success-count">0</span> vendors
+                        </p>
+                        <button onclick="closeImportDialog()" class="btn-primary mt-6">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Vendor Dialog -->
+    <div id="add-dialog" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold">Add New Vendor</h2>
+                <p class="text-sm text-gray-600">Enter vendor information for risk assessment</p>
+            </div>
+            
+            <div class="px-6 py-4">
+                <form id="add-vendor-form" onsubmit="handleAddVendor(event)" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Vendor Name *</label>
+                            <input type="text" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#33A1DE] dark:focus:ring-[#5BB8E8]-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Type *</label>
+                            <select name="type" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#33A1DE] dark:focus:ring-[#5BB8E8]-500">
+                                <option value="Software">Software</option>
+                                <option value="Hardware">Hardware</option>
+                                <option value="Cloud">Cloud Services</option>
+                                <option value="Consulting">Consulting</option>
+                                <option value="Professional Services">Professional Services</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Business Criticality *</label>
+                            <select name="criticality" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#33A1DE] dark:focus:ring-[#5BB8E8]-500">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Data Access Level</label>
+                            <select name="dataAccess" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#33A1DE] dark:focus:ring-[#5BB8E8]-500">
+                                <option value="None" selected>None</option>
+                                <option value="Limited">Limited</option>
+                                <option value="Moderate">Moderate</option>
+                                <option value="Full">Full</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea name="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#33A1DE] dark:focus:ring-[#5BB8E8]-500"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Primary Contact</label>
+                            <input type="text" name="primaryContact" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#33A1DE] dark:focus:ring-[#5BB8E8]-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#33A1DE] dark:focus:ring-[#5BB8E8]-500">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Compliance Status</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasContract" class="rounded border-gray-300">
+                                <span class="text-sm">Contract on File</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasSLA" class="rounded border-gray-300">
+                                <span class="text-sm">SLA Defined</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasSOC2" class="rounded border-gray-300">
+                                <span class="text-sm">SOC 2 Certified</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasISO27001" class="rounded border-gray-300">
+                                <span class="text-sm">ISO 27001</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasGDPRCompliance" class="rounded border-gray-300">
+                                <span class="text-sm">GDPR Compliant</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasSecurityAssessment" class="rounded border-gray-300">
+                                <span class="text-sm">Security Assessment</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-2 pt-4">
+                        <button type="button" onclick="closeAddDialog()" class="btn-secondary">Cancel</button>
+                        <button type="submit" class="btn-primary">Add Vendor</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let vendors = [];
+        let filteredVendors = [];
+        let selectedVendor = null;
+        let importStep = 1;
+        let importData = [];
+        let fieldMapping = {};
+        let previewData = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderVendors();
+            updateStatistics();
+        });
+
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(el => {
+                el.classList.remove('active', 'border-[#33A1DE] dark:border-[#5BB8E8]', 'text-[#33A1DE] dark:text-[#5BB8E8]');
+                el.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active', 'border-[#33A1DE] dark:border-[#5BB8E8]', 'text-[#33A1DE] dark:text-[#5BB8E8]');
+            event.target.classList.remove('border-transparent', 'text-gray-500');
+
+            if (tabName === 'gaps') renderGapAnalysis();
+            if (tabName === 'risk') renderRiskDashboard();
+        }
+
+        // Calculate Completeness Score
+        function calculateCompletenessScore(vendor) {
+            const basicInfo = [vendor.name, vendor.type, vendor.primaryContact, vendor.email].filter(Boolean).length / 4;
+            const contractual = [vendor.hasContract, vendor.hasSLA, vendor.contractStart, vendor.contractEnd].filter(Boolean).length / 4;
+            const compliance = [vendor.hasSOC2, vendor.hasISO27001, vendor.hasGDPRCompliance, vendor.hasSecurityAssessment].filter(Boolean).length / 4;
+            const privacy = [vendor.hasDPA, vendor.hasBAA, vendor.dataAccess !== 'None'].filter(Boolean).length / 3;
+            const monitoring = [vendor.lastAuditDate, vendor.nextReviewDate, vendor.hasInsurance].filter(Boolean).length / 3;
+
+            return Math.round(
+                basicInfo * 20 +
+                contractual * 25 +
+                compliance * 25 +
+                privacy * 20 +
+                monitoring * 10
+            );
+        }
+
+        // Calculate Risk Score
+        function calculateRiskScore(vendor) {
+            let score = 0;
+            
+            const criticalityScores = { 'Low': 10, 'Medium': 30, 'High': 50, 'Critical': 70 };
+            score += criticalityScores[vendor.criticality] || 30;
+
+            const dataAccessScores = { 'None': 0, 'Limited': 10, 'Moderate': 20, 'Full': 40 };
+            score += dataAccessScores[vendor.dataAccess] || 0;
+
+            if (vendor.hasSOC2) score -= 10;
+            if (vendor.hasISO27001) score -= 10;
+            if (vendor.hasGDPRCompliance) score -= 5;
+            if (vendor.hasSecurityAssessment) score -= 10;
+            if (vendor.hasContract) score -= 5;
+            if (vendor.hasSLA) score -= 5;
+            if (vendor.hasInsurance) score -= 5;
+            if (vendor.hasDPA && vendor.dataAccess !== 'None') score -= 10;
+
+            const gaps = identifyGaps(vendor);
+            score += gaps.filter(g => g.severity === 'Critical').length * 15;
+            score += gaps.filter(g => g.severity === 'High').length * 10;
+            score += gaps.filter(g => g.severity === 'Medium').length * 5;
+
+            return Math.max(0, Math.min(100, score));
+        }
+
+        // Identify Gaps
+        function identifyGaps(vendor) {
+            const gaps = [];
+
+            if (!vendor.primaryContact) gaps.push({ category: 'Basic Info', item: 'Missing primary contact', severity: 'Medium' });
+            if (!vendor.email) gaps.push({ category: 'Basic Info', item: 'Missing contact email', severity: 'Medium' });
+            if (!vendor.hasContract) gaps.push({ category: 'Contractual', item: 'No contract on file', severity: 'High' });
+            if (!vendor.hasSLA) gaps.push({ category: 'Contractual', item: 'No SLA defined', severity: 'High' });
+            if (!vendor.hasInsurance) gaps.push({ category: 'Contractual', item: 'No insurance verification', severity: 'Medium' });
+            if (!vendor.hasSecurityAssessment) gaps.push({ category: 'Compliance', item: 'No security assessment completed', severity: 'High' });
+            
+            if (vendor.criticality === 'Critical' && !vendor.hasSOC2) {
+                gaps.push({ category: 'Compliance', item: 'Critical vendor missing SOC 2', severity: 'Critical' });
+            }
+            
+            if (vendor.dataAccess !== 'None' && !vendor.hasDPA) {
+                gaps.push({ category: 'Privacy', item: 'Data processing without DPA', severity: 'Critical' });
+            }
+            
+            if (!vendor.lastAuditDate) gaps.push({ category: 'Monitoring', item: 'No audit history', severity: 'High' });
+            if (!vendor.nextReviewDate) gaps.push({ category: 'Monitoring', item: 'No review scheduled', severity: 'Medium' });
+
+            return gaps;
+        }
+
+        // Get Risk Level from Score
+        function getRiskLevelFromScore(score) {
+            if (score >= 70) return 'Critical';
+            if (score >= 50) return 'High';
+            if (score >= 30) return 'Medium';
+            return 'Low';
+        }
+
+        // Filter Vendors
+        function filterVendors() {
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const criticalityFilter = document.getElementById('filter-criticality').value;
+            const riskFilter = document.getElementById('filter-risk').value;
+
+            filteredVendors = vendors.filter(vendor => {
+                const matchesSearch = !searchQuery || 
+                    vendor.name.toLowerCase().includes(searchQuery) ||
+                    (vendor.description && vendor.description.toLowerCase().includes(searchQuery));
+                const matchesCriticality = criticalityFilter === 'all' || vendor.criticality === criticalityFilter;
+                const matchesRisk = riskFilter === 'all' || vendor.riskLevel === riskFilter;
+                
+                return matchesSearch && matchesCriticality && matchesRisk;
+            });
+
+            renderVendors();
+        }
+
+        // Render Vendors
+        function renderVendors() {
+            const list = document.getElementById('vendor-list');
+            const count = document.getElementById('vendor-count');
+            
+            if (filteredVendors.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        <p>No vendors found</p>
+                        <button onclick="showAddDialog()" class="mt-4 btn-secondary text-sm">Add Your First Vendor</button>
+                    </div>
+                `;
+                count.textContent = '0 vendors';
+                return;
+            }
+
+            count.textContent = `${filteredVendors.length} vendor${filteredVendors.length !== 1 ? 's' : ''}`;
+            
+            list.innerHTML = filteredVendors.map(vendor => `
+                <div class="border rounded-lg p-4 mb-3 cursor-pointer hover:bg-gray-50 ${selectedVendor?.id === vendor.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}" 
+                     onclick="selectVendor(${vendor.id})">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="font-semibold">${vendor.name}</div>
+                        <span class="badge ${getCriticalityBadgeClass(vendor.criticality)}">${vendor.criticality}</span>
+                    </div>
+                    <div class="text-sm text-gray-600 mb-2">${vendor.type}</div>
+                    <div class="flex justify-between items-center">
+                        <span class="badge ${getRiskBadgeClass(vendor.riskLevel)}">${vendor.riskLevel} Risk</span>
+                        <div class="text-xs text-gray-500">${vendor.completenessScore}% complete</div>
+                    </div>
+                    ${vendor.gapAnalysis.length > 0 ? `
+                        <div class="mt-2 flex gap-1">
+                            ${vendor.gapAnalysis.filter(g => g.severity === 'Critical').length > 0 ? 
+                                `<span class="badge bg-red-100 text-red-800">${vendor.gapAnalysis.filter(g => g.severity === 'Critical').length} Critical</span>` : ''}
+                            ${vendor.gapAnalysis.filter(g => g.severity === 'High').length > 0 ? 
+                                `<span class="badge bg-orange-100 text-orange-800">${vendor.gapAnalysis.filter(g => g.severity === 'High').length} High</span>` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Select Vendor
+        function selectVendor(id) {
+            selectedVendor = vendors.find(v => v.id === id);
+            renderVendorDetails();
+            renderVendors();
+        }
+
+        // Render Vendor Details
+        function renderVendorDetails() {
+            if (!selectedVendor) return;
+
+            const details = document.getElementById('vendor-details');
+            details.innerHTML = `
+                <div class="card-header">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-semibold flex items-center gap-2">
+                                ${selectedVendor.name}
+                                <span class="badge ${getCriticalityBadgeClass(selectedVendor.criticality)}">${selectedVendor.criticality}</span>
+                                <span class="badge ${getRiskBadgeClass(selectedVendor.riskLevel)}">${selectedVendor.riskLevel} Risk</span>
+                            </h3>
+                            <p class="text-sm text-gray-600">${selectedVendor.type}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body space-y-6">
+                    <!-- Completeness Progress -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm font-medium">Vendor Profile Completeness</span>
+                            <span class="text-sm text-gray-600">${selectedVendor.completenessScore}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-[#33A1DE] dark:bg-[#5BB8E8] h-2 rounded-full" style="width: ${selectedVendor.completenessScore}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Score -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm font-medium">Risk Score</span>
+                            <span class="text-sm text-gray-600">${selectedVendor.riskScore}/100</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="${selectedVendor.riskScore > 70 ? 'bg-red-500' : selectedVendor.riskScore > 50 ? 'bg-orange-500' : selectedVendor.riskScore > 30 ? 'bg-yellow-500' : 'bg-green-500'} h-2 rounded-full" 
+                                 style="width: ${selectedVendor.riskScore}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Basic Information -->
+                    <div>
+                        <h4 class="font-semibold mb-3">Basic Information</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <div class="text-gray-600">Website</div>
+                                <div>${selectedVendor.website || 'N/A'}</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-600">Primary Contact</div>
+                                <div>${selectedVendor.primaryContact || 'N/A'}</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-600">Email</div>
+                                <div>${selectedVendor.email || 'N/A'}</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-600">Phone</div>
+                                <div>${selectedVendor.phone || 'N/A'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Compliance Status -->
+                    <div>
+                        <h4 class="font-semibold mb-3">Compliance Status</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            ${renderComplianceItem('Contract on File', selectedVendor.hasContract)}
+                            ${renderComplianceItem('SLA Defined', selectedVendor.hasSLA)}
+                            ${renderComplianceItem('Insurance Verified', selectedVendor.hasInsurance)}
+                            ${renderComplianceItem('DPA in Place', selectedVendor.hasDPA)}
+                            ${renderComplianceItem('BAA Signed', selectedVendor.hasBAA)}
+                            ${renderComplianceItem('SOC 2 Certified', selectedVendor.hasSOC2)}
+                            ${renderComplianceItem('ISO 27001', selectedVendor.hasISO27001)}
+                            ${renderComplianceItem('GDPR Compliant', selectedVendor.hasGDPRCompliance)}
+                            ${renderComplianceItem('Security Assessment', selectedVendor.hasSecurityAssessment)}
+                        </div>
+                    </div>
+
+                    <!-- Gap Analysis -->
+                    ${selectedVendor.gapAnalysis.length > 0 ? `
+                        <div>
+                            <h4 class="font-semibold mb-3">Identified Gaps (${selectedVendor.gapAnalysis.length})</h4>
+                            <div class="space-y-2">
+                                ${selectedVendor.gapAnalysis.map(gap => `
+                                    <div class="p-3 rounded-lg ${gap.severity === 'Critical' ? 'bg-red-50 border border-red-200' : 'bg-yellow-50 border border-yellow-200'}">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <div class="font-medium text-sm">${gap.category}</div>
+                                                <div class="text-sm">${gap.item}</div>
+                                            </div>
+                                            <span class="badge ${getSeverityBadgeClass(gap.severity)}">${gap.severity}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderComplianceItem(label, value) {
+            const icon = value ? 
+                '<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' :
+                '<svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+            
+            return `
+                <div class="flex items-center gap-2">
+                    ${icon}
+                    <span class="text-sm">${label}</span>
+                </div>
+            `;
+        }
+
+        // Badge Classes
+        function getCriticalityBadgeClass(criticality) {
+            const classes = {
+                'Critical': 'bg-red-100 text-red-800',
+                'High': 'bg-purple-100 text-purple-800',
+                'Medium': 'bg-indigo-100 text-indigo-800',
+                'Low': 'bg-blue-100 text-blue-800'
+            };
+            return classes[criticality] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getRiskBadgeClass(riskLevel) {
+            const classes = {
+                'Critical': 'bg-red-100 text-red-800',
+                'High': 'bg-orange-100 text-orange-800',
+                'Medium': 'bg-yellow-100 text-yellow-800',
+                'Low': 'bg-green-100 text-green-800'
+            };
+            return classes[riskLevel] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getSeverityBadgeClass(severity) {
+            const classes = {
+                'Critical': 'bg-red-100 text-red-800',
+                'High': 'bg-orange-100 text-orange-800',
+                'Medium': 'bg-yellow-100 text-yellow-800',
+                'Low': 'bg-blue-100 text-blue-800'
+            };
+            return classes[severity] || 'bg-gray-100 text-gray-800';
+        }
+
+        // Update Statistics
+        function updateStatistics() {
+            document.getElementById('stat-total').textContent = vendors.length;
+            document.getElementById('stat-critical').textContent = vendors.filter(v => v.criticality === 'Critical').length;
+            document.getElementById('stat-high-risk').textContent = vendors.filter(v => v.riskLevel === 'High' || v.riskLevel === 'Critical').length;
+            document.getElementById('stat-gaps').textContent = vendors.filter(v => v.gapAnalysis && v.gapAnalysis.length > 0).length;
+            
+            const avgCompleteness = vendors.length > 0 
+                ? Math.round(vendors.reduce((sum, v) => sum + v.completenessScore, 0) / vendors.length)
+                : 0;
+            document.getElementById('stat-completeness').textContent = `${avgCompleteness}%`;
+            
+            const avgRisk = vendors.length > 0
+                ? Math.round(vendors.reduce((sum, v) => sum + v.riskScore, 0) / vendors.length)
+                : 0;
+            document.getElementById('stat-risk-score').textContent = avgRisk;
+        }
+
+        // Render Gap Analysis
+        function renderGapAnalysis() {
+            const container = document.getElementById('gap-analysis-content');
+            
+            if (vendors.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <p>No vendors to analyze</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const categories = ['Basic Info', 'Contractual', 'Compliance', 'Privacy', 'Monitoring'];
+            let html = '<div class="space-y-6">';
+            
+            // Gap distribution
+            html += `
+                <div class="grid grid-cols-4 gap-4">
+                    ${['Critical', 'High', 'Medium', 'Low'].map(severity => {
+                        const count = vendors.reduce((sum, v) => 
+                            sum + (v.gapAnalysis?.filter(g => g.severity === severity).length || 0), 0);
+                        return `
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <div class="text-2xl font-bold">${count}</div>
+                                    <div class="text-sm text-gray-600">${severity} Gaps</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            // Gaps by category
+            categories.forEach(category => {
+                const categoryGaps = vendors.reduce((gaps, vendor) => {
+                    const vendorCategoryGaps = vendor.gapAnalysis?.filter(g => g.category === category) || [];
+                    return [...gaps, ...vendorCategoryGaps.map(g => ({ ...g, vendorName: vendor.name }))];
+                }, []);
+
+                if (categoryGaps.length > 0) {
+                    html += `
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="text-lg font-semibold">${category}</h3>
+                                <p class="text-sm text-gray-600">${categoryGaps.length} gaps identified</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="space-y-2">
+                                    ${categoryGaps.slice(0, 5).map(gap => `
+                                        <div class="flex justify-between items-center p-2 border rounded">
+                                            <div>
+                                                <div class="font-medium text-sm">${gap.vendorName}</div>
+                                                <div class="text-sm text-gray-600">${gap.item}</div>
+                                            </div>
+                                            <span class="badge ${getSeverityBadgeClass(gap.severity)}">${gap.severity}</span>
+                                        </div>
+                                    `).join('')}
+                                    ${categoryGaps.length > 5 ? `
+                                        <div class="text-sm text-gray-500 text-center pt-2">
+                                            +${categoryGaps.length - 5} more gaps
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Render Risk Dashboard
+        function renderRiskDashboard() {
+            const container = document.getElementById('risk-dashboard-content');
+            
+            if (vendors.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        <p>No vendors to analyze</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const highRiskVendors = vendors
+                .filter(v => v.riskLevel === 'High' || v.riskLevel === 'Critical')
+                .sort((a, b) => b.riskScore - a.riskScore);
+
+            let html = `
+                <div class="space-y-6">
+                    <!-- Risk Distribution -->
+                    <div class="grid grid-cols-4 gap-4">
+                        ${['Critical', 'High', 'Medium', 'Low'].map(level => {
+                            const count = vendors.filter(v => v.riskLevel === level).length;
+                            return `
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <div class="text-2xl font-bold">${count}</div>
+                                        <div class="text-sm text-gray-600">${level} Risk</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+
+                    <!-- High Risk Vendors -->
+                    <div>
+                        <h3 class="font-semibold mb-4">High Risk Vendors</h3>
+                        <div class="space-y-2">
+                            ${highRiskVendors.length > 0 ? highRiskVendors.map(vendor => `
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <div class="font-semibold flex items-center gap-2 mb-1">
+                                                    ${vendor.name}
+                                                    <span class="badge ${getCriticalityBadgeClass(vendor.criticality)}">${vendor.criticality}</span>
+                                                    <span class="badge ${getRiskBadgeClass(vendor.riskLevel)}">${vendor.riskLevel} Risk</span>
+                                                </div>
+                                                <div class="text-sm text-gray-600 mb-2">${vendor.type}</div>
+                                                <div>
+                                                    <div class="flex justify-between text-xs mb-1">
+                                                        <span>Risk Score</span>
+                                                        <span>${vendor.riskScore}/100</span>
+                                                    </div>
+                                                    <div class="w-full bg-gray-200 rounded-full h-1">
+                                                        <div class="bg-red-500 h-1 rounded-full" style="width: ${vendor.riskScore}%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('') : '<p class="text-gray-500 text-center py-8">No high-risk vendors</p>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Dialog Functions
+        function showImportDialog() {
+            document.getElementById('import-dialog').classList.add('active');
+            importStep = 1;
+            showImportStep();
+        }
+
+        function closeImportDialog() {
+            document.getElementById('import-dialog').classList.remove('active');
+            resetImport();
+        }
+
+        function showAddDialog() {
+            document.getElementById('add-dialog').classList.add('active');
+        }
+
+        function closeAddDialog() {
+            document.getElementById('add-dialog').classList.remove('active');
+            document.getElementById('add-vendor-form').reset();
+        }
+
+        function showImportStep() {
+            document.querySelectorAll('.import-step').forEach(el => el.classList.add('hidden'));
+            document.getElementById('import-step-' + importStep).classList.remove('hidden');
+        }
+
+        // File Upload Handler
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            
+            if (!['csv', 'json'].includes(fileExtension)) {
+                alert('Unsupported file format. Please use CSV or JSON files.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    if (fileExtension === 'json') {
+                        const data = JSON.parse(e.target.result);
+                        importData = Array.isArray(data) ? data : [data];
+                    } else if (fileExtension === 'csv') {
+                        const lines = e.target.result.split('\n');
+                        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+                        importData = lines.slice(1).filter(line => line.trim()).map(line => {
+                            const values = line.split(',').map(v => v.trim().replace(/"/g, ''));
+                            const row = {};
+                            headers.forEach((header, index) => {
+                                row[header] = values[index] || '';
+                            });
+                            return row;
+                        });
+                    }
+
+                    document.getElementById('file-info').innerHTML = `
+                        <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <p class="text-sm text-green-800">
+                                ✓ File uploaded: ${file.name} (${(file.size / 1024).toFixed(2)} KB)
+                                <br>Found ${importData.length} records
+                            </p>
+                        </div>
+                    `;
+                    document.getElementById('file-info').classList.remove('hidden');
+                    
+                    importStep = 2;
+                    showImportStep();
+                    renderFieldMapping();
+                } catch (error) {
+                    alert('Error parsing file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Render Field Mapping
+        function renderFieldMapping() {
+            if (importData.length === 0) return;
+
+            const container = document.getElementById('field-mapping-container');
+            const sourceFields = Object.keys(importData[0]);
+            const targetFields = [
+                { value: 'name', label: 'Vendor Name *' },
+                { value: 'type', label: 'Vendor Type *' },
+                { value: 'criticality', label: 'Business Criticality *' },
+                { value: 'description', label: 'Description' },
+                { value: 'website', label: 'Website' },
+                { value: 'primaryContact', label: 'Primary Contact' },
+                { value: 'email', label: 'Email' },
+                { value: 'phone', label: 'Phone' },
+                { value: 'dataAccess', label: 'Data Access Level' },
+                { value: 'hasContract', label: 'Has Contract' },
+                { value: 'hasSLA', label: 'Has SLA' },
+                { value: 'hasSOC2', label: 'Has SOC 2' },
+                { value: 'hasISO27001', label: 'Has ISO 27001' },
+                { value: 'hasGDPRCompliance', label: 'GDPR Compliant' },
+                { value: 'hasSecurityAssessment', label: 'Has Security Assessment' }
+            ];
+
+            container.innerHTML = sourceFields.map(sourceField => `
+                <div class="flex items-center gap-4">
+                    <div class="w-1/3 font-medium text-sm">${sourceField}</div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                    <select class="flex-1 px-3 py-2 border border-gray-300 rounded-lg" 
+                            onchange="fieldMapping['${sourceField}'] = this.value"
+                            aria-label="Map ${sourceField} to target field"
+                            title="Map ${sourceField} to target field">
+                        <option value="">Select target field...</option>
+                        <option value="ignore">Ignore this field</option>
+                        ${targetFields.map(field => 
+                            `<option value="${field.value}">${field.label}</option>`
+                        ).join('')}
+                    </select>
+                </div>
+            `).join('');
+        }
+
+        // Validate Import Data
+        function validateImportData() {
+            const requiredFields = ['name', 'type', 'criticality'];
+            const errors = [];
+            previewData = [];
+
+            importData.forEach((row, index) => {
+                const mappedRow = {};
+                let hasErrors = false;
+
+                Object.keys(fieldMapping).forEach(sourceField => {
+                    const targetField = fieldMapping[sourceField];
+                    if (targetField && targetField !== 'ignore') {
+                        let value = row[sourceField];
+                        
+                        // Handle boolean fields
+                        const booleanFields = ['hasContract', 'hasSLA', 'hasInsurance', 'hasDPA', 'hasBAA',
+                                               'hasSOC2', 'hasISO27001', 'hasGDPRCompliance', 'hasSecurityAssessment'];
+                        if (booleanFields.includes(targetField)) {
+                            value = value === 'true' || value === 'yes' || value === '1' || 
+                                   value === 'TRUE' || value === 'YES' || value === true;
+                        }
+                        
+                        mappedRow[targetField] = value;
+                    }
+                });
+
+                // Validate required fields
+                requiredFields.forEach(field => {
+                    if (!mappedRow[field] || mappedRow[field] === '') {
+                        errors.push(`Row ${index + 1}: Missing required field '${field}'`);
+                        hasErrors = true;
+                    }
+                });
+
+                if (!hasErrors) {
+                    const completeRow = {
+                        ...mappedRow,
+                        criticality: mappedRow.criticality || 'Medium',
+                        dataAccess: mappedRow.dataAccess || 'None',
+                        riskLevel: 'Medium',
+                        status: 'Active',
+                        hasContract: mappedRow.hasContract || false,
+                        hasSLA: mappedRow.hasSLA || false,
+                        hasInsurance: mappedRow.hasInsurance || false,
+                        hasDPA: mappedRow.hasDPA || false,
+                        hasBAA: mappedRow.hasBAA || false,
+                        hasSOC2: mappedRow.hasSOC2 || false,
+                        hasISO27001: mappedRow.hasISO27001 || false,
+                        hasGDPRCompliance: mappedRow.hasGDPRCompliance || false,
+                        hasSecurityAssessment: mappedRow.hasSecurityAssessment || false
+                    };
+                    
+                    completeRow.completenessScore = calculateCompletenessScore(completeRow);
+                    completeRow.riskScore = calculateRiskScore(completeRow);
+                    completeRow.riskLevel = getRiskLevelFromScore(completeRow.riskScore);
+                    completeRow.gapAnalysis = identifyGaps(completeRow);
+                    
+                    previewData.push(completeRow);
+                }
+            });
+
+            if (errors.length > 0) {
+                alert('Validation errors:\n' + errors.join('\n'));
+                return;
+            }
+
+            importStep = 3;
+            showImportStep();
+            renderPreview();
+        }
+
+        // Render Preview
+        function renderPreview() {
+            const container = document.getElementById('preview-container');
+            container.innerHTML = `
+                <div class="p-4 bg-green-50 border border-green-200 rounded-lg mb-4">
+                    <p class="text-sm text-green-800">
+                        ✓ Ready to import ${previewData.length} vendors. Review the preview below.
+                    </p>
+                </div>
+                ${previewData.slice(0, 5).map(vendor => `
+                    <div class="card mb-2">
+                        <div class="card-body p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="font-semibold">${vendor.name}</div>
+                                    <div class="text-sm text-gray-600">${vendor.type} • ${vendor.criticality}</div>
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        Completeness: ${vendor.completenessScore}% • Risk Score: ${vendor.riskScore}
+                                    </div>
+                                </div>
+                                <div class="flex gap-1">
+                                    <span class="badge ${getCriticalityBadgeClass(vendor.criticality)}">${vendor.criticality}</span>
+                                    ${vendor.gapAnalysis.length > 0 ? 
+                                        `<span class="badge bg-yellow-100 text-yellow-800">${vendor.gapAnalysis.length} gaps</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+                ${previewData.length > 5 ? `
+                    <div class="text-center text-sm text-gray-500 py-2">
+                        +${previewData.length - 5} more vendors
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        // Execute Import
+        async function executeImport() {
+            importStep = 4;
+            showImportStep();
+            
+            let progress = 0;
+            const increment = 100 / previewData.length;
+            
+            for (let i = 0; i < previewData.length; i++) {
+                const newVendor = {
+                    ...previewData[i],
+                    id: vendors.length > 0 ? Math.max(...vendors.map(v => v.id)) + i + 1 : i + 1,
+                    createdDate: new Date().toISOString().split('T')[0],
+                    lastUpdated: new Date().toISOString().split('T')[0]
+                };
+                
+                vendors.push(newVendor);
+                
+                progress += increment;
+                document.getElementById('import-progress').style.setProperty('--progress-width', `${progress}%`);
+                document.getElementById('import-progress-text').textContent = Math.round(progress);
+                
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+
+            document.getElementById('import-success-count').textContent = previewData.length;
+            importStep = 5;
+            showImportStep();
+            
+            filteredVendors = vendors;
+            renderVendors();
+            updateStatistics();
+        }
+
+        // Reset Import
+        function resetImport() {
+            importStep = 1;
+            importData = [];
+            fieldMapping = {};
+            previewData = [];
+            document.getElementById('file-input').value = '';
+            document.getElementById('file-info').classList.add('hidden');
+        }
+
+        // Add Vendor
+        function handleAddVendor(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const newVendor = {
+                id: vendors.length > 0 ? Math.max(...vendors.map(v => v.id)) + 1 : 1,
+                name: formData.get('name'),
+                type: formData.get('type'),
+                criticality: formData.get('criticality'),
+                description: formData.get('description') || '',
+                primaryContact: formData.get('primaryContact') || '',
+                email: formData.get('email') || '',
+                dataAccess: formData.get('dataAccess'),
+                hasContract: formData.get('hasContract') === 'on',
+                hasSLA: formData.get('hasSLA') === 'on',
+                hasSOC2: formData.get('hasSOC2') === 'on',
+                hasISO27001: formData.get('hasISO27001') === 'on',
+                hasGDPRCompliance: formData.get('hasGDPRCompliance') === 'on',
+                hasSecurityAssessment: formData.get('hasSecurityAssessment') === 'on',
+                hasInsurance: false,
+                hasDPA: false,
+                hasBAA: false,
+                website: '',
+                phone: '',
+                status: 'Active',
+                createdDate: new Date().toISOString().split('T')[0],
+                lastUpdated: new Date().toISOString().split('T')[0]
+            };
+
+            newVendor.completenessScore = calculateCompletenessScore(newVendor);
+            newVendor.riskScore = calculateRiskScore(newVendor);
+            newVendor.riskLevel = getRiskLevelFromScore(newVendor.riskScore);
+            newVendor.gapAnalysis = identifyGaps(newVendor);
+
+            vendors.push(newVendor);
+            filteredVendors = vendors;
+            
+            renderVendors();
+            updateStatistics();
+            closeAddDialog();
+        }
+
+        // Export Functions
+        function exportVendors(format, includeGaps) {
+            const exportData = vendors.map(vendor => {
+                const baseData = {
+                    name: vendor.name,
+                    type: vendor.type,
+                    criticality: vendor.criticality,
+                    description: vendor.description,
+                    website: vendor.website,
+                    primaryContact: vendor.primaryContact,
+                    email: vendor.email,
+                    phone: vendor.phone,
+                    dataAccess: vendor.dataAccess,
+                    riskLevel: vendor.riskLevel,
+                    status: vendor.status,
+                    completenessScore: vendor.completenessScore,
+                    riskScore: vendor.riskScore
+                };
+
+                if (includeGaps) {
+                    return {
+                        ...baseData,
+                        hasContract: vendor.hasContract,
+                        hasSLA: vendor.hasSLA,
+                        hasInsurance: vendor.hasInsurance,
+                        hasDPA: vendor.hasDPA,
+                        hasBAA: vendor.hasBAA,
+                        hasSOC2: vendor.hasSOC2,
+                        hasISO27001: vendor.hasISO27001,
+                        hasGDPRCompliance: vendor.hasGDPRCompliance,
+                        hasSecurityAssessment: vendor.hasSecurityAssessment,
+                        totalGaps: vendor.gapAnalysis.length,
+                        criticalGaps: vendor.gapAnalysis.filter(g => g.severity === 'Critical').length,
+                        highGaps: vendor.gapAnalysis.filter(g => g.severity === 'High').length
+                    };
+                }
+
+                return baseData;
+            });
+
+            if (format === 'csv') {
+                const headers = Object.keys(exportData[0] || {});
+                const csvContent = [
+                    headers.join(','),
+                    ...exportData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+                ].join('\n');
+
+                downloadFile(csvContent, `vendor-register-${includeGaps ? 'with-gaps-' : ''}${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+            } else if (format === 'json') {
+                downloadFile(JSON.stringify(exportData, null, 2), `vendor-register-${includeGaps ? 'with-gaps-' : ''}${new Date().toISOString().split('T')[0]}.json`, 'application/json');
+            }
+        }
+
+        function exportGapAnalysisReport() {
+            const reportData = vendors.map(vendor => ({
+                vendorName: vendor.name,
+                criticality: vendor.criticality,
+                riskScore: vendor.riskScore,
+                completenessScore: vendor.completenessScore,
+                totalGaps: vendor.gapAnalysis.length,
+                criticalGaps: vendor.gapAnalysis.filter(g => g.severity === 'Critical').length,
+                highGaps: vendor.gapAnalysis.filter(g => g.severity === 'High').length,
+                mediumGaps: vendor.gapAnalysis.filter(g => g.severity === 'Medium').length,
+                lowGaps: vendor.gapAnalysis.filter(g => g.severity === 'Low').length,
+                gaps: vendor.gapAnalysis.map(g => `${g.category}: ${g.item} (${g.severity})`).join('; ')
+            }));
+
+            const headers = Object.keys(reportData[0] || {});
+            const csvContent = [
+                headers.join(','),
+                ...reportData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+            ].join('\n');
+
+            downloadFile(csvContent, `vendor-gap-analysis-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+        }
+
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

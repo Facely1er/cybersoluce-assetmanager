@@ -19,7 +19,10 @@ import {
   Lightbulb,
   Target,
   Users,
-  Database
+  Database,
+  Gift,
+  FileText,
+  Building2 as Building
 } from 'lucide-react';
 
 export const UserManualPage: React.FC = () => {
@@ -402,25 +405,25 @@ export const UserManualPage: React.FC = () => {
               <div className="grid grid-cols-4 gap-4 mb-4">
                 <div className="text-center">
                   <div className="w-full bg-red-200 rounded-full h-2 mb-2">
-                    <div className="bg-red-600 h-2 rounded-full" style={{ width: '100%' }}></div>
+                    <div className="bg-red-600 h-2 rounded-full w-full"></div>
                   </div>
                   <span className="text-xs font-medium text-red-600">Critical (80-100)</span>
                 </div>
                 <div className="text-center">
                   <div className="w-full bg-orange-200 rounded-full h-2 mb-2">
-                    <div className="bg-orange-600 h-2 rounded-full" style={{ width: '75%' }}></div>
+                    <div className="bg-orange-600 h-2 rounded-full w-3/4"></div>
                   </div>
                   <span className="text-xs font-medium text-orange-600">High (60-79)</span>
                 </div>
                 <div className="text-center">
                   <div className="w-full bg-yellow-200 rounded-full h-2 mb-2">
-                    <div className="bg-yellow-600 h-2 rounded-full" style={{ width: '50%' }}></div>
+                    <div className="bg-yellow-600 h-2 rounded-full w-1/2"></div>
                   </div>
                   <span className="text-xs font-medium text-yellow-600">Medium (40-59)</span>
                 </div>
                 <div className="text-center">
                   <div className="w-full bg-green-200 rounded-full h-2 mb-2">
-                    <div className="bg-green-600 h-2 rounded-full" style={{ width: '25%' }}></div>
+                    <div className="bg-green-600 h-2 rounded-full w-1/4"></div>
                   </div>
                   <span className="text-xs font-medium text-green-600">Low (0-39)</span>
                 </div>
@@ -485,6 +488,316 @@ export const UserManualPage: React.FC = () => {
                   </div>
                 </li>
               </ol>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'free-tools',
+      title: 'Free Assessment Tools',
+      icon: Gift,
+      content: (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-r from-[#005B96] to-[#33A1DE] rounded-lg p-6 text-white">
+            <h4 className="text-lg font-semibold mb-3 flex items-center">
+              <Gift className="h-5 w-5 mr-2" />
+              Browser-Based Assessment Tools
+            </h4>
+            <p className="text-white/90 mb-4">
+              CyberSoluce provides three free, browser-based tools for cybersecurity assessment. 
+              These tools require no installation, work entirely in your browser, and are perfect 
+              for getting started with asset management and compliance tracking.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <a
+                href="/tools/DataInventoryTool.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/20 hover:bg-white/30 rounded-lg p-4 transition-colors"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <FileText className="h-5 w-5" />
+                  <span className="font-semibold">Data Inventory Tool</span>
+                  <ExternalLink className="h-4 w-4 ml-auto" />
+                </div>
+                <p className="text-sm text-white/80">Discover and catalog organizational data</p>
+              </a>
+              <a
+                href="/tools/InformationAssetRegister.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/20 hover:bg-white/30 rounded-lg p-4 transition-colors"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Shield className="h-5 w-5" />
+                  <span className="font-semibold">Asset Register</span>
+                  <ExternalLink className="h-4 w-4 ml-auto" />
+                </div>
+                <p className="text-sm text-white/80">Comprehensive asset management</p>
+              </a>
+              <a
+                href="/tools/VendorRegisterManager.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/20 hover:bg-white/30 rounded-lg p-4 transition-colors"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Building className="h-5 w-5" />
+                  <span className="font-semibold">Vendor Register</span>
+                  <ExternalLink className="h-4 w-4 ml-auto" />
+                </div>
+                <p className="text-sm text-white/80">Third-party risk management</p>
+              </a>
+            </div>
+          </div>
+
+          {/* Data Inventory Tool */}
+          <div>
+            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+              <FileText className="h-5 w-5 mr-2 text-[#005B96] dark:text-[#33A1DE]" />
+              Data Inventory Tool
+            </h4>
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+              <h5 className="font-medium text-gray-900 dark:text-white mb-3">Quick Start</h5>
+              <ol className="space-y-2 text-gray-700 dark:text-gray-300 mb-4">
+                <li className="flex items-start">
+                  <span className="bg-[#005B96] dark:bg-[#33A1DE] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">1</span>
+                  <div>Open the tool and click "Add Data" to manually add items, or "Import Inventory" to upload CSV</div>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-[#005B96] dark:bg-[#33A1DE] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">2</span>
+                  <div>Fill required fields: Name, Type, Owner, Location</div>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-[#005B96] dark:bg-[#33A1DE] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">3</span>
+                  <div>Check applicable boxes: Contains PII, Sensitive Data, Regulated Data, Has Backup</div>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-[#005B96] dark:bg-[#33A1DE] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">4</span>
+                  <div>Export your inventory regularly (data is stored in browser only)</div>
+                </li>
+              </ol>
+              
+              <div className="bg-[#E6F2FF] dark:bg-[#1a3a5c] border border-[#005B96]/20 dark:border-[#33A1DE]/20 rounded-lg p-4 mb-4">
+                <h6 className="font-medium text-[#005B96] dark:text-[#33A1DE] mb-2">Key Features</h6>
+                <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                  <li>• 13 core data fields for comprehensive tracking</li>
+                  <li>• PII, Sensitive, and Regulated data flagging</li>
+                  <li>• Documentation completeness scoring (8 fields)</li>
+                  <li>• 5 interactive dashboards (Inventory, Categories, Locations, Owners, Reports)</li>
+                  <li>• 6 export options (Complete, Sensitive, PII, Location, Ownership, JSON)</li>
+                  <li>• CSV/JSON import and export</li>
+                </ul>
+              </div>
+
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+                <div className="flex items-start">
+                  <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mr-2 mt-0.5" />
+                  <div>
+                    <h6 className="font-medium text-yellow-900 dark:text-yellow-200 mb-1">Important Reminder</h6>
+                    <p className="text-sm text-yellow-800 dark:text-yellow-300">
+                      Data is stored in browser memory only. Always export your inventory before closing the browser to avoid data loss.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Information Asset Register */}
+          <div>
+            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+              <Shield className="h-5 w-5 mr-2 text-[#005B96] dark:text-[#33A1DE]" />
+              Information Asset Register
+            </h4>
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+              <h5 className="font-medium text-gray-900 dark:text-white mb-3">Quick Start</h5>
+              <ol className="space-y-2 text-gray-700 dark:text-gray-300 mb-4">
+                <li className="flex items-start">
+                  <span className="bg-[#005B96] dark:bg-[#33A1DE] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">1</span>
+                  <div>Open the tool and click "Add Asset" to create new entries</div>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-[#005B96] dark:bg-[#33A1DE] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">2</span>
+                  <div>Assign classification: Public, Internal, Confidential, or Restricted</div>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-[#005B96] dark:bg-[#33A1DE] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">3</span>
+                  <div>Complete the 8-point control checklist for each asset</div>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-[#005B96] dark:bg-[#33A1DE] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">4</span>
+                  <div>Review Gap Analysis tab to identify missing controls</div>
+                </li>
+              </ol>
+              
+              <div className="bg-[#E6F2FF] dark:bg-[#1a3a5c] border border-[#005B96]/20 dark:border-[#33A1DE]/20 rounded-lg p-4 mb-4">
+                <h6 className="font-medium text-[#005B96] dark:text-[#33A1DE] mb-2">Key Features</h6>
+                <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                  <li>• 20+ asset fields for comprehensive management</li>
+                  <li>• 4-level classification system (Public/Internal/Confidential/Restricted)</li>
+                  <li>• 8-point control framework with automated gap analysis</li>
+                  <li>• Multi-framework compliance tracking (GDPR, CCPA, HIPAA, SOC 2, ISO 27001)</li>
+                  <li>• 5 interactive dashboards (Assets, Gap Analysis, Classification, Compliance, Reports)</li>
+                  <li>• Automated completeness scoring</li>
+                </ul>
+              </div>
+
+              <div className="bg-[#E6F2FF] dark:bg-[#1a3a5c] border border-[#005B96]/20 dark:border-[#33A1DE]/20 rounded-lg p-4">
+                <h6 className="font-medium text-[#005B96] dark:text-[#33A1DE] mb-2">8-Point Control Checklist</h6>
+                <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                  <li>1. Data Inventory - Asset cataloged</li>
+                  <li>2. Data Mapping - Data flows documented</li>
+                  <li>3. Risk Assessment - Risk evaluated</li>
+                  <li>4. DPIA - High-risk processing assessed (for Restricted data)</li>
+                  <li>5. Retention Schedule - Lifecycle defined</li>
+                  <li>6. Access Controls - Access restricted</li>
+                  <li>7. Encryption - Data encrypted (for Restricted data)</li>
+                  <li>8. Backup Procedure - Data backed up</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Vendor Register Manager */}
+          <div>
+            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+              <Building className="h-5 w-5 mr-2 text-[#33A1DE] dark:text-[#5BB8E8]" />
+              Vendor Register Manager
+            </h4>
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+              <h5 className="font-medium text-gray-900 dark:text-white mb-3">Quick Start</h5>
+              <ol className="space-y-2 text-gray-700 dark:text-gray-300 mb-4">
+                <li className="flex items-start">
+                  <span className="bg-[#33A1DE] dark:bg-[#5BB8E8] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">1</span>
+                  <div>Click "Import Register" to upload existing vendor data, or "Add Vendor" to start fresh</div>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-[#33A1DE] dark:bg-[#5BB8E8] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">2</span>
+                  <div>Fill vendor details: Name, Type, Criticality, Contact Information</div>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-[#33A1DE] dark:bg-[#5BB8E8] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">3</span>
+                  <div>Complete compliance checklist: SOC 2, ISO 27001, DPA, BAA, Security Assessment</div>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-[#33A1DE] dark:bg-[#5BB8E8] text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">4</span>
+                  <div>Review automated risk scoring and gap analysis</div>
+                </li>
+              </ol>
+              
+              <div className="bg-[#E6F5FA] dark:bg-[#1a3a5c] border border-[#33A1DE]/20 dark:border-[#5BB8E8]/20 rounded-lg p-4 mb-4">
+                <h6 className="font-medium text-[#33A1DE] dark:text-[#5BB8E8] mb-2">Key Features</h6>
+                <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                  <li>• 15+ vendor fields for comprehensive tracking</li>
+                  <li>• Automated risk scoring (0-100 scale)</li>
+                  <li>• 9-point compliance checklist</li>
+                  <li>• Contract lifecycle tracking (start/end dates, renewal reminders)</li>
+                  <li>• Automated gap analysis with severity levels</li>
+                  <li>• 4 interactive dashboards (Vendors, Risk, Gap Analysis, Reports)</li>
+                  <li>• Data access level tracking (None/Low/Moderate/High)</li>
+                </ul>
+              </div>
+
+              <div className="bg-[#E6F5FA] dark:bg-[#1a3a5c] border border-[#33A1DE]/20 dark:border-[#5BB8E8]/20 rounded-lg p-4">
+                <h6 className="font-medium text-[#33A1DE] dark:text-[#5BB8E8] mb-2">Risk Score Factors</h6>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">Risk scores are calculated based on:</p>
+                <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                  <li>• Vendor criticality (Critical = +30, High = +20, Medium = +10)</li>
+                  <li>• Data access level (High = +25, Moderate = +15, Low = +5)</li>
+                  <li>• Missing compliance certifications (-10 each for SOC 2, ISO 27001)</li>
+                  <li>• Missing privacy controls (-10 each for DPA, BAA)</li>
+                  <li>• Missing security assessment (-10)</li>
+                  <li>• Missing contract/SLA (-10 each)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Best Practices */}
+          <div>
+            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+              <Lightbulb className="h-5 w-5 mr-2 text-yellow-600 dark:text-yellow-400" />
+              Best Practices
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <h5 className="font-medium text-gray-900 dark:text-white mb-3">Data Management</h5>
+                <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                    <span>Export your data regularly (daily recommended)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                    <span>Use consistent naming conventions</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                    <span>Keep CSV templates for easy re-import</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                    <span>Document as you discover, not in batches</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <h5 className="font-medium text-gray-900 dark:text-white mb-3">Compliance</h5>
+                <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                    <span>Flag all PII immediately upon discovery</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                    <span>Complete gap analysis regularly</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                    <span>Review risk scores monthly</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                    <span>Export reports quarterly for audits</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Resources */}
+          <div className="bg-[#E6F2FF] dark:bg-[#1a3a5c] border border-[#005B96]/20 dark:border-[#33A1DE]/20 rounded-lg p-6">
+            <h4 className="text-lg font-semibold text-[#005B96] dark:text-[#33A1DE] mb-3 flex items-center">
+              <HelpCircle className="h-5 w-5 mr-2" />
+              Additional Resources
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <h5 className="font-medium text-gray-900 dark:text-white mb-2">Quick Reference Guides</h5>
+                <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                  <li>• Data Inventory Quick Reference</li>
+                  <li>• Asset Register Quick Reference</li>
+                  <li>• Vendor Register Quick Reference</li>
+                </ul>
+              </div>
+              <div>
+                <h5 className="font-medium text-gray-900 dark:text-white mb-2">CSV Templates</h5>
+                <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                  <li>• Data Inventory Template</li>
+                  <li>• Asset Register Template</li>
+                  <li>• Vendor Register Template</li>
+                </ul>
+              </div>
+              <div>
+                <h5 className="font-medium text-gray-900 dark:text-white mb-2">Integration</h5>
+                <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                  <li>• Import data into CyberSoluce platform</li>
+                  <li>• Export to JSON for API integration</li>
+                  <li>• Use CSV exports for reporting</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -591,14 +904,22 @@ export const UserManualPage: React.FC = () => {
     }
   ];
 
-  const filteredSections = sections.filter(section =>
-    searchTerm === '' || 
-    section.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    section.content.props.children.some((child: any) => 
-      typeof child === 'object' && child.props && 
+  const filteredSections = sections.filter(section => {
+    if (searchTerm === '') return true;
+    if (section.title.toLowerCase().includes(searchTerm.toLowerCase())) return true;
+    
+    // Handle children search - children might be a single element or an array
+    const children = section.content.props?.children;
+    if (!children) return false;
+    
+    const childrenArray = Array.isArray(children) ? children : [children];
+    return childrenArray.some((child: React.ReactNode) => 
+      typeof child === 'object' && 
+      child !== null && 
+      'props' in child && 
       JSON.stringify(child).toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
+    );
+  });
 
   return (
     <div className="max-w-6xl mx-auto">

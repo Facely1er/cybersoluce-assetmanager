@@ -16,7 +16,7 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
   onClose,
   onSave
 }) => {
-  const [formData, setFormData] = useState<Omit<Asset, 'id' | 'createdAt' | 'updatedAt'>>({
+  const getDefaultFormData = (): Omit<Asset, 'id' | 'createdAt' | 'updatedAt'> => ({
     name: '',
     type: 'Server',
     criticality: 'Medium',
@@ -30,18 +30,31 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
     tags: [],
     relationships: [],
     vulnerabilities: [],
-    status: 'Active'
+    status: 'Active',
+    dataClassification: 'Internal',
+    dataTypes: [],
+    legalBasis: [],
+    dataSubjectRights: [],
+    crossBorderTransfer: false,
+    thirdPartySharing: false,
+    encryptionStatus: 'Unknown',
+    accessControls: [],
+    privacyImpactAssessment: null,
+    dataBreachHistory: [],
+    dependencies: [],
+    requirements: []
   });
+
+  const [formData, setFormData] = useState<Omit<Asset, 'id' | 'createdAt' | 'updatedAt'>>(getDefaultFormData());
 
   const [errors, setErrors] = useState<Array<{ field: string; message: string }>>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState<'basic' | 'compliance' | 'privacy' | 'dependencies'>('basic');
   const [newTag, setNewTag] = useState('');
   const [newFramework, setNewFramework] = useState('');
 
   useEffect(() => {
     if (asset) {
-      setFormData({
+      const assetData: Omit<Asset, 'id' | 'createdAt' | 'updatedAt'> = {
         name: asset.name,
         type: asset.type,
         criticality: asset.criticality,
@@ -55,31 +68,31 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
         tags: asset.tags,
         relationships: asset.relationships,
         vulnerabilities: asset.vulnerabilities,
-        status: asset.status
-      });
+        status: asset.status,
+        dataClassification: asset.dataClassification,
+        dataTypes: asset.dataTypes,
+        legalBasis: asset.legalBasis,
+        dataSubjectRights: asset.dataSubjectRights,
+        crossBorderTransfer: asset.crossBorderTransfer,
+        thirdPartySharing: asset.thirdPartySharing,
+        encryptionStatus: asset.encryptionStatus,
+        accessControls: asset.accessControls,
+        privacyImpactAssessment: asset.privacyImpactAssessment,
+        dataBreachHistory: asset.dataBreachHistory,
+        dependencies: asset.dependencies,
+        requirements: asset.requirements
+      };
+      if (asset.retentionPeriod !== undefined) {
+        assetData.retentionPeriod = asset.retentionPeriod;
+      }
+      setFormData(assetData);
     } else {
-      setFormData({
-        name: '',
-        type: 'Server',
-        criticality: 'Medium',
-        owner: '',
-        location: '',
-        ipAddress: '',
-        description: '',
-        complianceFrameworks: [],
-        riskScore: 0,
-        lastAssessed: new Date(),
-        tags: [],
-        relationships: [],
-        vulnerabilities: [],
-        status: 'Active'
-      });
+      setFormData(getDefaultFormData());
     }
     setErrors([]);
-    setActiveTab('basic');
   }, [asset, isOpen]);
 
-  const handleInputChange = (field: keyof typeof formData, value: string | string[] | number) => {
+  const handleInputChange = (field: keyof typeof formData, value: string | string[] | number | boolean | Date | null | undefined) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -190,6 +203,8 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
             <button
               onClick={onClose}
               className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+              aria-label="Close modal"
+              title="Close modal"
             >
               <X className="h-5 w-5" />
             </button>
@@ -211,10 +226,11 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                 <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4">Basic Information</h3>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="asset-name" className="block text-sm font-medium text-gray-700 mb-1">
                     Asset Name *
                   </label>
                   <input
+                    id="asset-name"
                     type="text"
                     value={formData.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
@@ -229,13 +245,15 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="asset-type" className="block text-sm font-medium text-gray-700 mb-1">
                     Asset Type *
                   </label>
                   <select
+                    id="asset-type"
                     value={formData.type}
                     onChange={(e) => handleInputChange('type', e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500"
+                    aria-label="Asset Type"
                   >
                     {assetTypes.map(type => (
                       <option key={type} value={type}>{type}</option>
@@ -244,13 +262,15 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="criticality-level" className="block text-sm font-medium text-gray-700 mb-1">
                     Criticality Level *
                   </label>
                   <select
+                    id="criticality-level"
                     value={formData.criticality}
                     onChange={(e) => handleInputChange('criticality', e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500"
+                    aria-label="Criticality Level"
                   >
                     {criticalityLevels.map(level => (
                       <option key={level} value={level}>{level}</option>
@@ -259,10 +279,11 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="asset-owner" className="block text-sm font-medium text-gray-700 mb-1">
                     Owner *
                   </label>
                   <input
+                    id="asset-owner"
                     type="text"
                     value={formData.owner}
                     onChange={(e) => handleInputChange('owner', e.target.value)}
@@ -277,10 +298,11 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="asset-location" className="block text-sm font-medium text-gray-700 mb-1">
                     Location *
                   </label>
                   <input
+                    id="asset-location"
                     type="text"
                     value={formData.location}
                     onChange={(e) => handleInputChange('location', e.target.value)}
@@ -295,10 +317,11 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="asset-ip-address" className="block text-sm font-medium text-gray-700 mb-1">
                     IP Address
                   </label>
                   <input
+                    id="asset-ip-address"
                     type="text"
                     value={formData.ipAddress}
                     onChange={(e) => handleInputChange('ipAddress', e.target.value)}
@@ -308,10 +331,11 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="asset-description" className="block text-sm font-medium text-gray-700 mb-1">
                     Description
                   </label>
                   <textarea
+                    id="asset-description"
                     value={formData.description}
                     onChange={(e) => handleInputChange('description', e.target.value)}
                     rows={3}
@@ -321,13 +345,15 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="asset-status" className="block text-sm font-medium text-gray-700 mb-1">
                     Status
                   </label>
                   <select
+                    id="asset-status"
                     value={formData.status}
                     onChange={(e) => handleInputChange('status', e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500"
+                    aria-label="Asset Status"
                   >
                     {statusOptions.map(status => (
                       <option key={status} value={status}>{status}</option>
@@ -340,10 +366,11 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                 <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4">Additional Information</h3>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="risk-score" className="block text-sm font-medium text-gray-700 mb-1">
                     Risk Score (0-100)
                   </label>
                   <input
+                    id="risk-score"
                     type="number"
                     min="0"
                     max="100"
@@ -352,6 +379,8 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                     className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500 ${
                       getFieldError('riskScore') ? 'border-red-300' : 'border-gray-300'
                     }`}
+                    aria-label="Risk Score from 0 to 100"
+                    placeholder="Enter risk score"
                   />
                   {getFieldError('riskScore') && (
                     <p className="mt-1 text-sm text-red-600">{getFieldError('riskScore')}</p>
@@ -359,14 +388,16 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="last-assessed" className="block text-sm font-medium text-gray-700 mb-1">
                     Last Assessed
                   </label>
                   <input
+                    id="last-assessed"
                     type="date"
                     value={formData.lastAssessed.toISOString().split('T')[0]}
                     onChange={(e) => handleInputChange('lastAssessed', new Date(e.target.value))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500"
+                    aria-label="Last Assessed Date"
                   />
                 </div>
 
@@ -385,6 +416,8 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                           type="button"
                           onClick={() => removeTag(tag)}
                           className="ml-1 text-command-blue-600 hover:text-command-blue-800"
+                          aria-label={`Remove tag ${tag}`}
+                          title={`Remove tag ${tag}`}
                         >
                           ×
                         </button>
@@ -392,12 +425,15 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                     ))}
                   </div>
                   <div className="flex">
+                    <label htmlFor="new-tag-input" className="sr-only">Add tag</label>
                     <input
+                      id="new-tag-input"
                       type="text"
                       value={newTag}
                       onChange={(e) => setNewTag(e.target.value)}
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500"
                       placeholder="Add tag"
+                      aria-label="Add tag"
                     />
                     <button
                       type="button"
@@ -424,6 +460,8 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                           type="button"
                           onClick={() => removeComplianceFramework(framework)}
                           className="ml-1 text-green-600 hover:text-green-800"
+                          aria-label={`Remove compliance framework ${framework}`}
+                          title={`Remove compliance framework ${framework}`}
                         >
                           ×
                         </button>
@@ -432,9 +470,11 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
                   </div>
                   <div className="flex">
                     <select
+                      id="compliance-framework-select"
                       value={newFramework}
                       onChange={(e) => setNewFramework(e.target.value)}
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500"
+                      aria-label="Select compliance framework"
                     >
                       <option value="">Select framework</option>
                       {complianceFrameworks
@@ -456,84 +496,6 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
               </div>
             </div>
 
-          {/* Hidden Tabs - Keep for future use */}
-          {false && activeTab === 'compliance' && (
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4">Compliance Frameworks</h3>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  {formData.complianceFrameworks.map(framework => (
-                    <span
-                      key={framework}
-                      className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"
-                    >
-                      {framework}
-                      <button
-                        type="button"
-                        onClick={() => removeComplianceFramework(framework)}
-                        className="ml-1 text-green-600 hover:text-green-800"
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
-                </div>
-                <div className="flex">
-                  <select
-                    value={newFramework}
-                    onChange={(e) => setNewFramework(e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500"
-                  >
-                    <option value="">Select framework</option>
-                    {complianceFrameworks
-                      .filter(framework => !formData.complianceFrameworks.includes(framework))
-                      .map(framework => (
-                        <option key={framework} value={framework}>{framework}</option>
-                      ))}
-                  </select>
-                  <button
-                    type="button"
-                    onClick={addComplianceFramework}
-                    disabled={!newFramework}
-                    className="px-4 py-2 bg-green-600 text-white rounded-r-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Add
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4">Risk Assessment</h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Risk Score (0-100)
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="100"
-                      value={formData.riskScore}
-                      onChange={(e) => handleInputChange('riskScore', parseInt(e.target.value) || 0)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Last Assessed
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.lastAssessed.toISOString().split('T')[0]}
-                      onChange={(e) => handleInputChange('lastAssessed', new Date(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </form>
 
         {/* Footer */}

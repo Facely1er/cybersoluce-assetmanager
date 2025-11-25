@@ -21,9 +21,20 @@ import {
   Network,
   Lock,
   CheckCircle2,
-  TrendingUp
+  TrendingUp,
+  Gift,
+  Globe
 } from 'lucide-react';
 import { ThemeToggle } from './common/ThemeToggle';
+
+type NavigationItem = {
+  id: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  description: string;
+  external?: boolean;
+  href?: string;
+}
 
 interface NavigationSidebarProps {
   activeView: string;
@@ -62,6 +73,14 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
       label: 'Demo Scenarios',
       icon: Play,
       description: 'Industry use cases and demos'
+    },
+    {
+      id: 'free-tools',
+      label: 'Free Tools',
+      icon: Gift,
+      description: 'Browser-based assessment tools',
+      external: true,
+      href: '/tools/'
     },
     {
       id: 'assets',
@@ -205,33 +224,65 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
 
       {/* Navigation Items */}
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-        {navigationItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => onViewChange(item.id)}
-            className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 group ${
-              activeView === item.id
-                ? 'bg-command-blue-50 text-command-blue-700 border border-command-blue-200'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-            }`}
-            title={isCollapsed ? item.label : undefined}
-          >
-            <item.icon className={`h-5 w-5 ${isCollapsed ? 'mx-auto' : 'mr-3'} ${
-              activeView === item.id ? 'text-command-blue-600' : 'text-gray-400 group-hover:text-gray-600'
-            }`} />
-            {!isCollapsed && (
-              <div className="flex-1 text-left">
-                <div className="font-medium">{item.label}</div>
-                <div className="text-xs text-gray-500 group-hover:text-gray-600">
-                  {item.description}
+        {navigationItems.map((item) => {
+          const navItem = item as NavigationItem;
+          const isExternal = navItem.external === true;
+          const href = navItem.href;
+          
+          if (isExternal && href) {
+            return (
+              <a
+                key={item.id}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center p-3 rounded-lg transition-all duration-200 group text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                title={isCollapsed ? item.label : undefined}
+              >
+                <item.icon className={`h-5 w-5 ${isCollapsed ? 'mx-auto' : 'mr-3'} text-gray-400 group-hover:text-gray-600`} />
+                {!isCollapsed && (
+                  <div className="flex-1 text-left">
+                    <div className="font-medium">{item.label}</div>
+                    <div className="text-xs text-gray-500 group-hover:text-gray-600">
+                      {item.description}
+                    </div>
+                  </div>
+                )}
+                {!isCollapsed && (
+                  <Globe className="h-4 w-4 text-gray-400 ml-2" />
+                )}
+              </a>
+            );
+          }
+          
+          return (
+            <button
+              key={item.id}
+              onClick={() => onViewChange(item.id)}
+              className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 group ${
+                activeView === item.id
+                  ? 'bg-command-blue-50 text-command-blue-700 border border-command-blue-200'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+              title={isCollapsed ? item.label : undefined}
+            >
+              <item.icon className={`h-5 w-5 ${isCollapsed ? 'mx-auto' : 'mr-3'} ${
+                activeView === item.id ? 'text-command-blue-600' : 'text-gray-400 group-hover:text-gray-600'
+              }`} />
+              {!isCollapsed && (
+                <div className="flex-1 text-left">
+                  <div className="font-medium">{item.label}</div>
+                  <div className="text-xs text-gray-500 group-hover:text-gray-600">
+                    {item.description}
+                  </div>
                 </div>
-              </div>
-            )}
-            {!isCollapsed && activeView === item.id && (
-              <div className="w-2 h-2 bg-command-blue-600 rounded-full"></div>
-            )}
-          </button>
-        ))}
+              )}
+              {!isCollapsed && activeView === item.id && (
+                <div className="w-2 h-2 bg-command-blue-600 rounded-full"></div>
+              )}
+            </button>
+          );
+        })}
       </nav>
 
       {/* User Section */}

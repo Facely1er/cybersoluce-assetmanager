@@ -12,7 +12,10 @@ import {
   Server,
   Database,
   Network,
-  Monitor
+  Monitor,
+  Gift,
+  FileText,
+  Building2 as Building
 } from 'lucide-react';
 
 interface StartScreenProps {
@@ -510,6 +513,156 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Free Tools Section */}
+      <section className="py-20 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" aria-labelledby="free-tools-heading">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full mb-4">
+              <Gift className="h-8 w-8 text-white" />
+            </div>
+            <h2 id="free-tools-heading" className="text-4xl font-outfit font-bold text-gray-900 dark:text-white mb-4">
+              Free Cybersecurity Assessment Tools
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
+              Start your cybersecurity journey with our professional, browser-based tools. No installation, no account required. Privacy-first design.
+            </p>
+            <div className="flex items-center justify-center gap-6 text-sm text-gray-600 dark:text-gray-400 mb-8">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                No Installation
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                Privacy-First
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                Instant Access
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {/* Data Inventory Tool */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700">
+              <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center mb-4">
+                <FileText className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <h3 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white mb-2">
+                Data Inventory Tool
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
+                Discover, catalog, and track all organizational data. Perfect for GDPR Article 30 preparation.
+              </p>
+              <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1 mb-4">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>13 core data fields</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>PII & Sensitive tracking</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>CSV/JSON export</span>
+                </li>
+              </ul>
+              <a
+                href="/tools/DataInventoryTool.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full bg-indigo-600 hover:bg-indigo-700 text-white text-center font-semibold py-2.5 px-4 rounded-lg transition-colors"
+              >
+                Open Tool →
+              </a>
+            </div>
+
+            {/* Information Asset Register */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700">
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4">
+                <Shield className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h3 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white mb-2">
+                Asset Register
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
+                Comprehensive asset management with automated gap analysis and compliance tracking.
+              </p>
+              <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1 mb-4">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>20+ asset fields</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>Automated gap analysis</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>Multi-framework compliance</span>
+                </li>
+              </ul>
+              <a
+                href="/tools/InformationAssetRegister.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-semibold py-2.5 px-4 rounded-lg transition-colors"
+              >
+                Open Tool →
+              </a>
+            </div>
+
+            {/* Vendor Register Manager */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700">
+              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4">
+                <Building className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+              </div>
+              <h3 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white mb-2">
+                Vendor Register
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
+                Third-party risk management with automated risk scoring and gap analysis.
+              </p>
+              <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1 mb-4">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>15+ vendor fields</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>Automated risk scoring</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>Contract tracking</span>
+                </li>
+              </ul>
+              <a
+                href="/tools/VendorRegisterManager.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full bg-purple-600 hover:bg-purple-700 text-white text-center font-semibold py-2.5 px-4 rounded-lg transition-colors"
+              >
+                Open Tool →
+              </a>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <a
+              href="/tools/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-6 py-3 bg-white dark:bg-gray-800 text-command-blue-600 dark:text-command-blue-400 font-semibold rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 border-2 border-command-blue-600 dark:border-command-blue-400 transition-colors"
+            >
+              View All Free Tools
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </a>
           </div>
         </div>
       </section>
