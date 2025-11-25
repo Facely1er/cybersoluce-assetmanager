@@ -1,7 +1,7 @@
 import React, { useState, Suspense, useCallback } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/AuthContext.tsx';
 import { AssetInventoryProvider } from './contexts/AssetInventoryContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthGuard } from './components/auth/AuthGuard';
@@ -21,16 +21,6 @@ const App: React.FC = () => {
 
   const handleLoadDemo = useCallback(() => {
     setInitialView('assets');
-    setShowStartScreen(false);
-  }, []);
-
-  const handleShowDemoScenarios = useCallback(() => {
-    setInitialView('demo-scenarios');
-    setShowStartScreen(false);
-  }, []);
-
-  const handleShowUserManual = useCallback(() => {
-    setInitialView('user-manual');
     setShowStartScreen(false);
   }, []);
 
