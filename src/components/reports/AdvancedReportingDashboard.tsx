@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, Download, Calendar, Filter, TrendingUp, Shield, AlertTriangle, FileText, PieChart, Activity } from 'lucide-react';
-import { Asset } from '../../types/asset';
+import { BarChart3, Download, Calendar, Filter, TrendingUp, Shield, AlertTriangle, FileText, Activity } from 'lucide-react';
 import { Report } from '../../types/organization';
 import { reportingService } from '../../services/reportingService';
 import { useAssetInventory } from '../../contexts/AssetInventoryContext';
-import { LoadingSpinner } from '../LoadingSpinner';
 import { 
   BarChartWrapper as BarChart, 
   Bar, 
@@ -15,8 +13,6 @@ import {
   ResponsiveContainer, 
   PieChartWrapper as RechartsPieChart, 
   Cell, 
-  LineChartWrapper as LineChart, 
-  Line, 
   AreaChartWrapper as AreaChart, 
   Area 
 } from '../ChartsWrapper';
@@ -24,8 +20,8 @@ import toast from 'react-hot-toast';
 
 export const AdvancedReportingDashboard: React.FC = () => {
   const { assets, stats } = useAssetInventory();
-  const [reports, setReports] = useState<Report[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [, setReports] = useState<Report[]>([]);
+  const [, setLoading] = useState(false);
   const [selectedTimeRange, setSelectedTimeRange] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
   const [selectedReport, setSelectedReport] = useState<'overview' | 'compliance' | 'risk' | 'trends'>('overview');
 
@@ -40,7 +36,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
     try {
       const data = await reportingService.getReports();
       setReports(data);
-    } catch (error) {
+    } catch {
       toast.error('Failed to load reports');
     } finally {
       setLoading(false);
@@ -51,7 +47,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
     try {
       await reportingService.generateAssetSummaryReport(assets, type);
       toast.success(`${type.toUpperCase()} report generated successfully`);
-    } catch (error) {
+    } catch {
       toast.error('Failed to generate report');
     }
   };
@@ -60,7 +56,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
     try {
       await reportingService.generateComplianceReport(assets, framework);
       toast.success(`${framework} compliance report generated`);
-    } catch (error) {
+    } catch {
       toast.error('Failed to generate compliance report');
     }
   };
@@ -69,7 +65,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
     try {
       await reportingService.generateRiskAssessmentReport(assets);
       toast.success('Risk assessment report generated');
-    } catch (error) {
+    } catch {
       toast.error('Failed to generate risk report');
     }
   };
@@ -78,13 +74,13 @@ export const AdvancedReportingDashboard: React.FC = () => {
   const assetTypeData = Object.entries(stats.byType).map(([type, count]) => ({
     name: type,
     value: count,
-    percentage: Math.round((count / stats.total) * 100),
+    percentage: stats.total > 0 ? Math.round((count / stats.total) * 100) : 0,
   }));
 
   const criticalityData = Object.entries(stats.byCriticality).map(([level, count]) => ({
     name: level,
     value: count,
-    percentage: Math.round((count / stats.total) * 100),
+    percentage: stats.total > 0 ? Math.round((count / stats.total) * 100) : 0,
   }));
 
   const riskDistribution = [
@@ -95,7 +91,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
   ];
 
   const vulnerabilityTrends = assets.reduce((acc, asset) => {
-    asset.vulnerabilities.forEach(vuln => {
+    (asset.vulnerabilities || []).forEach(vuln => {
       const month = new Date(vuln.discoveredAt).toISOString().slice(0, 7);
       if (!acc[month]) acc[month] = 0;
       acc[month]++;
@@ -112,16 +108,16 @@ export const AdvancedReportingDashboard: React.FC = () => {
     }));
 
   const complianceFrameworks = Array.from(
-    new Set(assets.flatMap(asset => asset.complianceFrameworks))
+    new Set(assets.flatMap(asset => asset.complianceFrameworks || []))
   );
 
   const complianceData = complianceFrameworks.map(framework => ({
     framework,
-    covered: assets.filter(asset => asset.complianceFrameworks.includes(framework)).length,
+    covered: assets.filter(asset => (asset.complianceFrameworks || []).includes(framework)).length,
     total: stats.total,
-    percentage: Math.round(
-      (assets.filter(asset => asset.complianceFrameworks.includes(framework)).length / stats.total) * 100
-    ),
+    percentage: stats.total > 0 ? Math.round(
+      (assets.filter(asset => (asset.complianceFrameworks || []).includes(framework)).length / stats.total) * 100
+    ) : 0,
   }));
 
   return (
@@ -141,6 +137,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
               <select
                 value={selectedTimeRange}
                 onChange={(e) => setSelectedTimeRange(e.target.value as '7d' | '30d' | '90d' | '1y')}
+                aria-label="Select time range"
                 className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="7d">Last 7 days</option>
@@ -154,7 +151,8 @@ export const AdvancedReportingDashboard: React.FC = () => {
               <Filter className="h-5 w-5 text-gray-400" />
               <select
                 value={selectedReport}
-                onChange={(e) => setSelectedReport(e.target.value as 'asset_summary' | 'compliance' | 'risk_assessment' | 'vulnerability')}
+                onChange={(e) => setSelectedReport(e.target.value as 'overview' | 'compliance' | 'risk' | 'trends')}
+                aria-label="Select report type"
                 className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="overview">Overview</option>
@@ -211,7 +209,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
             <div>
               <p className="text-sm font-medium text-gray-600">Critical Assets</p>
               <p className="text-3xl font-bold text-red-600">{stats.critical}</p>
-              <p className="text-sm text-red-600">{Math.round((stats.critical / stats.total) * 100)}% of total</p>
+              <p className="text-sm text-red-600">{stats.total > 0 ? Math.round((stats.critical / stats.total) * 100) : 0}% of total</p>
             </div>
             <div className="p-3 bg-red-50 rounded-lg">
               <AlertTriangle className="h-6 w-6 text-red-600" />
@@ -224,7 +222,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
             <div>
               <p className="text-sm font-medium text-gray-600">Avg Risk Score</p>
               <p className="text-3xl font-bold text-orange-600">
-                {Math.round(assets.reduce((sum, a) => sum + a.riskScore, 0) / assets.length)}
+                {assets.length > 0 ? Math.round(assets.reduce((sum, a) => sum + a.riskScore, 0) / assets.length) : 0}
               </p>
               <p className="text-sm text-orange-600">Medium risk level</p>
             </div>
@@ -239,7 +237,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
             <div>
               <p className="text-sm font-medium text-gray-600">Vulnerabilities</p>
               <p className="text-3xl font-bold text-purple-600">
-                {assets.reduce((sum, a) => sum + a.vulnerabilities.length, 0)}
+                {assets.reduce((sum, a) => sum + (a.vulnerabilities?.length || 0), 0)}
               </p>
               <p className="text-sm text-purple-600">Across all assets</p>
             </div>
@@ -259,19 +257,19 @@ export const AdvancedReportingDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={300}>
               <RechartsPieChart>
                 <RechartsPieChart data={assetTypeData}>
-                  {assetTypeData.map((entry, index) => (
+                  {assetTypeData.map((_entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </RechartsPieChart>
-                <Tooltip formatter={(value, name) => [`${value} assets`, name]} />
+                <Tooltip formatter={(value: number | string) => [`${value} assets`, '']} />
               </RechartsPieChart>
             </ResponsiveContainer>
             <div className="grid grid-cols-2 gap-4 mt-4">
               {assetTypeData.map((item, index) => (
                 <div key={item.name} className="flex items-center space-x-2">
                   <div 
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    className="chart-legend-dot"
+                    style={{ '--dot-color': COLORS[index % COLORS.length] } as React.CSSProperties}
                   />
                   <span className="text-sm text-gray-600">{item.name}: {item.value}</span>
                 </div>
@@ -318,7 +316,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
                 <YAxis dataKey="framework" type="category" width={80} />
-                <Tooltip formatter={(value, name) => [`${value} assets`, 'Coverage']} />
+                <Tooltip formatter={(value: number | string) => [`${value} assets`, 'Coverage']} />
                 <Bar dataKey="covered" fill="#10B981" />
               </BarChart>
             </ResponsiveContainer>
@@ -334,8 +332,8 @@ export const AdvancedReportingDashboard: React.FC = () => {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
-                    className="bg-green-600 h-2 rounded-full"
-                    style={{ width: `${item.percentage}%` }}
+                    className="compliance-progress-bar"
+                    style={{ '--progress-percentage': `${item.percentage}%` } as React.CSSProperties}
                   />
                 </div>
                 <p className="text-sm text-gray-600 mt-2">
@@ -358,7 +356,11 @@ export const AdvancedReportingDashboard: React.FC = () => {
                 <XAxis dataKey="range" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="count" fill={(entry) => entry.color} />
+                <Bar dataKey="count">
+                  {riskDistribution.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>

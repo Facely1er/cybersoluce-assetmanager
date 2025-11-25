@@ -134,47 +134,59 @@ export const AdvancedFiltersModal: React.FC<AdvancedFiltersModalProps> = ({
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Date Range Filters */}
-            <div className="bg-gray-50 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <Calendar className="h-5 w-5 mr-2" />
+            <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+              <h3 className="text-base font-semibold text-gray-900 mb-5 flex items-center">
+                <div className="p-2 bg-purple-50 rounded-lg mr-3">
+                  <Calendar className="h-5 w-5 text-purple-600" />
+                </div>
                 Date Filters
               </h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Created After
                   </label>
-                  <input
-                    type="date"
-                    value={localFilters.createdAfter || ''}
-                    onChange={(e) => setLocalFilters({ ...localFilters, createdAfter: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  />
+                  <div className="relative">
+                    <input
+                      type="date"
+                      value={localFilters.createdAfter || ''}
+                      onChange={(e) => setLocalFilters({ ...localFilters, createdAfter: e.target.value })}
+                      className="w-full px-4 py-2.5 pl-10 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                      placeholder="mm/dd/yyyy"
+                    />
+                    <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
+                  </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Last Assessed Before
                   </label>
-                  <input
-                    type="date"
-                    value={localFilters.lastAssessedBefore || ''}
-                    onChange={(e) => setLocalFilters({ ...localFilters, lastAssessedBefore: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  />
+                  <div className="relative">
+                    <input
+                      type="date"
+                      value={localFilters.lastAssessedBefore || ''}
+                      onChange={(e) => setLocalFilters({ ...localFilters, lastAssessedBefore: e.target.value })}
+                      className="w-full px-4 py-2.5 pl-10 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                      placeholder="mm/dd/yyyy"
+                    />
+                    <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Risk Assessment */}
-            <div className="bg-gray-50 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <TrendingUp className="h-5 w-5 mr-2" />
+            <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+              <h3 className="text-base font-semibold text-gray-900 mb-5 flex items-center">
+                <div className="p-2 bg-purple-50 rounded-lg mr-3">
+                  <TrendingUp className="h-5 w-5 text-purple-600" />
+                </div>
                 Risk Assessment
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Minimum Risk Score: {localFilters.minRiskScore}
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Minimum Risk Score: <span className="text-purple-600 font-semibold">{localFilters.minRiskScore}</span>
                   </label>
                   <input
                     type="range"
@@ -182,22 +194,25 @@ export const AdvancedFiltersModal: React.FC<AdvancedFiltersModalProps> = ({
                     max="100"
                     value={localFilters.minRiskScore}
                     onChange={(e) => setLocalFilters({ ...localFilters, minRiskScore: parseInt(e.target.value) })}
-                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                    className="w-full h-2.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600"
+                    style={{
+                      background: `linear-gradient(to right, #9333EA 0%, #9333EA ${localFilters.minRiskScore}%, #E5E7EB ${localFilters.minRiskScore}%, #E5E7EB 100%)`
+                    }}
                   />
-                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <div className="flex justify-between text-xs text-gray-500 mt-2">
                     <span>0</span>
                     <span>50</span>
                     <span>100</span>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Has Vulnerabilities
                   </label>
                   <select 
                     value={localFilters.hasVulnerabilities}
                     onChange={(e) => setLocalFilters({ ...localFilters, hasVulnerabilities: e.target.value as 'yes' | 'no' | '' })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-white"
                   >
                     <option value="">Any</option>
                     <option value="yes">Yes</option>
@@ -208,74 +223,76 @@ export const AdvancedFiltersModal: React.FC<AdvancedFiltersModalProps> = ({
             </div>
 
             {/* Compliance Status */}
-            <div className="bg-gray-50 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <AlertTriangle className="h-5 w-5 mr-2" />
+            <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+              <h3 className="text-base font-semibold text-gray-900 mb-5 flex items-center">
+                <div className="p-2 bg-purple-50 rounded-lg mr-3">
+                  <AlertTriangle className="h-5 w-5 text-purple-600" />
+                </div>
                 Compliance Status
               </h3>
-              <div className="space-y-3">
-                <label className="flex items-center">
+              <div className="space-y-4">
+                <label className="flex items-center group cursor-pointer">
                   <input 
                     type="checkbox" 
                     checked={localFilters.missingCompliance}
                     onChange={(e) => setLocalFilters({ ...localFilters, missingCompliance: e.target.checked })}
-                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" 
+                    className="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded cursor-pointer" 
                   />
-                  <span className="ml-2 text-sm text-gray-700">Missing compliance frameworks</span>
+                  <span className="ml-3 text-sm text-gray-700 group-hover:text-gray-900">Missing compliance frameworks</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center group cursor-pointer">
                   <input 
                     type="checkbox" 
                     checked={localFilters.overdueAssessment}
                     onChange={(e) => setLocalFilters({ ...localFilters, overdueAssessment: e.target.checked })}
-                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" 
+                    className="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded cursor-pointer" 
                   />
-                  <span className="ml-2 text-sm text-gray-700">Overdue for assessment</span>
+                  <span className="ml-3 text-sm text-gray-700 group-hover:text-gray-900">Overdue for assessment</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center group cursor-pointer">
                   <input 
                     type="checkbox" 
                     checked={localFilters.multipleFrameworks}
                     onChange={(e) => setLocalFilters({ ...localFilters, multipleFrameworks: e.target.checked })}
-                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" 
+                    className="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded cursor-pointer" 
                   />
-                  <span className="ml-2 text-sm text-gray-700">Multiple frameworks</span>
+                  <span className="ml-3 text-sm text-gray-700 group-hover:text-gray-900">Multiple frameworks</span>
                 </label>
               </div>
             </div>
 
             {/* Asset Relationships */}
-            <div className="bg-gray-50 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+              <h3 className="text-base font-semibold text-gray-900 mb-5">
                 Asset Relationships
               </h3>
-              <div className="space-y-3">
-                <label className="flex items-center">
+              <div className="space-y-4">
+                <label className="flex items-center group cursor-pointer">
                   <input 
                     type="checkbox" 
                     checked={localFilters.hasDependencies}
                     onChange={(e) => setLocalFilters({ ...localFilters, hasDependencies: e.target.checked })}
-                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" 
+                    className="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded cursor-pointer" 
                   />
-                  <span className="ml-2 text-sm text-gray-700">Has dependencies</span>
+                  <span className="ml-3 text-sm text-gray-700 group-hover:text-gray-900">Has dependencies</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center group cursor-pointer">
                   <input 
                     type="checkbox" 
                     checked={localFilters.isolatedAssets}
                     onChange={(e) => setLocalFilters({ ...localFilters, isolatedAssets: e.target.checked })}
-                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" 
+                    className="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded cursor-pointer" 
                   />
-                  <span className="ml-2 text-sm text-gray-700">Isolated assets</span>
+                  <span className="ml-3 text-sm text-gray-700 group-hover:text-gray-900">Isolated assets</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center group cursor-pointer">
                   <input 
                     type="checkbox" 
                     checked={localFilters.criticalPathAssets}
                     onChange={(e) => setLocalFilters({ ...localFilters, criticalPathAssets: e.target.checked })}
-                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded" 
+                    className="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded cursor-pointer" 
                   />
-                  <span className="ml-2 text-sm text-gray-700">Critical path assets</span>
+                  <span className="ml-3 text-sm text-gray-700 group-hover:text-gray-900">Critical path assets</span>
                 </label>
               </div>
             </div>

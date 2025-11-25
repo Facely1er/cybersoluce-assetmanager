@@ -235,11 +235,10 @@ export const AssetInventoryDashboard: React.FC = () => {
     }
   };
 
-  const handleImportAssets = (importedAssets: Asset[]) => {
+  const handleImportAssets = async (importedAssets: Asset[]) => {
     try {
-      importedAssets.forEach(asset => {
-        addAsset(asset);
-      });
+      // Use Promise.all to wait for all assets to be added
+      await Promise.all(importedAssets.map(asset => addAsset(asset)));
       
       toast.success(`${SUCCESS_MESSAGES.ASSETS_IMPORTED} (${importedAssets.length} assets)`);
       setShowImportModal(false);
@@ -383,6 +382,13 @@ export const AssetInventoryDashboard: React.FC = () => {
               asset={selectedAsset}
               isOpen={showDetailModal}
               onClose={hideAssetDetail}
+              onEdit={() => {
+                if (selectedAsset) {
+                  setEditingAsset(selectedAsset);
+                  hideAssetDetail();
+                  setShowAssetForm(true);
+                }
+              }}
             />
           </Suspense>
         )}

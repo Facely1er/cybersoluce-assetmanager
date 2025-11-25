@@ -177,40 +177,23 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-outfit font-semibold text-gray-900">
-            {asset ? 'Edit Asset' : 'Create New Asset'}
-          </h2>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-
-        {/* Tabs */}
-        <div className="border-b border-gray-200">
-          <nav className="flex space-x-8 px-6">
-            {[
-              { id: 'basic', label: 'Basic Info' },
-              { id: 'compliance', label: 'Compliance' },
-              { id: 'privacy', label: 'Privacy & Data' },
-              { id: 'dependencies', label: 'Dependencies' }
-            ].map(({ id, label }) => (
-              <button
-                key={id}
-                onClick={() => setActiveTab(id as 'basic' | 'security' | 'compliance' | 'technical')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === id
-                    ? 'border-command-blue-500 text-command-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </nav>
+        <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 px-6 py-4 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-outfit font-bold">
+                {asset ? 'Edit Asset' : 'Create New Asset'}
+              </h2>
+              {asset && (
+                <p className="text-sm opacity-90 mt-1">Update asset information</p>
+              )}
+            </div>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
         </div>
 
         {/* Form */}
@@ -222,11 +205,10 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
             </div>
           )}
 
-          {/* Basic Information Tab */}
-          {activeTab === 'basic' && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Main Form Layout - Two Columns */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <h3 className="text-lg font-outfit font-semibold text-gray-900">Basic Information</h3>
+                <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4">Basic Information</h3>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -355,7 +337,7 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-lg font-outfit font-semibold text-gray-900">Additional Information</h3>
+                <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4">Additional Information</h3>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -475,8 +457,8 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
             </div>
           )}
 
-          {/* Compliance Tab */}
-          {activeTab === 'compliance' && (
+          {/* Hidden Tabs - Keep for future use */}
+          {false && activeTab === 'compliance' && (
             <div className="space-y-6">
               <div>
                 <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4">Compliance Frameworks</h3>
@@ -554,29 +536,11 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
             </div>
           )}
 
-          {/* Privacy & Data Tab */}
-          {activeTab === 'privacy' && (
-            <div className="space-y-6">
-              <div className="text-center py-8 text-gray-500">
-                <p>Privacy and data management features will be implemented in the next phase.</p>
-                <p className="text-sm">This will include data classification, privacy controls, and compliance tracking.</p>
-              </div>
-            </div>
-          )}
-
-          {/* Dependencies Tab */}
-          {activeTab === 'dependencies' && (
-            <div className="space-y-6">
-              <div className="text-center py-8 text-gray-500">
-                <p>Dependency management will be implemented in the next phase.</p>
-                <p className="text-sm">This will include visual dependency mapping and relationship management.</p>
-              </div>
-            </div>
           )}
         </form>
 
         {/* Footer */}
-        <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3">
+        <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3 border-t border-gray-200">
           <button
             type="button"
             onClick={onClose}
@@ -585,9 +549,10 @@ export const AssetFormModal: React.FC<AssetFormModalProps> = ({
             Cancel
           </button>
           <button
+            type="submit"
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="px-4 py-2 bg-command-blue-600 text-white rounded-lg text-sm font-medium hover:bg-command-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-command-blue-600 text-white rounded-lg text-sm font-medium hover:bg-command-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {isSubmitting ? (
               <>

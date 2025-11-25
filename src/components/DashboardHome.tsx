@@ -32,10 +32,10 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
   onNavigateToActivity,
 }) => {
   const criticalityPercentages = {
-    critical: Math.round((stats.byCriticality.Critical || 0) / stats.total * 100),
-    high: Math.round((stats.byCriticality.High || 0) / stats.total * 100),
-    medium: Math.round((stats.byCriticality.Medium || 0) / stats.total * 100),
-    low: Math.round((stats.byCriticality.Low || 0) / stats.total * 100),
+    critical: stats.total > 0 ? Math.round((stats.byCriticality.Critical || 0) / stats.total * 100) : 0,
+    high: stats.total > 0 ? Math.round((stats.byCriticality.High || 0) / stats.total * 100) : 0,
+    medium: stats.total > 0 ? Math.round((stats.byCriticality.Medium || 0) / stats.total * 100) : 0,
+    low: stats.total > 0 ? Math.round((stats.byCriticality.Low || 0) / stats.total * 100) : 0,
   };
 
   const riskScore = Math.round(
@@ -212,7 +212,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
             <div>
               <p className="text-sm font-medium text-gray-600">Compliance Rate</p>
               <p className="text-3xl font-outfit font-bold text-green-600">
-                {Math.round((stats.total - stats.untagged) / stats.total * 100)}%
+                {stats.total > 0 ? Math.round((stats.total - stats.untagged) / stats.total * 100) : 0}%
               </p>
               <p className="text-sm text-gray-500 mt-1">
                 Assets with compliance tags
@@ -235,7 +235,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           </div>
           <div className="space-y-4">
             {Object.entries(stats.byType).map(([type, count]) => {
-              const percentage = Math.round((count / stats.total) * 100);
+              const percentage = stats.total > 0 ? Math.round((count / stats.total) * 100) : 0;
               return (
                 <div key={type} className="flex items-center justify-between">
                   <div className="flex items-center">

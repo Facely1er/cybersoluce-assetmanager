@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Building2, Download, RefreshCw, Info } from 'lucide-react';
-import { INVENTORY_SCENARIOS, generateAssetInventory, InventoryScenario } from '../data/assetGenerators';
+import { Building2, Download, RefreshCw, Info, CheckCircle } from 'lucide-react';
+import { INVENTORY_SCENARIOS, generateAssetInventory } from '../data/assetGenerators';
 import { Asset } from '../types/asset';
 import { exportToCSV } from '../utils/assetUtils';
 import { toast } from 'react-hot-toast';
@@ -55,7 +55,7 @@ export const InventoryGenerator: React.FC<InventoryGeneratorProps> = ({
     try {
       await exportToCSV(generatedAssets);
       toast.success('Inventory exported successfully');
-    } catch (error) {
+    } catch {
       toast.error('Failed to export inventory');
     }
   };
@@ -109,36 +109,39 @@ export const InventoryGenerator: React.FC<InventoryGeneratorProps> = ({
                 {INVENTORY_SCENARIOS.map((scenario) => (
                   <div
                     key={scenario.id}
-                    className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                    className={`p-5 border-2 rounded-xl cursor-pointer transition-all ${
                       selectedScenario === scenario.id
-                        ? 'border-command-blue-500 bg-command-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-command-blue-500 bg-command-blue-50 shadow-md'
+                        : 'border-gray-200 hover:border-gray-300 hover:shadow-sm bg-white'
                     }`}
                     onClick={() => setSelectedScenario(scenario.id)}
                   >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">{scenario.name}</h4>
-                        <p className="text-sm text-gray-600 mt-1">{scenario.description}</p>
-                        <div className="flex items-center mt-2 text-xs text-gray-500">
-                          <span className="bg-gray-100 px-2 py-1 rounded">
-                            ~{scenario.assetCount} assets
-                          </span>
-                        </div>
-                      </div>
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-start space-x-3 flex-1">
                       <input
                         type="radio"
                         checked={selectedScenario === scenario.id}
                         onChange={() => setSelectedScenario(scenario.id)}
-                        className="mt-1 h-4 w-4 text-command-blue-600 focus:ring-command-blue-500"
+                        className="mt-1 h-5 w-5 text-command-blue-600 focus:ring-command-blue-500 cursor-pointer"
+                        aria-label={`Select ${scenario.name} scenario`}
                       />
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-900 mb-1">{scenario.name}</h4>
+                          <p className="text-sm text-gray-600 leading-relaxed">{scenario.description}</p>
+                          <div className="flex items-center mt-3">
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                              ~{scenario.assetCount} assets
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-3">
-                      <div className="flex flex-wrap gap-1">
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <div className="flex flex-wrap gap-2">
                         {scenario.characteristics.map((char) => (
                           <span
                             key={char}
-                            className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                            className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200"
                           >
                             {char}
                           </span>
@@ -151,44 +154,48 @@ export const InventoryGenerator: React.FC<InventoryGeneratorProps> = ({
             </div>
 
             {/* Preview and Actions */}
-            <div>
-              <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4">
+            <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+              <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-6">
                 Preview & Actions
               </h3>
               
               {selectedScenario && (
-                <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                  <div className="flex items-center mb-2">
-                    <Info className="h-4 w-4 text-blue-500 mr-2" />
-                    <span className="text-sm font-medium text-gray-900">Scenario Details</span>
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 mb-6 border border-blue-100">
+                  <div className="flex items-center mb-3">
+                    <div className="p-2 bg-blue-100 rounded-lg mr-3">
+                      <Info className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <span className="text-sm font-semibold text-gray-900">Scenario Details</span>
                   </div>
                   {(() => {
                     const scenario = INVENTORY_SCENARIOS.find(s => s.id === selectedScenario);
                     return scenario ? (
-                      <div className="text-sm text-gray-600">
-                        <p className="mb-2">{scenario.description}</p>
-                        <p><strong>Expected Assets:</strong> ~{scenario.assetCount}</p>
-                        <p><strong>Characteristics:</strong> {scenario.characteristics.join(', ')}</p>
+                      <div className="text-sm text-gray-700 space-y-2">
+                        <p className="leading-relaxed">{scenario.description}</p>
+                        <div className="pt-2 border-t border-blue-200 space-y-1">
+                          <p><span className="font-semibold">Expected Assets:</span> ~{scenario.assetCount}</p>
+                          <p><span className="font-semibold">Characteristics:</span> {scenario.characteristics.join(', ')}</p>
+                        </div>
                       </div>
                     ) : null;
                   })()}
                 </div>
               )}
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <button
                   onClick={handleGenerate}
                   disabled={!selectedScenario || isGenerating}
-                  className="w-full flex items-center justify-center px-4 py-3 bg-command-blue-600 text-white rounded-lg hover:bg-command-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="w-full flex items-center justify-center px-6 py-4 bg-command-blue-600 text-white rounded-xl hover:bg-command-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg font-semibold text-base"
                 >
                   {isGenerating ? (
                     <>
-                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                      <RefreshCw className="h-5 w-5 mr-2 animate-spin" />
                       Generating...
                     </>
                   ) : (
                     <>
-                      <RefreshCw className="h-4 w-4 mr-2" />
+                      <RefreshCw className="h-5 w-5 mr-2" />
                       Generate Inventory
                     </>
                   )}
@@ -196,16 +203,24 @@ export const InventoryGenerator: React.FC<InventoryGeneratorProps> = ({
 
                 {generatedAssets.length > 0 && (
                   <>
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                      <p className="text-sm text-green-800">
-                        ✓ Generated {generatedAssets.length} assets successfully
-                      </p>
+                    <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4">
+                      <div className="flex items-center">
+                        <div className="p-2 bg-green-100 rounded-lg mr-3">
+                          <CheckCircle className="h-5 w-5 text-green-600" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-green-900">
+                            Generated {generatedAssets.length} assets successfully
+                          </p>
+                          <p className="text-xs text-green-700 mt-0.5">Ready to load into inventory</p>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="flex space-x-3">
                       <button
                         onClick={handleExport}
-                        className="flex-1 flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                        className="flex-1 flex items-center justify-center px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all font-medium"
                       >
                         <Download className="h-4 w-4 mr-2" />
                         Export CSV
@@ -213,7 +228,7 @@ export const InventoryGenerator: React.FC<InventoryGeneratorProps> = ({
                       
                       <button
                         onClick={handleLoadToInventory}
-                        className="flex-1 flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                        className="flex-1 flex items-center justify-center px-4 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-all shadow-md hover:shadow-lg font-semibold"
                       >
                         Load to Inventory
                       </button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Shield, 
   ArrowRight, 
@@ -129,6 +129,30 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
     if (score >= 50) return 'text-orange-600';
     if (score >= 25) return 'text-yellow-600';
     return 'text-green-600';
+  };
+
+  // Helper component for risk score bar to avoid inline styles
+  const RiskScoreBar: React.FC<{ score: number }> = ({ score }) => {
+    const barRef = useRef<HTMLDivElement>(null);
+    const width = Math.min(score, 100);
+
+    useEffect(() => {
+      if (barRef.current) {
+        barRef.current.style.setProperty('--risk-score-width', `${width}%`);
+      }
+    }, [width]);
+
+    return (
+      <div
+        ref={barRef}
+        className={`risk-score-bar-fill ${
+          score >= 75 ? 'bg-red-500' :
+          score >= 50 ? 'bg-orange-500' :
+          score >= 25 ? 'bg-yellow-500' : 'bg-green-500'
+        }`}
+        aria-label={`Risk score: ${score}%`}
+      />
+    );
   };
 
   const filteredAssets = demoAssets.filter(asset => {
@@ -442,15 +466,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
                               {asset.riskScore}
                             </span>
                             <div className="ml-2 w-16 bg-gray-200 dark:bg-gray-700 rounded-full h-2 relative overflow-hidden">
-                              <div
-                                className={`h-2 rounded-full absolute left-0 top-0 transition-all duration-300 ${
-                                  asset.riskScore >= 75 ? 'bg-red-500' :
-                                  asset.riskScore >= 50 ? 'bg-orange-500' :
-                                  asset.riskScore >= 25 ? 'bg-yellow-500' : 'bg-green-500'
-                                }`}
-                                style={{ width: `${Math.min(asset.riskScore, 100)}%` }}
-                                aria-label={`Risk score: ${asset.riskScore}%`}
-                              />
+                              <RiskScoreBar score={asset.riskScore} />
                             </div>
                           </div>
                         </td>

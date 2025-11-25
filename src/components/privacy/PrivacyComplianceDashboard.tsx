@@ -218,7 +218,7 @@ export const PrivacyComplianceDashboard: React.FC = () => {
         asset.dataTypes?.some(type => regulation.applicableTo.includes(type))
       );
       const compliantAssets = applicableAssets.filter(asset => 
-        asset.complianceFrameworks.includes(regulation.name)
+        (asset.complianceFrameworks || []).includes(regulation.name)
       );
       acc[regulation.name] = applicableAssets.length > 0 
         ? Math.round((compliantAssets.length / applicableAssets.length) * 100)

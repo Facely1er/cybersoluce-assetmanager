@@ -7,7 +7,7 @@ import { parseCSVContent, generateEnhancedCSVTemplate } from '../utils/csvUtils'
 interface AssetImportModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onImport: (assets: Asset[]) => void;
+  onImport: (assets: Asset[]) => void | Promise<void>;
 }
 
 interface ImportResult {
@@ -114,10 +114,10 @@ export const AssetImportModal: React.FC<AssetImportModalProps> = ({
       const warnings: string[] = [];
 
       parseResult.assets.forEach((assetData, index) => {
-        const validationErrors = validateAsset(assetData);
+        const validationResult = validateAsset(assetData);
         
-        if (validationErrors.length > 0) {
-          errors.push(`Row ${index + 2}: ${validationErrors.map(e => e.message).join(', ')}`);
+        if (!validationResult.isValid && validationResult.errors.length > 0) {
+          errors.push(`Row ${index + 2}: ${validationResult.errors.join(', ')}`);
         } else {
           // Generate complete Asset object
           const completeAsset: Asset = {
@@ -180,11 +180,16 @@ export const AssetImportModal: React.FC<AssetImportModalProps> = ({
     });
   };
 
-  const handleImport = () => {
+  const handleImport = async () => {
     if (importResult?.success && importResult.assets.length > 0) {
-      onImport(importResult.assets);
-      onClose();
-      resetModal();
+      try {
+        await Promise.resolve(onImport(importResult.assets));
+        onClose();
+        resetModal();
+      } catch (error) {
+        // Error handling is done in the parent component
+        console.error('Error during import:', error);
+      }
     }
   };
 
@@ -224,6 +229,7 @@ export const AssetImportModal: React.FC<AssetImportModalProps> = ({
                 onClick={() => setShowHelp(!showHelp)}
                 className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
                 title="Show help"
+                aria-label="Toggle help information"
               >
                 <HelpCircle className="h-5 w-5" />
               </button>
@@ -233,6 +239,7 @@ export const AssetImportModal: React.FC<AssetImportModalProps> = ({
                   resetModal();
                 }}
                 className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+                aria-label="Close modal"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -246,18 +253,20 @@ export const AssetImportModal: React.FC<AssetImportModalProps> = ({
             {/* Main Import Area */}
             <div className="lg:col-span-2 space-y-6">
               {/* Template Download */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="bg-white border-2 border-blue-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <FileSpreadsheet className="h-5 w-5 text-blue-600 mr-3" />
+                  <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-blue-50 rounded-lg">
+                      <FileSpreadsheet className="h-6 w-6 text-blue-600" />
+                    </div>
                     <div>
-                      <h3 className="text-sm font-medium text-blue-900">Download CSV Template</h3>
-                      <p className="text-sm text-blue-700">Get our pre-formatted CSV template with examples</p>
+                      <h3 className="text-base font-semibold text-gray-900 mb-1">Download CSV Template</h3>
+                      <p className="text-sm text-gray-600">Get our pre-formatted CSV template with examples</p>
                     </div>
                   </div>
                   <button
                     onClick={downloadTemplate}
-                    className="inline-flex items-center px-3 py-2 border border-blue-300 rounded-lg text-sm font-medium text-blue-700 bg-white hover:bg-blue-50 transition-colors"
+                    className="inline-flex items-center px-4 py-2.5 bg-command-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-command-blue-700 transition-colors shadow-sm hover:shadow"
                   >
                     <Download className="h-4 w-4 mr-2" />
                     Download Template
@@ -267,10 +276,10 @@ export const AssetImportModal: React.FC<AssetImportModalProps> = ({
 
               {/* File Upload Area */}
               <div
-                className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+                className={`relative border-2 border-dashed rounded-xl p-12 text-center transition-all ${
                   dragActive
-                    ? 'border-command-blue-400 bg-command-blue-50'
-                    : 'border-gray-300 hover:border-gray-400'
+                    ? 'border-command-blue-500 bg-command-blue-50 scale-[1.02]'
+                    : 'border-gray-300 hover:border-gray-400 bg-gray-50'
                 }`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
@@ -283,23 +292,26 @@ export const AssetImportModal: React.FC<AssetImportModalProps> = ({
                   accept=".csv"
                   onChange={handleFileInputChange}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  aria-label="Upload CSV file"
                 />
                 
-                <div className="space-y-4">
-                  <div className="mx-auto w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <FileText className="h-6 w-6 text-gray-600" />
+                <div className="space-y-5">
+                  <div className={`mx-auto w-16 h-16 rounded-xl flex items-center justify-center transition-colors ${
+                    dragActive ? 'bg-command-blue-100' : 'bg-white'
+                  }`}>
+                    <FileText className={`h-8 w-8 ${dragActive ? 'text-command-blue-600' : 'text-gray-400'}`} />
                   </div>
                   
                   {file ? (
-                    <div>
-                      <p className="text-lg font-medium text-gray-900">{file.name}</p>
+                    <div className="space-y-2">
+                      <p className="text-lg font-semibold text-gray-900">{file.name}</p>
                       <p className="text-sm text-gray-500">
                         {(file.size / 1024).toFixed(1)} KB • CSV file
                       </p>
                     </div>
                   ) : (
-                    <div>
-                      <p className="text-lg font-medium text-gray-900">
+                    <div className="space-y-2">
+                      <p className="text-lg font-semibold text-gray-900">
                         Drop your CSV file here, or click to browse
                       </p>
                       <p className="text-sm text-gray-500">
@@ -442,40 +454,76 @@ export const AssetImportModal: React.FC<AssetImportModalProps> = ({
             </div>
 
             {/* Help Sidebar */}
-            <div className="space-y-6">
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-gray-900 mb-3">Supported Format</h3>
-                <div className="space-y-2 text-sm text-gray-600">
-                  <div className="flex items-center">
-                    <FileText className="h-4 w-4 mr-2 text-green-600" />
+            <div className="space-y-4">
+              <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                  <FileText className="h-4 w-4 mr-2 text-green-600" />
+                  Supported Format
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex items-center text-sm text-gray-700">
+                    <CheckCircle className="h-4 w-4 mr-2 text-green-600 flex-shrink-0" />
                     CSV files (.csv)
                   </div>
-                  <div className="text-xs text-gray-500 mt-2">
+                  <div className="text-xs text-gray-500 mt-3 pt-3 border-t border-gray-100">
                     Excel files are not supported. Please convert to CSV format.
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-gray-900 mb-3">Required Fields</h3>
-                <ul className="space-y-1 text-sm text-gray-600">
-                  <li>• Asset Name</li>
-                  <li>• Type (Server, Database, etc.)</li>
-                  <li>• Criticality (Critical, High, Medium, Low)</li>
-                  <li>• Owner</li>
-                  <li>• Location</li>
+              <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">Required Fields</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>Asset Name</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>Type (Server, Database, etc.)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>Criticality (Critical, High, Medium, Low)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>Owner</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>Location</span>
+                  </li>
                 </ul>
               </div>
 
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-gray-900 mb-3">Optional Fields</h3>
-                <ul className="space-y-1 text-sm text-gray-600">
-                  <li>• IP Address</li>
-                  <li>• Description</li>
-                  <li>• Risk Score (0-100)</li>
-                  <li>• Status</li>
-                  <li>• Compliance Frameworks</li>
-                  <li>• Tags</li>
+              <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">Optional Fields</h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>IP Address</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>Description</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>Risk Score (0-100)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>Status</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>Compliance Frameworks</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-gray-400 mr-2">•</span>
+                    <span>Tags</span>
+                  </li>
                 </ul>
               </div>
 

@@ -33,7 +33,7 @@ export const ComplianceManagement: React.FC = () => {
   const calculateFrameworkStats = useCallback(() => {
     const stats = complianceFrameworks.map(framework => {
       const compliantAssets = assets.filter(asset => 
-        asset.complianceFrameworks.includes(framework)
+        (asset.complianceFrameworks || []).includes(framework)
       );
       const criticalCompliantAssets = compliantAssets.filter(asset => 
         asset.criticality === 'Critical'
@@ -69,7 +69,7 @@ export const ComplianceManagement: React.FC = () => {
   const exportComplianceReport = async (framework: string) => {
     try {
       const frameworkAssets = assets.filter(asset => 
-        asset.complianceFrameworks.includes(framework)
+        (asset.complianceFrameworks || []).includes(framework)
       );
       await exportToCSV(frameworkAssets);
       toast.success(`${framework} compliance report exported`);
@@ -346,7 +346,7 @@ export const ComplianceManagement: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             {(() => {
               const frameworkAssets = assets.filter(asset => 
-                asset.complianceFrameworks.includes(selectedFramework)
+                (asset.complianceFrameworks || []).includes(selectedFramework)
               );
               const criticalCount = frameworkAssets.filter(a => a.criticality === 'Critical').length;
               const avgRisk = frameworkAssets.length > 0 
@@ -385,7 +385,7 @@ export const ComplianceManagement: React.FC = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {assets
-                  .filter(asset => asset.complianceFrameworks.includes(selectedFramework))
+                  .filter(asset => (asset.complianceFrameworks || []).includes(selectedFramework))
                   .slice(0, 10)
                   .map((asset) => (
                     <tr key={asset.id} className="hover:bg-gray-50">

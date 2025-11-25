@@ -252,7 +252,7 @@ export const AssetDataTable: React.FC<AssetDataTableProps> = ({
                         <div>
                           <h4 className="text-sm font-medium text-gray-900 mb-2">Compliance</h4>
                           <div className="flex flex-wrap gap-1">
-                            {asset.complianceFrameworks.map((framework) => (
+                            {(asset.complianceFrameworks || []).map((framework) => (
                               <span
                                 key={framework}
                                 className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-green-100 text-green-800"

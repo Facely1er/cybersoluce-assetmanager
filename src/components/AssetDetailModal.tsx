@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Server, Shield, Network, AlertTriangle, Calendar, MapPin, User, Tag } from 'lucide-react';
+import { X, Server, Shield, Network, AlertTriangle, Calendar, MapPin, User, Tag, HardDrive } from 'lucide-react';
 import { Asset } from '../types/asset';
 import { getCriticalityColor, getStatusColor, getRiskScoreColor } from '../utils/assetUtils';
 import { format } from 'date-fns';
@@ -8,12 +8,14 @@ interface AssetDetailModalProps {
   asset: Asset | null;
   isOpen: boolean;
   onClose: () => void;
+  onEdit?: () => void;
 }
 
 export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
   asset,
   isOpen,
   onClose,
+  onEdit,
 }) => {
   if (!isOpen || !asset) return null;
 
@@ -73,7 +75,7 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
                   </div>
                   {asset.ipAddress && (
                     <div className="flex items-center space-x-3">
-                      <Network className="h-5 w-5 text-gray-400" />
+                      <HardDrive className="h-5 w-5 text-gray-400" />
                       <div>
                         <p className="text-sm text-gray-500">IP Address</p>
                         <p className="font-medium text-gray-900">{asset.ipAddress}</p>
@@ -103,14 +105,18 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
                   Tags
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {asset.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-command-blue-100 text-command-blue-800"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  {(asset.tags || []).length > 0 ? (
+                    (asset.tags || []).map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-command-blue-100 text-command-blue-800"
+                      >
+                        {tag}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-500">No tags assigned</p>
+                  )}
                 </div>
               </div>
 
@@ -121,40 +127,44 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
                   Compliance Frameworks
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {asset.complianceFrameworks.map((framework) => (
-                    <span
-                      key={framework}
-                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"
-                    >
-                      {framework}
-                    </span>
-                  ))}
+                  {(asset.complianceFrameworks || []).length > 0 ? (
+                    (asset.complianceFrameworks || []).map((framework) => (
+                      <span
+                        key={framework}
+                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                      >
+                        {framework}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-500">No compliance frameworks assigned</p>
+                  )}
                 </div>
               </div>
 
               {/* Relationships */}
               <div className="bg-gray-50 rounded-lg p-4">
                 <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4">Asset Relationships</h3>
-                {asset.relationships.length > 0 ? (
+                {(asset.relationships || []).length > 0 ? (
                   <div className="space-y-3">
-                    {asset.relationships.map((relationship) => (
-                      <div key={relationship.id} className="flex items-center justify-between p-3 bg-white rounded-lg border">
-                        <div>
+                    {(asset.relationships || []).map((relationship) => (
+                      <div key={relationship.id} className="p-3 bg-white rounded-lg border border-gray-200">
+                        <div className="flex items-center justify-between mb-2">
                           <p className="font-medium text-gray-900">{relationship.relatedAssetName}</p>
-                          <p className="text-sm text-gray-500">{relationship.relationshipType}</p>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${
+                            relationship.strength === 'Strong' ? 'bg-red-50 text-red-800 border-red-200' :
+                            relationship.strength === 'Medium' ? 'bg-yellow-50 text-yellow-800 border-yellow-200' :
+                            'bg-green-50 text-green-800 border-green-200'
+                          }`}>
+                            {relationship.strength}
+                          </span>
                         </div>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          relationship.strength === 'Strong' ? 'bg-red-100 text-red-800' :
-                          relationship.strength === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-green-100 text-green-800'
-                        }`}>
-                          {relationship.strength}
-                        </span>
+                        <p className="text-sm text-gray-600">{relationship.relationshipType}</p>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500">No relationships defined</p>
+                  <p className="text-gray-500 text-sm">No relationships defined</p>
                 )}
               </div>
             </div>
@@ -189,27 +199,27 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
               {/* Vulnerabilities */}
               <div className="bg-white border border-gray-200 rounded-lg p-4">
                 <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4 flex items-center">
-                  <AlertTriangle className="h-5 w-5 mr-2" />
+                  <AlertTriangle className="h-5 w-5 mr-2 text-orange-500" />
                   Vulnerabilities
                 </h3>
-                {asset.vulnerabilities.length > 0 ? (
+                {(asset.vulnerabilities || []).length > 0 ? (
                   <div className="space-y-3">
-                    {asset.vulnerabilities.map((vuln) => (
-                      <div key={vuln.id} className="p-3 bg-gray-50 rounded-lg">
+                    {(asset.vulnerabilities || []).map((vuln) => (
+                      <div key={vuln.id} className="p-3 bg-gray-50 rounded-lg border border-gray-200">
                         <div className="flex items-center justify-between mb-2">
                           <h4 className="font-medium text-gray-900">{vuln.title}</h4>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCriticalityColor(vuln.severity)}`}>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getCriticalityColor(vuln.severity)}`}>
                             {vuln.severity}
                           </span>
                         </div>
                         <p className="text-sm text-gray-600 mb-2">{vuln.description}</p>
-                        <div className="flex items-center justify-between text-xs text-gray-500">
-                          <span>Discovered: {format(vuln.discoveredAt, 'MMM dd, yyyy')}</span>
-                          <span className={`px-2 py-1 rounded-full ${
-                            vuln.status === 'Open' ? 'bg-red-100 text-red-800' :
-                            vuln.status === 'In Progress' ? 'bg-yellow-100 text-yellow-800' :
-                            vuln.status === 'Resolved' ? 'bg-green-100 text-green-800' :
-                            'bg-gray-100 text-gray-800'
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-gray-500">Discovered: {format(vuln.discoveredAt, 'MMM dd, yyyy')}</span>
+                          <span className={`px-2 py-1 rounded-full border ${
+                            vuln.status === 'Open' ? 'bg-red-50 text-red-800 border-red-200' :
+                            vuln.status === 'In Progress' ? 'bg-yellow-50 text-yellow-800 border-yellow-200' :
+                            vuln.status === 'Resolved' ? 'bg-green-50 text-green-800 border-green-200' :
+                            'bg-gray-50 text-gray-800 border-gray-200'
                           }`}>
                             {vuln.status}
                           </span>
@@ -218,7 +228,7 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500">No vulnerabilities found</p>
+                  <p className="text-gray-500 text-sm">No vulnerabilities found</p>
                 )}
               </div>
 
@@ -247,16 +257,21 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3">
+        <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3 border-t border-gray-200">
           <button
             onClick={onClose}
             className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:border-command-blue-500 transition-colors"
           >
             Close
           </button>
-          <button className="px-4 py-2 bg-command-blue-600 border border-transparent rounded-lg text-sm font-medium text-white hover:bg-command-blue-700 focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:ring-offset-2 transition-colors">
-            Edit Asset
-          </button>
+          {onEdit && (
+            <button
+              onClick={onEdit}
+              className="px-4 py-2 bg-command-blue-600 border border-transparent rounded-lg text-sm font-medium text-white hover:bg-command-blue-700 focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:ring-offset-2 transition-colors"
+            >
+              Edit Asset
+            </button>
+          )}
         </div>
       </div>
     </div>

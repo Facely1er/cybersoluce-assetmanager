@@ -81,8 +81,12 @@ export default defineConfig({
       output: {
         // Optimized chunk splitting strategy with granular vendor splitting
         manualChunks: (id) => {
-          // DO NOT split React/React-DOM - they must be in the main bundle
-          // to avoid "Cannot read properties of undefined" errors
+          // DO NOT split React/React-DOM - they must stay in the main bundle
+          // to avoid "Cannot read properties of undefined (reading 'useLayoutEffect')" errors
+          // Return undefined to keep React/React-DOM in the main bundle
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return undefined; // Keep in main bundle
+          }
           // Supabase
           if (id.includes('node_modules/@supabase')) {
             return 'supabase';
@@ -134,7 +138,7 @@ export default defineConfig({
           if (id.includes('/src/services/')) {
             return 'services';
           }
-          // Other node_modules as vendor (React/React-DOM will be included here)
+          // Other node_modules as vendor
           if (id.includes('node_modules')) {
             return 'vendor';
           }
@@ -158,10 +162,7 @@ export default defineConfig({
           return `assets/[name]-[hash][extname]`;
         },
         // Optimize chunk file names
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
-          return `js/[name]-[hash].js`;
-        },
+        chunkFileNames: 'js/[name]-[hash].js',
         // Optimize entry file names
         entryFileNames: 'js/[name]-[hash].js'
       }
