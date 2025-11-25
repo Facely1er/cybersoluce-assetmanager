@@ -1,47 +1,26 @@
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import React from 'react';
 import { 
   Shield, 
   ArrowRight, 
   CheckCircle, 
-  Users, 
-  Building2, 
-  Zap,
   BarChart3,
   Lock,
-  Globe,
-  Award,
-  Play,
-  BookOpen,
-  RefreshCw,
-  Sparkles
+  Globe
 } from 'lucide-react';
 
 interface StartScreenProps {
   onGetStarted: () => void;
   onLoadDemo: () => void;
-  onShowDemoScenarios?: () => void;
-  onShowUserManual?: () => void;
 }
 
-export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDemo, onShowDemoScenarios, onShowUserManual }) => {
-  const { user } = useAuth();
-
-  const stats = [
-    { label: 'Assets Managed', value: '10M+', icon: Building2 },
-    { label: 'Organizations', value: '5K+', icon: Users },
-    { label: 'Compliance Frameworks', value: '15+', icon: Award },
-    { label: 'Uptime', value: '99.9%', icon: Zap },
-  ];
-
-  const [activeFeature, setActiveFeature] = useState(0);
+export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDemo }) => {
 
   const features = [
     {
       icon: Shield,
       title: 'Comprehensive Asset Management',
       description: 'Track, categorize, and manage all your digital assets in one centralized platform with advanced filtering and search capabilities.',
-      benefits: ['Real-time asset tracking', 'Inventory generator for sample data', 'Advanced categorization', 'Powerful search & filters']
+      benefits: ['Real-time asset tracking', 'Advanced categorization', 'Powerful search & filters']
     },
     {
       icon: BarChart3,
@@ -67,7 +46,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
     {
       step: 1,
       title: 'Import or Generate Your Assets',
-      description: 'Upload your existing asset data via CSV, connect to your systems, or use our inventory generator to create sample data for different scenarios',
+      description: 'Upload your existing asset data via CSV or use our inventory generator to create sample data for different scenarios',
       action: 'Get Started'
     },
     {
@@ -91,7 +70,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-r from-command-blue-600 to-action-cyan-600 rounded-lg">
+              <div className="p-2 bg-gradient-to-r from-command-blue-600 to-action-cyan-500 rounded-lg">
                 <Shield className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -102,25 +81,9 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
               </div>
             </div>
             <div className="flex gap-3">
-              {onShowUserManual && (
-                <button
-                  onClick={onShowUserManual}
-                  className="inline-flex items-center px-4 py-2 text-command-blue-600 dark:text-command-blue-400 text-sm font-medium hover:text-command-blue-700 dark:hover:text-command-blue-300"
-                >
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  User Manual
-                </button>
-              )}
-              <button
-                onClick={onLoadDemo}
-                className="inline-flex items-center px-4 py-2 text-command-blue-600 dark:text-command-blue-400 text-sm font-medium hover:text-command-blue-700 dark:hover:text-command-blue-300"
-              >
-                <Play className="h-4 w-4 mr-2" />
-                View Demo
-              </button>
               <button
                 onClick={onGetStarted}
-                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-command-blue-600 to-command-blue-700 text-white text-sm font-semibold rounded-lg hover:from-command-blue-700 hover:to-command-blue-800 transition-all"
+                className="inline-flex items-center px-6 py-3 bg-command-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-command-blue-700 focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:ring-offset-2 transition-colors duration-200"
               >
                 Get Started
                 <ArrowRight className="h-4 w-4 ml-2" />
@@ -150,7 +113,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
               {features.map((feature, index) => (
                 <div
                   key={index}
-                  className="p-6 rounded-xl border-2 border-command-blue-200 dark:border-command-blue-800 bg-gradient-to-r from-command-blue-50/50 to-action-cyan-50/50 dark:from-command-blue-900/20 dark:to-action-cyan-900/20 hover:shadow-lg transition-all duration-300"
+                  className="p-6 rounded-xl border border-command-blue-200 dark:border-command-blue-800 bg-gradient-to-r from-command-blue-50/50 to-action-cyan-50/50 dark:from-command-blue-900/20 dark:to-action-cyan-900/20 hover:shadow-lg transition-all duration-200"
                 >
                   <div className="flex items-start space-x-4">
                     <div className="p-3 rounded-lg bg-command-blue-600 dark:bg-command-blue-500 flex-shrink-0">
@@ -235,27 +198,15 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
             <h2 className="text-4xl font-outfit font-bold text-gray-900 dark:text-white mb-4">
               Get Started in Minutes
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-4">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Follow these simple steps to set up your asset inventory management system.
             </p>
-            {onShowUserManual && (
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Need help? Check out our{' '}
-                <button
-                  onClick={onShowUserManual}
-                  className="text-command-blue-600 dark:text-command-blue-400 hover:underline font-medium"
-                >
-                  comprehensive User Manual
-                </button>
-                {' '}for detailed guides and tutorials.
-              </p>
-            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {quickStartSteps.map((step, index) => (
-              <div key={index} className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow h-full">
-                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-command-blue-600 to-action-cyan-600 text-white rounded-full font-bold text-lg mb-6">
+              <div key={index} className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-200 h-full border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-command-blue-600 to-action-cyan-500 text-white rounded-full font-bold text-lg mb-6">
                   {step.step}
                 </div>
                 <h3 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white mb-4">
@@ -266,7 +217,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
                 </p>
                 <button 
                   onClick={index === 0 ? onLoadDemo : index === 2 ? onGetStarted : undefined}
-                  className="text-command-blue-600 dark:text-command-blue-400 font-semibold hover:text-command-blue-700 dark:hover:text-command-blue-300 transition-colors inline-flex items-center"
+                  className="text-command-blue-600 dark:text-command-blue-400 font-semibold hover:text-command-blue-700 dark:hover:text-command-blue-300 focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:ring-offset-2 rounded transition-colors duration-200 inline-flex items-center"
                 >
                   {step.action}
                   <ArrowRight className="h-4 w-4 ml-1" />

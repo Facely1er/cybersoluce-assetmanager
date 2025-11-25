@@ -106,8 +106,6 @@ const App: React.FC = () => {
                 <StartScreen 
                   onGetStarted={handleGetStarted}
                   onLoadDemo={handleLoadDemo}
-                  onShowDemoScenarios={handleShowDemoScenarios}
-                  onShowUserManual={handleShowUserManual}
                 />
               ) : (
                 <AuthGuard 
