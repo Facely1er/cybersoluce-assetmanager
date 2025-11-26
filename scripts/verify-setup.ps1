@@ -5,19 +5,17 @@ Write-Host "🔍 CyberSoluce-AssetManager - Setup Verification" -ForegroundColor
 Write-Host "=================================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Get project root (parent of scripts directory)
-# Try multiple methods to get script path
-$scriptPath = $null
-if ($PSCommandPath) { $scriptPath = $PSCommandPath }
-if (-not $scriptPath -and $MyInvocation.MyCommand.Path) { $scriptPath = $MyInvocation.MyCommand.Path }
-if (-not $scriptPath -and $PSScriptRoot) { $scriptPath = Join-Path $PSScriptRoot "verify-setup.ps1" }
-
-if ($scriptPath) {
-    $projectRoot = Split-Path -Parent (Split-Path -Parent $scriptPath)
+# Get project root - assume script is run from project root or scripts folder
+$currentDir = (Get-Location).Path
+if ($currentDir -like "*\scripts") {
+    $projectRoot = Split-Path -Parent $currentDir
 } else {
-    # Fallback: use current directory (assume script is run from project root)
-    $projectRoot = (Get-Location).Path
+    $projectRoot = $currentDir
 }
+
+Write-Host "📁 Project directory: $projectRoot" -ForegroundColor Gray
+Write-Host ""
+
 $allChecksPassed = $true
 
 # Check Node.js version
@@ -63,9 +61,13 @@ Write-Host "📄 Checking package.json..." -ForegroundColor Yellow
 $packageJsonPath = Join-Path $projectRoot "package.json"
 if (Test-Path $packageJsonPath) {
     Write-Host "   ✅ package.json found" -ForegroundColor Green
-    $packageJson = Get-Content $packageJsonPath | ConvertFrom-Json
-    Write-Host "   📦 Project: $($packageJson.name)" -ForegroundColor Gray
-    Write-Host "   📦 Version: $($packageJson.version)" -ForegroundColor Gray
+    try {
+        $packageJson = Get-Content $packageJsonPath | ConvertFrom-Json
+        Write-Host "   📦 Project: $($packageJson.name)" -ForegroundColor Gray
+        Write-Host "   📦 Version: $($packageJson.version)" -ForegroundColor Gray
+    } catch {
+        Write-Host "   ⚠️  Could not parse package.json" -ForegroundColor Yellow
+    }
 } else {
     Write-Host "   ❌ package.json not found" -ForegroundColor Red
     $allChecksPassed = $false
@@ -82,14 +84,12 @@ $requiredMigrations = @(
 )
 
 if (Test-Path $migrationsDir) {
-    $missingMigrations = @()
     foreach ($migration in $requiredMigrations) {
         $migrationPath = Join-Path $migrationsDir $migration
         if (Test-Path $migrationPath) {
             Write-Host "   ✅ $migration" -ForegroundColor Green
         } else {
             Write-Host "   ❌ $migration (missing)" -ForegroundColor Red
-            $missingMigrations += $migration
             $allChecksPassed = $false
         }
     }
@@ -123,18 +123,22 @@ Write-Host ""
 Write-Host "📦 Checking build output..." -ForegroundColor Yellow
 $distPath = Join-Path $projectRoot "dist"
 if (Test-Path $distPath) {
-    $distFiles = Get-ChildItem $distPath -Recurse | Measure-Object
-    Write-Host "   ✅ dist folder exists ($($distFiles.Count) files)" -ForegroundColor Green
+    $distFiles = (Get-ChildItem $distPath -Recurse -File -ErrorAction SilentlyContinue | Measure-Object).Count
+    Write-Host "   [OK] dist folder exists with $distFiles files" -ForegroundColor Green
 } else {
-    Write-Host "   ⚠️  dist folder not found. Run: npm run build" -ForegroundColor Yellow
+    Write-Host "   [WARN] dist folder not found. Run: npm run build" -ForegroundColor Yellow
 }
 
 # Check Netlify CLI
 Write-Host ""
 Write-Host "🔧 Checking Netlify CLI..." -ForegroundColor Yellow
 try {
-    $netlifyVersion = netlify --version 2>&1
-    Write-Host "   ✅ Netlify CLI installed: $netlifyVersion" -ForegroundColor Green
+    $netlifyCheck = netlify --version 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "   ✅ Netlify CLI installed" -ForegroundColor Green
+    } else {
+        Write-Host "   ⚠️  Netlify CLI not installed. Install with: npm install -g netlify-cli" -ForegroundColor Yellow
+    }
 } catch {
     Write-Host "   ⚠️  Netlify CLI not installed. Install with: npm install -g netlify-cli" -ForegroundColor Yellow
 }
@@ -143,8 +147,12 @@ try {
 Write-Host ""
 Write-Host "🔧 Checking Git..." -ForegroundColor Yellow
 try {
-    $gitVersion = git --version
-    Write-Host "   ✅ Git installed: $gitVersion" -ForegroundColor Green
+    $gitVersion = git --version 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "   ✅ Git installed: $gitVersion" -ForegroundColor Green
+    } else {
+        Write-Host "   ⚠️  Git not found (optional for CLI deployment)" -ForegroundColor Yellow
+    }
 } catch {
     Write-Host "   ⚠️  Git not found (optional for CLI deployment)" -ForegroundColor Yellow
 }
@@ -170,4 +178,3 @@ if ($allChecksPassed) {
     Write-Host "   - Run: npm run build" -ForegroundColor White
 }
 Write-Host ""
-
