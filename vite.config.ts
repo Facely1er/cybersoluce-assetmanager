@@ -42,6 +42,10 @@ export default defineConfig({
       'jspdf', 
       'html2canvas'
     ],
+    // Force React to be deduplicated - prevents multiple React instances
+    esbuildOptions: {
+      dedupe: ['react', 'react-dom'],
+    },
   },
   esbuild: {
     // Remove console and debugger in production (terser will handle console removal)
@@ -81,12 +85,23 @@ export default defineConfig({
       output: {
         // Optimized chunk splitting strategy with granular vendor splitting
         manualChunks: (id) => {
-          // DO NOT split React/React-DOM - they must stay in the main bundle
-          // to avoid "Cannot read properties of undefined (reading 'useLayoutEffect')" errors
-          // Return undefined to keep React/React-DOM in the main bundle
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+          // CRITICAL: Keep React and React-DOM in the main bundle to avoid
+          // "Cannot read properties of undefined (reading 'useLayoutEffect')" errors
+          // This happens when React is split into a separate chunk and loaded asynchronously
+          if (id.includes('node_modules/react/') || 
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/react/index') ||
+              id.includes('node_modules/react-dom/index') ||
+              id.includes('node_modules/react/jsx-runtime')) {
+            return undefined; // Keep in main bundle - DO NOT split
+          }
+          
+          // Keep react-hot-toast with React since it has hard dependency
+          // Splitting it can cause React instance issues
+          if (id.includes('node_modules/react-hot-toast')) {
             return undefined; // Keep in main bundle
           }
+          
           // Supabase
           if (id.includes('node_modules/@supabase')) {
             return 'supabase';
@@ -94,10 +109,6 @@ export default defineConfig({
           // Date utilities
           if (id.includes('node_modules/date-fns')) {
             return 'date-utils';
-          }
-          // Toast notifications
-          if (id.includes('node_modules/react-hot-toast')) {
-            return 'toast';
           }
           // Icons
           if (id.includes('node_modules/lucide-react')) {
@@ -138,7 +149,7 @@ export default defineConfig({
           if (id.includes('/src/services/')) {
             return 'services';
           }
-          // Other node_modules as vendor
+          // Other node_modules as vendor (but NOT React/React-DOM)
           if (id.includes('node_modules')) {
             return 'vendor';
           }
