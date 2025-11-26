@@ -2,7 +2,7 @@
 
 [build]
   publish = "dist"
-  command = "npm install && npm run build"
+  command = "npm ci --include=dev && npm run build"
 
 [build.environment]
   NODE_VERSION = "20"
@@ -94,8 +94,9 @@
     Expires = "0"
 
 # Environment variables for build
+# Note: NODE_ENV is NOT set to production here to allow dev dependencies to install
+# Vite will set NODE_ENV=production during its build process
 [context.production.environment]
-  NODE_ENV = "production"
   VITE_APP_ENV = "production"
   VITE_DEBUG_MODE = "false"
   VITE_ENABLE_ERROR_REPORTING = "true"
