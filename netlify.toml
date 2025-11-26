@@ -2,13 +2,13 @@
 
 [build]
   publish = "dist"
-  command = "npm ci && npm run build"
+  command = "npm ci && NODE_ENV=production npm run build"
 
 [build.environment]
   NODE_VERSION = "20"
   NPM_VERSION = "10"
-  # Production optimizations
-  NODE_ENV = "production"
+  # Don't set NODE_ENV=production here - it prevents dev dependencies from installing
+  # NODE_ENV will be set to production during the build process by Vite
   VITE_APP_ENV = "production"
   CI = "true"
 
