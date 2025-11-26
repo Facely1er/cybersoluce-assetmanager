@@ -2,12 +2,29 @@
 # This script applies database migrations using psql (PostgreSQL CLI)
 
 param(
-    [string]$DatabaseUrl = "postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres",
+    [string]$DatabaseUrl = "",
     [switch]$DryRun = $false
 )
 
 Write-Host "🗄️  Applying Database Migrations via CLI" -ForegroundColor Cyan
 Write-Host "=========================================" -ForegroundColor Cyan
+Write-Host ""
+
+# Get database URL from parameter or environment variable
+if ([string]::IsNullOrEmpty($DatabaseUrl)) {
+    $DatabaseUrl = $env:DATABASE_URL
+    if ([string]::IsNullOrEmpty($DatabaseUrl)) {
+        Write-Host "❌ Database URL not provided!" -ForegroundColor Red
+        Write-Host ""
+        Write-Host "Please provide database URL:" -ForegroundColor Yellow
+        Write-Host "  1. As parameter: -DatabaseUrl 'postgresql://user:pass@host:port/db'" -ForegroundColor White
+        Write-Host "  2. Or set environment variable: `$env:DATABASE_URL = 'postgresql://...'" -ForegroundColor White
+        Write-Host ""
+        Write-Host "Get connection string from Supabase Dashboard:" -ForegroundColor Cyan
+        Write-Host "  https://app.supabase.com/project/uvdrwbmhmtgacwzujfzc/settings/database" -ForegroundColor Cyan
+        exit 1
+    }
+}
 Write-Host ""
 
 # Check if psql is available

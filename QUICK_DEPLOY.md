@@ -34,16 +34,19 @@
 ### Option B: Via psql (PostgreSQL Client)
 
 ```bash
+# Set database URL from environment variable or Supabase Dashboard
+# Get connection string from: https://app.supabase.com/project/uvdrwbmhmtgacwzujfzc/settings/database
+export DATABASE_URL="postgresql://postgres:[PASSWORD]@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres"
+
 # Run migrations using psql
-psql "postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres" -f supabase/migrations/20250801112702_cold_firefly.sql
-psql "postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres" -f supabase/migrations/20250801114506_odd_flower.sql
-psql "postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres" -f supabase/migrations/20250125000000_dependency_manager_features.sql
+psql "$DATABASE_URL" -f supabase/migrations/20250801112702_cold_firefly.sql
+psql "$DATABASE_URL" -f supabase/migrations/20250801114506_odd_flower.sql
+psql "$DATABASE_URL" -f supabase/migrations/20250125000000_dependency_manager_features.sql
 ```
 
-**Database Connection String:**
-```
-postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres
-```
+**Get Database Connection String:**
+- Go to: https://app.supabase.com/project/uvdrwbmhmtgacwzujfzc/settings/database
+- Copy the connection string (replace `[YOUR-PASSWORD]` with your actual password)
 
 ---
 

@@ -33,7 +33,7 @@ VITE_SUPABASE_URL = https://uvdrwbmhmtgacwzujfzc.supabase.co
 ```
 
 ```
-VITE_SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2ZHJ3Ym1obXRnYWN3enVqZnpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMTgxOTEsImV4cCI6MjA3ODY5NDE5MX0.VgsSXsKsPspHToKb2a8m4myz6PDw3GRyPJke4ZXiUTs
+VITE_SUPABASE_ANON_KEY = [Get from Supabase Dashboard: Settings → API → anon public key]
 ```
 
 ```

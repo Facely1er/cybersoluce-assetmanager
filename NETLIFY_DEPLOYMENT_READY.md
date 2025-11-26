@@ -40,7 +40,7 @@ Go to **Site settings** → **Environment variables** → **Add variable**
 Add these variables:
 ```
 VITE_SUPABASE_URL = https://uvdrwbmhmtgacwzujfzc.supabase.co
-VITE_SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2ZHJ3Ym1obXRnYWN3enVqZnpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMTgxOTEsImV4cCI6MjA3ODY5NDE5MX0.VgsSXsKsPspHToKb2a8m4myz6PDw3GRyPJke4ZXiUTs
+VITE_SUPABASE_ANON_KEY = [Get from Supabase Dashboard: Settings → API → anon public key]
 VITE_APP_ENV = production
 VITE_DEBUG_MODE = false
 VITE_ENABLE_ERROR_REPORTING = true
@@ -82,7 +82,7 @@ Follow the prompts:
 #### Step 4: Set Environment Variables
 ```powershell
 netlify env:set VITE_SUPABASE_URL "https://uvdrwbmhmtgacwzujfzc.supabase.co" --context production
-netlify env:set VITE_SUPABASE_ANON_KEY "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2ZHJ3Ym1obXRnYWN3enVqZnpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMTgxOTEsImV4cCI6MjA3ODY5NDE5MX0.VgsSXsKsPspHToKb2a8m4myz6PDw3GRyPJke4ZXiUTs" --context production
+netlify env:set VITE_SUPABASE_ANON_KEY "[your-anon-key-from-supabase]" --context production
 netlify env:set VITE_APP_ENV "production" --context production
 netlify env:set VITE_DEBUG_MODE "false" --context production
 netlify env:set VITE_ENABLE_ERROR_REPORTING "true" --context production

@@ -100,17 +100,24 @@ If CLI tools are not available, use the prepared migration files:
 
 ### Test Database Connection
 ```powershell
-psql "postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres" -c "SELECT version();"
+# Set DATABASE_URL environment variable first
+$env:DATABASE_URL = "postgresql://postgres:[PASSWORD]@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres"
+psql $env:DATABASE_URL -c "SELECT version();"
 ```
 
 ### Apply Single Migration
 ```powershell
-psql "postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres" -f supabase\migrations\20250801112702_cold_firefly.sql
+# Set DATABASE_URL environment variable first
+$env:DATABASE_URL = "postgresql://postgres:[PASSWORD]@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres"
+psql $env:DATABASE_URL -f supabase\migrations\20250801112702_cold_firefly.sql
 ```
 
 ### Apply All Migrations (PowerShell)
 ```powershell
-$dbUrl = "postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres"
+# Set DATABASE_URL environment variable first
+# Get from: https://app.supabase.com/project/uvdrwbmhmtgacwzujfzc/settings/database
+$env:DATABASE_URL = "postgresql://postgres:[PASSWORD]@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres"
+$dbUrl = $env:DATABASE_URL
 $migrations = @(
     "supabase\migrations\20250801112702_cold_firefly.sql",
     "supabase\migrations\20250801114506_odd_flower.sql",
@@ -163,10 +170,10 @@ foreach ($mig in $migrations) {
 
 ---
 
-**Database Connection String:**
-```
-postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres
-```
+**Get Database Connection String:**
+- Go to: https://app.supabase.com/project/uvdrwbmhmtgacwzujfzc/settings/database
+- Copy connection string and replace `[YOUR-PASSWORD]` with your actual password
+- Format: `postgresql://postgres:[PASSWORD]@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres`
 
 **Supabase SQL Editor:**
 https://app.supabase.com/project/uvdrwbmhmtgacwzujfzc/sql/new

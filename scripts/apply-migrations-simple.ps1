@@ -1,7 +1,21 @@
 # Simple Migration Application Script
 # Applies migrations using psql if available, otherwise provides instructions
 
-$dbUrl = "postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres"
+# Get database URL from environment variable
+$dbUrl = $env:DATABASE_URL
+if ([string]::IsNullOrEmpty($dbUrl)) {
+    Write-Host "❌ DATABASE_URL environment variable not set!" -ForegroundColor Red
+    Write-Host ""
+    Write-Host "Please set DATABASE_URL environment variable:" -ForegroundColor Yellow
+    Write-Host "  `$env:DATABASE_URL = 'postgresql://user:password@host:port/database'" -ForegroundColor White
+    Write-Host ""
+    Write-Host "Get connection string from Supabase Dashboard:" -ForegroundColor Cyan
+    Write-Host "  https://app.supabase.com/project/uvdrwbmhmtgacwzujfzc/settings/database" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "Example:" -ForegroundColor Yellow
+    Write-Host "  `$env:DATABASE_URL = 'postgresql://postgres:[PASSWORD]@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres'" -ForegroundColor Gray
+    exit 1
+}
 
 Write-Host "Applying Database Migrations" -ForegroundColor Cyan
 Write-Host "============================" -ForegroundColor Cyan
