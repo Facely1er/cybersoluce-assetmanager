@@ -171,26 +171,26 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
     {
       icon: Shield,
       title: 'Comprehensive Asset Management',
-      description: 'Track, categorize, and manage all your digital assets in one centralized platform with advanced filtering and search capabilities.',
-      benefits: ['Real-time asset tracking', 'Advanced categorization', 'Powerful search & filters']
+      description: 'Track, categorize, and manage all your digital assets in one centralized platform with advanced filtering, search capabilities, and relationship mapping.',
+      benefits: ['Real-time asset tracking', 'Advanced categorization & tagging', 'Powerful search & filters', 'Asset relationship mapping']
     },
     {
       icon: BarChart3,
       title: 'Risk Assessment & Analytics',
-      description: 'Get detailed insights into your asset risk profile with automated scoring, vulnerability tracking, and compliance monitoring.',
-      benefits: ['Automated risk scoring', 'Vulnerability management', 'Compliance tracking']
+      description: 'Get detailed insights into your asset risk profile with automated scoring, vulnerability tracking, compliance monitoring, and comprehensive reporting.',
+      benefits: ['Automated risk scoring', 'Vulnerability management', 'Compliance tracking', 'Advanced analytics & reporting']
     },
     {
       icon: Lock,
       title: 'Security & Compliance',
-      description: 'Ensure your assets meet industry standards with built-in compliance frameworks and security best practices.',
-      benefits: ['Multi-framework support', 'Audit trails', 'Security monitoring']
+      description: 'Ensure your assets meet industry standards with built-in compliance frameworks (SOC 2, ISO 27001, NIST, GDPR) and security best practices.',
+      benefits: ['Multi-framework support', 'Automated compliance checks', 'Audit trails', 'Security monitoring']
     },
     {
       icon: Globe,
       title: 'Enterprise Integration',
-      description: 'Seamlessly integrate with your existing tools and workflows through our robust API and import/export capabilities.',
-      benefits: ['API integration', 'Bulk import/export', 'Workflow automation']
+      description: 'Seamlessly integrate with your existing tools and workflows through our robust API, CSV/Excel import/export, and external data source connections.',
+      benefits: ['API integration', 'Bulk import/export (CSV/Excel)', 'External data integration', 'Workflow automation']
     }
   ];
 
@@ -255,7 +255,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
               Everything You Need for Asset Management
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
-              Powerful features designed to streamline your cybersecurity operations and ensure comprehensive asset visibility.
+              Powerful features designed to streamline your cybersecurity operations, ensure comprehensive asset visibility, and maintain compliance with industry standards.
             </p>
           </div>
 

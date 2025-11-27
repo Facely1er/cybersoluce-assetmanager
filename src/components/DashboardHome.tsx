@@ -130,7 +130,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
               by ERMITS
             </p>
             <p className="text-lg opacity-90 mb-4 mt-2">
-              Your comprehensive asset inventory management platform
+              Comprehensive asset inventory management platform for cybersecurity professionals
             </p>
             <div className="flex items-center space-x-6 text-sm">
               <div className="flex items-center">
@@ -157,82 +157,88 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
 
       {/* Key Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Assets</p>
-              <p className="text-3xl font-outfit font-bold text-gray-900">{stats.total}</p>
-              <p className="text-sm text-green-600 flex items-center mt-1">
-                <TrendingUp className="h-3 w-3 mr-1" />
-                +{stats.recentlyAdded} this month
-              </p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Assets</p>
+              <p className="text-3xl font-outfit font-bold text-gray-900 dark:text-white">{stats.total}</p>
+              {stats.recentlyAdded > 0 ? (
+                <p className="text-sm text-green-600 dark:text-green-400 flex items-center mt-1">
+                  <TrendingUp className="h-3 w-3 mr-1" />
+                  +{stats.recentlyAdded} this month
+                </p>
+              ) : (
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  No recent additions
+                </p>
+              )}
             </div>
-            <div className="p-3 bg-command-blue-50 rounded-lg">
-              <Shield className="h-6 w-6 text-command-blue-600" />
+            <div className="p-3 bg-command-blue-50 dark:bg-command-blue-900/20 rounded-lg">
+              <Shield className="h-6 w-6 text-command-blue-600 dark:text-command-blue-400" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Critical Assets</p>
-              <p className="text-3xl font-outfit font-bold text-red-600">{stats.critical}</p>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Critical Assets</p>
+              <p className="text-3xl font-outfit font-bold text-red-600 dark:text-red-400">{stats.critical}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 {criticalityPercentages.critical}% of total
               </p>
             </div>
-            <div className="p-3 bg-red-50 rounded-lg">
-              <AlertTriangle className="h-6 w-6 text-red-600" />
+            <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+              <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Risk Score</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Risk Score</p>
               <p className={`text-3xl font-outfit font-bold ${
-                riskScore >= 75 ? 'text-red-600' :
-                riskScore >= 50 ? 'text-orange-600' :
-                riskScore >= 25 ? 'text-yellow-600' :
-                'text-green-600'
+                riskScore >= 75 ? 'text-red-600 dark:text-red-400' :
+                riskScore >= 50 ? 'text-orange-600 dark:text-orange-400' :
+                riskScore >= 25 ? 'text-yellow-600 dark:text-yellow-400' :
+                'text-green-600 dark:text-green-400'
               }`}>
                 {riskScore}
               </p>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Overall risk level
               </p>
             </div>
             <div className={`p-3 rounded-lg ${
-              riskScore >= 75 ? 'bg-red-50' :
-              riskScore >= 50 ? 'bg-orange-50' :
-              riskScore >= 25 ? 'bg-yellow-50' :
-              'bg-green-50'
+              riskScore >= 75 ? 'bg-red-50 dark:bg-red-900/20' :
+              riskScore >= 50 ? 'bg-orange-50 dark:bg-orange-900/20' :
+              riskScore >= 25 ? 'bg-yellow-50 dark:bg-yellow-900/20' :
+              'bg-green-50 dark:bg-green-900/20'
             }`}>
               <Activity className={`h-6 w-6 ${
-                riskScore >= 75 ? 'text-red-600' :
-                riskScore >= 50 ? 'text-orange-600' :
-                riskScore >= 25 ? 'text-yellow-600' :
-                'text-green-600'
+                riskScore >= 75 ? 'text-red-600 dark:text-red-400' :
+                riskScore >= 50 ? 'text-orange-600 dark:text-orange-400' :
+                riskScore >= 25 ? 'text-yellow-600 dark:text-yellow-400' :
+                'text-green-600 dark:text-green-400'
               }`} />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Compliance Rate</p>
-              <p className="text-3xl font-outfit font-bold text-green-600">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Compliance Rate</p>
+              <p className="text-3xl font-outfit font-bold text-green-600 dark:text-green-400">
                 {stats.total > 0 ? Math.round((stats.total - stats.untagged) / stats.total * 100) : 0}%
               </p>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Assets with compliance tags
               </p>
             </div>
-            <div className="p-3 bg-green-50 rounded-lg">
-              <CheckCircle className="h-6 w-6 text-green-600" />
+            <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
             </div>
           </div>
         </div>
@@ -241,82 +247,98 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
       {/* Charts and Analytics */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Asset Distribution Chart */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-outfit font-semibold text-gray-900">Asset Distribution</h3>
-            <PieChart className="h-5 w-5 text-gray-400" />
+            <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white">Asset Distribution</h3>
+            <PieChart className="h-5 w-5 text-gray-400 dark:text-gray-500" />
           </div>
-          <div className="space-y-4">
-            {Object.entries(stats.byType).map(([type, count]) => {
-              const percentage = stats.total > 0 ? Math.round((count / stats.total) * 100) : 0;
-              return (
-                <div key={type} className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className={`w-3 h-3 rounded-full mr-3 ${
-                      type === 'Server' ? 'bg-blue-500' :
-                      type === 'Database' ? 'bg-green-500' :
-                      type === 'Application' ? 'bg-purple-500' :
-                      type === 'Network' ? 'bg-orange-500' :
-                      type === 'Endpoint' ? 'bg-pink-500' :
-                      'bg-cyan-500'
-                    }`}></div>
-                    <span className="text-sm font-medium text-gray-700">{type}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-20 bg-gray-200 rounded-full h-2">
-                      <ProgressBar 
-                        percentage={percentage}
-                        className={`h-2 rounded-full ${
-                          type === 'Server' ? 'bg-blue-500' :
-                          type === 'Database' ? 'bg-green-500' :
-                          type === 'Application' ? 'bg-purple-500' :
-                          type === 'Network' ? 'bg-orange-500' :
-                          type === 'Endpoint' ? 'bg-pink-500' :
-                          'bg-cyan-500'
-                        }`}
-                      />
+          {Object.keys(stats.byType).length > 0 ? (
+            <div className="space-y-4">
+              {Object.entries(stats.byType).map(([type, count]) => {
+                const percentage = stats.total > 0 ? Math.round((count / stats.total) * 100) : 0;
+                return (
+                  <div key={type} className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <div className={`w-3 h-3 rounded-full mr-3 ${
+                        type === 'Server' ? 'bg-blue-500' :
+                        type === 'Database' ? 'bg-green-500' :
+                        type === 'Application' ? 'bg-purple-500' :
+                        type === 'Network' ? 'bg-orange-500' :
+                        type === 'Endpoint' ? 'bg-pink-500' :
+                        'bg-cyan-500'
+                      }`}></div>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{type}</span>
                     </div>
-                    <span className="text-sm text-gray-600 w-12 text-right">{count}</span>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <ProgressBar 
+                          percentage={percentage}
+                          className={`h-2 rounded-full ${
+                            type === 'Server' ? 'bg-blue-500' :
+                            type === 'Database' ? 'bg-green-500' :
+                            type === 'Application' ? 'bg-purple-500' :
+                            type === 'Network' ? 'bg-orange-500' :
+                            type === 'Endpoint' ? 'bg-pink-500' :
+                            'bg-cyan-500'
+                          }`}
+                        />
+                      </div>
+                      <span className="text-sm text-gray-600 dark:text-gray-400 w-12 text-right">{count}</span>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <PieChart className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+              <p className="text-sm text-gray-500 dark:text-gray-400">No assets to display</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Add assets to see distribution</p>
+            </div>
+          )}
         </div>
 
         {/* Criticality Breakdown */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-outfit font-semibold text-gray-900">Risk Assessment</h3>
-            <BarChart3 className="h-5 w-5 text-gray-400" />
+            <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white">Risk Assessment</h3>
+            <BarChart3 className="h-5 w-5 text-gray-400 dark:text-gray-500" />
           </div>
-          <div className="space-y-4">
-            {[
-              { level: 'Critical', count: stats.byCriticality['Critical'] || 0, color: 'bg-red-500', textColor: 'text-red-600' },
-              { level: 'High', count: stats.byCriticality['High'] || 0, color: 'bg-orange-500', textColor: 'text-orange-600' },
-              { level: 'Medium', count: stats.byCriticality['Medium'] || 0, color: 'bg-yellow-500', textColor: 'text-yellow-600' },
-              { level: 'Low', count: stats.byCriticality['Low'] || 0, color: 'bg-green-500', textColor: 'text-green-600' },
-            ].map(({ level, count, color, textColor }) => {
-              const percentage = stats.total > 0 ? Math.round((count / stats.total) * 100) : 0;
-              return (
-                <div key={level} className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className={`w-3 h-3 rounded-full mr-3 ${color}`}></div>
-                    <span className="text-sm font-medium text-gray-700">{level}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-20 bg-gray-200 rounded-full h-2">
-                      <ProgressBar 
-                        percentage={percentage}
-                        className={`h-2 rounded-full ${color}`}
-                      />
+          {stats.total > 0 ? (
+            <div className="space-y-4">
+              {[
+                { level: 'Critical', count: stats.byCriticality['Critical'] || 0, color: 'bg-red-500', textColor: 'text-red-600 dark:text-red-400' },
+                { level: 'High', count: stats.byCriticality['High'] || 0, color: 'bg-orange-500', textColor: 'text-orange-600 dark:text-orange-400' },
+                { level: 'Medium', count: stats.byCriticality['Medium'] || 0, color: 'bg-yellow-500', textColor: 'text-yellow-600 dark:text-yellow-400' },
+                { level: 'Low', count: stats.byCriticality['Low'] || 0, color: 'bg-green-500', textColor: 'text-green-600 dark:text-green-400' },
+              ].map(({ level, count, color, textColor }) => {
+                const percentage = stats.total > 0 ? Math.round((count / stats.total) * 100) : 0;
+                return (
+                  <div key={level} className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <div className={`w-3 h-3 rounded-full mr-3 ${color}`}></div>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{level}</span>
                     </div>
-                    <span className={`text-sm font-medium w-12 text-right ${textColor}`}>{count}</span>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <ProgressBar 
+                          percentage={percentage}
+                          className={`h-2 rounded-full ${color}`}
+                        />
+                      </div>
+                      <span className={`text-sm font-medium w-12 text-right ${textColor}`}>{count}</span>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <BarChart3 className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+              <p className="text-sm text-gray-500 dark:text-gray-400">No risk data available</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Add assets to assess risk</p>
+            </div>
+          )}
         </div>
       </div>
 
