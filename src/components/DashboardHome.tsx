@@ -147,13 +147,13 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
                 }}
               />
               <div>
-                <h1 className="text-4xl font-bold mb-1 leading-tight tracking-tight">
-                  CyberSoluce<sup className="text-2xl font-normal">™</sup>
+                <h1 className="text-2xl font-semibold mb-0.5 leading-tight tracking-tight">
+                  CyberSoluce<sup className="text-sm font-semibold">™</sup>
                 </h1>
-                <h2 className="text-xl font-semibold mb-1 opacity-95">
+                <h2 className="text-3xl font-bold mb-0.5 opacity-100 leading-tight">
                   Asset Manager
                 </h2>
-                <p className="text-sm opacity-80">
+                <p className="text-xs opacity-90 tracking-wide">
                   by ERMITS
                 </p>
               </div>

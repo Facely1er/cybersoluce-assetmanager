@@ -30,19 +30,22 @@ export const Logo: React.FC<LogoProps> = ({
       </div>
       
       {showText && (
-        <div className="flex flex-col leading-tight min-w-0 ml-4">
-          <div className="flex items-baseline gap-0.5 leading-none">
-            <span className="font-outfit text-2xl font-bold tracking-tight bg-gradient-to-r from-gray-900 via-command-blue-600 to-action-cyan-400 dark:from-white dark:via-command-blue-400 dark:to-action-cyan-400 bg-clip-text text-transparent transition-all duration-300 whitespace-nowrap">
+        <div className="flex flex-col justify-center min-w-0 ml-4">
+          {/* CyberSoluce - Reduced size, refined styling */}
+          <div className="flex items-baseline gap-0.5 mb-1 leading-none">
+            <span className="font-outfit text-lg font-semibold tracking-tight bg-gradient-to-r from-gray-900 via-command-blue-600 to-action-cyan-400 dark:from-white dark:via-command-blue-400 dark:to-action-cyan-400 bg-clip-text text-transparent transition-all duration-300 whitespace-nowrap">
               CyberSoluce
             </span>
-            <sup className="font-outfit text-xs font-bold text-action-cyan-400 dark:text-action-cyan-300 leading-none relative -top-1.5">™</sup>
+            <sup className="font-outfit text-[10px] font-semibold text-action-cyan-400 dark:text-action-cyan-300 leading-none relative -top-1">™</sup>
           </div>
-          <span className="font-inter text-sm font-semibold text-gray-600 dark:text-gray-300 tracking-wide leading-none -mt-0.5 whitespace-nowrap">
-            AssetManager
+          {/* Asset Manager - Increased size, prominent styling */}
+          <span className="font-inter text-lg font-bold text-gray-900 dark:text-white tracking-tight whitespace-nowrap mb-1 leading-tight">
+            Asset Manager
           </span>
-          <div className="flex items-baseline gap-1.5 leading-none -mt-0.5">
-            <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">by</span>
-            <span className="font-inter text-xs font-bold text-action-cyan-400 dark:text-action-cyan-300 uppercase tracking-wider whitespace-nowrap">
+          {/* ERMITS - Refined alignment */}
+          <div className="flex items-baseline gap-1.5 leading-none">
+            <span className="text-[9px] text-gray-500 dark:text-gray-400 font-medium tracking-wide">by</span>
+            <span className="font-inter text-[10px] font-bold text-action-cyan-400 dark:text-action-cyan-300 uppercase tracking-widest whitespace-nowrap">
               ERMITS
             </span>
           </div>

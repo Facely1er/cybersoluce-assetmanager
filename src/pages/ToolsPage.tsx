@@ -14,35 +14,15 @@ const ToolsPage: React.FC = () => {
     }
   }, []);
 
-  const toggleTheme = () => {
-    const isDark = document.documentElement.classList.toggle('dark');
-    const theme = isDark ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#005B96] to-[#33A1DE] text-white">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <div className="text-center relative">
-            {/* Theme Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              className="absolute top-0 right-0 p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition-colors"
-              title="Toggle theme"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                />
-              </svg>
-            </button>
-            <h1 className="text-5xl font-bold mb-4">Free Cybersecurity Assessment Tools</h1>
-            <p className="text-xl text-gray-100 mb-8 max-w-3xl mx-auto">
+      <div className="bg-gradient-to-r from-[#005B96] to-[#33A1DE] text-white pt-8 pb-16">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Free Cybersecurity Assessment Tools</h1>
+            <p className="text-lg md:text-xl text-gray-100 mb-8 max-w-3xl mx-auto">
               Start your cybersecurity journey with our professional, browser-based tools. No installation, no account required. Privacy-first design.
             </p>
             <div className="flex items-center justify-center gap-4 text-sm text-gray-200 flex-wrap">
@@ -205,7 +185,7 @@ const ToolsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Footer */}
+        {/* Info Section */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-gray-600 dark:text-gray-400 text-sm">
           <p className="mb-2">
             <strong>ERMITS CyberSoluce</strong> - Professional Cybersecurity Management Tools
