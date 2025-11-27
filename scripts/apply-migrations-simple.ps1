@@ -48,6 +48,7 @@ if ($currentDir -like "*\scripts") {
 }
 
 $migrations = @(
+    "supabase\migrations\20250101000000_create_assets_table.sql",
     "supabase\migrations\20250801112702_cold_firefly.sql",
     "supabase\migrations\20250801114506_odd_flower.sql",
     "supabase\migrations\20250125000000_dependency_manager_features.sql"
@@ -65,13 +66,13 @@ foreach ($mig in $migrations) {
     $migrationPath = Join-Path $projectRoot $mig
     
     if (-not (Test-Path $migrationPath)) {
-        Write-Host "[$index/3] File not found: $migrationPath" -ForegroundColor Red
+        Write-Host "[$index/$($migrations.Count)] File not found: $migrationPath" -ForegroundColor Red
         $failCount++
         $index++
         continue
     }
     
-    Write-Host "[$index/3] Applying: $mig" -ForegroundColor Cyan
+    Write-Host "[$index/$($migrations.Count)] Applying: $mig" -ForegroundColor Cyan
     
     $result = psql $dbUrl -f $migrationPath 2>&1
     $exitCode = $LASTEXITCODE
@@ -95,7 +96,7 @@ Write-Host "  Successful: $successCount" -ForegroundColor $(if ($successCount -g
 Write-Host "  Failed: $failCount" -ForegroundColor $(if ($failCount -gt 0) { "Red" } else { "Green" })
 Write-Host ""
 
-if ($successCount -eq 3) {
+if ($successCount -eq $migrations.Count) {
     Write-Host "All migrations applied successfully!" -ForegroundColor Green
     Write-Host ""
     Write-Host "Next steps:" -ForegroundColor Cyan
