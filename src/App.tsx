@@ -17,7 +17,7 @@ const App: React.FC = () => {
         <AuthProvider>
           <AssetInventoryProvider>
             <BrowserRouter>
-              <div className="min-h-screen" role="main">
+              <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-950" role="main">
                 {/* Global Toaster */}
                 <Toaster 
                   position="top-right"
