@@ -17,6 +17,7 @@ import { CookiePolicy } from './pages/legal/CookiePolicy';
 import { Compliance } from './pages/legal/Compliance';
 import { AcceptableUsePolicy } from './pages/legal/AcceptableUsePolicy';
 import ToolsPage from './pages/ToolsPage';
+import Pricing from './pages/Pricing';
 
 const App: React.FC = () => {
   return (
@@ -92,6 +93,13 @@ const App: React.FC = () => {
                       <>
                         <Header />
                         <HomePage />
+                        <Footer />
+                      </>
+                    } />
+                    <Route path="/pricing" element={
+                      <>
+                        <Header />
+                        <Pricing />
                         <Footer />
                       </>
                     } />

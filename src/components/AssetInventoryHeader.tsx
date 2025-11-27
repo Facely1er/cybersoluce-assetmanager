@@ -41,10 +41,10 @@ export const AssetInventoryHeader: React.FC<AssetInventoryHeaderProps> = ({
         <div className="flex items-center space-x-3">
           <Shield className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
           <div>
-            <h1 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white leading-tight tracking-tight">
+            <h1 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white leading-none tracking-tight">
               CyberSoluce<sup className="text-[10px] font-semibold">™</sup>
             </h1>
-            <p className="text-base font-bold text-gray-900 dark:text-white leading-tight">Asset Manager</p>
+            <p className="text-sm font-bold text-gray-900 dark:text-white leading-none">Asset Manager</p>
             <p className="text-[10px] text-gray-500 dark:text-gray-400 tracking-wide">by ERMITS</p>
           </div>
         </div>

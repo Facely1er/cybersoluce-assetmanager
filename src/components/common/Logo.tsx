@@ -31,15 +31,15 @@ export const Logo: React.FC<LogoProps> = ({
       
       {showText && (
         <div className="flex flex-col justify-center min-w-0 ml-4">
-          {/* CyberSoluce - Reduced size, refined styling */}
-          <div className="flex items-baseline gap-0.5 mb-1 leading-none">
-            <span className="font-outfit text-lg font-semibold tracking-tight bg-gradient-to-r from-gray-900 via-command-blue-600 to-action-cyan-400 dark:from-white dark:via-command-blue-400 dark:to-action-cyan-400 bg-clip-text text-transparent transition-all duration-300 whitespace-nowrap">
+          {/* CyberSoluce - Increased size, refined styling */}
+          <div className="flex items-baseline gap-0.5 leading-none">
+            <span className="font-outfit text-2xl font-semibold tracking-tight bg-gradient-to-r from-gray-900 via-command-blue-600 to-action-cyan-400 dark:from-white dark:via-command-blue-400 dark:to-action-cyan-400 bg-clip-text text-transparent transition-all duration-300 whitespace-nowrap">
               CyberSoluce
             </span>
             <sup className="font-outfit text-[10px] font-semibold text-action-cyan-400 dark:text-action-cyan-300 leading-none relative -top-1">™</sup>
           </div>
-          {/* Asset Manager - Increased size, prominent styling */}
-          <span className="font-inter text-lg font-bold text-gray-900 dark:text-white tracking-tight whitespace-nowrap mb-1 leading-tight">
+          {/* Asset Manager - Decreased size, refined styling */}
+          <span className="font-inter text-sm font-bold text-gray-900 dark:text-white tracking-tight whitespace-nowrap leading-none">
             Asset Manager
           </span>
           {/* ERMITS - Refined alignment */}
