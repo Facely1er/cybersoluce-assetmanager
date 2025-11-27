@@ -103,7 +103,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
       message: 'SOC 2 compliance assessment completed',
       time: subDays(new Date(), 2),
       icon: CheckCircle,
-      color: 'text-blue-600',
+      color: 'text-command-blue-600',
     },
     {
       type: 'asset_updated',
@@ -421,8 +421,8 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
             <p className="text-sm text-gray-500 dark:text-gray-400">100% validated</p>
           </div>
           <div className="text-center">
-            <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Shield className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+            <div className="w-16 h-16 bg-command-blue-50 dark:bg-command-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Shield className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
             </div>
             <h4 className="font-medium text-gray-900 dark:text-white">Security Status</h4>
             <p className="text-sm text-gray-500 dark:text-gray-400">Fully protected</p>

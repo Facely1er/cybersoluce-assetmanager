@@ -167,7 +167,7 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
     return (
       <div className={`flex items-center justify-center h-96 ${className}`}>
         <div className="text-center">
-          <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-4 text-blue-600 dark:text-blue-400" />
+          <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-4 text-command-blue-600 dark:text-command-blue-400" />
           <p className="text-gray-600 dark:text-gray-400">Loading insights...</p>
         </div>
       </div>
@@ -181,7 +181,7 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
         <p className="text-gray-600 dark:text-gray-400">No insights available</p>
         <button
           onClick={loadInsights}
-          className="mt-4 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+          className="mt-4 px-4 py-2 bg-command-blue-600 dark:bg-command-blue-500 text-white rounded-lg hover:bg-command-blue-700 dark:hover:bg-command-blue-600 transition-colors"
         >
           Load Insights
         </button>
@@ -245,7 +245,7 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
               <select
                 value={selectedTimeRange}
                 onChange={(e) => setSelectedTimeRange(e.target.value as any)}
-                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="7d">Last 7 days</option>
                 <option value="30d">Last 30 days</option>
@@ -259,7 +259,7 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
               <select
                 value={selectedView}
                 onChange={(e) => setSelectedView(e.target.value as any)}
-                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="overview">Overview</option>
                 <option value="trends">Trends</option>
@@ -278,8 +278,8 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
           title="Total Assets"
           value={analyticsInsights.summary.totalAssets}
           icon={BarChart3}
-          color="text-blue-600 bg-blue-50"
-          border="border-blue-200"
+          color="text-command-blue-600 bg-command-blue-50"
+          border="border-command-blue-200"
           trend={analyticsInsights.trends.assetGrowth.direction}
           trendValue={analyticsInsights.trends.assetGrowth.rate}
         />

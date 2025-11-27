@@ -99,7 +99,7 @@ export const ComplianceManagement: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 rounded-2xl p-8 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-outfit font-bold mb-2 flex items-center">
@@ -139,10 +139,10 @@ export const ComplianceManagement: React.FC = () => {
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Assets</p>
               <p className="text-3xl font-outfit font-bold text-gray-900 dark:text-white">{assets.length}</p>
-              <p className="text-sm text-blue-600 dark:text-blue-400">Asset inventory</p>
+              <p className="text-sm text-command-blue-600 dark:text-command-blue-400">Asset inventory</p>
             </div>
-            <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-              <Building2 className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+            <div className="p-3 bg-command-blue-50 dark:bg-command-blue-900/20 rounded-lg">
+              <Building2 className="h-6 w-6 text-command-blue-600 dark:text-command-blue-400" />
             </div>
           </div>
         </div>
@@ -256,7 +256,7 @@ export const ComplianceManagement: React.FC = () => {
                       e.stopPropagation();
                       exportComplianceReport(framework.name);
                     }}
-                    className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
+                    className="text-xs text-command-blue-600 dark:text-command-blue-400 hover:text-command-blue-700 dark:hover:text-command-blue-300 font-medium"
                   >
                     <Download className="h-3 w-3 inline mr-1" />
                     Export
@@ -301,7 +301,7 @@ export const ComplianceManagement: React.FC = () => {
         {/* Recommendations */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-            <TrendingUp className="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400" />
+            <TrendingUp className="h-5 w-5 mr-2 text-command-blue-600 dark:text-command-blue-400" />
             Recommendations
           </h3>
           <div className="space-y-4">

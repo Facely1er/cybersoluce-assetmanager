@@ -115,7 +115,7 @@ export const TeamManagementModal: React.FC<TeamManagementModalProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-4 text-white">
+        <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 px-6 py-4 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-white bg-opacity-20 rounded-lg">

@@ -164,7 +164,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
                 value={selectedTimeRange}
                 onChange={(e) => setSelectedTimeRange(e.target.value as '7d' | '30d' | '90d' | '1y')}
                 aria-label="Select time range"
-                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="7d">Last 7 days</option>
                 <option value="30d">Last 30 days</option>
@@ -179,7 +179,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
                 value={selectedReport}
                 onChange={(e) => setSelectedReport(e.target.value as 'overview' | 'compliance' | 'risk' | 'trends')}
                 aria-label="Select report type"
-                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="overview">Overview</option>
                 <option value="compliance">Compliance</option>
@@ -224,8 +224,8 @@ export const AdvancedReportingDashboard: React.FC = () => {
               <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
               <p className="text-sm text-green-600 dark:text-green-400">+12% from last month</p>
             </div>
-            <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-              <Shield className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+            <div className="p-3 bg-command-blue-50 dark:bg-command-blue-900/20 rounded-lg">
+              <Shield className="h-6 w-6 text-command-blue-600 dark:text-command-blue-400" />
             </div>
           </div>
         </div>
@@ -331,7 +331,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
                   <button
                     key={framework}
                     onClick={() => generateComplianceReport(framework)}
-                    className="px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-xs font-medium hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
+                    className="px-3 py-1 bg-command-blue-100 dark:bg-command-blue-900/20 text-command-blue-800 dark:text-command-blue-300 rounded-full text-xs font-medium hover:bg-command-blue-200 dark:hover:bg-command-blue-900/30 transition-colors"
                   >
                     {framework} Report
                   </button>

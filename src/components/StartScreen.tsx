@@ -585,8 +585,8 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
 
             {/* Information Asset Register */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700">
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4">
-                <Shield className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              <div className="w-12 h-12 bg-command-blue-100 dark:bg-command-blue-900/30 rounded-lg flex items-center justify-center mb-4">
+                <Shield className="h-6 w-6 text-command-blue-600 dark:text-command-blue-400" />
               </div>
               <h3 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white mb-2">
                 Asset Register
@@ -612,7 +612,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
                 href="/tools/InformationAssetRegister.html"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-semibold py-2.5 px-4 rounded-lg transition-colors"
+                className="block w-full bg-command-blue-600 hover:bg-command-blue-700 text-white text-center font-semibold py-2.5 px-4 rounded-lg transition-colors"
               >
                 Open Tool →
               </a>
