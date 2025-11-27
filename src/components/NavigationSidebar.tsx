@@ -300,23 +300,27 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
             <button
               key={item.id}
               onClick={() => onViewChange(item.id)}
-              className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 group ${
-                activeView === item.id
-                  ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300 border border-command-blue-200 dark:border-command-blue-800'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
+              className={`w-full flex items-center p-3 rounded-xl transition-all duration-200 group ${
+                isCollapsed ? 'justify-center' : ''
+              } ${
+                isActive
+                  ? 'bg-gradient-to-r from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/30 text-command-blue-700 dark:text-command-blue-300 border border-command-blue-200 dark:border-command-blue-800 shadow-sm'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-white'
               }`}
               title={isCollapsed ? item.label : undefined}
             >
               <item.icon className={`h-5 w-5 ${isCollapsed ? 'mx-auto' : 'mr-3'} ${
-                activeView === item.id 
-                  ? 'text-command-blue-600 dark:text-command-blue-400' 
+                isActive
+                  ? 'text-command-blue-600 dark:text-command-blue-400'
                   : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300'
-              }`} />
+              } transition-colors`} />
               {!isCollapsed && (
                 <div className="flex-1 text-left">
-                  <div className="font-medium dark:text-gray-200">{item.label}</div>
-                  <div className={`text-xs ${
-                    activeView === item.id
+                  <div className={`font-semibold ${
+                    isActive ? 'text-command-blue-700 dark:text-command-blue-300' : 'dark:text-gray-200'
+                  }`}>{item.label}</div>
+                  <div className={`text-xs mt-0.5 ${
+                    isActive
                       ? 'text-command-blue-600 dark:text-command-blue-400'
                       : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
                   }`}>
@@ -324,8 +328,8 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
                   </div>
                 </div>
               )}
-              {!isCollapsed && activeView === item.id && (
-                <div className="w-2 h-2 bg-command-blue-600 dark:bg-command-blue-400 rounded-full"></div>
+              {!isCollapsed && isActive && (
+                <div className="w-2 h-2 bg-command-blue-600 dark:bg-command-blue-400 rounded-full shadow-lg shadow-command-blue-500/50"></div>
               )}
             </button>
           );
