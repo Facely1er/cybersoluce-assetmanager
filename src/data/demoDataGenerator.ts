@@ -1,6 +1,6 @@
 import { Asset } from '../types/asset';
 import { DemoScenario, getDemoScenario } from './demoScenarios';
-import { generateAssetInventory } from './assetGenerators';
+import { generateAssetInventory, INVENTORY_SCENARIOS } from './assetGenerators';
 
 export interface DemoDataPackage {
   scenario: DemoScenario;
@@ -14,14 +14,66 @@ export interface DemoDataPackage {
   };
 }
 
+// Map demo scenario IDs to inventory scenario IDs
+function mapDemoScenarioToInventoryScenario(demoScenarioId: string): string {
+  const scenarioMap: Record<string, string> = {
+    'healthcare-hospital': 'healthcare',
+    'healthcare-clinic': 'healthcare',
+    'healthcare-research': 'healthcare',
+    'financial-bank': 'financial',
+    'financial-credit-union': 'financial',
+    'financial-fintech': 'financial',
+    'tech-startup': 'startup',
+    'tech-enterprise': 'enterprise',
+    'tech-saas': 'startup',
+    'manufacturing-plant': 'manufacturing',
+    'manufacturing-automotive': 'manufacturing',
+    'manufacturing-pharma': 'manufacturing',
+    'government-agency': 'government',
+    'government-state': 'government',
+    'government-local': 'government',
+    'education-university': 'education',
+    'education-school-district': 'education',
+    'education-research': 'education'
+  };
+  
+  return scenarioMap[demoScenarioId] || demoScenarioId;
+}
+
+// Get expected asset count for a demo scenario
+export function getDemoScenarioAssetCount(demoScenarioId: string): number {
+  const inventoryScenarioId = mapDemoScenarioToInventoryScenario(demoScenarioId);
+  const inventoryScenario = INVENTORY_SCENARIOS.find(s => s.id === inventoryScenarioId);
+  return inventoryScenario?.assetCount || 0;
+}
+
 export function generateDemoDataPackage(scenarioId: string): DemoDataPackage {
   const scenario = getDemoScenario(scenarioId);
   if (!scenario) {
     throw new Error(`Demo scenario not found: ${scenarioId}`);
   }
 
+  // Map demo scenario ID to inventory scenario ID
+  const inventoryScenarioId = mapDemoScenarioToInventoryScenario(scenarioId);
+  
+  // Verify the inventory scenario exists
+  const inventoryScenario = INVENTORY_SCENARIOS.find(s => s.id === inventoryScenarioId);
+  if (!inventoryScenario) {
+    throw new Error(`Inventory scenario not found for demo scenario: ${scenarioId} (mapped to: ${inventoryScenarioId})`);
+  }
+  
   // Generate assets using the existing generator
-  const assets = generateAssetInventory(scenarioId);
+  let assets: Asset[];
+  try {
+    assets = generateAssetInventory(inventoryScenarioId);
+  } catch (error) {
+    throw new Error(`Failed to generate assets for scenario ${scenarioId}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+  
+  // Verify assets were generated
+  if (!assets || assets.length === 0) {
+    throw new Error(`No assets were generated for scenario ${scenarioId}`);
+  }
   
   // Calculate metadata
   const vulnerabilityCount = assets.reduce((total, asset) => total + asset.vulnerabilities.length, 0);

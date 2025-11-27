@@ -1,8 +1,9 @@
 import React, { useState, Suspense, lazy, useCallback, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link, useParams } from 'react-router-dom';
 import { NavigationSidebar } from './NavigationSidebar';
 import { DashboardHome } from './DashboardHome';
 import { LoadingSpinner } from './LoadingSpinner';
+import { ErrorBoundary } from './ErrorBoundary';
 import { useAuth } from '../hooks/useAuth';
 import { useAssetInventory } from '../contexts/AssetInventoryContext';
 import { generateDemoDataPackage } from '../data/demoDataGenerator';
@@ -24,7 +25,8 @@ const OrganizationManagement = lazy(() => import('./organizations/OrganizationMa
 const UserManagement = lazy(() => import('./users/UserManagement').then(module => ({ default: module.UserManagement })));
 const ActivityLog = lazy(() => import('./activity/ActivityLog').then(module => ({ default: module.ActivityLog })));
 const SystemSettings = lazy(() => import('./settings/SystemSettings').then(module => ({ default: module.SystemSettings })));
-const DemoShowcase = lazy(() => import('./DemoShowcase').then(module => ({ default: module.DemoShowcase })));
+// Lazy load DemoShowcase - use default export for better compatibility
+const DemoShowcase = lazy(() => import('./DemoShowcase'));
 const MitigationPageWrapper = lazy(() => import('./mitigation/MitigationPageWrapper').then(module => ({ default: module.MitigationPageWrapper })));
 const BusinessImpactPageWrapper = lazy(() => import('./business-impact/BusinessImpactPageWrapper').then(module => ({ default: module.BusinessImpactPageWrapper })));
 const NISTPageWrapper = lazy(() => import('./nist/NISTPageWrapper').then(module => ({ default: module.NISTPageWrapper })));
@@ -38,25 +40,28 @@ interface MainLayoutProps {
 export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const params = useParams<{ view?: string }>();
   
-  // Determine active view from URL
+  // Determine active view from URL - prefer useParams, fallback to pathname parsing
   const getViewFromPath = () => {
+    // First try to get from route params (more reliable)
+    if (params.view) {
+      return params.view;
+    }
+    
+    // Fallback to pathname parsing for backwards compatibility
     const path = location.pathname;
     if (path === '/dashboard' || path === '/dashboard/') {
       return 'dashboard';
     }
-    const viewMatch = path.match(/\/dashboard\/(.+)$/);
-    return viewMatch ? viewMatch[1] : 'dashboard';
+    const viewMatch = path.match(/\/dashboard\/([^/?#]+)/);
+    if (viewMatch) {
+      return viewMatch[1];
+    }
+    return 'dashboard';
   };
   
-  const [activeView, setActiveView] = useState(() => {
-    const path = location.pathname;
-    if (path === '/dashboard' || path === '/dashboard/') {
-      return 'dashboard';
-    }
-    const viewMatch = path.match(/\/dashboard\/(.+)$/);
-    return viewMatch ? viewMatch[1] : 'dashboard';
-  });
+  const [activeView, setActiveView] = useState(() => getViewFromPath());
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { user, signOut } = useAuth();
   const { stats, replaceAssets } = useAssetInventory();
@@ -64,9 +69,11 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
   // Sync activeView with URL changes
   useEffect(() => {
     const view = getViewFromPath();
-    setActiveView(view);
+    if (view !== activeView) {
+      setActiveView(view);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  }, [location.pathname, params.view]);
 
   // Navigate function that updates both state and URL
   const handleViewChange = useCallback((view: string) => {
@@ -269,11 +276,35 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
         );
       case 'demo-scenarios':
         return (
-          <Suspense fallback={<LoadingFallback />}>
-            <DemoShowcase 
-              onStartDemo={handleStartDemo}
-              onViewDemo={handleViewDemo}
-            />
+          <Suspense 
+            fallback={<LoadingFallback />}
+            // Error boundary for lazy loading failures
+          >
+            <ErrorBoundary
+              fallback={
+                <div className="p-8 text-center">
+                  <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 max-w-md mx-auto">
+                    <h2 className="text-xl font-semibold text-red-900 dark:text-red-200 mb-2">
+                      Failed to Load Demo Showcase
+                    </h2>
+                    <p className="text-red-700 dark:text-red-300 mb-4 text-sm">
+                      The demo showcase component could not be loaded. Please refresh the page.
+                    </p>
+                    <button
+                      onClick={() => window.location.reload()}
+                      className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                    >
+                      Refresh Page
+                    </button>
+                  </div>
+                </div>
+              }
+            >
+              <DemoShowcase 
+                onStartDemo={handleStartDemo}
+                onViewDemo={handleViewDemo}
+              />
+            </ErrorBoundary>
           </Suspense>
         );
       case 'data-normalization':
