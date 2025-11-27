@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlertTriangle, Trash2 } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Modal } from '../ui/modal';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../ui/dialog';
 
 interface ConfirmDialogProps {
   isOpen: boolean;
@@ -49,33 +49,22 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      size="sm"
-      closeOnOverlayClick={!loading}
-      showCloseButton={false}
-    >
-      <div className="text-center">
-        {getIcon() && (
-          <div className={`mx-auto flex items-center justify-center h-12 w-12 rounded-full mb-4 ${
-            type === 'danger' 
-              ? 'bg-red-100 dark:bg-red-900/30' 
-              : 'bg-yellow-100 dark:bg-yellow-900/30'
-          }`}>
-            {getIcon()}
-          </div>
-        )}
-        
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-          {title}
-        </h3>
-        
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
-          {description}
-        </p>
-        
-        <div className="flex space-x-3 justify-center">
+    <Dialog open={isOpen} onOpenChange={(open) => !open && !loading && onClose()}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          {getIcon() && (
+            <div className={`mx-auto flex items-center justify-center h-12 w-12 rounded-full mb-4 ${
+              type === 'danger' 
+                ? 'bg-red-100 dark:bg-red-900/30' 
+                : 'bg-yellow-100 dark:bg-yellow-900/30'
+            }`}>
+              {getIcon()}
+            </div>
+          )}
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex-row justify-center gap-3 sm:justify-center">
           <Button
             variant="outline"
             onClick={onClose}
@@ -83,7 +72,6 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           >
             {cancelLabel}
           </Button>
-          
           <Button
             variant={getConfirmButtonVariant()}
             onClick={onConfirm}
@@ -91,9 +79,9 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           >
             {confirmLabel}
           </Button>
-        </div>
-      </div>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

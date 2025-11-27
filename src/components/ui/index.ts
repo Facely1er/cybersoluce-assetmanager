@@ -1,11 +1,11 @@
-export { Button } from './button';
-export { Card, CardHeader, CardTitle, CardContent } from './card';
-export { Badge } from './badge';
-export { Modal } from './modal';
-export { Alert } from './alert';
+export { Button, buttonVariants } from './button';
+export type { ButtonProps } from './button';
+export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './card';
+export { Badge, badgeVariants } from './badge';
+export type { BadgeProps } from './badge';
+export { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogClose, DialogOverlay, DialogPortal } from './dialog';
+export { Alert, AlertTitle, AlertDescription } from './alert';
 export { Input } from './input';
-export { Select } from './select';
-export type { SelectOption } from './select';
+export { Select, SelectGroup, SelectValue, SelectTrigger, SelectContent, SelectLabel, SelectItem, SelectSeparator, SelectScrollUpButton, SelectScrollDownButton } from './select';
 export { Textarea } from './textarea';
-export { Tooltip } from './tooltip';
-
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './tooltip';

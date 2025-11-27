@@ -1,80 +1,59 @@
-import * as React from "react";
-import { AlertTriangle, CheckCircle, Info, XCircle } from "lucide-react";
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 
-interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "destructive" | "success" | "warning" | "info";
-  title?: string;
-  description?: string;
-  showIcon?: boolean;
-}
+import { cn } from "@/lib/utils"
 
-const Alert: React.FC<AlertProps> = ({
-  className,
-  variant = "default",
-  title,
-  description,
-  showIcon = true,
-  children,
-  ...props
-}) => {
-  const variantStyles = {
-    default: "bg-gray-50 border-gray-200 text-gray-800 dark:bg-gray-900/50 dark:border-gray-700 dark:text-gray-200",
-    destructive: "bg-red-50 border-red-200 text-red-800 dark:bg-red-900/50 dark:border-red-700 dark:text-red-200",
-    success: "bg-green-50 border-green-200 text-green-800 dark:bg-green-900/50 dark:border-green-700 dark:text-green-200",
-    warning: "bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-900/50 dark:border-yellow-700 dark:text-yellow-200",
-    info: "bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-900/50 dark:border-blue-700 dark:text-blue-200"
-  };
+const alertVariants = cva(
+  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  {
+    variants: {
+      variant: {
+        default: "bg-background text-foreground",
+        destructive:
+          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
 
-  const iconMap = {
-    default: Info,
-    destructive: XCircle,
-    success: CheckCircle,
-    warning: AlertTriangle,
-    info: Info
-  };
+const Alert = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
+>(({ className, variant, ...props }, ref) => (
+  <div
+    ref={ref}
+    role="alert"
+    className={cn(alertVariants({ variant }), className)}
+    {...props}
+  />
+))
+Alert.displayName = "Alert"
 
-  const iconColors = {
-    default: "text-gray-600 dark:text-gray-400",
-    destructive: "text-red-600 dark:text-red-400",
-    success: "text-green-600 dark:text-green-400",
-    warning: "text-yellow-600 dark:text-yellow-400",
-    info: "text-blue-600 dark:text-blue-400"
-  };
+const AlertTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h5
+    ref={ref}
+    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+    {...props}
+  />
+))
+AlertTitle.displayName = "AlertTitle"
 
-  const IconComponent = iconMap[variant];
+const AlertDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm [&_p]:leading-relaxed", className)}
+    {...props}
+  />
+))
+AlertDescription.displayName = "AlertDescription"
 
-  return (
-    <div
-      className={`
-        relative w-full rounded-lg border p-4
-        ${variantStyles[variant]}
-        ${className || ""}
-      `}
-      {...props}
-    >
-      <div className="flex items-start">
-        {showIcon && (
-          <IconComponent className={`h-5 w-5 mt-0.5 mr-3 flex-shrink-0 ${iconColors[variant]}`} />
-        )}
-        <div className="flex-1">
-          {title && (
-            <h5 className="mb-1 font-medium leading-none tracking-tight">
-              {title}
-            </h5>
-          )}
-          {description && (
-            <div className="text-sm opacity-90">
-              {description}
-            </div>
-          )}
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-Alert.displayName = "Alert";
-
-export { Alert };
-
+export { Alert, AlertTitle, AlertDescription }
