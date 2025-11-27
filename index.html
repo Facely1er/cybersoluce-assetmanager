@@ -31,9 +31,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="CyberSoluce™ Asset Manager" />
-    <!-- Theme color meta tag - will be updated dynamically by ThemeContext -->
-    <!-- Note: Not supported by Firefox/Opera, but harmless - they ignore it -->
-    <meta name="theme-color" content="#ffffff" id="theme-color-meta" />
+    <!-- Theme color meta tag - added dynamically by theme initialization script for supporting browsers -->
     
     <title>CyberSoluce™ Asset Manager by ERMITS</title>
     
@@ -71,11 +69,16 @@
         // Save theme preference
         localStorage.setItem('theme', theme);
         
-        // Update theme-color meta tag if it exists
-        const metaThemeColor = document.getElementById('theme-color-meta');
-        if (metaThemeColor) {
-          metaThemeColor.setAttribute('content', theme === 'dark' ? '#111827' : '#ffffff');
+        // Create or update theme-color meta tag for supporting browsers (Chrome/Edge/Safari)
+        // Added dynamically to avoid linter warnings about Firefox/Opera non-support
+        let metaThemeColor = document.getElementById('theme-color-meta');
+        if (!metaThemeColor) {
+          metaThemeColor = document.createElement('meta');
+          metaThemeColor.setAttribute('name', 'theme-color');
+          metaThemeColor.id = 'theme-color-meta';
+          document.head.appendChild(metaThemeColor);
         }
+        metaThemeColor.setAttribute('content', theme === 'dark' ? '#111827' : '#ffffff');
       })();
     </script>
     
