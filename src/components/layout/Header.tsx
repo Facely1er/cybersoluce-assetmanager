@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ThemeToggle } from '../common/ThemeToggle';
+import { Logo } from '../common/Logo';
 import { Home, BarChart3, Menu, X, Shield, BookOpen, Play } from 'lucide-react';
 
 interface HeaderProps {
@@ -50,36 +51,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
         <div className="flex items-center justify-between h-20 py-2">
           {/* Logo and Branding - Enhanced */}
           <Link to="/" className="flex items-center group flex-shrink-0">
-            <div className="relative flex-shrink-0 mr-4 z-10">
-              <img 
-                src="/cybersoluce.png" 
-                alt="CyberSoluce Logo" 
-                className="h-16 w-16 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-2xl"
-                loading="eager"
-                style={{ display: 'block', opacity: 1, filter: 'brightness(1.1) contrast(1.1)' }}
-                onError={(e) => {
-                  console.error('Logo failed to load');
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                }}
-              />
-            </div>
-            <div className="flex flex-col leading-tight min-w-0">
-              {/* Line 1: CyberSoluce™ */}
-              <div className="flex items-baseline gap-0.5 leading-none">
-                <span className="font-outfit text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-command-blue-400 to-action-cyan-400 bg-clip-text text-transparent group-hover:from-command-blue-300 group-hover:to-action-cyan-300 transition-all duration-300 whitespace-nowrap">
-                  CyberSoluce
-                </span>
-                <sup className="font-outfit text-xs font-bold text-action-cyan-400 leading-none relative -top-1.5">™</sup>
-              </div>
-              {/* Line 2: AssetManager */}
-              <span className="font-inter text-sm font-semibold text-gray-300 tracking-wide leading-none -mt-0.5 whitespace-nowrap">AssetManager</span>
-              {/* Line 3: by ERMITS */}
-              <div className="flex items-baseline gap-1.5 leading-none -mt-0.5">
-                <span className="text-[10px] text-gray-500 font-medium">by</span>
-                <span className="font-inter text-xs font-bold text-action-cyan-400 uppercase tracking-wider whitespace-nowrap">ERMITS</span>
-              </div>
-            </div>
+            <Logo size="lg" showText={true} className="group-hover:scale-105 transition-transform duration-300" />
           </Link>
 
           {/* Center Navigation - Desktop */}
@@ -124,27 +96,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
           <div className="md:hidden border-t border-gray-200 dark:border-gray-800 py-4">
             {/* Mobile Logo Display */}
             <div className="flex items-center mb-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800">
-              <div className="relative flex-shrink-0 mr-3 z-10">
-                <img 
-                  src="/cybersoluce.png" 
-                  alt="CyberSoluce Logo" 
-                  className="h-12 w-12 object-contain drop-shadow-lg"
-                  loading="eager"
-                  style={{ display: 'block', opacity: 1, filter: 'brightness(1.1) contrast(1.1)' }}
-                  onError={(e) => {
-                    console.error('Logo failed to load');
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                  }}
-                />
-              </div>
-              <div className="flex flex-col">
-                <div className="flex items-baseline gap-0.5">
-                  <span className="font-outfit text-lg font-bold text-gray-900 dark:text-white">CyberSoluce</span>
-                  <sup className="font-outfit text-[10px] font-bold text-command-blue-500 dark:text-action-cyan-400 relative -top-1">™</sup>
-                </div>
-                <span className="font-inter text-xs text-gray-600 dark:text-gray-400">AssetManager</span>
-              </div>
+              <Logo size="md" showText={true} />
             </div>
             <nav className="flex flex-col space-y-2">
               {navigationItems.map((item) => {

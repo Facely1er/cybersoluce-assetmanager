@@ -1,10 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
   <defs>
-    <!-- Gradient for background glow -->
+    <!-- Background gradient - dark theme default -->
     <radialGradient id="bgGradient" cx="50%" cy="50%" r="50%">
       <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
       <stop offset="70%" style="stop-color:#0a0a1a;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Light theme background gradient -->
+    <radialGradient id="bgGradientLight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#f0f9ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0f2fe;stop-opacity:1" />
     </radialGradient>
     
     <!-- Glow filter for orbits -->
@@ -38,11 +45,10 @@
     </filter>
   </defs>
   
-  <!-- Background -->
+  <!-- Background - dark theme default -->
   <rect width="200" height="200" fill="url(#bgGradient)"/>
   
   <!-- Atom Orbits - Three elliptical orbits -->
-  <!-- Orbit 1: Horizontal -->
   <ellipse cx="100" cy="100" rx="70" ry="25" 
            fill="none" 
            stroke="#3b82f6" 
@@ -50,7 +56,6 @@
            opacity="0.8"
            filter="url(#orbitGlow)"/>
   
-  <!-- Orbit 2: Vertical -->
   <ellipse cx="100" cy="100" rx="25" ry="70" 
            fill="none" 
            stroke="#3b82f6" 
@@ -58,7 +63,6 @@
            opacity="0.8"
            filter="url(#orbitGlow)"/>
   
-  <!-- Orbit 3: Diagonal -->
   <ellipse cx="100" cy="100" rx="50" ry="50" 
            transform="rotate(45 100 100)"
            fill="none" 
@@ -68,21 +72,13 @@
            filter="url(#orbitGlow)"/>
   
   <!-- Glowing Particles (Electrons) along orbits -->
-  <!-- Particle 1 - Top of vertical orbit -->
   <circle cx="100" cy="30" r="4" fill="#60a5fa" filter="url(#particleGlow)"/>
-  
-  <!-- Particle 2 - Right of horizontal orbit -->
   <circle cx="170" cy="100" r="4" fill="#60a5fa" filter="url(#particleGlow)"/>
-  
-  <!-- Particle 3 - Bottom of vertical orbit -->
   <circle cx="100" cy="170" r="4" fill="#60a5fa" filter="url(#particleGlow)"/>
-  
-  <!-- Particle 4 - Left of horizontal orbit -->
   <circle cx="30" cy="100" r="4" fill="#60a5fa" filter="url(#particleGlow)"/>
   
   <!-- Central Shield -->
   <g filter="url(#shieldGlow)">
-    <!-- Shield shape -->
     <path d="M 100 50 
              L 70 60 
              L 70 90 
@@ -98,11 +94,9 @@
           opacity="0.95"/>
     
     <!-- Gears inside shield -->
-    <!-- Large Gear 1 (Top Left) -->
     <g transform="translate(85, 95)">
       <circle cx="0" cy="0" r="12" fill="#60a5fa" opacity="0.9"/>
       <circle cx="0" cy="0" r="6" fill="#1e3a8a"/>
-      <!-- Gear teeth -->
       <rect x="-1" y="-14" width="2" height="4" fill="#60a5fa" opacity="0.9"/>
       <rect x="-1" y="10" width="2" height="4" fill="#60a5fa" opacity="0.9"/>
       <rect x="-14" y="-1" width="4" height="2" fill="#60a5fa" opacity="0.9"/>
@@ -113,11 +107,9 @@
       <rect x="-10" y="8" width="2" height="3" fill="#60a5fa" opacity="0.9" transform="rotate(-45)"/>
     </g>
     
-    <!-- Large Gear 2 (Top Right) -->
     <g transform="translate(115, 95)">
       <circle cx="0" cy="0" r="12" fill="#60a5fa" opacity="0.9"/>
       <circle cx="0" cy="0" r="6" fill="#1e3a8a"/>
-      <!-- Gear teeth -->
       <rect x="-1" y="-14" width="2" height="4" fill="#60a5fa" opacity="0.9"/>
       <rect x="-1" y="10" width="2" height="4" fill="#60a5fa" opacity="0.9"/>
       <rect x="-14" y="-1" width="4" height="2" fill="#60a5fa" opacity="0.9"/>
@@ -128,11 +120,9 @@
       <rect x="-10" y="8" width="2" height="3" fill="#60a5fa" opacity="0.9" transform="rotate(-45)"/>
     </g>
     
-    <!-- Small Gear 3 (Bottom Right) -->
     <g transform="translate(120, 115)">
       <circle cx="0" cy="0" r="8" fill="#60a5fa" opacity="0.9"/>
       <circle cx="0" cy="0" r="4" fill="#1e3a8a"/>
-      <!-- Gear teeth -->
       <rect x="-0.5" y="-10" width="1" height="3" fill="#60a5fa" opacity="0.9"/>
       <rect x="-0.5" y="7" width="1" height="3" fill="#60a5fa" opacity="0.9"/>
       <rect x="-10" y="-0.5" width="3" height="1" fill="#60a5fa" opacity="0.9"/>
@@ -144,4 +134,3 @@
     </g>
   </g>
 </svg>
-

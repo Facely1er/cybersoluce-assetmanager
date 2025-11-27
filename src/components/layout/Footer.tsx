@@ -31,10 +31,12 @@ export const Footer: React.FC = () => {
                   className="h-12 w-12 object-contain drop-shadow-2xl"
                   loading="eager"
                   style={{ display: 'block', opacity: 1, filter: 'brightness(1.1) contrast(1.1)' }}
+                  onLoad={() => console.log('Footer logo loaded successfully')}
                   onError={(e) => {
-                    console.error('Logo failed to load');
+                    console.error('Footer logo failed to load:', e);
                     const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
+                    target.style.border = '2px solid red';
+                    target.style.backgroundColor = '#ff000020';
                   }}
                 />
               </div>
