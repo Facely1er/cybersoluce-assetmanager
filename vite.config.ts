@@ -35,7 +35,10 @@ export default defineConfig({
       'react-hot-toast',
       'date-fns',
       'lucide-react',
-      'recharts'
+      'recharts',
+      '@nivo/core',
+      '@nivo/heatmap',
+      '@nivo/radar'
     ],
     // Exclude heavy libraries from pre-bundling to enable better code splitting
     exclude: [
@@ -43,9 +46,10 @@ export default defineConfig({
       'jspdf', 
       'html2canvas'
     ],
-    // Force React and React-dependent libraries to be deduplicated
+    // Vite 5 automatically handles deduplication of React and React-dependent libraries
+    // This prevents multiple React instances which causes '__SECRET_INTERNALS' errors
     esbuildOptions: {
-      dedupe: ['react', 'react-dom', 'react-hot-toast', 'lucide-react', 'recharts'],
+      // Additional esbuild options can be added here
     },
   },
   esbuild: {
@@ -92,23 +96,29 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Optimized chunk splitting strategy with granular vendor splitting
-        manualChunks: (id) => {
+        manualChunks: (id: string) => {
           // CRITICAL: Keep React and React-DOM in the main bundle to avoid
-          // "Cannot read properties of undefined (reading 'useLayoutEffect')" errors
+          // "Cannot read properties of undefined (reading '__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED')" errors
           // This happens when React is split into a separate chunk and loaded asynchronously
-          if (id.includes('node_modules/react/') || 
-              id.includes('node_modules/react-dom/') ||
-              id.includes('node_modules/react/index') ||
-              id.includes('node_modules/react-dom/index') ||
-              id.includes('node_modules/react/jsx-runtime')) {
+          // Check for all possible React paths and variations
+          if (id.includes('node_modules/react') || 
+              id.includes('node_modules/react-dom') ||
+              id.includes('react/index') ||
+              id.includes('react-dom/index') ||
+              id.includes('react/jsx-runtime') ||
+              id.includes('react/jsx-dev-runtime') ||
+              id.includes('scheduler')) {
             return undefined; // Keep in main bundle - DO NOT split
           }
           
           // Keep React-dependent libraries with React to prevent loading order issues
           // These libraries have hard dependencies on React and can fail if loaded before React
+          // Also include @nivo packages which have nested React dependencies (@react-spring/web)
           if (id.includes('node_modules/react-hot-toast') ||
               id.includes('node_modules/lucide-react') ||
-              id.includes('node_modules/recharts')) {
+              id.includes('node_modules/recharts') ||
+              id.includes('node_modules/@nivo') ||
+              id.includes('node_modules/@react-spring')) {
             return undefined; // Keep in main bundle with React
           }
           
@@ -151,13 +161,19 @@ export default defineConfig({
           if (id.includes('/src/services/')) {
             return 'services';
           }
-          // Other node_modules as vendor (but NOT React/React-DOM)
-          if (id.includes('node_modules')) {
+          // Other node_modules as vendor (but NOT React/React-DOM/React-deps)
+          // Double-check we're not accidentally including React
+          if (id.includes('node_modules') && 
+              !id.includes('react') && 
+              !id.includes('scheduler')) {
             return 'vendor';
           }
+          
+          // If we reach here, it's likely source code - keep in main bundle
+          return undefined;
         },
         // Optimize asset filenames
-        assetFileNames: (assetInfo) => {
+        assetFileNames: (assetInfo: { name?: string }) => {
           if (!assetInfo.name) {
             return `assets/[name]-[hash][extname]`;
           }

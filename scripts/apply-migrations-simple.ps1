@@ -22,10 +22,8 @@ Write-Host "============================" -ForegroundColor Cyan
 Write-Host ""
 
 # Check for psql
-$psqlAvailable = $false
 try {
     $null = Get-Command psql -ErrorAction Stop
-    $psqlAvailable = $true
     $psqlVersion = psql --version 2>&1
     Write-Host "psql found: $psqlVersion" -ForegroundColor Green
 } catch {
