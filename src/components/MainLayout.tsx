@@ -1,4 +1,5 @@
-import React, { useState, Suspense, lazy, useCallback } from 'react';
+import React, { useState, Suspense, lazy, useCallback, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { NavigationSidebar } from './NavigationSidebar';
 import { DashboardHome } from './DashboardHome';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -30,39 +31,75 @@ const FrameworkPageWrapper = lazy(() => import('./framework/FrameworkPageWrapper
 const DataNormalizationEngine = lazy(() => import('./DataNormalizationEngine'));
 
 interface MainLayoutProps {
-  onShowStartScreen: () => void;
-  initialView?: string;
+  onShowStartScreen?: () => void;
 }
 
-export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen, initialView = 'dashboard' }) => {
-  const [activeView, setActiveView] = useState(initialView);
+export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Determine active view from URL
+  const getViewFromPath = () => {
+    const path = location.pathname;
+    if (path === '/dashboard' || path === '/dashboard/') {
+      return 'dashboard';
+    }
+    const viewMatch = path.match(/\/dashboard\/(.+)$/);
+    return viewMatch ? viewMatch[1] : 'dashboard';
+  };
+  
+  const [activeView, setActiveView] = useState(() => {
+    const path = location.pathname;
+    if (path === '/dashboard' || path === '/dashboard/') {
+      return 'dashboard';
+    }
+    const viewMatch = path.match(/\/dashboard\/(.+)$/);
+    return viewMatch ? viewMatch[1] : 'dashboard';
+  });
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { user, signOut } = useAuth();
   const { stats, replaceAssets } = useAssetInventory();
 
+  // Sync activeView with URL changes
+  useEffect(() => {
+    const view = getViewFromPath();
+    setActiveView(view);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
+  // Navigate function that updates both state and URL
+  const handleViewChange = useCallback((view: string) => {
+    setActiveView(view);
+    if (view === 'dashboard') {
+      navigate('/dashboard', { replace: true });
+    } else {
+      navigate(`/dashboard/${view}`, { replace: true });
+    }
+  }, [navigate]);
+
   const handleNavigateToAssets = useCallback(() => {
-    setActiveView('assets');
-  }, []);
+    handleViewChange('assets');
+  }, [handleViewChange]);
 
   const handleNavigateToReports = useCallback(() => {
-    setActiveView('analytics');
-  }, []);
+    handleViewChange('analytics');
+  }, [handleViewChange]);
 
   const handleNavigateToSettings = useCallback(() => {
-    setActiveView('settings');
-  }, []);
+    handleViewChange('settings');
+  }, [handleViewChange]);
 
   const handleShowImport = useCallback(() => {
-    setActiveView('assets');
-  }, []);
+    handleViewChange('assets');
+  }, [handleViewChange]);
 
   const handleShowInventoryGenerator = useCallback(() => {
-    setActiveView('assets');
-  }, []);
+    handleViewChange('assets');
+  }, [handleViewChange]);
 
   const handleShowTeamManagement = useCallback(() => {
-    setActiveView('users');
-  }, []);
+    handleViewChange('users');
+  }, [handleViewChange]);
 
   const handleStartDemo = React.useCallback(async (scenarioId: string) => {
     try {
@@ -76,7 +113,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen, initi
       replaceAssets(demoPackage.assets);
       
       // Navigate to assets view
-      setActiveView('assets');
+      handleViewChange('assets');
       
       // Show success message with scenario details
       toast.dismiss(loadingToast);
@@ -89,12 +126,12 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen, initi
       logger.error('Error loading demo scenario', error instanceof Error ? error : undefined);
       toast.error(`Failed to load demo scenario: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
-  }, [replaceAssets]);
+  }, [replaceAssets, handleViewChange]);
 
   const handleViewDemo = React.useCallback((scenarioId: string) => {
     // Show demo details
-    setActiveView('demo-scenarios');
-  }, []);
+    handleViewChange('demo-scenarios');
+  }, [handleViewChange]);
 
   const getCurrentStats = () => ({
     totalAssets: stats.total,
@@ -118,7 +155,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen, initi
             onNavigateToAssets={handleNavigateToAssets}
             onNavigateToReports={handleNavigateToReports}
             onNavigateToSettings={handleNavigateToSettings}
-            onNavigateToActivity={() => setActiveView('activity')}
+            onNavigateToActivity={() => handleViewChange('activity')}
           />
         );
       case 'assets':
@@ -143,7 +180,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen, initi
         return (
           <Suspense fallback={<LoadingFallback />}>
             <GuidedWorkflow
-              onNavigate={setActiveView}
+              onNavigate={handleViewChange}
               onShowImport={handleShowImport}
               onShowInventoryGenerator={handleShowInventoryGenerator}
               onShowTeamManagement={handleShowTeamManagement}
@@ -241,7 +278,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen, initi
       case 'data-normalization':
         return (
           <Suspense fallback={<LoadingFallback />}>
-            <DataNormalizationEngine onViewChange={setActiveView} />
+            <DataNormalizationEngine onViewChange={handleViewChange} />
           </Suspense>
         );
       case 'help':
@@ -256,19 +293,19 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen, initi
               </p>
               <div className="space-y-4">
                 <button
-                  onClick={() => setActiveView('user-manual')}
+                  onClick={() => handleViewChange('user-manual')}
                   className="px-6 py-3 bg-action-cyan-600 text-white rounded-lg hover:bg-action-cyan-700 transition-colors mr-4"
                 >
                   View User Manual
                 </button>
                 <button
-                  onClick={onShowStartScreen}
+                  onClick={() => navigate('/')}
                   className="px-6 py-3 bg-command-blue-600 text-white rounded-lg hover:bg-command-blue-700 transition-colors mr-4"
                 >
                   View Start Screen
                 </button>
                 <button
-                  onClick={() => setActiveView('assets')}
+                  onClick={() => handleViewChange('assets')}
                   className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
                 >
                   View Assets
@@ -293,7 +330,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen, initi
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       <NavigationSidebar
         activeView={activeView}
-        onViewChange={setActiveView}
+        onViewChange={handleViewChange}
         isCollapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         user={user}

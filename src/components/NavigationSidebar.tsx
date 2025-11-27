@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { User } from '@supabase/supabase-js';
 import { 
   Home, 
@@ -56,6 +57,24 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
   onShowTeamManagement,
   signOut,
 }) => {
+  const location = useLocation();
+  
+  // Helper to get route path for a view
+  const getViewPath = (viewId: string) => {
+    if (viewId === 'dashboard') {
+      return '/dashboard';
+    }
+    return `/dashboard/${viewId}`;
+  };
+  
+  // Determine if a view is active based on current location
+  const isViewActive = (viewId: string) => {
+    const currentPath = location.pathname;
+    if (viewId === 'dashboard') {
+      return currentPath === '/dashboard' || currentPath === '/dashboard/';
+    }
+    return currentPath === `/dashboard/${viewId}`;
+  };
   const navigationItems = [
     {
       id: 'dashboard',
@@ -258,7 +277,7 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
           const navItem = item as NavigationItem;
           const isExternal = navItem.external === true;
           const href = navItem.href;
-          const isActive = activeView === item.id;
+          const isActive = isViewActive(item.id) || activeView === item.id;
           
           if (isExternal && href) {
             return (
@@ -297,8 +316,9 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
           }
           
           return (
-            <button
+            <Link
               key={item.id}
+              to={getViewPath(item.id)}
               onClick={() => onViewChange(item.id)}
               className={`w-full flex items-center p-3 rounded-xl transition-all duration-200 group ${
                 isCollapsed ? 'justify-center' : ''
@@ -331,7 +351,7 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
               {!isCollapsed && isActive && (
                 <div className="w-2 h-2 bg-command-blue-600 dark:bg-command-blue-400 rounded-full shadow-lg shadow-command-blue-500/50"></div>
               )}
-            </button>
+            </Link>
           );
         })}
       </nav>

@@ -1,48 +1,29 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { logger } from '../utils/logger';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   Shield, 
   ArrowRight, 
-  CheckCircle, 
-  BarChart3,
-  Lock,
-  Globe,
-  Play,
-  Database,
-  Target,
-  Brain,
-  GitBranch,
-  Users,
+  Target, 
+  Brain, 
+  GitBranch, 
+  BarChart3, 
+  Users, 
   DollarSign,
+  CheckCircle,
+  TrendingUp,
   Eye,
   Zap,
-  TrendingUp
+  Play,
+  Database,
+  Lock,
+  Globe
 } from 'lucide-react';
-import DomainBackground from './common/DomainBackground';
-import TextCarousel from './common/TextCarousel';
+import DomainBackground from '../components/common/DomainBackground';
+import TextCarousel from '../components/common/TextCarousel';
 
-interface StartScreenProps {
-  onGetStarted: () => void;
-  onLoadDemo: () => void;
-}
-
-export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDemo }) => {
-  const handleGetStarted = () => {
-    try {
-      onGetStarted();
-    } catch (error) {
-      logger.error('Error starting application', error instanceof Error ? error : undefined);
-    }
-  };
-
-  const handleLoadDemo = () => {
-    try {
-      onLoadDemo();
-    } catch (error) {
-      logger.error('Error loading demo', error instanceof Error ? error : undefined);
-    }
-  };
+const HomePage: React.FC = () => {
+  const navigate = useNavigate();
 
   const heroCarouselItems = [
     {
@@ -63,32 +44,38 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
     {
       icon: Database,
       title: 'Comprehensive Asset Management',
-      description: 'Track, categorize, and manage all your digital assets in one centralized platform with advanced filtering, search capabilities, and relationship mapping.'
+      description: 'Track, categorize, and manage all your digital assets in one centralized platform with advanced filtering, search capabilities, and relationship mapping.',
+      link: '/dashboard'
     },
     {
       icon: BarChart3,
       title: 'Risk Assessment & Analytics',
-      description: 'Get detailed insights into your asset risk profile with automated scoring, vulnerability tracking, compliance monitoring, and comprehensive reporting.'
+      description: 'Get detailed insights into your asset risk profile with automated scoring, vulnerability tracking, compliance monitoring, and comprehensive reporting.',
+      link: '/dashboard'
     },
     {
       icon: Lock,
       title: 'Security & Compliance',
-      description: 'Ensure your assets meet industry standards with built-in compliance frameworks (SOC 2, ISO 27001, NIST, GDPR) and security best practices.'
+      description: 'Ensure your assets meet industry standards with built-in compliance frameworks (SOC 2, ISO 27001, NIST, GDPR) and security best practices.',
+      link: '/dashboard'
     },
     {
       icon: Globe,
       title: 'Enterprise Integration',
-      description: 'Seamlessly integrate with your existing tools and workflows through our robust API, CSV/Excel import/export, and external data source connections.'
+      description: 'Seamlessly integrate with your existing tools and workflows through our robust API, CSV/Excel import/export, and external data source connections.',
+      link: '/dashboard'
     },
     {
       icon: Target,
       title: 'Automated Compliance',
-      description: 'Streamline compliance workflows with automated checks, audit trails, and multi-framework support for comprehensive governance.'
+      description: 'Streamline compliance workflows with automated checks, audit trails, and multi-framework support for comprehensive governance.',
+      link: '/dashboard'
     },
     {
       icon: Brain,
       title: 'Intelligent Analytics',
-      description: 'AI-powered insights with predictive analytics, risk correlation, and strategic recommendations for optimal asset management.'
+      description: 'AI-powered insights with predictive analytics, risk correlation, and strategic recommendations for optimal asset management.',
+      link: '/dashboard'
     }
   ];
 
@@ -96,17 +83,20 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
     {
       name: 'TechnoSoluce',
       description: 'Software components, SBOM, and vulnerability management',
-      status: 'Extension'
+      status: 'Extension',
+      link: '/dashboard'
     },
     {
       name: 'VendorSoluce',
       description: 'Vendor risk, contracts, and supply chain management',
-      status: 'Extension'
+      status: 'Extension',
+      link: '/dashboard'
     },
     {
       name: 'CyberCorrect',
       description: 'Privacy compliance, GDPR, and data protection',
-      status: 'Extension'
+      status: 'Extension',
+      link: '/dashboard'
     }
   ];
 
@@ -115,37 +105,43 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
       icon: Database,
       title: 'Unified Asset Inventory',
       description: 'Single source of truth for all assets with advanced tracking, categorization, and relationship mapping',
-      metrics: { value: '95%', label: 'Code Reuse' }
+      metrics: { value: '95%', label: 'Code Reuse' },
+      link: '/dashboard'
     },
     {
       icon: Shield,
       title: 'Risk Assessment',
       description: 'Automated risk scoring, vulnerability tracking, and compliance monitoring across all assets',
-      metrics: { value: '80%', label: 'Efficiency Gain' }
+      metrics: { value: '80%', label: 'Efficiency Gain' },
+      link: '/dashboard'
     },
     {
       icon: Eye,
       title: 'Executive Intelligence',
       description: 'Board-level dashboards with predictive analytics, strategic insights, and real-time KPIs',
-      metrics: { value: '24/7', label: 'Monitoring' }
+      metrics: { value: '24/7', label: 'Monitoring' },
+      link: '/dashboard'
     },
     {
       icon: Zap,
       title: 'Enterprise Integration',
       description: 'Seamless data flow with API integration, CSV/Excel import/export, and external connections',
-      metrics: { value: '4+', label: 'Integrations' }
+      metrics: { value: '4+', label: 'Integrations' },
+      link: '/dashboard'
     },
     {
       icon: Brain,
       title: 'Intelligence Engine™',
       description: 'AI-powered insights with predictive modeling, automated recommendations, and correlation',
-      metrics: { value: '95%', label: 'Accuracy' }
+      metrics: { value: '95%', label: 'Accuracy' },
+      link: '/dashboard'
     },
     {
       icon: GitBranch,
       title: 'Multi-Framework Support',
       description: 'Support for SOC 2, ISO 27001, NIST, GDPR, and other compliance frameworks',
-      metrics: { value: '25+', label: 'Frameworks' }
+      metrics: { value: '25+', label: 'Frameworks' },
+      link: '/dashboard'
     }
   ];
 
@@ -199,7 +195,6 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
   };
   
   return (
-    <>
     <div className="w-full overflow-hidden">
       {/* Hero Section */}
       <section className="relative bg-command-blue-600 py-24">
@@ -229,14 +224,11 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
                 variants={itemVariants}
                 className="flex flex-wrap gap-4 mb-8"
               >
-                <button
-                  onClick={handleGetStarted}
-                  className="px-6 py-3 bg-white text-command-blue-700 rounded-lg font-medium hover:bg-command-blue-50 transition-all shadow-lg hover:shadow-xl"
-                >
+                <Link to="/dashboard" className="px-6 py-3 bg-white text-command-blue-700 rounded-lg font-medium hover:bg-command-blue-50 transition-all shadow-lg hover:shadow-xl">
                   Access Command Center
-                </button>
+                </Link>
                 <button
-                  onClick={handleLoadDemo}
+                  onClick={() => navigate('/dashboard/demo-scenarios')}
                   className="px-6 py-3 bg-command-blue-500 text-white rounded-lg font-medium hover:bg-command-blue-600 transition-all shadow-lg hover:shadow-command-blue-500/20 inline-flex items-center"
                 >
                   <Play size={18} className="mr-2 inline-block" />
@@ -402,28 +394,29 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
             {coreModules.map((module, index) => {
               const Icon = module.icon;
               return (
-                <motion.div
-                  key={module.title}
-                  variants={itemVariants}
-                  whileHover={{ y: -10, boxShadow: '0 10px 25px -5px rgba(0, 91, 150, 0.5), 0 8px 10px -6px rgba(0, 91, 150, 0.1)' }}
-                  className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-8 border border-gray-100 dark:border-gray-700 hover:border-command-blue-200 dark:hover:border-command-blue-700 transition-all duration-300 transform cursor-pointer text-center"
-                >
+                <Link key={module.title} to={module.link}>
                   <motion.div
-                    className="bg-gradient-to-br from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/30 p-4 rounded-2xl mb-6 w-16 h-16 flex items-center justify-center shadow-inner mx-auto"
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 * index }}
+                    variants={itemVariants}
+                    whileHover={{ y: -10, boxShadow: '0 10px 25px -5px rgba(0, 91, 150, 0.5), 0 8px 10px -6px rgba(0, 91, 150, 0.1)' }}
+                    className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-8 border border-gray-100 dark:border-gray-700 hover:border-command-blue-200 dark:hover:border-command-blue-700 transition-all duration-300 transform cursor-pointer text-center"
                   >
-                    <Icon className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
+                    <motion.div
+                      className="bg-gradient-to-br from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/30 p-4 rounded-2xl mb-6 w-16 h-16 flex items-center justify-center shadow-inner mx-auto"
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 * index }}
+                    >
+                      <Icon className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
+                    </motion.div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                      {module.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      {module.description}
+                    </p>
                   </motion.div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                    {module.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    {module.description}
-                  </p>
-                </motion.div>
+                </Link>
               );
             })}
           </motion.div>
@@ -442,7 +435,6 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
       {/* Asset Extensions Section */}
       <section className="py-24 bg-gradient-to-br from-gray-50 to-command-blue-50 dark:from-gray-900 dark:to-command-blue-900/20 relative">
         <div className="absolute inset-0 pointer-events-none opacity-20">
-          {/* Add subtle diagonal pattern */}
           <div className="absolute inset-0" style={{
             backgroundImage: 'linear-gradient(45deg, #005B96 25%, transparent 25%, transparent 50%, #005B96 50%, #005B96 75%, transparent 75%, transparent)',
             backgroundSize: '60px 60px',
@@ -475,23 +467,24 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
           >
             {assetExtensions.map((extension, index) => {
               return (
-                <motion.div 
-                  key={extension.name}
-                  variants={itemVariants}
-                  whileHover={{ y: -5 }}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:border-command-blue-200 dark:hover:border-command-blue-700 transition-all duration-300 cursor-pointer"
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-semibold text-gray-900 dark:text-white">{extension.name}</h3>
-                    <div className="flex items-center">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                      <span className="text-xs text-blue-600 dark:text-blue-400">{extension.status}</span>
+                <Link key={extension.name} to={extension.link}>
+                  <motion.div 
+                    variants={itemVariants}
+                    whileHover={{ y: -5 }}
+                    className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:border-command-blue-200 dark:hover:border-command-blue-700 transition-all duration-300 cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-gray-900 dark:text-white">{extension.name}</h3>
+                      <div className="flex items-center">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                        <span className="text-xs text-blue-600 dark:text-blue-400">{extension.status}</span>
+                      </div>
                     </div>
-                  </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {extension.description}
-                  </p>
-                </motion.div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {extension.description}
+                    </p>
+                  </motion.div>
+                </Link>
               );
             })}
           </motion.div>
@@ -500,7 +493,6 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
       
       {/* Key Capabilities Section */}
       <section className="py-24 bg-white dark:bg-gray-800">
-        {/* Subtle background pattern */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 opacity-5 dark:opacity-10"
                style={{
@@ -522,7 +514,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
               Key Capabilities
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Strategic governance capabilities that transform cybersecurity management
+              Strategic asset management capabilities that transform cybersecurity operations
             </p>
           </motion.div>
           
@@ -536,166 +528,41 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
             {keyCapabilities.map((capability, index) => {
               const Icon = capability.icon;
               return (
-                <motion.div
-                  key={capability.title}
-                  variants={itemVariants}
-                  whileHover={{ 
-                    y: -12, 
-                    scale: 1.02,
-                    boxShadow: '0 20px 40px -8px rgba(0, 91, 150, 0.3), 0 12px 16px -8px rgba(0, 91, 150, 0.15)' 
-                  }}
-                  className="bg-gradient-to-br from-white to-command-blue-50 dark:from-gray-800 dark:to-command-blue-900/20 rounded-xl shadow-md p-8 text-center border border-gray-100 dark:border-gray-700 hover:border-command-blue-200 dark:hover:border-command-blue-700 transition-all duration-300"
-                >
-                  <motion.div 
-                    className="bg-gradient-to-br from-command-blue-100 to-action-cyan-100 dark:from-command-blue-900/40 dark:to-action-cyan-900/40 p-4 rounded-2xl w-16 h-16 mx-auto mb-6 flex items-center justify-center shadow-inner"
-                    initial={{ scale: 0, rotate: -10 }}
-                    whileInView={{ scale: 1, rotate: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ type: "spring", stiffness: 200, damping: 10, delay: 0.2 * index }}
-                  >
-                    <Icon className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
-                  </motion.div>
+                <Link key={capability.title} to={capability.link}>
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 + (0.1 * index) }}
-                    className="text-center"
+                    variants={itemVariants}
+                    whileHover={{ 
+                      y: -12, 
+                      scale: 1.02,
+                      boxShadow: '0 20px 40px -8px rgba(0, 91, 150, 0.3), 0 12px 16px -8px rgba(0, 91, 150, 0.15)' 
+                    }}
+                    className="bg-gradient-to-br from-white to-command-blue-50 dark:from-gray-800 dark:to-command-blue-900/20 rounded-xl shadow-md p-8 text-center border border-gray-100 dark:border-gray-700 hover:border-command-blue-200 dark:hover:border-command-blue-700 transition-all duration-300"
                   >
+                    <motion.div 
+                      className="bg-gradient-to-br from-command-blue-100 to-action-cyan-100 dark:from-command-blue-900/40 dark:to-action-cyan-900/40 p-4 rounded-2xl w-16 h-16 mx-auto mb-6 flex items-center justify-center shadow-inner"
+                      initial={{ scale: 0, rotate: -10 }}
+                      whileInView={{ scale: 1, rotate: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ type: "spring", stiffness: 200, damping: 10, delay: 0.2 * index }}
+                    >
+                      <Icon className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
+                    </motion.div>
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{capability.title}</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-300">{capability.description}</p>
-                  </motion.div>
-                  
-                  {/* Capability Metrics */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 + (0.1 * index) }}
-                    className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700"
-                  >
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="text-2xl font-bold text-command-blue-600 dark:text-command-blue-400">
-                        {capability.metrics.value}
-                      </div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        {capability.metrics.label}
+                    
+                    {/* Capability Metrics */}
+                    <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="text-2xl font-bold text-command-blue-600 dark:text-command-blue-400">
+                          {capability.metrics.value}
+                        </div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          {capability.metrics.label}
+                        </div>
                       </div>
                     </div>
                   </motion.div>
-                  
-                  {/* Hover indicator */}
-                  <motion.div
-                    className="mt-4 flex items-center justify-center text-command-blue-600 dark:text-command-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                    whileHover={{ x: 5 }}
-                  >
-                    <span className="text-sm font-medium mr-1">Explore</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </motion.div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
-      
-      {/* Value Proposition Section */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-command-blue-50 dark:from-gray-900 dark:to-command-blue-900/20 relative">
-        <div className="absolute inset-0 pointer-events-none opacity-10">
-          <div className="absolute inset-0"
-               style={{
-                 backgroundImage: 'radial-gradient(circle, #005B96 1px, transparent 1px)',
-                 backgroundSize: '40px 40px'
-               }}>
-          </div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
-            className="text-center mb-16"
-            variants={fadeInUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Strategic Value
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Transform your cybersecurity governance with strategic intelligence and automation
-            </p>
-          </motion.div>
-          
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {[
-              {
-                icon: CheckCircle,
-                title: 'Unified Governance',
-                description: 'Single platform for all cybersecurity governance activities across frameworks'
-              },
-              {
-                icon: Brain,
-                title: 'AI-Powered Intelligence',
-                description: 'Predictive analytics and automated insights from cross-product data correlation'
-              },
-              {
-                icon: TrendingUp,
-                title: 'Strategic Optimization',
-                description: 'Data-driven budget allocation and maturity acceleration recommendations'
-              }
-            ].map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <motion.div
-                  key={value.title}
-                  variants={itemVariants}
-                  whileHover={{ 
-                    y: -5, 
-                    boxShadow: '0 10px 25px -5px rgba(0, 91, 150, 0.5), 0 8px 10px -6px rgba(0, 91, 150, 0.1)'
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-command-blue-200 dark:hover:border-command-blue-700"
-                >
-                  <motion.div 
-                    initial={{ scale: 0, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ 
-                      type: "spring", 
-                      stiffness: 150, 
-                      delay: 0.1 * index 
-                    }}
-                    className="mb-6"
-                  >
-                    <Icon className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
-                  </motion.div>
-                  
-                  <motion.h3
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 + (0.1 * index) }}
-                    className="text-xl font-bold text-gray-900 dark:text-white mb-3"
-                  >
-                    {value.title}
-                  </motion.h3>
-                  
-                  <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 + (0.1 * index) }}
-                    className="text-gray-600 dark:text-gray-300"
-                  >
-                    {value.description}
-                  </motion.p>
-                </motion.div>
+                </Link>
               );
             })}
           </motion.div>
@@ -725,20 +592,20 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
                 whileHover={{ scale: 1.05, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -6px rgba(0, 0, 0, 0.1)' }}
                 whileTap={{ scale: 0.95 }}
               >
-                <button
-                  onClick={handleGetStarted}
+                <Link 
+                  to="/dashboard" 
                   className="inline-flex items-center px-8 py-4 bg-white text-command-blue-700 rounded-lg font-semibold hover:bg-command-blue-50 transition-all shadow-lg hover:shadow-xl"
                 >
                   Access Command Center
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </button>
+                </Link>
               </motion.div>
               <motion.div 
                 whileHover={{ scale: 1.05, boxShadow: '0 20px 25px -5px rgba(255, 255, 255, 0.2), 0 10px 10px -6px rgba(255, 255, 255, 0.1)' }}
                 whileTap={{ scale: 0.95 }}
               >
                 <button
-                  onClick={handleLoadDemo}
+                  onClick={() => navigate('/dashboard/demo-scenarios')}
                   className="inline-flex items-center px-8 py-4 bg-command-blue-500 text-white rounded-lg font-semibold hover:bg-command-blue-600 transition-all shadow-lg hover:shadow-xl border border-command-blue-400"
                 >
                   View Demo
@@ -750,6 +617,8 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
         </div>
       </section>
     </div>
-    </>
   );
 };
+
+export default HomePage;
+
