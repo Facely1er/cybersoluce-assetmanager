@@ -17,15 +17,6 @@ export const reportingService = {
     }
 
     try {
-      // Test connectivity first
-      const { checkSupabaseConnectivity } = await import('../lib/supabase');
-      const isConnected = await checkSupabaseConnectivity();
-
-      if (!isConnected) {
-        logger.debug('Supabase not connected, returning empty reports');
-        return [];
-      }
-      
       const { data, error } = await supabase
         .from('reports')
         .select('*')

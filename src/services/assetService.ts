@@ -159,13 +159,6 @@ export const assetService = {
     
     return withFallback(
       async () => {
-        const { checkSupabaseConnectivity } = await import('../lib/supabase');
-        const isConnected = await checkSupabaseConnectivity();
-        
-        if (!isConnected) {
-          throw new Error('Database connection unavailable');
-        }
-        
         const { data, error } = await supabase!
           .from('assets')
           .select('*')

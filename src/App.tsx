@@ -9,6 +9,13 @@ import { AuthGuard } from './components/auth/AuthGuard';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { MainLayout } from './components/MainLayout';
 import HomePage from './pages/HomePage';
+import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
+import { PrivacyPolicy } from './pages/legal/PrivacyPolicy';
+import { TermsOfService } from './pages/legal/TermsOfService';
+import { CookiePolicy } from './pages/legal/CookiePolicy';
+import { Compliance } from './pages/legal/Compliance';
+import { AcceptableUsePolicy } from './pages/legal/AcceptableUsePolicy';
 
 const App: React.FC = () => {
   return (
@@ -78,7 +85,13 @@ const App: React.FC = () => {
                 }>
                   <Routes>
                     {/* Public routes */}
-                    <Route path="/" element={<HomePage />} />
+                    <Route path="/" element={
+                      <>
+                        <Header />
+                        <HomePage />
+                        <Footer />
+                      </>
+                    } />
                     
                     {/* Dashboard route - redirects to dashboard view */}
                     <Route 
@@ -112,6 +125,28 @@ const App: React.FC = () => {
                           <MainLayout />
                         </AuthGuard>
                       } 
+                    />
+                    
+                    {/* Legal pages */}
+                    <Route 
+                      path="/legal/privacy" 
+                      element={<PrivacyPolicy />} 
+                    />
+                    <Route 
+                      path="/legal/terms" 
+                      element={<TermsOfService />} 
+                    />
+                    <Route 
+                      path="/legal/cookies" 
+                      element={<CookiePolicy />} 
+                    />
+                    <Route 
+                      path="/legal/compliance" 
+                      element={<Compliance />} 
+                    />
+                    <Route 
+                      path="/legal/acceptable-use" 
+                      element={<AcceptableUsePolicy />} 
                     />
                     
                     {/* Fallback route */}

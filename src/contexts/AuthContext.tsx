@@ -24,12 +24,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Get initial session
     const getInitialSession = async () => {
       try {
-        // Test connectivity first
-        const { checkSupabaseConnectivity } = await import('../lib/supabase');
-        const isConnected = await checkSupabaseConnectivity();
-        
-        if (!isConnected || !supabase) {
-          logger.debug('Supabase connectivity failed, running in demo mode');
+        if (!supabase) {
+          logger.debug('Supabase not configured, running in demo mode');
           setLoading(false);
           return;
         }
