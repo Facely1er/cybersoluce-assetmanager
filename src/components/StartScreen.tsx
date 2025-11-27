@@ -350,47 +350,51 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
               ))}
             </div>
 
-            {/* Right: Asset Dashboard Preview */}
-            <div className="sticky top-24 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-8 text-white shadow-2xl border border-gray-700/50 backdrop-blur-sm">
-              <div className="space-y-6">
-                <div className="flex items-center justify-between pb-4 border-b border-gray-700/50">
-                  <h3 className="text-2xl font-bold">Live Dashboard</h3>
+            {/* Right: Asset Dashboard Preview - Polished */}
+            <div className="sticky top-24 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-8 text-white shadow-2xl border border-gray-700/50 backdrop-blur-sm overflow-hidden">
+              {/* Decorative gradient overlay */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-command-blue-500/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-action-cyan-500/10 rounded-full blur-3xl -ml-32 -mb-32"></div>
+              
+              <div className="relative space-y-6">
+                <div className="flex items-center justify-between pb-5 border-b border-gray-700/50">
+                  <h3 className="text-2xl font-bold tracking-tight">Live Dashboard</h3>
                   <div className="flex space-x-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50"></div>
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full shadow-lg shadow-yellow-500/50"></div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full shadow-lg shadow-green-500/50"></div>
                   </div>
                 </div>
                 
-                <div className="space-y-5">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/10">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-medium text-gray-300">Total Assets</span>
-                      <span className="text-3xl font-bold">1,247</span>
+                <div className="space-y-6">
+                  <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/10 shadow-lg">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-sm font-semibold text-gray-300 uppercase tracking-wide">Total Assets</span>
+                      <span className="text-4xl font-bold">1,247</span>
                     </div>
-                    <div className="w-full bg-white/20 rounded-full h-2.5 overflow-hidden">
-                      <div className="bg-gradient-to-r from-green-400 to-emerald-500 h-2.5 rounded-full w-3/4 transition-all duration-1000"></div>
+                    <div className="w-full bg-white/20 rounded-full h-3 overflow-hidden shadow-inner">
+                      <div className="bg-gradient-to-r from-green-400 via-emerald-400 to-emerald-500 h-3 rounded-full w-3/4 transition-all duration-1000 shadow-lg shadow-emerald-500/50"></div>
                     </div>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                      <div className="text-2xl font-bold text-red-400 mb-1">23</div>
-                      <div className="text-xs font-medium text-gray-400 uppercase tracking-wide">Critical</div>
+                    <div className="bg-white/10 backdrop-blur-md rounded-xl p-5 border border-white/10 shadow-lg hover:bg-white/15 transition-colors">
+                      <div className="text-3xl font-bold text-red-400 mb-2">23</div>
+                      <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Critical</div>
                     </div>
-                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                      <div className="text-2xl font-bold text-green-400 mb-1">89%</div>
-                      <div className="text-xs font-medium text-gray-400 uppercase tracking-wide">Compliant</div>
+                    <div className="bg-white/10 backdrop-blur-md rounded-xl p-5 border border-white/10 shadow-lg hover:bg-white/15 transition-colors">
+                      <div className="text-3xl font-bold text-green-400 mb-2">89%</div>
+                      <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Compliant</div>
                     </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Recent Assets</div>
+                  <div className="space-y-3">
+                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Recent Assets</div>
                     {['Production Server', 'Database Cluster', 'Network Switch'].map((asset, index) => (
-                      <div key={index} className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5 hover:bg-white/10 transition-colors">
+                      <div key={index} className="flex items-center justify-between bg-white/5 backdrop-blur-sm rounded-lg p-3.5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-200 cursor-pointer">
                         <span className="text-sm font-medium">{asset}</span>
-                        <div className={`w-2.5 h-2.5 rounded-full ${
-                          index === 0 ? 'bg-red-400 shadow-lg shadow-red-400/50' : 
+                        <div className={`w-3 h-3 rounded-full ${
+                          index === 0 ? 'bg-red-400 shadow-lg shadow-red-400/50 animate-pulse' : 
                           index === 1 ? 'bg-yellow-400 shadow-lg shadow-yellow-400/50' : 
                           'bg-green-400 shadow-lg shadow-green-400/50'
                         }`}></div>

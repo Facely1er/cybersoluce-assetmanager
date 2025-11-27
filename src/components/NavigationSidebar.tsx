@@ -194,47 +194,71 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
   ];
 
   return (
-    <div className={`bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ${
+    <div className={`bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-r border-gray-200/60 dark:border-gray-800/60 transition-all duration-300 ${
       isCollapsed ? 'w-16' : 'w-64'
-    } flex flex-col h-full`}>
-      {/* Header */}
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+    } flex flex-col h-full shadow-sm`}>
+      {/* Header - Polished */}
+      <div className="p-5 border-b border-gray-200/60 dark:border-gray-800/60">
         <div className="flex items-center justify-between">
           {!isCollapsed && (
-            <div className="flex items-center">
-              <Shield className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400 mr-3" />
+            <div className="flex items-center space-x-3">
+              <img 
+                src="/icon.svg" 
+                alt="CyberSoluce Logo" 
+                className="h-10 w-10 object-contain flex-shrink-0"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = '<div class="h-10 w-10 p-2 bg-gradient-to-br from-command-blue-600 to-action-cyan-500 rounded-lg shadow-lg flex items-center justify-center"><svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>';
+                  }
+                }}
+              />
               <div>
-                <div className="font-outfit font-bold text-gray-900 dark:text-white leading-tight">
-                  CyberSoluce<sup className="text-xs">™</sup>
+                <div className="font-bold text-gray-900 dark:text-white leading-tight text-lg bg-gradient-to-r from-command-blue-600 to-action-cyan-500 bg-clip-text text-transparent">
+                  CyberSoluce<sup className="text-xs font-normal">™</sup>
                 </div>
-                <div className="text-xs font-semibold text-gray-700 dark:text-gray-300">Asset Manager</div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">by ERMITS</div>
+                <div className="text-xs font-semibold text-gray-600 dark:text-gray-400">Asset Manager</div>
+                <div className="text-xs text-gray-500 dark:text-gray-500">by ERMITS</div>
               </div>
             </div>
+          )}
+          {isCollapsed && (
+            <img 
+              src="/icon.svg" 
+              alt="CyberSoluce" 
+              className="h-8 w-8 mx-auto object-contain"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
           )}
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <button
               onClick={onToggleCollapse}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-command-blue-500"
               aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
-            <div className={`w-4 h-4 border-2 border-gray-400 rounded transition-transform ${
-              isCollapsed ? 'rotate-180' : ''
-            }`}>
-              <div className="w-0 h-0 border-l-2 border-l-gray-400 border-t-2 border-t-transparent border-b-2 border-b-transparent ml-1"></div>
+              <div className={`w-4 h-4 border-2 border-gray-400 dark:border-gray-500 rounded transition-transform ${
+                isCollapsed ? 'rotate-180' : ''
+              }`}>
+                <div className="w-0 h-0 border-l-2 border-l-gray-400 dark:border-l-gray-500 border-t-2 border-t-transparent border-b-2 border-b-transparent ml-1"></div>
               </div>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Navigation Items */}
-      <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+      {/* Navigation Items - Polished */}
+      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
         {navigationItems.map((item) => {
           const navItem = item as NavigationItem;
           const isExternal = navItem.external === true;
           const href = navItem.href;
+          const isActive = activeView === item.id;
           
           if (isExternal && href) {
             return (
@@ -243,10 +267,20 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center p-3 rounded-lg transition-all duration-200 group text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white"
+                className={`w-full flex items-center p-3 rounded-xl transition-all duration-200 group ${
+                  isCollapsed ? 'justify-center' : ''
+                } ${
+                  isActive 
+                    ? 'bg-gradient-to-r from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/30 text-command-blue-700 dark:text-command-blue-300 border border-command-blue-200 dark:border-command-blue-800' 
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-white'
+                }`}
                 title={isCollapsed ? item.label : undefined}
               >
-                <item.icon className={`h-5 w-5 ${isCollapsed ? 'mx-auto' : 'mr-3'} text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300`} />
+                <item.icon className={`h-5 w-5 ${isCollapsed ? 'mx-auto' : 'mr-3'} ${
+                  isActive 
+                    ? 'text-command-blue-600 dark:text-command-blue-400' 
+                    : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300'
+                } transition-colors`} />
                 {!isCollapsed && (
                   <div className="flex-1 text-left">
                     <div className="font-medium dark:text-gray-200">{item.label}</div>

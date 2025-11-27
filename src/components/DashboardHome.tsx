@@ -116,89 +116,106 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
 
   return (
     <div className="space-y-8">
-      {/* Welcome Header */}
-      <div className="bg-gradient-to-r from-command-blue-600 via-command-blue-700 to-action-cyan-600 rounded-2xl p-8 text-white">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-outfit font-bold mb-1 leading-tight">
-              CyberSoluce<sup className="text-xl">™</sup>
-            </h1>
-            <h2 className="text-xl font-outfit font-semibold mb-1 opacity-95">
-              Asset Manager
-            </h2>
-            <p className="text-sm opacity-80 mb-4">
-              by ERMITS
-            </p>
-            <p className="text-lg opacity-90 mb-4 mt-2">
+      {/* Welcome Header - Polished */}
+      <div className="relative bg-gradient-to-br from-command-blue-600 via-command-blue-700 to-action-cyan-600 rounded-3xl p-10 text-white shadow-2xl overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -mr-48 -mt-48"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -ml-48 -mb-48"></div>
+        
+        <div className="relative flex items-center justify-between">
+          <div className="flex-1">
+            <div className="flex items-center space-x-4 mb-4">
+              <img 
+                src="/icon.svg" 
+                alt="CyberSoluce" 
+                className="h-16 w-16 object-contain drop-shadow-lg"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
+              />
+              <div>
+                <h1 className="text-4xl font-bold mb-1 leading-tight tracking-tight">
+                  CyberSoluce<sup className="text-2xl font-normal">™</sup>
+                </h1>
+                <h2 className="text-xl font-semibold mb-1 opacity-95">
+                  Asset Manager
+                </h2>
+                <p className="text-sm opacity-80">
+                  by ERMITS
+                </p>
+              </div>
+            </div>
+            <p className="text-lg opacity-95 mb-6 mt-2 max-w-2xl leading-relaxed">
               Comprehensive asset inventory management platform for cybersecurity professionals
             </p>
-            <div className="flex items-center space-x-6 text-sm">
-              <div className="flex items-center">
+            <div className="flex flex-wrap items-center gap-6 text-sm">
+              <div className="flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
                 <Building2 className="h-4 w-4 mr-2" />
-                <span>{stats.total} Total Assets</span>
+                <span className="font-semibold">{stats.total} Total Assets</span>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
                 <Users className="h-4 w-4 mr-2" />
-                <span>{Object.keys(stats.byType).length} Asset Types</span>
+                <span className="font-semibold">{Object.keys(stats.byType).length} Asset Types</span>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
                 <Clock className="h-4 w-4 mr-2" />
-                <span>Last updated: {format(new Date(), 'MMM dd, yyyy HH:mm')}</span>
+                <span className="font-semibold">Updated: {format(new Date(), 'MMM dd, yyyy HH:mm')}</span>
               </div>
             </div>
           </div>
-          <div className="hidden lg:block">
-            <div className="w-32 h-32 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-              <Shield className="h-16 w-16 text-white" />
+          <div className="hidden lg:block ml-8">
+            <div className="w-40 h-40 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center shadow-2xl border border-white/30">
+              <Shield className="h-20 w-20 text-white drop-shadow-lg" />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Key Metrics Grid */}
+      {/* Key Metrics Grid - Polished */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200/60 dark:border-gray-700/60 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Assets</p>
-              <p className="text-3xl font-outfit font-bold text-gray-900 dark:text-white">{stats.total}</p>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-2">Total Assets</p>
+              <p className="text-4xl font-bold text-gray-900 dark:text-white mb-2">{stats.total}</p>
               {stats.recentlyAdded > 0 ? (
-                <p className="text-sm text-green-600 dark:text-green-400 flex items-center mt-1">
-                  <TrendingUp className="h-3 w-3 mr-1" />
+                <p className="text-sm text-green-600 dark:text-green-400 flex items-center font-medium">
+                  <TrendingUp className="h-4 w-4 mr-1" />
                   +{stats.recentlyAdded} this month
                 </p>
               ) : (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   No recent additions
                 </p>
               )}
             </div>
-            <div className="p-3 bg-command-blue-50 dark:bg-command-blue-900/20 rounded-lg">
-              <Shield className="h-6 w-6 text-command-blue-600 dark:text-command-blue-400" />
+            <div className="p-4 bg-gradient-to-br from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/30 rounded-xl group-hover:scale-110 transition-transform duration-300 shadow-md">
+              <Shield className="h-7 w-7 text-command-blue-600 dark:text-command-blue-400" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200/60 dark:border-gray-700/60 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Critical Assets</p>
-              <p className="text-3xl font-outfit font-bold text-red-600 dark:text-red-400">{stats.critical}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-2">Critical Assets</p>
+              <p className="text-4xl font-bold text-red-600 dark:text-red-400 mb-2">{stats.critical}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
                 {criticalityPercentages.critical}% of total
               </p>
             </div>
-            <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-              <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
+            <div className="p-4 bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-900/30 dark:to-orange-900/30 rounded-xl group-hover:scale-110 transition-transform duration-300 shadow-md">
+              <AlertTriangle className="h-7 w-7 text-red-600 dark:text-red-400" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200/60 dark:border-gray-700/60 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Risk Score</p>
-              <p className={`text-3xl font-outfit font-bold ${
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-2">Risk Score</p>
+              <p className={`text-4xl font-bold mb-2 ${
                 riskScore >= 75 ? 'text-red-600 dark:text-red-400' :
                 riskScore >= 50 ? 'text-orange-600 dark:text-orange-400' :
                 riskScore >= 25 ? 'text-yellow-600 dark:text-yellow-400' :
@@ -206,17 +223,17 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
               }`}>
                 {riskScore}
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
                 Overall risk level
               </p>
             </div>
-            <div className={`p-3 rounded-lg ${
-              riskScore >= 75 ? 'bg-red-50 dark:bg-red-900/20' :
-              riskScore >= 50 ? 'bg-orange-50 dark:bg-orange-900/20' :
-              riskScore >= 25 ? 'bg-yellow-50 dark:bg-yellow-900/20' :
-              'bg-green-50 dark:bg-green-900/20'
+            <div className={`p-4 rounded-xl group-hover:scale-110 transition-transform duration-300 shadow-md ${
+              riskScore >= 75 ? 'bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/30 dark:to-pink-900/30' :
+              riskScore >= 50 ? 'bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-900/30 dark:to-yellow-900/30' :
+              riskScore >= 25 ? 'bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/30 dark:to-amber-900/30' :
+              'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30'
             }`}>
-              <Activity className={`h-6 w-6 ${
+              <Activity className={`h-7 w-7 ${
                 riskScore >= 75 ? 'text-red-600 dark:text-red-400' :
                 riskScore >= 50 ? 'text-orange-600 dark:text-orange-400' :
                 riskScore >= 25 ? 'text-yellow-600 dark:text-yellow-400' :
@@ -226,19 +243,19 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200/60 dark:border-gray-700/60 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Compliance Rate</p>
-              <p className="text-3xl font-outfit font-bold text-green-600 dark:text-green-400">
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-2">Compliance Rate</p>
+              <p className="text-4xl font-bold text-green-600 dark:text-green-400 mb-2">
                 {stats.total > 0 ? Math.round((stats.total - stats.untagged) / stats.total * 100) : 0}%
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
                 Assets with compliance tags
               </p>
             </div>
-            <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
+            <div className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-xl group-hover:scale-110 transition-transform duration-300 shadow-md">
+              <CheckCircle className="h-7 w-7 text-green-600 dark:text-green-400" />
             </div>
           </div>
         </div>
