@@ -154,7 +154,7 @@ export const SystemSettings: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-gray-600 to-purple-600 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 rounded-2xl p-8 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-outfit font-bold mb-2 flex items-center">
@@ -219,7 +219,7 @@ export const SystemSettings: React.FC = () => {
                 onClick={() => setActiveTab(tab.id as 'general' | 'security' | 'notifications' | 'integrations' | 'database' | 'advanced')}
                 className={`flex items-center px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === tab.id
-                    ? 'border-blue-500 dark:border-blue-400 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                    ? 'border-command-blue-500 dark:border-command-blue-400 text-command-blue-600 dark:text-command-blue-400 bg-command-blue-50 dark:bg-command-blue-900/20'
                     : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
               >
@@ -248,7 +248,7 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       general: { ...prev.general, organization_name: e.target.value }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 </div>
 
@@ -262,7 +262,7 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       general: { ...prev.general, timezone: e.target.value }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   >
                     <option value="UTC">UTC</option>
                     <option value="America/New_York">Eastern Time</option>
@@ -282,7 +282,7 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       general: { ...prev.general, date_format: e.target.value }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   >
                     <option value="MM/dd/yyyy">MM/DD/YYYY</option>
                     <option value="dd/MM/yyyy">DD/MM/YYYY</option>
@@ -300,7 +300,7 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       general: { ...prev.general, theme: e.target.value as 'light' | 'dark' | 'auto' }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   >
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
@@ -329,7 +329,7 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       security: { ...prev.security, session_timeout: parseInt(e.target.value) }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 </div>
 
@@ -342,7 +342,7 @@ export const SystemSettings: React.FC = () => {
                         ...prev,
                         security: { ...prev.security, require_mfa: e.target.checked }
                       }))}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
+                      className="h-4 w-4 text-command-blue-600 focus:ring-command-blue-500 border-gray-300 dark:border-gray-600 rounded"
                     />
                     <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">Require Multi-Factor Authentication</span>
                   </label>
@@ -394,7 +394,7 @@ export const SystemSettings: React.FC = () => {
                                 }
                               }
                             }))}
-                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
+                            className="h-4 w-4 text-command-blue-600 focus:ring-command-blue-500 border-gray-300 dark:border-gray-600 rounded"
                           />
                           <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">{label}</span>
                         </label>
@@ -431,7 +431,7 @@ export const SystemSettings: React.FC = () => {
                           ...prev,
                           notifications: { ...prev.notifications, [key]: e.target.checked }
                         }))}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
+                        className="h-4 w-4 text-command-blue-600 focus:ring-command-blue-500 border-gray-300 dark:border-gray-600 rounded"
                       />
                     </label>
                   </div>
@@ -454,7 +454,7 @@ export const SystemSettings: React.FC = () => {
                         ...prev,
                         integrations: { ...prev.integrations, api_enabled: e.target.checked }
                       }))}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
+                      className="h-4 w-4 text-command-blue-600 focus:ring-command-blue-500 border-gray-300 dark:border-gray-600 rounded"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Enable API Access</span>
                   </label>
@@ -473,7 +473,7 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       integrations: { ...prev.integrations, rate_limit: parseInt(e.target.value) }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 </div>
 
@@ -526,7 +526,7 @@ export const SystemSettings: React.FC = () => {
                         </div>
                         <button
                           onClick={generateWebhookSecret}
-                          className="px-3 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                          className="px-3 py-2 bg-command-blue-600 dark:bg-command-blue-500 text-white rounded-lg hover:bg-command-blue-700 dark:hover:bg-command-blue-600 transition-colors"
                         >
                           Generate
                         </button>
@@ -536,7 +536,7 @@ export const SystemSettings: React.FC = () => {
                     <div className="flex space-x-3">
                       <button
                         onClick={testWebhook}
-                        className="inline-flex items-center px-4 py-2 border border-blue-300 dark:border-blue-600 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                        className="inline-flex items-center px-4 py-2 border border-command-blue-300 dark:border-command-blue-600 text-command-blue-700 dark:text-command-blue-300 rounded-lg hover:bg-command-blue-50 dark:hover:bg-command-blue-900/20 transition-colors"
                       >
                         <Zap className="h-4 w-4 mr-2" />
                         Test Webhook
@@ -562,7 +562,7 @@ export const SystemSettings: React.FC = () => {
                         ...prev,
                         database: { ...prev.database, backup_enabled: e.target.checked }
                       }))}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
+                      className="h-4 w-4 text-command-blue-600 focus:ring-command-blue-500 border-gray-300 dark:border-gray-600 rounded"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Enable Automated Backups</span>
                   </label>
@@ -630,7 +630,7 @@ export const SystemSettings: React.FC = () => {
           <button
             onClick={handleSaveSettings}
             disabled={isSaving}
-            className="inline-flex items-center px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="inline-flex items-center px-6 py-2 bg-command-blue-600 dark:bg-command-blue-500 text-white rounded-lg hover:bg-command-blue-700 dark:hover:bg-command-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {isSaving ? (
               <>

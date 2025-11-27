@@ -208,7 +208,7 @@ export const OrganizationSettingsModal: React.FC<OrganizationSettingsModalProps>
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" onClick={onClose}>
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 text-white flex items-center justify-between">
+        <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 px-6 py-4 text-white flex items-center justify-between">
           <div className="flex items-center">
             <Settings className="h-6 w-6 mr-3" />
             <h2 className="text-xl font-outfit font-bold">Organization Settings</h2>

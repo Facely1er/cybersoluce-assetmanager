@@ -149,7 +149,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 rounded-2xl p-8 text-white">
         <h1 className="text-3xl font-outfit font-bold mb-2">Advanced Reporting</h1>
         <p className="text-lg opacity-90">Comprehensive analytics and insights for your asset inventory</p>
       </div>

@@ -256,7 +256,7 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ organizationId }) => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-gray-600 to-blue-600 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 rounded-2xl p-8 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-outfit font-bold mb-2 flex items-center">
@@ -356,7 +356,7 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ organizationId }) => {
             </button>
             <button
               onClick={exportActivityLog}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-command-blue-600 dark:bg-command-blue-500 text-white rounded-lg hover:bg-command-blue-700 dark:hover:bg-command-blue-600 transition-colors"
             >
               <Download className="h-4 w-4 mr-2" />
               Export Log
@@ -369,7 +369,7 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ organizationId }) => {
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         {loading ? (
           <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-command-blue-600 dark:border-command-blue-400"></div>
           </div>
         ) : filteredActivities.length === 0 ? (
           <div className="text-center py-12 text-gray-500 dark:text-gray-400">
@@ -415,7 +415,7 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ organizationId }) => {
                             <div className="space-y-1 text-sm">
                               {Object.entries(activity.new_values).map(([key, value]) => (
                                 <div key={key} className="flex items-center space-x-2">
-                                  <span className="text-blue-600 dark:text-blue-400 font-medium">{key}:</span>
+                                  <span className="text-command-blue-600 dark:text-command-blue-400 font-medium">{key}:</span>
                                   {activity.old_values && activity.old_values[key] && (
                                     <>
                                       <span className="text-red-600 dark:text-red-400 line-through">

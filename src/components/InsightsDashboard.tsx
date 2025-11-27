@@ -211,7 +211,7 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
         <div className="flex-1 overflow-auto p-6">
           <div className={`space-y-6 ${className}`}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 rounded-2xl p-8 text-white">
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-3xl font-outfit font-bold mb-2">Asset Insights & Analytics</h1>
