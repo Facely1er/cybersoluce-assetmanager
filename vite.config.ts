@@ -34,7 +34,8 @@ export default defineConfig({
       '@supabase/supabase-js',
       'react-hot-toast',
       'date-fns',
-      'lucide-react'
+      'lucide-react',
+      'recharts'
     ],
     // Exclude heavy libraries from pre-bundling to enable better code splitting
     exclude: [
@@ -42,9 +43,9 @@ export default defineConfig({
       'jspdf', 
       'html2canvas'
     ],
-    // Force React to be deduplicated - prevents multiple React instances
+    // Force React and React-dependent libraries to be deduplicated
     esbuildOptions: {
-      dedupe: ['react', 'react-dom'],
+      dedupe: ['react', 'react-dom', 'react-hot-toast', 'lucide-react', 'recharts'],
     },
   },
   esbuild: {
@@ -64,20 +65,27 @@ export default defineConfig({
         drop_console: process.env.NODE_ENV === 'production',
         drop_debugger: true,
         pure_funcs: process.env.NODE_ENV === 'production' ? ['console.log', 'console.info'] : [],
-        // Additional compression options
-        passes: 2,
-        unsafe: true,
-        unsafe_comps: true,
-        unsafe_math: true,
-        unsafe_proto: true,
-        unsafe_regexp: true,
-        unsafe_undefined: true,
+        // Reduced aggressiveness to prevent property access issues
+        passes: 1,
+        // Disable unsafe options that can break property access
+        unsafe: false,
+        unsafe_comps: false,
+        unsafe_math: false,
+        unsafe_proto: false,
+        unsafe_regexp: false,
+        unsafe_undefined: false,
       },
       mangle: {
-        // Mangle property names for better compression
-        properties: {
-          regex: /^_/
-        }
+        // Disable property mangling to prevent "Cannot read properties" errors
+        // This is safer and prevents issues with libraries accessing properties
+        properties: false,
+        // Only mangle variable names, not properties
+        keep_classnames: false,
+        keep_fnames: false,
+      },
+      format: {
+        // Preserve comments for better debugging
+        comments: false,
       }
     },
     // Enhanced bundle optimization
@@ -96,10 +104,12 @@ export default defineConfig({
             return undefined; // Keep in main bundle - DO NOT split
           }
           
-          // Keep react-hot-toast with React since it has hard dependency
-          // Splitting it can cause React instance issues
-          if (id.includes('node_modules/react-hot-toast')) {
-            return undefined; // Keep in main bundle
+          // Keep React-dependent libraries with React to prevent loading order issues
+          // These libraries have hard dependencies on React and can fail if loaded before React
+          if (id.includes('node_modules/react-hot-toast') ||
+              id.includes('node_modules/lucide-react') ||
+              id.includes('node_modules/recharts')) {
+            return undefined; // Keep in main bundle with React
           }
           
           // Supabase
@@ -109,14 +119,6 @@ export default defineConfig({
           // Date utilities
           if (id.includes('node_modules/date-fns')) {
             return 'date-utils';
-          }
-          // Icons
-          if (id.includes('node_modules/lucide-react')) {
-            return 'icons';
-          }
-          // Charts library
-          if (id.includes('node_modules/recharts')) {
-            return 'charts';
           }
           // Office/Export utilities
           if (id.includes('node_modules/xlsx') || 

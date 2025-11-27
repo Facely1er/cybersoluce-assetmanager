@@ -1,7 +1,14 @@
-# 🔧 Fix: Blank Page - useLayoutEffect Error
+# 🔧 Fix: Blank Page - Bundle Loading Errors
 
-**Error**: `Cannot read properties of undefined (reading 'useLayoutEffect')`  
-**Cause**: React was being split into a separate vendor chunk, causing React instance issues  
+**Errors**: 
+- `Cannot read properties of undefined (reading 'useLayoutEffect')`
+- `Cannot read properties of undefined (reading 'O')`
+
+**Causes**: 
+1. React was being split into a separate vendor chunk, causing React instance issues
+2. Aggressive minification breaking property access in libraries
+3. React-dependent libraries (recharts, lucide-react) loading before React
+
 **Status**: ✅ Fixed
 
 ---
@@ -10,8 +17,9 @@
 
 Updated `vite.config.ts` to:
 1. **Keep React/React-DOM in main bundle** - Prevents React from being split into vendor chunk
-2. **Keep react-hot-toast with React** - Prevents dependency issues
-3. **Added React deduplication** - Ensures single React instance
+2. **Keep React-dependent libraries with React** - recharts, lucide-react, react-hot-toast stay in main bundle to prevent loading order issues
+3. **Reduced minification aggressiveness** - Disabled unsafe terser options and property mangling that break library property access
+4. **Added React deduplication** - Ensures single React instance across all dependencies
 
 ---
 
@@ -69,18 +77,36 @@ After deployment:
 
 ## 📋 Technical Details
 
-### The Problem
-When React is split into a separate chunk (`vendor-gb9XcPoj.js`), it can be loaded asynchronously. This causes:
-- React hooks (`useLayoutEffect`) to be undefined when components try to use them
-- Multiple React instances if dependencies load React separately
-- Blank page because React can't initialize properly
+### The Problems
 
-### The Solution
-By keeping React in the main bundle:
-- React loads synchronously with the app
-- Single React instance guaranteed
-- All hooks available immediately
-- No async loading issues
+1. **React Chunk Splitting**: When React is split into a separate chunk, it can be loaded asynchronously:
+   - React hooks (`useLayoutEffect`) become undefined when components try to use them
+   - Multiple React instances if dependencies load React separately
+   - Blank page because React can't initialize properly
+
+2. **Aggressive Minification**: Unsafe terser options were mangling property names:
+   - Libraries trying to access properties like `Object.property` fail when properties are mangled
+   - Error: `Cannot read properties of undefined (reading 'O')` where 'O' is a mangled property name
+
+3. **Dependency Loading Order**: React-dependent libraries (recharts, lucide-react) loading before React:
+   - These libraries expect React to be available when they initialize
+   - Loading them in separate chunks can cause them to load before React
+
+### The Solutions
+
+1. **Keep React in Main Bundle**: React loads synchronously with the app
+   - Single React instance guaranteed
+   - All hooks available immediately
+   - No async loading issues
+
+2. **Keep React-Dependent Libraries Together**: recharts, lucide-react, react-hot-toast stay with React
+   - Ensures proper loading order
+   - Prevents "property undefined" errors
+
+3. **Safer Minification**: Disabled unsafe terser options
+   - Property mangling disabled to prevent library breakage
+   - Reduced compression passes to avoid over-optimization
+   - Libraries can access their properties correctly
 
 ---
 

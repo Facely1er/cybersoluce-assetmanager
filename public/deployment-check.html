@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Diagnostic</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f8fafc;
+        }
+        .check {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+            background: white;
+        }
+        .error {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .success {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+        .warning {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        h1 { color: #1e293b; }
+        h2 { color: #475569; margin-top: 2rem; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Deployment Diagnostic Tool</h1>
+    <p>This page helps diagnose deployment issues.</p>
+
+    <h2>Environment Variables</h2>
+    <div id="env-check" class="check">
+        <h3>Checking environment variables...</h3>
+        <div id="env-results"></div>
+    </div>
+
+    <h2>Bundle Loading</h2>
+    <div id="bundle-check" class="check">
+        <h3>Checking bundle files...</h3>
+        <div id="bundle-results"></div>
+    </div>
+
+    <h2>Console Errors</h2>
+    <div id="error-check" class="check">
+        <h3>Recent console errors:</h3>
+        <div id="error-results"></div>
+    </div>
+
+    <h2>Network Requests</h2>
+    <div id="network-check" class="check">
+        <h3>Failed resource loads:</h3>
+        <div id="network-results"></div>
+    </div>
+
+    <script>
+        const errors = [];
+        const failedResources = [];
+
+        // Capture console errors
+        const originalError = console.error;
+        console.error = function(...args) {
+            errors.push(args.join(' '));
+            originalError.apply(console, args);
+        };
+
+        // Capture failed resource loads
+        window.addEventListener('error', (e) => {
+            if (e.target && e.target.src) {
+                failedResources.push({
+                    type: e.target.tagName,
+                    src: e.target.src,
+                    error: e.message
+                });
+            }
+        }, true);
+
+        // Check environment variables (from window if available)
+        function checkEnvironment() {
+            const envResults = document.getElementById('env-results');
+            const checks = [
+                { name: 'VITE_SUPABASE_URL', value: window.VITE_SUPABASE_URL || 'Not set' },
+                { name: 'VITE_SUPABASE_ANON_KEY', value: window.VITE_SUPABASE_ANON_KEY ? 'Set (hidden)' : 'Not set' }
+            ];
+
+            let html = '<ul>';
+            checks.forEach(check => {
+                const status = check.value === 'Not set' ? 'warning' : 'success';
+                html += `<li class="${status}">${check.name}: ${check.value}</li>`;
+            });
+            html += '</ul>';
+            html += '<p><strong>Note:</strong> Environment variables are baked into the bundle at build time. Check Netlify Dashboard → Site Settings → Environment Variables.</p>';
+            envResults.innerHTML = html;
+        }
+
+        // Check bundle files
+        async function checkBundles() {
+            const bundleResults = document.getElementById('bundle-results');
+            const bundles = [
+                '/index.html',
+                '/js/index.js',
+                '/js/index-[hash].js'
+            ];
+
+            let html = '<ul>';
+            for (const bundle of bundles) {
+                try {
+                    const response = await fetch(bundle, { method: 'HEAD' });
+                    const status = response.ok ? 'success' : 'error';
+                    html += `<li class="${status}">${bundle}: ${response.ok ? '✓ Found' : '✗ Not found (status: ' + response.status + ')'}</li>`;
+                } catch (e) {
+                    html += `<li class="error">${bundle}: ✗ Failed to load - ${e.message}</li>`;
+                }
+            }
+            html += '</ul>';
+            html += '<p><strong>Tip:</strong> Check Network tab in DevTools to see actual bundle filenames.</p>';
+            bundleResults.innerHTML = html;
+        }
+
+        // Show errors
+        function showErrors() {
+            const errorResults = document.getElementById('error-results');
+            if (errors.length === 0) {
+                errorResults.innerHTML = '<p class="success">✓ No console errors captured</p>';
+            } else {
+                let html = '<ul>';
+                errors.forEach(err => {
+                    html += `<li class="error">${err}</li>`;
+                });
+                html += '</ul>';
+                errorResults.innerHTML = html;
+            }
+        }
+
+        // Show failed resources
+        function showFailedResources() {
+            const networkResults = document.getElementById('network-results');
+            if (failedResources.length === 0) {
+                networkResults.innerHTML = '<p class="success">✓ No failed resource loads</p>';
+            } else {
+                let html = '<ul>';
+                failedResources.forEach(res => {
+                    html += `<li class="error">${res.type} - ${res.src}: ${res.error}</li>`;
+                });
+                html += '</ul>';
+                networkResults.innerHTML = html;
+            }
+        }
+
+        // Run checks
+        checkEnvironment();
+        checkBundles();
+        setTimeout(() => {
+            showErrors();
+            showFailedResources();
+        }, 1000);
+    </script>
+</body>
+</html>
+
