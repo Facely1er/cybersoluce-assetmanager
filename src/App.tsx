@@ -17,7 +17,7 @@ const App: React.FC = () => {
         <AuthProvider>
           <AssetInventoryProvider>
             <BrowserRouter>
-              <div className="min-h-screen h-screen overflow-hidden" role="main">
+              <div className="min-h-screen" role="main">
                 {/* Global Toaster */}
                 <Toaster 
                   position="top-right"

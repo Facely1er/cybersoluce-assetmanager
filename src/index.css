@@ -62,8 +62,14 @@
 }
 
 /* Ensure the app takes full height */
-html, body, #root {
+html, body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  min-height: 100%;
   margin: 0;
   padding: 0;
 }
