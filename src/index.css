@@ -24,6 +24,71 @@ html, body, #root {
   padding: 0;
 }
 
+/* Critical table styles - ensure tables render correctly even if Tailwind fails */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border-spacing: 0;
+}
+
+thead {
+  display: table-header-group;
+}
+
+tbody {
+  display: table-row-group;
+}
+
+tr {
+  display: table-row;
+}
+
+th, td {
+  display: table-cell;
+  padding: 0.75rem 1.5rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  background-color: #f9fafb;
+}
+
+tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Ensure table cells don't wrap incorrectly */
+td.whitespace-nowrap,
+th.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+/* Dark mode table styles */
+.dark th {
+  background-color: #374151;
+  color: #d1d5db;
+  border-bottom-color: #4b5563;
+}
+
+.dark td {
+  border-bottom-color: #4b5563;
+}
+
+.dark tbody tr:hover {
+  background-color: #374151;
+}
+
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;

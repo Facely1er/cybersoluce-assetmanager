@@ -308,8 +308,8 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
                 <div className="space-y-4">
                   <div className="bg-white/10 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm opacity-75">Total Assets</span>
-                      <span className="text-2xl font-bold">1,247</span>
+                      <span className="text-sm opacity-75 whitespace-nowrap">Total Assets</span>
+                      <span className="text-2xl font-bold ml-2 whitespace-nowrap">1,247</span>
                     </div>
                     <div className="w-full bg-white/20 rounded-full h-2">
                       <div className="bg-green-400 h-2 rounded-full w-3/4"></div>
@@ -318,12 +318,12 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white/10 rounded-lg p-3">
-                      <div className="text-lg font-bold text-red-400">23</div>
-                      <div className="text-xs opacity-75 mt-1">Critical</div>
+                      <div className="text-lg font-bold text-red-400 whitespace-nowrap">23</div>
+                      <div className="text-xs opacity-75 mt-1 whitespace-nowrap">Critical</div>
                     </div>
                     <div className="bg-white/10 rounded-lg p-3">
-                      <div className="text-lg font-bold text-green-400">89%</div>
-                      <div className="text-xs opacity-75 mt-1">Compliant</div>
+                      <div className="text-lg font-bold text-green-400 whitespace-nowrap">89%</div>
+                      <div className="text-xs opacity-75 mt-1 whitespace-nowrap">Compliant</div>
                     </div>
                   </div>
                   
@@ -428,64 +428,64 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
             </div>
 
             {/* Asset Table */}
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+            <div className="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-lg">
+              <table className="w-full min-w-[800px]" style={{ borderCollapse: 'collapse' }}>
+                <thead className="bg-gray-50 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Asset</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Type</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Criticality</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Risk Score</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Location</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Compliance</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap" style={{ minWidth: '200px' }}>Asset</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap" style={{ minWidth: '100px' }}>Type</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap" style={{ minWidth: '120px' }}>Criticality</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap" style={{ minWidth: '140px' }}>Risk Score</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap" style={{ minWidth: '150px' }}>Location</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap" style={{ minWidth: '150px' }}>Compliance</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredAssets.map((asset) => {
                     const TypeIcon = getTypeIcon(asset.type);
                     return (
-                      <tr key={asset.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="p-2 bg-command-blue-50 dark:bg-command-blue-900/20 rounded-lg mr-3">
+                      <tr key={asset.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer border-b border-gray-200 dark:border-gray-700">
+                        <td className="px-6 py-4 whitespace-nowrap" style={{ minWidth: '200px' }}>
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 bg-command-blue-50 dark:bg-command-blue-900/20 rounded-lg flex-shrink-0">
                               <TypeIcon className="h-4 w-4 text-command-blue-600 dark:text-command-blue-400" />
                             </div>
-                            <div>
-                              <div className="text-sm font-medium text-gray-900 dark:text-white">{asset.name}</div>
-                              <div className="text-xs text-gray-500 dark:text-gray-400">{asset.status}</div>
+                            <div className="min-w-0">
+                              <div className="text-sm font-medium text-gray-900 dark:text-white whitespace-nowrap">{asset.name}</div>
+                              <div className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">{asset.status}</div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm text-gray-900 dark:text-gray-100">{asset.type}</span>
+                        <td className="px-6 py-4 whitespace-nowrap" style={{ minWidth: '100px' }}>
+                          <span className="text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">{asset.type}</span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getCriticalityColor(asset.criticality)}`}>
+                        <td className="px-6 py-4 whitespace-nowrap" style={{ minWidth: '120px' }}>
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border whitespace-nowrap ${getCriticalityColor(asset.criticality)}`}>
                             {asset.criticality}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <span className={`text-sm font-semibold ${getRiskScoreColor(asset.riskScore)}`}>
+                        <td className="px-6 py-4 whitespace-nowrap" style={{ minWidth: '140px' }}>
+                          <div className="flex items-center gap-2">
+                            <span className={`text-sm font-semibold ${getRiskScoreColor(asset.riskScore)} whitespace-nowrap`}>
                               {asset.riskScore}
                             </span>
-                            <div className="ml-2 w-16 bg-gray-200 dark:bg-gray-700 rounded-full h-2 relative overflow-hidden">
+                            <div className="w-16 bg-gray-200 dark:bg-gray-700 rounded-full h-2 relative overflow-hidden flex-shrink-0">
                               <RiskScoreBar score={asset.riskScore} />
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
-                          {asset.location}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400" style={{ minWidth: '150px' }}>
+                          <span className="whitespace-nowrap">{asset.location}</span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex flex-wrap gap-1">
+                        <td className="px-6 py-4 whitespace-nowrap" style={{ minWidth: '150px' }}>
+                          <div className="flex flex-wrap gap-1.5 items-center">
                             {asset.compliance.slice(0, 2).map((framework, idx) => (
-                              <span key={idx} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-command-blue-100 text-command-blue-800 dark:bg-command-blue-900/30 dark:text-command-blue-300">
+                              <span key={idx} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-command-blue-100 text-command-blue-800 dark:bg-command-blue-900/30 dark:text-command-blue-300 whitespace-nowrap">
                                 {framework}
                               </span>
                             ))}
                             {asset.compliance.length > 2 && (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-gray-600 dark:text-gray-400">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-gray-600 dark:text-gray-400 whitespace-nowrap">
                                 +{asset.compliance.length - 2}
                               </span>
                             )}
