@@ -24,18 +24,19 @@ export const Footer: React.FC = () => {
           {/* Company Info - Left Side */}
           <div className="md:col-span-1">
             <div className="flex items-center mb-3">
-              <div className="relative flex-shrink-0 mr-3">
+              <div className="relative flex-shrink-0 mr-3 z-10">
                 <img 
                   src="/cybersoluce.png" 
                   alt="CyberSoluce Logo" 
-                  className="h-12 w-12 object-contain drop-shadow-lg"
+                  className="h-12 w-12 object-contain drop-shadow-2xl"
                   loading="eager"
+                  style={{ display: 'block', opacity: 1, filter: 'brightness(1.1) contrast(1.1)' }}
                   onError={(e) => {
+                    console.error('Logo failed to load');
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
                   }}
                 />
-                <div className="absolute inset-0 bg-action-cyan-400/20 rounded-full blur-xl"></div>
               </div>
               <div className="flex flex-col">
                 {/* Line 1: CyberSoluce™ */}
