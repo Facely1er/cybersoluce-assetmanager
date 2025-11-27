@@ -61,8 +61,8 @@ All components replaced with shadcn/ui versions:
 - ✅ `src/components/common/ConfirmDialog.tsx` - Updated to use Dialog
 - ✅ `src/index.css` - Added shadcn/ui CSS variables
 - ✅ `src/utils/cn.ts` - Created cn utility (matches vendorsoluce.com structure)
+- ✅ `src/lib/utils.ts` - Re-exports cn for shadcn/ui CLI compatibility
 - ✅ Removed old `src/components/ui/modal.tsx`
-- ✅ Removed old `src/lib/utils.ts` (moved to `src/utils/cn.ts`)
 
 ---
 
