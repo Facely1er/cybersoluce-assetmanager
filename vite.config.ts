@@ -251,10 +251,5 @@ export default defineConfig({
   // CSS preprocessing
   css: {
     devSourcemap: true,
-    postcss: {
-      plugins: [
-        // Additional PostCSS plugins can be added here
-      ],
-    },
   }
 });
