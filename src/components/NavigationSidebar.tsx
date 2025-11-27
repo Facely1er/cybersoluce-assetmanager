@@ -215,7 +215,7 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
   return (
     <div className={`bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-r border-gray-200/60 dark:border-gray-800/60 transition-all duration-300 ${
       isCollapsed ? 'w-16' : 'w-64'
-    } flex flex-col h-full shadow-sm`}>
+    } flex flex-col h-screen shadow-sm flex-shrink-0 hidden md:flex`}>
       {/* Header - Polished */}
       <div className="p-5 border-b border-gray-200/60 dark:border-gray-800/60">
         <div className="flex items-center justify-between">
@@ -272,7 +272,7 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
       </div>
 
       {/* Navigation Items - Polished */}
-      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+      <nav className="flex-1 p-3 space-y-1 overflow-y-auto overflow-x-hidden">
         {navigationItems.map((item) => {
           const navItem = item as NavigationItem;
           const isExternal = navItem.external === true;
