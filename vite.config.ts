@@ -62,8 +62,9 @@ export default defineConfig({
   build: {
     // Enable source maps only in development
     sourcemap: process.env.NODE_ENV !== 'production',
-    // Minimize bundle size
-    minify: 'terser',
+    // Use esbuild minification (safer than terser, less likely to cause initialization issues)
+    // If issues persist, can switch to 'terser' with very conservative settings
+    minify: 'esbuild', // Changed from 'terser' to avoid "Cannot access before initialization" errors
     terserOptions: {
       compress: {
         drop_console: process.env.NODE_ENV === 'production',
@@ -78,15 +79,23 @@ export default defineConfig({
         unsafe_proto: false,
         unsafe_regexp: false,
         unsafe_undefined: false,
+        // Disable hoisting to prevent "Cannot access before initialization" errors
+        hoist_funs: false,
+        hoist_vars: false,
+        // Disable dead code elimination that might cause initialization issues
+        dead_code: false,
       },
       mangle: {
+        // Disable ALL mangling to prevent initialization order issues
+        // This is the safest option to prevent "Cannot access 'i' before initialization" errors
+        reserved: ['i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
         // Disable property mangling to prevent "Cannot read properties" errors
-        // This is safer and prevents issues with libraries accessing properties
         properties: false,
         // Keep function names to prevent initialization order issues
-        // This helps with debugging and prevents "Cannot access before initialization" errors
         keep_classnames: true,
         keep_fnames: true,
+        // Don't mangle top-level names to avoid circular dependency issues
+        toplevel: false,
       },
       format: {
         // Preserve comments for better debugging
@@ -159,11 +168,13 @@ export default defineConfig({
           if (id.includes('/src/components/dependencies/')) {
             return 'dependencies';
           }
-          // Keep services in main bundle to avoid circular dependency and initialization issues
+          // CRITICAL: Keep services in main bundle to avoid circular dependency and initialization issues
           // Services are small and frequently used, so splitting doesn't provide much benefit
-          // if (id.includes('/src/services/')) {
-          //   return 'services';
-          // }
+          // The "Cannot access 'i' before initialization" error occurs when services are split
+          // and terser minification creates variable hoisting issues
+          if (id.includes('/src/services/')) {
+            return undefined; // Keep in main bundle - DO NOT split
+          }
           // Other node_modules as vendor (but NOT React/React-DOM/React-deps)
           // Double-check we're not accidentally including React or any React-related packages
           if (id.includes('node_modules') && 

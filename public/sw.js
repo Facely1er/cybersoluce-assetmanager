@@ -1,13 +1,15 @@
 // Service Worker for CyberSoluce Asset Manager
 // Basic service worker to enable PWA features
 
-const CACHE_NAME = 'cybersoluce-asset-manager-v2'; // Increment version to force update
+const CACHE_NAME = 'cybersoluce-asset-manager-v3'; // Increment version to force update
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
   '/icon.svg'
 ];
+
+// Cache CSS and JS files on demand (not in initial cache to avoid stale assets)
 
 // Helper function to get app origin dynamically
 function getAppOrigin() {
@@ -106,11 +108,23 @@ self.addEventListener('fetch', (event) => {
         return fetch(event.request)
           .then((networkResponse) => {
             // Cache successful responses (clone before caching)
+            // Only cache CSS, JS, and other static assets - skip API calls and dynamic content
             if (networkResponse && networkResponse.status === 200) {
-              const responseClone = networkResponse.clone();
-              caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, responseClone);
-              });
+              const url = new URL(event.request.url);
+              const isStaticAsset = url.pathname.match(/\.(css|js|woff2?|eot|ttf|otf|png|jpe?g|svg|gif|ico|webp)$/i) ||
+                                   url.pathname.startsWith('/styles/') ||
+                                   url.pathname.startsWith('/js/') ||
+                                   url.pathname.startsWith('/images/') ||
+                                   url.pathname.startsWith('/fonts/');
+              
+              if (isStaticAsset) {
+                const responseClone = networkResponse.clone();
+                caches.open(CACHE_NAME).then((cache) => {
+                  cache.put(event.request, responseClone).catch(() => {
+                    // Silently fail if cache put fails
+                  });
+                });
+              }
             }
             return networkResponse;
           })
