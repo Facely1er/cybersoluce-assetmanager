@@ -371,13 +371,13 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
       >
         <div className="space-y-8">
           {/* Asset Growth Trend */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Asset Growth Trend</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Asset Growth Trend</h3>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={chartData.trendData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="date" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
                 <Tooltip />
                 <Area 
                   type="monotone" 
@@ -391,34 +391,34 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
           </div>
 
           {/* Risk vs Compliance Correlation */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Risk vs Compliance Correlation</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Risk vs Compliance Correlation</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-medium text-gray-900 mb-4">Correlation Analysis</h4>
+                <h4 className="font-medium text-gray-900 dark:text-white mb-4">Correlation Analysis</h4>
                 {analyticsInsights.correlations.correlations.map((corr, index) => (
-                  <div key={index} className="mb-4 p-4 bg-gray-50 rounded-lg">
+                  <div key={index} className="mb-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium">{corr.variable1} vs {corr.variable2}</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{corr.variable1} vs {corr.variable2}</span>
                       <span className={`px-2 py-1 rounded text-sm ${
-                        Math.abs(corr.strength) > 0.7 ? 'bg-red-100 text-red-800' :
-                        Math.abs(corr.strength) > 0.5 ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-green-100 text-green-800'
+                        Math.abs(corr.strength) > 0.7 ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300' :
+                        Math.abs(corr.strength) > 0.5 ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' :
+                        'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
                       }`}>
                         {corr.strength > 0 ? '+' : ''}{corr.strength.toFixed(2)}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600">{corr.description}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{corr.description}</p>
                   </div>
                 ))}
               </div>
               <div>
-                <h4 className="font-medium text-gray-900 mb-4">Key Insights</h4>
+                <h4 className="font-medium text-gray-900 dark:text-white mb-4">Key Insights</h4>
                 <ul className="space-y-2">
                   {analyticsInsights.correlations.insights.map((insight, index) => (
                     <li key={index} className="flex items-start space-x-2">
-                      <Info className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-600">{insight}</span>
+                      <Info className="h-4 w-4 text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-gray-600 dark:text-gray-400">{insight}</span>
                     </li>
                   ))}
                 </ul>
@@ -437,13 +437,13 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
       >
         <div className="space-y-8">
           {/* Asset Inventory Forecast */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Asset Inventory Forecast (90 days)</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Asset Inventory Forecast (90 days)</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={chartData.forecastData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="date" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
                 <Tooltip />
                 <Line 
                   type="monotone" 
@@ -467,28 +467,28 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
                 />
               </LineChart>
             </ResponsiveContainer>
-            <div className="mt-4 text-sm text-gray-600">
+            <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
               <p>Confidence: {Math.round(analyticsInsights.forecasts.assetInventory.confidence * 100)}%</p>
               <p>Predicted growth: {analyticsInsights.forecasts.assetInventory.predictions[29]?.value || 0} assets in 90 days</p>
             </div>
           </div>
 
           {/* Forecast Scenarios */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Forecast Scenarios</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Forecast Scenarios</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {analyticsInsights.forecasts.assetInventory.scenarios.map((scenario, index) => (
-                <div key={index} className="p-4 border border-gray-200 rounded-lg">
+                <div key={index} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <h4 className="font-medium text-gray-900">{scenario.name}</h4>
-                    <span className="text-sm text-gray-500">{Math.round(scenario.probability * 100)}% probability</span>
+                    <h4 className="font-medium text-gray-900 dark:text-white">{scenario.name}</h4>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">{Math.round(scenario.probability * 100)}% probability</span>
                   </div>
-                  <p className="text-sm text-gray-600 mb-3">{scenario.description}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{scenario.description}</p>
                   <div className="text-sm">
                     <span className={`px-2 py-1 rounded text-xs ${
-                      scenario.impact === 'High' ? 'bg-red-100 text-red-800' :
-                      scenario.impact === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-green-100 text-green-800'
+                      scenario.impact === 'High' ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300' :
+                      scenario.impact === 'Medium' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' :
+                      'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
                     }`}>
                       {scenario.impact} Impact
                     </span>
@@ -509,30 +509,30 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
       >
         <div className="space-y-6">
           {/* Anomalies List */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Detected Anomalies</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Detected Anomalies</h3>
             {analyticsInsights.anomalies.anomalies.length > 0 ? (
               <div className="space-y-4">
                 {analyticsInsights.anomalies.anomalies.map((anomaly, index) => (
-                  <div key={index} className="p-4 border border-gray-200 rounded-lg">
+                  <div key={index} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex items-center space-x-2">
                         <span className={`px-2 py-1 rounded text-xs font-medium ${
-                          anomaly.severity === 'Critical' ? 'bg-red-100 text-red-800' :
-                          anomaly.severity === 'High' ? 'bg-orange-100 text-orange-800' :
-                          anomaly.severity === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-green-100 text-green-800'
+                          anomaly.severity === 'Critical' ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300' :
+                          anomaly.severity === 'High' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300' :
+                          anomaly.severity === 'Medium' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' :
+                          'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
                         }`}>
                           {anomaly.severity}
                         </span>
-                        <span className="text-sm font-medium text-gray-900">{anomaly.type}</span>
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">{anomaly.type}</span>
                       </div>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         {anomaly.detectedAt.toLocaleDateString()}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600 mb-3">{anomaly.description}</p>
-                    <div className="text-xs text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{anomaly.description}</p>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       <p>Confidence: {Math.round(anomaly.confidence * 100)}%</p>
                       <p>Affected Assets: {anomaly.affectedAssets.length}</p>
                     </div>
@@ -540,28 +540,28 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
-                <CheckCircle className="h-12 w-12 mx-auto mb-4 text-green-500" />
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                <CheckCircle className="h-12 w-12 mx-auto mb-4 text-green-500 dark:text-green-400" />
                 <p>No anomalies detected</p>
               </div>
             )}
           </div>
 
           {/* Patterns */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Detected Patterns</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Detected Patterns</h3>
             {analyticsInsights.anomalies.patterns.length > 0 ? (
               <div className="space-y-4">
                 {analyticsInsights.anomalies.patterns.map((pattern, index) => (
-                  <div key={index} className="p-4 border border-gray-200 rounded-lg">
+                  <div key={index} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <h4 className="font-medium text-gray-900">{pattern.name}</h4>
-                      <span className="text-sm text-gray-500">
+                      <h4 className="font-medium text-gray-900 dark:text-white">{pattern.name}</h4>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
                         {Math.round(pattern.confidence * 100)}% confidence
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600 mb-3">{pattern.description}</p>
-                    <div className="text-xs text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{pattern.description}</p>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       <p>Frequency: {Math.round(pattern.frequency * 100)}%</p>
                       <p>Affected Assets: {pattern.affectedAssets.length}</p>
                     </div>
@@ -569,8 +569,8 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
-                <Activity className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                <Activity className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
                 <p>No patterns detected</p>
               </div>
             )}
@@ -589,69 +589,69 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
           {analyticsInsights.recommendations.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {analyticsInsights.recommendations.map((rec, index) => (
-                <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center space-x-2">
                       <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        rec.priority === 'Critical' ? 'bg-red-100 text-red-800' :
-                        rec.priority === 'High' ? 'bg-orange-100 text-orange-800' :
-                        rec.priority === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-green-100 text-green-800'
+                        rec.priority === 'Critical' ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300' :
+                        rec.priority === 'High' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300' :
+                        rec.priority === 'Medium' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' :
+                        'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
                       }`}>
                         {rec.priority}
                       </span>
-                      <span className="text-sm font-medium text-gray-900">{rec.category}</span>
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">{rec.category}</span>
                     </div>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
                       {Math.round(rec.confidence * 100)}% confidence
                     </span>
                   </div>
                   
-                  <h4 className="font-semibold text-gray-900 mb-2">{rec.title}</h4>
-                  <p className="text-sm text-gray-600 mb-4">{rec.description}</p>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">{rec.title}</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{rec.description}</p>
                   
                   <div className="space-y-2 mb-4">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Impact:</span>
-                      <span className="text-gray-900">{rec.impact}</span>
+                      <span className="text-gray-500 dark:text-gray-400">Impact:</span>
+                      <span className="text-gray-900 dark:text-white">{rec.impact}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Effort:</span>
-                      <span className="text-gray-900">{rec.effort}</span>
+                      <span className="text-gray-500 dark:text-gray-400">Effort:</span>
+                      <span className="text-gray-900 dark:text-white">{rec.effort}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Timeline:</span>
-                      <span className="text-gray-900">{rec.timeline}</span>
+                      <span className="text-gray-500 dark:text-gray-400">Timeline:</span>
+                      <span className="text-gray-900 dark:text-white">{rec.timeline}</span>
                     </div>
                     {rec.cost && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-500">Cost:</span>
-                        <span className="text-gray-900">${rec.cost.toLocaleString()}</span>
+                        <span className="text-gray-500 dark:text-gray-400">Cost:</span>
+                        <span className="text-gray-900 dark:text-white">${rec.cost.toLocaleString()}</span>
                       </div>
                     )}
                   </div>
                   
                   <div className="mb-4">
-                    <h5 className="text-sm font-medium text-gray-900 mb-2">Benefits:</h5>
-                    <ul className="text-sm text-gray-600 space-y-1">
+                    <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Benefits:</h5>
+                    <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                       {rec.benefits.map((benefit, idx) => (
                         <li key={idx} className="flex items-center space-x-2">
-                          <CheckCircle className="h-3 w-3 text-green-500 flex-shrink-0" />
+                          <CheckCircle className="h-3 w-3 text-green-500 dark:text-green-400 flex-shrink-0" />
                           <span>{benefit}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
                   
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
                     <p>Affected Assets: {rec.affectedAssets.length}</p>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-500">
-              <Target className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <Target className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
               <p>No recommendations available</p>
             </div>
           )}
