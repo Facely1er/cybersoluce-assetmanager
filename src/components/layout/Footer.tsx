@@ -12,7 +12,8 @@ import {
   Lock,
   Cookie,
   AlertTriangle,
-  Network
+  Network,
+  Shield
 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
@@ -115,6 +116,12 @@ export const Footer: React.FC = () => {
                   <Link to="/legal/cookies" className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-xs group">
                     <Cookie className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
                     Cookie Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/acceptable-use" className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-xs group">
+                    <Shield className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Acceptable Use Policy
                   </Link>
                 </li>
               </ul>

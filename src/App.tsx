@@ -16,6 +16,7 @@ import { TermsOfService } from './pages/legal/TermsOfService';
 import { CookiePolicy } from './pages/legal/CookiePolicy';
 import { Compliance } from './pages/legal/Compliance';
 import { AcceptableUsePolicy } from './pages/legal/AcceptableUsePolicy';
+import ToolsPage from './pages/ToolsPage';
 
 const App: React.FC = () => {
   return (
@@ -149,6 +150,28 @@ const App: React.FC = () => {
                     <Route 
                       path="/legal/acceptable-use" 
                       element={<AcceptableUsePolicy />} 
+                    />
+                    
+                    {/* Tools page */}
+                    <Route 
+                      path="/tools" 
+                      element={
+                        <>
+                          <Header />
+                          <ToolsPage />
+                          <Footer />
+                        </>
+                      } 
+                    />
+                    <Route 
+                      path="/tools/" 
+                      element={
+                        <>
+                          <Header />
+                          <ToolsPage />
+                          <Footer />
+                        </>
+                      } 
                     />
                     
                     {/* Fallback route */}
