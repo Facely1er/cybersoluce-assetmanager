@@ -1,0 +1,624 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
+import { 
+  Shield, 
+  ArrowRight, 
+  Target, 
+  Brain, 
+  GitBranch, 
+  BarChart3, 
+  Users, 
+  DollarSign,
+  CheckCircle,
+  TrendingUp,
+  Eye,
+  Zap,
+  Play,
+  Database,
+  Lock,
+  Globe
+} from 'lucide-react';
+import DomainBackground from '../components/common/DomainBackground';
+import TextCarousel from '../components/common/TextCarousel';
+
+const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const heroCarouselItems = [
+    {
+      primary: "Unified Asset Inventory",
+      secondary: "The foundational Intelligence Operations platform that powers the entire ERMITS ecosystem through a single source of truth"
+    },
+    {
+      primary: "Enterprise Asset Management",
+      secondary: "Comprehensive cybersecurity asset inventory platform with risk assessment, compliance tracking, and intelligent analytics"
+    },
+    {
+      primary: "AI-Powered Intelligence Engine™",
+      secondary: "Advanced cybersecurity insights with predictive analytics and cross-product data correlation across global frameworks"
+    }
+  ];
+
+  const coreModules = [
+    {
+      icon: Database,
+      title: 'Comprehensive Asset Management',
+      description: 'Track, categorize, and manage all your digital assets in one centralized platform with advanced filtering, search capabilities, and relationship mapping.',
+      link: '/dashboard'
+    },
+    {
+      icon: BarChart3,
+      title: 'Risk Assessment & Analytics',
+      description: 'Get detailed insights into your asset risk profile with automated scoring, vulnerability tracking, compliance monitoring, and comprehensive reporting.',
+      link: '/dashboard'
+    },
+    {
+      icon: Lock,
+      title: 'Security & Compliance',
+      description: 'Ensure your assets meet industry standards with built-in compliance frameworks (SOC 2, ISO 27001, NIST, GDPR) and security best practices.',
+      link: '/dashboard'
+    },
+    {
+      icon: Globe,
+      title: 'Enterprise Integration',
+      description: 'Seamlessly integrate with your existing tools and workflows through our robust API, CSV/Excel import/export, and external data source connections.',
+      link: '/dashboard'
+    },
+    {
+      icon: Target,
+      title: 'Automated Compliance',
+      description: 'Streamline compliance workflows with automated checks, audit trails, and multi-framework support for comprehensive governance.',
+      link: '/dashboard'
+    },
+    {
+      icon: Brain,
+      title: 'Intelligent Analytics',
+      description: 'AI-powered insights with predictive analytics, risk correlation, and strategic recommendations for optimal asset management.',
+      link: '/dashboard'
+    }
+  ];
+
+  const assetExtensions = [
+    {
+      name: 'TechnoSoluce',
+      description: 'Software components, SBOM, and vulnerability management',
+      status: 'Extension',
+      link: '/dashboard'
+    },
+    {
+      name: 'VendorSoluce',
+      description: 'Vendor risk, contracts, and supply chain management',
+      status: 'Extension',
+      link: '/dashboard'
+    },
+    {
+      name: 'CyberCorrect',
+      description: 'Privacy compliance, GDPR, and data protection',
+      status: 'Extension',
+      link: '/dashboard'
+    }
+  ];
+
+  const keyCapabilities = [
+    {
+      icon: Database,
+      title: 'Unified Asset Inventory',
+      description: 'Single source of truth for all assets with advanced tracking, categorization, and relationship mapping',
+      metrics: { value: '95%', label: 'Code Reuse' },
+      link: '/dashboard'
+    },
+    {
+      icon: Shield,
+      title: 'Risk Assessment',
+      description: 'Automated risk scoring, vulnerability tracking, and compliance monitoring across all assets',
+      metrics: { value: '80%', label: 'Efficiency Gain' },
+      link: '/dashboard'
+    },
+    {
+      icon: Eye,
+      title: 'Executive Intelligence',
+      description: 'Board-level dashboards with predictive analytics, strategic insights, and real-time KPIs',
+      metrics: { value: '24/7', label: 'Monitoring' },
+      link: '/dashboard'
+    },
+    {
+      icon: Zap,
+      title: 'Enterprise Integration',
+      description: 'Seamless data flow with API integration, CSV/Excel import/export, and external connections',
+      metrics: { value: '4+', label: 'Integrations' },
+      link: '/dashboard'
+    },
+    {
+      icon: Brain,
+      title: 'Intelligence Engine™',
+      description: 'AI-powered insights with predictive modeling, automated recommendations, and correlation',
+      metrics: { value: '95%', label: 'Accuracy' },
+      link: '/dashboard'
+    },
+    {
+      icon: GitBranch,
+      title: 'Multi-Framework Support',
+      description: 'Support for SOC 2, ISO 27001, NIST, GDPR, and other compliance frameworks',
+      metrics: { value: '25+', label: 'Frameworks' },
+      link: '/dashboard'
+    }
+  ];
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1, 
+      transition: { 
+        staggerChildren: 0.1,
+        delayChildren: 0.2 
+      } 
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.5 } 
+    }
+  };
+
+  const fadeInUpVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6 } 
+    }
+  };
+
+  const fadeInRightVariants = {
+    hidden: { opacity: 0, x: -40 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 0.8, ease: "easeOut" } 
+    }
+  };
+
+  const staggerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      }
+    }
+  };
+  
+  return (
+    <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-950 overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-command-blue-600 via-command-blue-700 to-action-cyan-600 py-24 overflow-hidden">
+        {/* Use DomainBackground component for animated background */}
+        <DomainBackground color="0, 91, 150" secondaryColor="51, 161, 222" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Hero Content */}
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="text-white"
+            >
+              <motion.div
+                variants={itemVariants}
+                className="mb-8 max-w-lg"
+              >
+                <TextCarousel 
+                  items={heroCarouselItems}
+                  interval={4000}
+                />
+              </motion.div>
+              
+              <motion.div 
+                variants={itemVariants}
+                className="flex flex-wrap gap-4 mb-8"
+              >
+                <Link to="/dashboard" className="px-8 py-3.5 bg-white text-command-blue-700 rounded-xl font-semibold hover:bg-command-blue-50 transition-all shadow-xl hover:shadow-2xl hover:scale-105 transform duration-200">
+                  Access Command Center
+                </Link>
+                <button
+                  onClick={() => navigate('/dashboard/demo-scenarios')}
+                  className="px-8 py-3.5 bg-command-blue-500/90 backdrop-blur-sm text-white rounded-xl font-semibold hover:bg-command-blue-600 transition-all shadow-xl hover:shadow-2xl hover:scale-105 transform duration-200 inline-flex items-center border border-white/20"
+                >
+                  <Play size={18} className="mr-2 inline-block" />
+                  View Demo
+                </button>
+              </motion.div>
+            </motion.div>
+            
+            {/* Dashboard Visualization */}
+            <motion.div 
+              variants={fadeInRightVariants}
+              initial="hidden"
+              animate="visible"
+              className="relative rounded-2xl overflow-hidden shadow-2xl mt-8 lg:mt-0 ring-4 ring-white/20"
+            >
+              <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 shadow-inner">
+                {/* Asset Score */}
+                <div className="mb-8 text-center">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.7 }}
+                    className="text-white text-sm mb-1 uppercase tracking-wider font-medium"
+                  >
+                    Asset Management Score
+                  </motion.div>
+                  <motion.div 
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 100, 
+                      delay: 0.9 
+                    }}
+                    className="text-white text-4xl font-bold mb-2"
+                  >
+                    4.2
+                  </motion.div>
+                  
+                  <div className="h-3 bg-command-blue-900/50 rounded-full mt-4 mb-8">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: "84%" }}
+                      transition={{ duration: 1.5, delay: 1.1, ease: "easeOut" }}
+                      className="h-3 bg-gradient-to-r from-command-blue-400 to-action-cyan-400 rounded-full"
+                    ></motion.div>
+                  </div>
+                </div>
+                
+                {/* Asset Modules Grid */}
+                <motion.div 
+                  variants={staggerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="grid grid-cols-2 gap-4"
+                >
+                  <motion.div 
+                    variants={itemVariants}
+                    className="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 shadow-sm hover:bg-white/15 transition-all"
+                  >
+                    <div className="flex justify-between mb-2">
+                      <div className="text-sm text-white font-semibold">Asset Tracking</div>
+                      <div className="text-sm text-action-cyan-200 font-bold">96%</div>
+                    </div>
+                    <div className="h-2.5 bg-white/20 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: '96%' }}
+                        transition={{ duration: 1, delay: 0.8 }}
+                        className="h-2.5 bg-gradient-to-r from-action-cyan-300 to-action-cyan-400 rounded-full shadow-lg"
+                      ></motion.div>
+                    </div>
+                  </motion.div>
+                  
+                  <motion.div 
+                    variants={itemVariants}
+                    className="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 shadow-sm hover:bg-white/15 transition-all"
+                  >
+                    <div className="flex justify-between mb-2">
+                      <div className="text-sm text-white font-semibold">Risk Assessment</div>
+                      <div className="text-sm text-action-cyan-200 font-bold">89%</div>
+                    </div>
+                    <div className="h-2.5 bg-white/20 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: '89%' }}
+                        transition={{ duration: 1, delay: 0.9 }}
+                        className="h-2.5 bg-gradient-to-r from-action-cyan-300 to-action-cyan-400 rounded-full shadow-lg"
+                      ></motion.div>
+                    </div>
+                  </motion.div>
+                  
+                  <motion.div 
+                    variants={itemVariants}
+                    className="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 shadow-sm hover:bg-white/15 transition-all"
+                  >
+                    <div className="flex justify-between mb-2">
+                      <div className="text-sm text-white font-semibold">Compliance</div>
+                      <div className="text-sm text-action-cyan-200 font-bold">92%</div>
+                    </div>
+                    <div className="h-2.5 bg-white/20 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: '92%' }}
+                        transition={{ duration: 1, delay: 1.0 }}
+                        className="h-2.5 bg-gradient-to-r from-action-cyan-300 to-action-cyan-400 rounded-full shadow-lg"
+                      ></motion.div>
+                    </div>
+                  </motion.div>
+                  
+                  <motion.div 
+                    variants={itemVariants}
+                    className="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 shadow-sm hover:bg-white/15 transition-all"
+                  >
+                    <div className="flex justify-between mb-2">
+                      <div className="text-sm text-white font-semibold">Integration</div>
+                      <div className="text-sm text-action-cyan-200 font-bold">87%</div>
+                    </div>
+                    <div className="h-2.5 bg-white/20 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: '87%' }}
+                        transition={{ duration: 1, delay: 1.1 }}
+                        className="h-2.5 bg-gradient-to-r from-action-cyan-300 to-action-cyan-400 rounded-full shadow-lg"
+                      ></motion.div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </div>
+              
+              {/* Reflection effect */}
+              <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-command-blue-400/10 to-transparent"></div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Core Modules Section */}
+      <section className="py-24 bg-white dark:bg-gray-800 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-16"
+            variants={fadeInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 bg-gradient-to-r from-command-blue-600 to-action-cyan-500 bg-clip-text text-transparent">
+              Core Asset Management Modules
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto font-medium">
+              Comprehensive capabilities for strategic cybersecurity asset management
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            variants={staggerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {coreModules.map((module, index) => {
+              const Icon = module.icon;
+              return (
+                <Link key={module.title} to={module.link}>
+                  <motion.div
+                    variants={itemVariants}
+                    whileHover={{ y: -10, boxShadow: '0 20px 40px -8px rgba(0, 91, 150, 0.3), 0 12px 16px -8px rgba(0, 91, 150, 0.15)' }}
+                    className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700 hover:border-command-blue-300 dark:hover:border-command-blue-600 transition-all duration-300 transform cursor-pointer text-center group"
+                  >
+                    <motion.div
+                      className="bg-gradient-to-br from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/40 dark:to-action-cyan-900/30 p-5 rounded-2xl mb-6 w-18 h-18 flex items-center justify-center shadow-lg shadow-command-blue-100/50 dark:shadow-command-blue-900/30 mx-auto group-hover:shadow-xl group-hover:shadow-command-blue-200/50 transition-all"
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 * index }}
+                    >
+                      <Icon className="h-9 w-9 text-command-blue-600 dark:text-command-blue-400" />
+                    </motion.div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-command-blue-600 dark:group-hover:text-command-blue-400 transition-colors">
+                      {module.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                      {module.description}
+                    </p>
+                  </motion.div>
+                </Link>
+              );
+            })}
+          </motion.div>
+        </div>
+        
+        {/* Dotted background */}
+        <div className="absolute inset-0 pointer-events-none opacity-10 dark:opacity-5" 
+             style={{
+               backgroundImage: 'radial-gradient(#005B96 1px, transparent 1px), radial-gradient(#005B96 1px, transparent 1px)',
+               backgroundSize: '40px 40px',
+               backgroundPosition: '0 0, 20px 20px'
+             }}>
+        </div>
+      </section>
+      
+      {/* Asset Extensions Section */}
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-command-blue-50 dark:from-gray-900 dark:to-command-blue-900/20 relative">
+        <div className="absolute inset-0 pointer-events-none opacity-20">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'linear-gradient(45deg, #005B96 25%, transparent 25%, transparent 50%, #005B96 50%, #005B96 75%, transparent 75%, transparent)',
+            backgroundSize: '60px 60px',
+            opacity: '0.03'
+          }}></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div 
+            className="text-center mb-16"
+            variants={fadeInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 bg-gradient-to-r from-command-blue-600 to-action-cyan-500 bg-clip-text text-transparent">
+              Asset Inventory Extensions
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto font-medium">
+              Extend your asset inventory with specialized product capabilities. Each extension enriches the core inventory with domain-specific intelligence.
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
+            {assetExtensions.map((extension, index) => {
+              return (
+                <Link key={extension.name} to={extension.link}>
+                  <motion.div 
+                    variants={itemVariants}
+                    whileHover={{ y: -5 }}
+                    className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:border-command-blue-200 dark:hover:border-command-blue-700 transition-all duration-300 cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-gray-900 dark:text-white">{extension.name}</h3>
+                      <div className="flex items-center">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                        <span className="text-xs text-blue-600 dark:text-blue-400">{extension.status}</span>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {extension.description}
+                    </p>
+                  </motion.div>
+                </Link>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* Key Capabilities Section */}
+      <section className="py-24 bg-white dark:bg-gray-800">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 opacity-5 dark:opacity-10"
+               style={{
+                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23005B96' fill-opacity='0.2' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")`,
+                 backgroundSize: '20px 20px'
+               }}>
+          </div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div 
+            className="text-center mb-16"
+            variants={fadeInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 bg-gradient-to-r from-command-blue-600 to-action-cyan-500 bg-clip-text text-transparent">
+              Key Capabilities
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto font-medium">
+              Strategic asset management capabilities that transform cybersecurity operations
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {keyCapabilities.map((capability, index) => {
+              const Icon = capability.icon;
+              return (
+                <Link key={capability.title} to={capability.link}>
+                  <motion.div
+                    variants={itemVariants}
+                    whileHover={{ 
+                      y: -12, 
+                      scale: 1.02,
+                      boxShadow: '0 20px 40px -8px rgba(0, 91, 150, 0.3), 0 12px 16px -8px rgba(0, 91, 150, 0.15)' 
+                    }}
+                    className="bg-gradient-to-br from-white to-command-blue-50 dark:from-gray-800 dark:to-command-blue-900/20 rounded-xl shadow-md p-8 text-center border border-gray-100 dark:border-gray-700 hover:border-command-blue-200 dark:hover:border-command-blue-700 transition-all duration-300"
+                  >
+                    <motion.div 
+                      className="bg-gradient-to-br from-command-blue-100 to-action-cyan-100 dark:from-command-blue-900/40 dark:to-action-cyan-900/40 p-4 rounded-2xl w-16 h-16 mx-auto mb-6 flex items-center justify-center shadow-inner"
+                      initial={{ scale: 0, rotate: -10 }}
+                      whileInView={{ scale: 1, rotate: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ type: "spring", stiffness: 200, damping: 10, delay: 0.2 * index }}
+                    >
+                      <Icon className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
+                    </motion.div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{capability.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">{capability.description}</p>
+                    
+                    {/* Capability Metrics */}
+                    <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="text-2xl font-bold text-command-blue-600 dark:text-command-blue-400">
+                          {capability.metrics.value}
+                        </div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          {capability.metrics.label}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </Link>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* CTA Section */}
+      <section className="py-24 bg-gradient-to-br from-command-blue-600 via-command-blue-700 to-action-cyan-600 relative overflow-hidden">
+        <DomainBackground color="0, 91, 150" secondaryColor="51, 161, 222" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div 
+            className="text-center"
+            variants={fadeInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg">
+              Ready to transform your asset management?
+            </h2>
+            <p className="text-xl text-white/90 mb-12 max-w-3xl mx-auto font-medium">
+              Experience the power of unified asset inventory with AI-powered intelligence
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+              <motion.div 
+                whileHover={{ scale: 1.05, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -6px rgba(0, 0, 0, 0.1)' }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Link 
+                  to="/dashboard" 
+                  className="inline-flex items-center px-10 py-4 bg-white text-command-blue-700 rounded-xl font-bold hover:bg-command-blue-50 transition-all shadow-2xl hover:shadow-3xl text-lg"
+                >
+                  Access Command Center
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </motion.div>
+              <motion.div 
+                whileHover={{ scale: 1.05, boxShadow: '0 20px 25px -5px rgba(255, 255, 255, 0.2), 0 10px 10px -6px rgba(255, 255, 255, 0.1)' }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <button
+                  onClick={() => navigate('/dashboard/demo-scenarios')}
+                  className="inline-flex items-center px-10 py-4 bg-white/10 backdrop-blur-md text-white rounded-xl font-bold hover:bg-white/20 transition-all shadow-2xl hover:shadow-3xl border-2 border-white/30 text-lg"
+                >
+                  View Demo
+                  <Play className="ml-2 h-5 w-5" />
+                </button>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default HomePage;
+

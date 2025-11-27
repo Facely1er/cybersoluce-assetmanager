@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Inventory Tool | ERMITS Corporation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // CyberSoluce Theme Configuration
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'command-blue': {
+                            50: '#F0F7FF',
+                            100: '#E6F2FF',
+                            400: '#33A1DE',
+                            500: '#0066B3',
+                            600: '#005B96',
+                            700: '#004A7A',
+                        },
+                        'action-cyan': {
+                            50: '#F0F9FC',
+                            100: '#E6F5FA',
+                            400: '#5BB8E8',
+                            500: '#33A1DE',
+                            600: '#2A8BC4',
+                        }
+                    }
+                }
+            },
+            darkMode: 'class'
+        };
+
+        // Theme Toggle Functionality
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            const theme = isDark ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            updateThemeIcon(theme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.innerHTML = theme === 'dark' 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+            }
+        }
+
+        // Initialize theme on load
+        document.addEventListener('DOMContentLoaded', initTheme);
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .btn-primary {
+            @apply bg-[#005B96] hover:bg-[#004A7A] dark:bg-[#0066B3] dark:hover:bg-[#005B96] text-white px-4 py-2 rounded-lg transition-colors;
+        }
+        .btn-secondary {
+            @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg transition-colors;
+        }
+        .modal {
+            display: none;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+            width: var(--progress-width, 0%);
+        }
+        .badge {
+            @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+        }
+        .card {
+            @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700;
+        }
+        .card-header {
+            @apply px-6 py-4 border-b border-gray-200 dark:border-gray-700;
+        }
+        .card-body {
+            @apply px-6 py-4;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <svg class="w-8 h-8 text-[#005B96] dark:text-[#33A1DE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                        </svg>
+                        Data Inventory Tool
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-400 mt-1">Discover, catalog, and track all organizational data</p>
+                </div>
+                <div class="flex gap-2">
+                    <!-- Theme Toggle Button -->
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition-colors" title="Toggle theme">
+                        <svg id="theme-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                    <button onclick="showImportDialog()" class="btn-secondary flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        Import Inventory
+                    </button>
+                    <button onclick="exportData('csv')" class="btn-secondary flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        Export
+                    </button>
+                    <button onclick="showAddDialog()" class="btn-primary flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Add Data
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-7 gap-4 mb-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-[#005B96] dark:text-[#33A1DE]" id="stat-total">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Total Items</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-[#33A1DE] dark:text-[#5BB8E8]" id="stat-databases">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Databases</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-blue-600" id="stat-files">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Files</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-green-600" id="stat-systems">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Systems</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-orange-600" id="stat-pii">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Contains PII</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-red-600" id="stat-sensitive">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Sensitive</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-teal-600" id="stat-documented">0%</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Documented</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="card mb-6">
+            <div class="card-body">
+                <div class="flex gap-4">
+                    <input type="text" id="search-input" placeholder="Search data inventory..." 
+                           class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE] focus:border-transparent"
+                           onkeyup="filterData()">
+                    <select id="filter-type" aria-label="Filter by data type" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]" onchange="filterData()">
+                        <option value="all">All Types</option>
+                        <option value="Database">Database</option>
+                        <option value="File">File/Document</option>
+                        <option value="System">System/Application</option>
+                        <option value="API">API/Service</option>
+                        <option value="Cloud">Cloud Storage</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <select id="filter-sensitivity" aria-label="Filter by sensitivity level" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]" onchange="filterData()">
+                        <option value="all">All Sensitivity</option>
+                        <option value="true">Contains Sensitive Data</option>
+                        <option value="pii">Contains PII</option>
+                        <option value="false">Non-Sensitive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="mb-6">
+            <div class="border-b border-gray-200 dark:border-gray-700">
+                <nav class="flex space-x-8">
+                    <button onclick="switchTab('inventory')" class="tab-button active px-1 py-4 text-sm font-medium border-b-2 border-[#005B96] dark:border-[#33A1DE] text-[#005B96] dark:text-[#33A1DE]">
+                        Inventory
+                    </button>
+                    <button onclick="switchTab('categories')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        Data Categories
+                    </button>
+                    <button onclick="switchTab('locations')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        Locations
+                    </button>
+                    <button onclick="switchTab('owners')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        Data Owners
+                    </button>
+                    <button onclick="switchTab('reports')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        Reports
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div>
+            <!-- Inventory Tab -->
+            <div id="tab-inventory" class="tab-content active">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="col-span-1">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="text-lg font-semibold">Data Items</h3>
+                                <p class="text-sm text-gray-600" id="data-count">0 items</p>
+                            </div>
+                            <div class="card-body max-h-[600px] overflow-y-auto" id="data-list">
+                                <div class="text-center py-12 text-gray-500">
+                                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                    </svg>
+                                    <p>No data items found</p>
+                                    <button onclick="showAddDialog()" class="mt-4 btn-secondary text-sm">
+                                        Add Your First Item
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-2">
+                        <div class="card" id="data-details">
+                            <div class="card-body text-center py-20 text-gray-500">
+                                <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                </svg>
+                                <p class="text-lg">Select a data item to view details</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Tab -->
+            <div id="tab-categories" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Data Categories Overview</h3>
+                        <p class="text-sm text-gray-600">Distribution of data by category</p>
+                    </div>
+                    <div class="card-body" id="categories-content">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Locations Tab -->
+            <div id="tab-locations" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Data Locations</h3>
+                        <p class="text-sm text-gray-600">Where organizational data is stored</p>
+                    </div>
+                    <div class="card-body" id="locations-content">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Owners Tab -->
+            <div id="tab-owners" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Data Ownership</h3>
+                        <p class="text-sm text-gray-600">Data stewards and custodians</p>
+                    </div>
+                    <div class="card-body" id="owners-content">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="tab-reports" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Export & Reports</h3>
+                        <p class="text-sm text-gray-600">Generate data inventory reports</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="exportData('csv')" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Export Complete Inventory (CSV)
+                            </button>
+                            <button onclick="exportData('json')" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                                </svg>
+                                Export Inventory (JSON)
+                            </button>
+                            <button onclick="exportSensitiveDataReport()" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                </svg>
+                                Sensitive Data Report
+                            </button>
+                            <button onclick="exportPIIReport()" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                PII Inventory Report
+                            </button>
+                            <button onclick="exportLocationReport()" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                Data Location Report
+                            </button>
+                            <button onclick="exportOwnershipReport()" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                                Ownership Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Dialog -->
+    <div id="import-dialog" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto m-4">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Import Data Inventory</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Upload your existing data inventory - supports CSV and JSON</p>
+            </div>
+            
+            <div class="px-6 py-4">
+                <div id="import-step-1" class="import-step">
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                        <svg class="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        <p class="text-lg font-medium mb-2">Upload your data inventory</p>
+                        <p class="text-gray-500 mb-4">Supports CSV and JSON files</p>
+                        <input type="file" id="file-input" accept=".csv,.json" class="hidden" onchange="handleFileUpload(event)">
+                        <button onclick="document.getElementById('file-input').click()" class="btn-primary">
+                            Choose File
+                        </button>
+                    </div>
+                    <div id="file-info" class="mt-4 hidden"></div>
+                </div>
+
+                <div id="import-step-2" class="import-step hidden">
+                    <h3 class="font-semibold mb-4">Map Your Fields</h3>
+                    <div id="field-mapping-container" class="space-y-3 max-h-96 overflow-y-auto">
+                        <!-- Field mappings will be inserted here -->
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button onclick="importStep = 1; showImportStep()" class="btn-secondary">Back</button>
+                        <button onclick="validateImportData()" class="btn-primary">Continue to Preview</button>
+                    </div>
+                </div>
+
+                <div id="import-step-3" class="import-step hidden">
+                    <h3 class="font-semibold mb-4">Preview Import</h3>
+                    <div id="preview-container" class="space-y-2 max-h-96 overflow-y-auto">
+                        <!-- Preview will be inserted here -->
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button onclick="importStep = 2; showImportStep()" class="btn-secondary">Back</button>
+                        <button onclick="executeImport()" class="btn-primary">Import Data</button>
+                    </div>
+                </div>
+
+                <div id="import-step-4" class="import-step hidden">
+                    <div class="text-center py-8">
+                        <div class="animate-spin w-12 h-12 border-4 border-[#005B96] dark:border-[#33A1DE] border-t-transparent rounded-full mx-auto mb-4"></div>
+                        <p class="text-lg font-medium mb-2">Importing Data...</p>
+                        <p class="text-gray-600">Please wait while we process your inventory</p>
+                        <div class="mt-4">
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div id="import-progress" class="progress-bar bg-[#005B96] dark:bg-[#33A1DE] h-2 rounded-full"></div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">
+                                <span id="import-progress-text">0</span>% complete
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="import-step-5" class="import-step hidden">
+                    <div class="text-center py-8">
+                        <svg class="w-16 h-16 mx-auto text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-lg font-medium mb-2">Import Complete!</p>
+                        <p class="text-gray-600">
+                            Successfully imported <span id="import-success-count">0</span> data items
+                        </p>
+                        <button onclick="closeImportDialog()" class="btn-primary mt-6">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Data Dialog -->
+    <div id="add-dialog" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Add Data to Inventory</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Document a new data source or repository</p>
+            </div>
+            
+            <div class="px-6 py-4">
+                <form id="add-data-form" onsubmit="handleAddData(event)" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Data Name *</label>
+                            <input type="text" name="name" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Type *</label>
+                            <select name="type" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]">
+                                <option value="Database">Database</option>
+                                <option value="File">File/Document</option>
+                                <option value="System">System/Application</option>
+                                <option value="API">API/Service</option>
+                                <option value="Cloud">Cloud Storage</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea name="description" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Owner/Custodian *</label>
+                            <input type="text" name="owner" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Location *</label>
+                            <input type="text" name="location" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]" placeholder="e.g., AWS, On-Premise, SharePoint">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <input type="text" name="category" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]" placeholder="e.g., Customer Data, Financial">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Volume</label>
+                            <input type="text" name="volume" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]" placeholder="e.g., 10GB, 50K records">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Data Characteristics</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="containsPII" class="rounded border-gray-300">
+                                <span class="text-sm">Contains PII</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="isSensitive" class="rounded border-gray-300">
+                                <span class="text-sm">Sensitive Data</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="isRegulated" class="rounded border-gray-300">
+                                <span class="text-sm">Regulated Data</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasBackup" class="rounded border-gray-300">
+                                <span class="text-sm">Has Backup</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Data Subjects</label>
+                            <input type="text" name="dataSubjects" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]" placeholder="e.g., Customers, Employees">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Retention Period</label>
+                            <input type="text" name="retention" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]" placeholder="e.g., 7 years">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-2 pt-4">
+                        <button type="button" onclick="closeAddDialog()" class="btn-secondary">Cancel</button>
+                        <button type="submit" class="btn-primary">Add to Inventory</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let dataItems = [];
+        let filteredData = [];
+        let selectedItem = null;
+        let importStep = 1;
+        let importData = [];
+        let fieldMapping = {};
+        let previewData = [];
+
+        // Available fields for mapping
+        const availableFields = [
+            { value: 'name', label: 'Data Name *' },
+            { value: 'type', label: 'Type *' },
+            { value: 'description', label: 'Description' },
+            { value: 'owner', label: 'Owner/Custodian *' },
+            { value: 'location', label: 'Location *' },
+            { value: 'category', label: 'Category' },
+            { value: 'volume', label: 'Volume/Size' },
+            { value: 'dataSubjects', label: 'Data Subjects' },
+            { value: 'retention', label: 'Retention Period' },
+            { value: 'containsPII', label: 'Contains PII' },
+            { value: 'isSensitive', label: 'Is Sensitive' },
+            { value: 'isRegulated', label: 'Is Regulated' },
+            { value: 'hasBackup', label: 'Has Backup' }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderData();
+            updateStatistics();
+        });
+
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(el => {
+                el.classList.remove('active', 'border-[#005B96]', 'dark:border-[#33A1DE]', 'text-[#005B96]', 'dark:text-[#33A1DE]');
+                el.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+            });
+            
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active', 'border-[#005B96]', 'dark:border-[#33A1DE]', 'text-[#005B96]', 'dark:text-[#33A1DE]');
+            event.target.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+
+            if (tabName === 'categories') renderCategoriesView();
+            if (tabName === 'locations') renderLocationsView();
+            if (tabName === 'owners') renderOwnersView();
+        }
+
+        // Calculate Documentation Score
+        function calculateDocumentationScore(item) {
+            const fields = [
+                item.name,
+                item.description,
+                item.owner,
+                item.location,
+                item.category,
+                item.volume,
+                item.dataSubjects,
+                item.retention
+            ];
+            const completed = fields.filter(f => f && f !== '').length;
+            return Math.round((completed / fields.length) * 100);
+        }
+
+        // Filter Data
+        function filterData() {
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const typeFilter = document.getElementById('filter-type').value;
+            const sensitivityFilter = document.getElementById('filter-sensitivity').value;
+
+            filteredData = dataItems.filter(item => {
+                const matchesSearch = !searchQuery || 
+                    item.name.toLowerCase().includes(searchQuery) ||
+                    (item.description && item.description.toLowerCase().includes(searchQuery)) ||
+                    (item.category && item.category.toLowerCase().includes(searchQuery));
+                
+                const matchesType = typeFilter === 'all' || item.type === typeFilter;
+                
+                let matchesSensitivity = true;
+                if (sensitivityFilter === 'true') matchesSensitivity = item.isSensitive;
+                else if (sensitivityFilter === 'pii') matchesSensitivity = item.containsPII;
+                else if (sensitivityFilter === 'false') matchesSensitivity = !item.isSensitive;
+                
+                return matchesSearch && matchesType && matchesSensitivity;
+            });
+
+            renderData();
+        }
+
+        // Render Data List
+        function renderData() {
+            const list = document.getElementById('data-list');
+            const count = document.getElementById('data-count');
+            
+            if (filteredData.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        <p>No data items found</p>
+                        <button onclick="showAddDialog()" class="mt-4 btn-secondary text-sm">Add Your First Item</button>
+                    </div>
+                `;
+                count.textContent = '0 items';
+                return;
+            }
+
+            count.textContent = `${filteredData.length} item${filteredData.length !== 1 ? 's' : ''}`;
+            
+            list.innerHTML = filteredData.map(item => `
+                <div class="border rounded-lg p-4 mb-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 ${selectedItem?.id === item.id ? 'border-[#005B96] dark:border-[#33A1DE] bg-[#E6F2FF] dark:bg-[#1a3a5c]' : 'border-gray-200 dark:border-gray-700'}" 
+                     onclick="selectItem(${item.id})">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="font-semibold">${item.name}</div>
+                        <span class="badge ${getTypeBadgeClass(item.type)}">${item.type}</span>
+                    </div>
+                    <div class="text-sm text-gray-600 mb-2">${item.location}</div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-1">
+                            ${item.containsPII ? '<span class="badge bg-orange-100 text-orange-800">PII</span>' : ''}
+                            ${item.isSensitive ? '<span class="badge bg-red-100 text-red-800">Sensitive</span>' : ''}
+                        </div>
+                        <div class="text-xs text-gray-500">${item.documentationScore}% documented</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Select Item
+        function selectItem(id) {
+            selectedItem = dataItems.find(d => d.id === id);
+            renderItemDetails();
+            renderData();
+        }
+
+        // Render Item Details
+        function renderItemDetails() {
+            if (!selectedItem) return;
+
+            const details = document.getElementById('data-details');
+            details.innerHTML = `
+                <div class="card-header">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-semibold flex items-center gap-2">
+                                ${selectedItem.name}
+                                <span class="badge ${getTypeBadgeClass(selectedItem.type)}">${selectedItem.type}</span>
+                            </h3>
+                            <p class="text-sm text-gray-600">${selectedItem.category || 'Uncategorized'}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body space-y-6">
+                    <!-- Documentation Progress -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm font-medium">Documentation Completeness</span>
+                            <span class="text-sm text-gray-600">${selectedItem.documentationScore}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-[#005B96] dark:bg-[#33A1DE] h-2 rounded-full" style="width: ${selectedItem.documentationScore}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    ${selectedItem.description ? `
+                        <div>
+                            <h4 class="font-semibold mb-2">Description</h4>
+                            <p class="text-sm text-gray-700">${selectedItem.description}</p>
+                        </div>
+                    ` : ''}
+
+                    <!-- Basic Information -->
+                    <div>
+                        <h4 class="font-semibold mb-3">Basic Information</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <div class="text-gray-600">Owner/Custodian</div>
+                                <div>${selectedItem.owner}</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-600">Location</div>
+                                <div>${selectedItem.location}</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-600">Volume/Size</div>
+                                <div>${selectedItem.volume || 'Not specified'}</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-600">Retention Period</div>
+                                <div>${selectedItem.retention || 'Not specified'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Characteristics -->
+                    <div>
+                        <h4 class="font-semibold mb-3">Data Characteristics</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            ${renderCharacteristic('Contains PII', selectedItem.containsPII)}
+                            ${renderCharacteristic('Sensitive Data', selectedItem.isSensitive)}
+                            ${renderCharacteristic('Regulated Data', selectedItem.isRegulated)}
+                            ${renderCharacteristic('Has Backup', selectedItem.hasBackup)}
+                        </div>
+                    </div>
+
+                    <!-- Data Subjects -->
+                    ${selectedItem.dataSubjects ? `
+                        <div>
+                            <h4 class="font-semibold mb-2">Data Subjects</h4>
+                            <p class="text-sm text-gray-700">${selectedItem.dataSubjects}</p>
+                        </div>
+                    ` : ''}
+
+                    <!-- Timestamps -->
+                    <div class="text-xs text-gray-500 pt-4 border-t">
+                        <div>Added: ${selectedItem.createdDate}</div>
+                        <div>Last Updated: ${selectedItem.lastUpdated}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCharacteristic(label, value) {
+            const icon = value ? 
+                '<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' :
+                '<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+            
+            return `
+                <div class="flex items-center gap-2">
+                    ${icon}
+                    <span class="text-sm">${label}</span>
+                </div>
+            `;
+        }
+
+        // Badge Classes
+        function getTypeBadgeClass(type) {
+            const classes = {
+                'Database': 'bg-purple-100 text-purple-800',
+                'File': 'bg-blue-100 text-blue-800',
+                'System': 'bg-green-100 text-green-800',
+                'API': 'bg-cyan-100 text-cyan-800',
+                'Cloud': 'bg-sky-100 text-sky-800',
+                'Other': 'bg-gray-100 text-gray-800'
+            };
+            return classes[type] || 'bg-gray-100 text-gray-800';
+        }
+
+        // Update Statistics
+        function updateStatistics() {
+            document.getElementById('stat-total').textContent = dataItems.length;
+            document.getElementById('stat-databases').textContent = dataItems.filter(d => d.type === 'Database').length;
+            document.getElementById('stat-files').textContent = dataItems.filter(d => d.type === 'File').length;
+            document.getElementById('stat-systems').textContent = dataItems.filter(d => d.type === 'System').length;
+            document.getElementById('stat-pii').textContent = dataItems.filter(d => d.containsPII).length;
+            document.getElementById('stat-sensitive').textContent = dataItems.filter(d => d.isSensitive).length;
+            
+            const avgDoc = dataItems.length > 0 
+                ? Math.round(dataItems.reduce((sum, d) => sum + d.documentationScore, 0) / dataItems.length)
+                : 0;
+            document.getElementById('stat-documented').textContent = `${avgDoc}%`;
+        }
+
+        // Render Categories View
+        function renderCategoriesView() {
+            const container = document.getElementById('categories-content');
+            
+            if (dataItems.length === 0) {
+                container.innerHTML = '<div class="text-center py-12 text-gray-500"><p>No data to categorize</p></div>';
+                return;
+            }
+
+            const categories = {};
+            dataItems.forEach(item => {
+                const cat = item.category || 'Uncategorized';
+                if (!categories[cat]) categories[cat] = [];
+                categories[cat].push(item);
+            });
+
+            let html = '<div class="space-y-6">';
+            
+            // Category distribution
+            html += `
+                <div class="grid grid-cols-3 gap-4">
+                    ${Object.keys(categories).slice(0, 6).map(cat => `
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="text-2xl font-bold">${categories[cat].length}</div>
+                                <div class="text-sm text-gray-600">${cat}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            // Detailed category view
+            Object.keys(categories).forEach(cat => {
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-lg font-semibold">${cat} (${categories[cat].length})</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="space-y-2">
+                                ${categories[cat].slice(0, 5).map(item => `
+                                    <div class="flex justify-between items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                                         onclick="selectItem(${item.id}); switchTab('inventory')">
+                                        <div>
+                                            <div class="font-medium">${item.name}</div>
+                                            <div class="text-sm text-gray-600">${item.type} • ${item.location}</div>
+                                        </div>
+                                        ${item.isSensitive ? '<span class="badge bg-red-100 text-red-800">Sensitive</span>' : ''}
+                                    </div>
+                                `).join('')}
+                                ${categories[cat].length > 5 ? `
+                                    <div class="text-sm text-gray-500 text-center pt-2">
+                                        +${categories[cat].length - 5} more items
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Render Locations View
+        function renderLocationsView() {
+            const container = document.getElementById('locations-content');
+            
+            if (dataItems.length === 0) {
+                container.innerHTML = '<div class="text-center py-12 text-gray-500"><p>No data locations to display</p></div>';
+                return;
+            }
+
+            const locations = {};
+            dataItems.forEach(item => {
+                const loc = item.location;
+                if (!locations[loc]) locations[loc] = [];
+                locations[loc].push(item);
+            });
+
+            let html = '<div class="space-y-4">';
+            
+            Object.keys(locations).forEach(loc => {
+                const sensitive = locations[loc].filter(i => i.isSensitive).length;
+                const pii = locations[loc].filter(i => i.containsPII).length;
+                
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-lg font-semibold">${loc}</h3>
+                                    <p class="text-sm text-gray-600">${locations[loc].length} data items</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    ${sensitive > 0 ? `<span class="badge bg-red-100 text-red-800">${sensitive} Sensitive</span>` : ''}
+                                    ${pii > 0 ? `<span class="badge bg-orange-100 text-orange-800">${pii} PII</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-2 gap-2">
+                                ${locations[loc].slice(0, 6).map(item => `
+                                    <div class="p-2 border rounded hover:bg-gray-50 cursor-pointer text-sm"
+                                         onclick="selectItem(${item.id}); switchTab('inventory')">
+                                        <div class="font-medium">${item.name}</div>
+                                        <div class="text-xs text-gray-600">${item.type}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            ${locations[loc].length > 6 ? `
+                                <div class="text-sm text-gray-500 text-center pt-2 mt-2 border-t">
+                                    +${locations[loc].length - 6} more items
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Render Owners View
+        function renderOwnersView() {
+            const container = document.getElementById('owners-content');
+            
+            if (dataItems.length === 0) {
+                container.innerHTML = '<div class="text-center py-12 text-gray-500"><p>No data owners to display</p></div>';
+                return;
+            }
+
+            const owners = {};
+            dataItems.forEach(item => {
+                const owner = item.owner;
+                if (!owners[owner]) owners[owner] = [];
+                owners[owner].push(item);
+            });
+
+            let html = '<div class="space-y-4">';
+            
+            Object.keys(owners).forEach(owner => {
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-lg font-semibold">${owner}</h3>
+                                    <p class="text-sm text-gray-600">Responsible for ${owners[owner].length} data items</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="space-y-2">
+                                ${owners[owner].slice(0, 5).map(item => `
+                                    <div class="flex justify-between items-center p-2 border rounded hover:bg-gray-50 cursor-pointer"
+                                         onclick="selectItem(${item.id}); switchTab('inventory')">
+                                        <div class="text-sm">
+                                            <div class="font-medium">${item.name}</div>
+                                            <div class="text-xs text-gray-600">${item.type} • ${item.location}</div>
+                                        </div>
+                                        <span class="badge ${getTypeBadgeClass(item.type)}">${item.type}</span>
+                                    </div>
+                                `).join('')}
+                                ${owners[owner].length > 5 ? `
+                                    <div class="text-sm text-gray-500 text-center pt-2">
+                                        +${owners[owner].length - 5} more items
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Dialog Functions
+        function showImportDialog() {
+            document.getElementById('import-dialog').classList.add('active');
+            importStep = 1;
+            showImportStep();
+        }
+
+        function closeImportDialog() {
+            document.getElementById('import-dialog').classList.remove('active');
+            resetImport();
+        }
+
+        function showAddDialog() {
+            document.getElementById('add-dialog').classList.add('active');
+        }
+
+        function closeAddDialog() {
+            document.getElementById('add-dialog').classList.remove('active');
+            document.getElementById('add-data-form').reset();
+        }
+
+        function showImportStep() {
+            document.querySelectorAll('.import-step').forEach(el => el.classList.add('hidden'));
+            document.getElementById('import-step-' + importStep).classList.remove('hidden');
+        }
+
+        // File Upload Handler
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            
+            if (!['csv', 'json'].includes(fileExtension)) {
+                alert('Unsupported file format. Please use CSV or JSON files.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    if (fileExtension === 'json') {
+                        const data = JSON.parse(e.target.result);
+                        importData = Array.isArray(data) ? data : [data];
+                    } else if (fileExtension === 'csv') {
+                        const lines = e.target.result.split('\n');
+                        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+                        importData = lines.slice(1).filter(line => line.trim()).map(line => {
+                            const values = line.split(',').map(v => v.trim().replace(/"/g, ''));
+                            const row = {};
+                            headers.forEach((header, index) => {
+                                row[header] = values[index] || '';
+                            });
+                            return row;
+                        });
+                    }
+
+                    document.getElementById('file-info').innerHTML = `
+                        <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <p class="text-sm text-green-800">
+                                ✓ File uploaded: ${file.name} (${(file.size / 1024).toFixed(2)} KB)
+                                <br>Found ${importData.length} records
+                            </p>
+                        </div>
+                    `;
+                    document.getElementById('file-info').classList.remove('hidden');
+                    
+                    importStep = 2;
+                    showImportStep();
+                    renderFieldMapping();
+                } catch (error) {
+                    alert('Error parsing file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Render Field Mapping
+        function renderFieldMapping() {
+            if (importData.length === 0) return;
+
+            const container = document.getElementById('field-mapping-container');
+            const sourceFields = Object.keys(importData[0]);
+
+            container.innerHTML = sourceFields.map(sourceField => `
+                <div class="flex items-center gap-4">
+                    <div class="w-1/3 font-medium text-sm">${sourceField}</div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                    <select class="flex-1 px-3 py-2 border border-gray-300 rounded-lg" 
+                            onchange="fieldMapping['${sourceField}'] = this.value"
+                            aria-label="Map ${sourceField} to target field"
+                            title="Map ${sourceField} to target field">
+                        <option value="">Select target field...</option>
+                        <option value="ignore">Ignore this field</option>
+                        ${availableFields.map(field => 
+                            `<option value="${field.value}">${field.label}</option>`
+                        ).join('')}
+                    </select>
+                </div>
+            `).join('');
+        }
+
+        // Validate Import Data
+        function validateImportData() {
+            const requiredFields = ['name', 'type', 'owner', 'location'];
+            const errors = [];
+            previewData = [];
+
+            importData.forEach((row, index) => {
+                const mappedRow = {};
+                let hasErrors = false;
+
+                Object.keys(fieldMapping).forEach(sourceField => {
+                    const targetField = fieldMapping[sourceField];
+                    if (targetField && targetField !== 'ignore') {
+                        let value = row[sourceField];
+                        
+                        // Handle boolean fields
+                        const booleanFields = ['containsPII', 'isSensitive', 'isRegulated', 'hasBackup'];
+                        if (booleanFields.includes(targetField)) {
+                            value = value === 'true' || value === 'yes' || value === '1' || 
+                                   value === 'TRUE' || value === 'YES' || value === true;
+                        }
+                        
+                        mappedRow[targetField] = value;
+                    }
+                });
+
+                // Validate required fields
+                requiredFields.forEach(field => {
+                    if (!mappedRow[field] || mappedRow[field] === '') {
+                        errors.push(`Row ${index + 1}: Missing required field '${field}'`);
+                        hasErrors = true;
+                    }
+                });
+
+                if (!hasErrors) {
+                    const completeRow = {
+                        ...mappedRow,
+                        containsPII: mappedRow.containsPII || false,
+                        isSensitive: mappedRow.isSensitive || false,
+                        isRegulated: mappedRow.isRegulated || false,
+                        hasBackup: mappedRow.hasBackup || false
+                    };
+                    
+                    completeRow.documentationScore = calculateDocumentationScore(completeRow);
+                    previewData.push(completeRow);
+                }
+            });
+
+            if (errors.length > 0) {
+                alert('Validation errors:\n' + errors.join('\n'));
+                return;
+            }
+
+            importStep = 3;
+            showImportStep();
+            renderPreview();
+        }
+
+        // Render Preview
+        function renderPreview() {
+            const container = document.getElementById('preview-container');
+            container.innerHTML = `
+                <div class="p-4 bg-green-50 border border-green-200 rounded-lg mb-4">
+                    <p class="text-sm text-green-800">
+                        ✓ Ready to import ${previewData.length} data items. Review the preview below.
+                    </p>
+                </div>
+                ${previewData.slice(0, 5).map(item => `
+                    <div class="card mb-2">
+                        <div class="card-body p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="font-semibold">${item.name}</div>
+                                    <div class="text-sm text-gray-600">${item.type} • ${item.location}</div>
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        ${item.documentationScore}% documented
+                                        ${item.containsPII ? ' • Contains PII' : ''}
+                                        ${item.isSensitive ? ' • Sensitive' : ''}
+                                    </div>
+                                </div>
+                                <span class="badge ${getTypeBadgeClass(item.type)}">${item.type}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+                ${previewData.length > 5 ? `
+                    <div class="text-center text-sm text-gray-500 py-2">
+                        +${previewData.length - 5} more items
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        // Execute Import
+        async function executeImport() {
+            importStep = 4;
+            showImportStep();
+            
+            let progress = 0;
+            const increment = 100 / previewData.length;
+            
+            for (let i = 0; i < previewData.length; i++) {
+                const newItem = {
+                    ...previewData[i],
+                    id: dataItems.length > 0 ? Math.max(...dataItems.map(d => d.id)) + i + 1 : i + 1,
+                    createdDate: new Date().toISOString().split('T')[0],
+                    lastUpdated: new Date().toISOString().split('T')[0]
+                };
+                
+                dataItems.push(newItem);
+                
+                progress += increment;
+                document.getElementById('import-progress').style.setProperty('--progress-width', `${progress}%`);
+                document.getElementById('import-progress-text').textContent = Math.round(progress);
+                
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+
+            document.getElementById('import-success-count').textContent = previewData.length;
+            importStep = 5;
+            showImportStep();
+            
+            filteredData = dataItems;
+            renderData();
+            updateStatistics();
+        }
+
+        // Reset Import
+        function resetImport() {
+            importStep = 1;
+            importData = [];
+            fieldMapping = {};
+            previewData = [];
+            document.getElementById('file-input').value = '';
+            document.getElementById('file-info').classList.add('hidden');
+        }
+
+        // Add Data
+        function handleAddData(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const newItem = {
+                id: dataItems.length > 0 ? Math.max(...dataItems.map(d => d.id)) + 1 : 1,
+                name: formData.get('name'),
+                type: formData.get('type'),
+                description: formData.get('description') || '',
+                owner: formData.get('owner'),
+                location: formData.get('location'),
+                category: formData.get('category') || '',
+                volume: formData.get('volume') || '',
+                dataSubjects: formData.get('dataSubjects') || '',
+                retention: formData.get('retention') || '',
+                containsPII: formData.get('containsPII') === 'on',
+                isSensitive: formData.get('isSensitive') === 'on',
+                isRegulated: formData.get('isRegulated') === 'on',
+                hasBackup: formData.get('hasBackup') === 'on',
+                createdDate: new Date().toISOString().split('T')[0],
+                lastUpdated: new Date().toISOString().split('T')[0]
+            };
+
+            newItem.documentationScore = calculateDocumentationScore(newItem);
+
+            dataItems.push(newItem);
+            filteredData = dataItems;
+            
+            renderData();
+            updateStatistics();
+            closeAddDialog();
+        }
+
+        // Export Functions
+        function exportData(format) {
+            const exportData = dataItems.map(item => ({
+                name: item.name,
+                type: item.type,
+                description: item.description,
+                owner: item.owner,
+                location: item.location,
+                category: item.category,
+                volume: item.volume,
+                dataSubjects: item.dataSubjects,
+                retention: item.retention,
+                containsPII: item.containsPII,
+                isSensitive: item.isSensitive,
+                isRegulated: item.isRegulated,
+                hasBackup: item.hasBackup,
+                documentationScore: item.documentationScore
+            }));
+
+            if (format === 'csv') {
+                const headers = Object.keys(exportData[0] || {});
+                const csvContent = [
+                    headers.join(','),
+                    ...exportData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+                ].join('\n');
+
+                downloadFile(csvContent, `data-inventory-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+            } else if (format === 'json') {
+                downloadFile(JSON.stringify(exportData, null, 2), `data-inventory-${new Date().toISOString().split('T')[0]}.json`, 'application/json');
+            }
+        }
+
+        function exportSensitiveDataReport() {
+            const sensitiveData = dataItems.filter(item => item.isSensitive).map(item => ({
+                name: item.name,
+                type: item.type,
+                owner: item.owner,
+                location: item.location,
+                containsPII: item.containsPII,
+                isRegulated: item.isRegulated,
+                hasBackup: item.hasBackup
+            }));
+
+            const headers = Object.keys(sensitiveData[0] || {});
+            const csvContent = [
+                headers.join(','),
+                ...sensitiveData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+            ].join('\n');
+
+            downloadFile(csvContent, `sensitive-data-report-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+        }
+
+        function exportPIIReport() {
+            const piiData = dataItems.filter(item => item.containsPII).map(item => ({
+                name: item.name,
+                type: item.type,
+                owner: item.owner,
+                location: item.location,
+                dataSubjects: item.dataSubjects,
+                retention: item.retention,
+                hasBackup: item.hasBackup
+            }));
+
+            const headers = Object.keys(piiData[0] || {});
+            const csvContent = [
+                headers.join(','),
+                ...piiData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+            ].join('\n');
+
+            downloadFile(csvContent, `pii-inventory-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+        }
+
+        function exportLocationReport() {
+            const locations = {};
+            dataItems.forEach(item => {
+                if (!locations[item.location]) {
+                    locations[item.location] = { location: item.location, items: 0, sensitive: 0, pii: 0 };
+                }
+                locations[item.location].items++;
+                if (item.isSensitive) locations[item.location].sensitive++;
+                if (item.containsPII) locations[item.location].pii++;
+            });
+
+            const reportData = Object.values(locations);
+            const headers = ['location', 'items', 'sensitive', 'pii'];
+            const csvContent = [
+                headers.join(','),
+                ...reportData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+            ].join('\n');
+
+            downloadFile(csvContent, `location-report-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+        }
+
+        function exportOwnershipReport() {
+            const owners = {};
+            dataItems.forEach(item => {
+                if (!owners[item.owner]) {
+                    owners[item.owner] = { owner: item.owner, items: 0, sensitive: 0, documented: [] };
+                }
+                owners[item.owner].items++;
+                if (item.isSensitive) owners[item.owner].sensitive++;
+                owners[item.owner].documented.push(item.documentationScore);
+            });
+
+            const reportData = Object.keys(owners).map(owner => ({
+                owner,
+                items: owners[owner].items,
+                sensitive: owners[owner].sensitive,
+                avgDocumentation: Math.round(owners[owner].documented.reduce((a,b) => a+b, 0) / owners[owner].items)
+            }));
+
+            const headers = ['owner', 'items', 'sensitive', 'avgDocumentation'];
+            const csvContent = [
+                headers.join(','),
+                ...reportData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+            ].join('\n');
+
+            downloadFile(csvContent, `ownership-report-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+        }
+
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

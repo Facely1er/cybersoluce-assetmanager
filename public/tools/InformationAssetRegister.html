@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information Asset Register | ERMITS Corporation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // CyberSoluce Theme Configuration
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'command-blue': {
+                            50: '#F0F7FF',
+                            100: '#E6F2FF',
+                            400: '#33A1DE',
+                            500: '#0066B3',
+                            600: '#005B96',
+                            700: '#004A7A',
+                        },
+                        'action-cyan': {
+                            50: '#F0F9FC',
+                            100: '#E6F5FA',
+                            400: '#5BB8E8',
+                            500: '#33A1DE',
+                            600: '#2A8BC4',
+                        }
+                    }
+                }
+            },
+            darkMode: 'class'
+        };
+
+        // Theme Toggle Functionality
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            const theme = isDark ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            updateThemeIcon(theme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.innerHTML = theme === 'dark' 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initTheme);
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .btn-primary {
+            @apply bg-[#005B96] hover:bg-[#004A7A] dark:bg-[#0066B3] dark:hover:bg-[#005B96] text-white px-4 py-2 rounded-lg transition-colors;
+        }
+        .btn-secondary {
+            @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg transition-colors;
+        }
+        .modal {
+            display: none;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+            width: var(--progress-width, 0%);
+        }
+        .progress-bar-fill {
+            transition: width 0.3s ease;
+            width: var(--progress-width, 0%);
+        }
+        .badge {
+            @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+        }
+        .card {
+            @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700;
+        }
+        .card-header {
+            @apply px-6 py-4 border-b border-gray-200 dark:border-gray-700;
+        }
+        .card-body {
+            @apply px-6 py-4;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <svg class="w-8 h-8 text-[#005B96] dark:text-[#33A1DE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                        </svg>
+                        Information Asset Register
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-400 mt-1">Data inventory, classification & protection management</p>
+                </div>
+                <div class="flex gap-2">
+                    <!-- Theme Toggle Button -->
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition-colors" title="Toggle theme">
+                        <svg id="theme-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                    <button onclick="showImportDialog()" class="btn-secondary flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        Import Register
+                    </button>
+                    <button onclick="exportAssets('csv', true)" class="btn-secondary flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        Export
+                    </button>
+                    <button onclick="showAddDialog()" class="btn-primary flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Add Asset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold" id="stat-total">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Total Assets</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-red-600" id="stat-restricted">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Restricted</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-orange-600" id="stat-high-risk">0</div>
+                    <div class="text-sm text-gray-600">High Risk</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-yellow-600" id="stat-gaps">0</div>
+                    <div class="text-sm text-gray-600">With Gaps</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-[#005B96] dark:text-[#33A1DE]" id="stat-completeness">0%</div>
+                    <div class="text-sm text-gray-600">Avg Completeness</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-2xl font-bold text-green-600" id="stat-compliant">0</div>
+                    <div class="text-sm text-gray-600">Fully Compliant</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="card mb-6">
+            <div class="card-body">
+                <div class="flex gap-4">
+                    <input type="text" id="search-input" placeholder="Search assets..." 
+                           class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]-500 focus:border-transparent"
+                           onkeyup="filterAssets()">
+                    <select id="filter-classification" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]-500" onchange="filterAssets()" aria-label="Filter by classification" title="Filter by classification">
+                        <option value="all">All Classifications</option>
+                        <option value="Public">Public</option>
+                        <option value="Internal">Internal</option>
+                        <option value="Confidential">Confidential</option>
+                        <option value="Restricted">Restricted</option>
+                    </select>
+                    <select id="filter-risk" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]-500" onchange="filterAssets()" aria-label="Filter by risk level" title="Filter by risk level">
+                        <option value="all">All Risk Levels</option>
+                        <option value="High">High Risk</option>
+                        <option value="Medium">Medium Risk</option>
+                        <option value="Low">Low Risk</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="mb-6">
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-8">
+                    <button onclick="switchTab('assets')" class="tab-button active px-1 py-4 text-sm font-medium border-b-2 border-[#005B96] dark:border-[#33A1DE] text-[#005B96] dark:text-[#33A1DE]">
+                        Assets
+                    </button>
+                    <button onclick="switchTab('gaps')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                        Gap Analysis
+                    </button>
+                    <button onclick="switchTab('classification')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                        Classification
+                    </button>
+                    <button onclick="switchTab('compliance')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                        Compliance
+                    </button>
+                    <button onclick="switchTab('reports')" class="tab-button px-1 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                        Reports
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div>
+            <!-- Assets Tab -->
+            <div id="tab-assets" class="tab-content active">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="col-span-1">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="text-lg font-semibold">Asset List</h3>
+                                <p class="text-sm text-gray-600" id="asset-count">0 assets</p>
+                            </div>
+                            <div class="card-body max-h-[600px] overflow-y-auto" id="asset-list">
+                                <div class="text-center py-12 text-gray-500">
+                                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                                    </svg>
+                                    <p>No assets found</p>
+                                    <button onclick="showAddDialog()" class="mt-4 btn-secondary text-sm">
+                                        Add Your First Asset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-2">
+                        <div class="card" id="asset-details">
+                            <div class="card-body text-center py-20 text-gray-500">
+                                <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                                </svg>
+                                <p class="text-lg">Select an asset to view details</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gap Analysis Tab -->
+            <div id="tab-gaps" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Gap Analysis Overview</h3>
+                        <p class="text-sm text-gray-600">Data protection control gaps across your assets</p>
+                    </div>
+                    <div class="card-body" id="gap-analysis-content">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classification Tab -->
+            <div id="tab-classification" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Data Classification Overview</h3>
+                        <p class="text-sm text-gray-600">Asset distribution by classification level</p>
+                    </div>
+                    <div class="card-body" id="classification-content">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compliance Tab -->
+            <div id="tab-compliance" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Compliance Dashboard</h3>
+                        <p class="text-sm text-gray-600">Regulatory compliance tracking and reporting</p>
+                    </div>
+                    <div class="card-body" id="compliance-content">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="tab-reports" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Reports & Analytics</h3>
+                        <p class="text-sm text-gray-600">Generate comprehensive asset management reports</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="exportAssets('csv', false)" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Export Basic Register (CSV)
+                            </button>
+                            <button onclick="exportAssets('csv', true)" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                                </svg>
+                                Export with Gap Analysis (CSV)
+                            </button>
+                            <button onclick="exportAssets('json', false)" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                                </svg>
+                                Export Basic Register (JSON)
+                            </button>
+                            <button onclick="exportGapAnalysisReport()" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                                Export Gap Analysis Report
+                            </button>
+                            <button onclick="exportClassificationReport()" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                </svg>
+                                Export Classification Report
+                            </button>
+                            <button onclick="exportComplianceReport()" class="btn-secondary flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                </svg>
+                                Export Compliance Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Dialog -->
+    <div id="import-dialog" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto m-4">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold">Import Asset Register</h2>
+                <p class="text-sm text-gray-600">Upload your existing asset register - supports CSV and JSON</p>
+            </div>
+            
+            <div class="px-6 py-4">
+                <div id="import-step-1" class="import-step">
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                        <svg class="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        <p class="text-lg font-medium mb-2">Upload your asset register</p>
+                        <p class="text-gray-500 mb-4">Supports CSV and JSON files with gap assessment data</p>
+                        <input type="file" id="file-input" accept=".csv,.json" class="hidden" onchange="handleFileUpload(event)">
+                        <button onclick="document.getElementById('file-input').click()" class="btn-primary">
+                            Choose File
+                        </button>
+                    </div>
+                    <div id="file-info" class="mt-4 hidden"></div>
+                </div>
+
+                <div id="import-step-2" class="import-step hidden">
+                    <h3 class="font-semibold mb-4">Map Your Fields</h3>
+                    <div id="field-mapping-container" class="space-y-3 max-h-96 overflow-y-auto">
+                        <!-- Field mappings will be inserted here -->
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button onclick="importStep = 1; showImportStep()" class="btn-secondary">Back</button>
+                        <button onclick="validateImportData()" class="btn-primary">Continue to Preview</button>
+                    </div>
+                </div>
+
+                <div id="import-step-3" class="import-step hidden">
+                    <h3 class="font-semibold mb-4">Preview Import</h3>
+                    <div id="preview-container" class="space-y-2 max-h-96 overflow-y-auto">
+                        <!-- Preview will be inserted here -->
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button onclick="importStep = 2; showImportStep()" class="btn-secondary">Back</button>
+                        <button onclick="executeImport()" class="btn-primary">Import Assets</button>
+                    </div>
+                </div>
+
+                <div id="import-step-4" class="import-step hidden">
+                    <div class="text-center py-8">
+                        <div class="animate-spin w-12 h-12 border-4 border-[#005B96] dark:border-[#33A1DE] border-t-transparent rounded-full mx-auto mb-4"></div>
+                        <p class="text-lg font-medium mb-2">Importing Assets...</p>
+                        <p class="text-gray-600">Please wait while we process your data</p>
+                        <div class="mt-4">
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div id="import-progress" class="progress-bar bg-[#005B96] dark:bg-[#0066B3] h-2 rounded-full"></div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">
+                                <span id="import-progress-text">0</span>% complete
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="import-step-5" class="import-step hidden">
+                    <div class="text-center py-8">
+                        <svg class="w-16 h-16 mx-auto text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-lg font-medium mb-2">Import Complete!</p>
+                        <p class="text-gray-600">
+                            Successfully imported <span id="import-success-count">0</span> assets
+                        </p>
+                        <button onclick="closeImportDialog()" class="btn-primary mt-6">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Asset Dialog -->
+    <div id="add-dialog" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold">Add New Information Asset</h2>
+                <p class="text-sm text-gray-600">Enter asset information for data inventory and protection</p>
+            </div>
+            
+            <div class="px-6 py-4">
+                <form id="add-asset-form" onsubmit="handleAddAsset(event)" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Asset Name *</label>
+                            <input type="text" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Asset Type *</label>
+                            <select name="type" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]-500">
+                                <option value="Database">Database</option>
+                                <option value="Application">Application</option>
+                                <option value="File System">File System</option>
+                                <option value="Cloud Storage">Cloud Storage</option>
+                                <option value="API">API</option>
+                                <option value="Document">Document</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Classification *</label>
+                            <select name="classification" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]-500">
+                                <option value="Public">Public</option>
+                                <option value="Internal" selected>Internal</option>
+                                <option value="Confidential">Confidential</option>
+                                <option value="Restricted">Restricted</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Risk Level</label>
+                            <select name="riskLevel" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]-500">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Owner *</label>
+                            <input type="text" name="owner" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                            <input type="text" name="location" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]-500" placeholder="e.g., AWS, On-Premise">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea name="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#005B96] dark:focus:ring-[#33A1DE]-500"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Data Protection Controls</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasInventory" class="rounded border-gray-300">
+                                <span class="text-sm">Data Inventory Complete</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasDataMapping" class="rounded border-gray-300">
+                                <span class="text-sm">Data Flow Mapped</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasRiskAssessment" class="rounded border-gray-300">
+                                <span class="text-sm">Risk Assessment Done</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasDPIA" class="rounded border-gray-300">
+                                <span class="text-sm">DPIA Completed</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasAccessControls" class="rounded border-gray-300">
+                                <span class="text-sm">Access Controls</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasEncryption" class="rounded border-gray-300">
+                                <span class="text-sm">Encryption Enabled</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasBackupProcedure" class="rounded border-gray-300">
+                                <span class="text-sm">Backup Procedure</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="hasRetentionSchedule" class="rounded border-gray-300">
+                                <span class="text-sm">Retention Schedule</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-2 pt-4">
+                        <button type="button" onclick="closeAddDialog()" class="btn-secondary">Cancel</button>
+                        <button type="submit" class="btn-primary">Add Asset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let assets = [];
+        let filteredAssets = [];
+        let selectedAsset = null;
+        let importStep = 1;
+        let importData = [];
+        let fieldMapping = {};
+        let previewData = [];
+
+        // Available fields for import mapping
+        const availableFields = [
+            { value: 'name', label: 'Asset Name *', required: true },
+            { value: 'type', label: 'Asset Type *', required: true },
+            { value: 'category', label: 'Category', required: false },
+            { value: 'owner', label: 'Owner *', required: true },
+            { value: 'classification', label: 'Classification *', required: true },
+            { value: 'description', label: 'Description', required: false },
+            { value: 'location', label: 'Location', required: false },
+            { value: 'retention', label: 'Retention Period', required: false },
+            { value: 'riskLevel', label: 'Risk Level', required: false },
+            { value: 'status', label: 'Status', required: false },
+            { value: 'hasInventory', label: 'Has Inventory Record', required: false },
+            { value: 'hasDataMapping', label: 'Has Data Mapping', required: false },
+            { value: 'hasRiskAssessment', label: 'Has Risk Assessment', required: false },
+            { value: 'hasDPIA', label: 'Has DPIA', required: false },
+            { value: 'hasRetentionSchedule', label: 'Has Retention Schedule', required: false },
+            { value: 'hasAccessControls', label: 'Has Access Controls', required: false },
+            { value: 'hasEncryption', label: 'Has Encryption', required: false },
+            { value: 'hasBackupProcedure', label: 'Has Backup Procedure', required: false }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAssets();
+            updateStatistics();
+        });
+
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(el => {
+                el.classList.remove('active', 'border-[#005B96] dark:border-[#33A1DE]', 'text-[#005B96] dark:text-[#33A1DE]');
+                el.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active', 'border-[#005B96] dark:border-[#33A1DE]', 'text-[#005B96] dark:text-[#33A1DE]');
+            event.target.classList.remove('border-transparent', 'text-gray-500');
+
+            if (tabName === 'gaps') renderGapAnalysis();
+            if (tabName === 'classification') renderClassificationView();
+            if (tabName === 'compliance') renderComplianceView();
+        }
+
+        // Calculate Completeness Score
+        function calculateCompletenessScore(asset) {
+            const checks = [
+                asset.hasInventory,
+                asset.hasDataMapping,
+                asset.hasRiskAssessment,
+                asset.hasDPIA,
+                asset.hasRetentionSchedule,
+                asset.hasAccessControls,
+                asset.hasEncryption,
+                asset.hasBackupProcedure
+            ];
+            const completed = checks.filter(Boolean).length;
+            return Math.round((completed / checks.length) * 100);
+        }
+
+        // Identify Gaps
+        function identifyGaps(asset) {
+            const gaps = {
+                missingControls: [],
+                recommendations: [],
+                complianceGaps: []
+            };
+
+            if (!asset.hasInventory) {
+                gaps.missingControls.push('Data Inventory');
+                gaps.recommendations.push('Complete data inventory and classification');
+            }
+            if (!asset.hasDataMapping) {
+                gaps.missingControls.push('Data Mapping');
+                gaps.recommendations.push('Document data flows and processing activities');
+            }
+            if (!asset.hasRiskAssessment) {
+                gaps.missingControls.push('Risk Assessment');
+                gaps.recommendations.push('Conduct comprehensive risk assessment');
+            }
+            if (!asset.hasDPIA && (asset.classification === 'Restricted' || asset.classification === 'Confidential')) {
+                gaps.missingControls.push('DPIA');
+                gaps.recommendations.push('Complete Data Protection Impact Assessment');
+                gaps.complianceGaps.push('DPIA required for high-risk processing');
+            }
+            if (!asset.hasRetentionSchedule) {
+                gaps.missingControls.push('Retention Schedule');
+                gaps.recommendations.push('Establish data retention and disposal schedule');
+            }
+            if (!asset.hasAccessControls) {
+                gaps.missingControls.push('Access Controls');
+                gaps.recommendations.push('Implement role-based access controls');
+                gaps.complianceGaps.push('Inadequate access control documentation');
+            }
+            if (!asset.hasEncryption && asset.riskLevel === 'High') {
+                gaps.missingControls.push('Encryption');
+                gaps.recommendations.push('Enable encryption at rest and in transit');
+                gaps.complianceGaps.push('High-risk data requires encryption');
+            }
+            if (!asset.hasBackupProcedure) {
+                gaps.missingControls.push('Backup Procedure');
+                gaps.recommendations.push('Establish automated backup and recovery procedures');
+            }
+
+            return gaps;
+        }
+
+        // Filter Assets
+        function filterAssets() {
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const classificationFilter = document.getElementById('filter-classification').value;
+            const riskFilter = document.getElementById('filter-risk').value;
+
+            filteredAssets = assets.filter(asset => {
+                const matchesSearch = !searchQuery || 
+                    asset.name.toLowerCase().includes(searchQuery) ||
+                    (asset.description && asset.description.toLowerCase().includes(searchQuery));
+                const matchesClassification = classificationFilter === 'all' || asset.classification === classificationFilter;
+                const matchesRisk = riskFilter === 'all' || asset.riskLevel === riskFilter;
+                
+                return matchesSearch && matchesClassification && matchesRisk;
+            });
+
+            renderAssets();
+        }
+
+        // Render Assets
+        function renderAssets() {
+            const list = document.getElementById('asset-list');
+            const count = document.getElementById('asset-count');
+            
+            if (filteredAssets.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                        </svg>
+                        <p>No assets found</p>
+                        <button onclick="showAddDialog()" class="mt-4 btn-secondary text-sm">Add Your First Asset</button>
+                    </div>
+                `;
+                count.textContent = '0 assets';
+                return;
+            }
+
+            count.textContent = `${filteredAssets.length} asset${filteredAssets.length !== 1 ? 's' : ''}`;
+            
+            list.innerHTML = filteredAssets.map(asset => `
+                <div class="border rounded-lg p-4 mb-3 cursor-pointer hover:bg-gray-50 ${selectedAsset?.id === asset.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}" 
+                     onclick="selectAsset(${asset.id})">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="font-semibold">${asset.name}</div>
+                        <span class="badge ${getClassificationBadgeClass(asset.classification)}">${asset.classification}</span>
+                    </div>
+                    <div class="text-sm text-gray-600 mb-2">${asset.type}</div>
+                    <div class="flex justify-between items-center">
+                        <span class="badge ${getRiskBadgeClass(asset.riskLevel)}">${asset.riskLevel} Risk</span>
+                        <div class="text-xs text-gray-500">${asset.completenessScore}% complete</div>
+                    </div>
+                    ${asset.gapAnalysis?.missingControls?.length > 0 ? `
+                        <div class="mt-2">
+                            <span class="badge bg-red-100 text-red-800 text-xs">
+                                ${asset.gapAnalysis.missingControls.length} gaps
+                            </span>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Select Asset
+        function selectAsset(id) {
+            selectedAsset = assets.find(a => a.id === id);
+            renderAssetDetails();
+            renderAssets();
+        }
+
+        // Helper function to set progress bar widths from data attributes
+        function updateProgressBars(container) {
+            const progressBars = container.querySelectorAll('[data-width]');
+            progressBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                bar.style.setProperty('--progress-width', `${width}%`);
+            });
+        }
+
+        // Render Asset Details
+        function renderAssetDetails() {
+            if (!selectedAsset) return;
+
+            const details = document.getElementById('asset-details');
+            details.innerHTML = `
+                <div class="card-header">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-semibold flex items-center gap-2">
+                                ${selectedAsset.name}
+                                <span class="badge ${getClassificationBadgeClass(selectedAsset.classification)}">${selectedAsset.classification}</span>
+                                <span class="badge ${getRiskBadgeClass(selectedAsset.riskLevel)}">${selectedAsset.riskLevel} Risk</span>
+                            </h3>
+                            <p class="text-sm text-gray-600">${selectedAsset.type}${selectedAsset.category ? ' • ' + selectedAsset.category : ''}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body space-y-6">
+                    <!-- Completeness Progress -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm font-medium">Data Protection Completeness</span>
+                            <span class="text-sm text-gray-600">${selectedAsset.completenessScore}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="progress-bar bg-[#005B96] dark:bg-[#0066B3] h-2 rounded-full" data-width="${selectedAsset.completenessScore}"></div>
+                        </div>
+                    </div>
+
+                    <!-- Basic Information -->
+                    <div>
+                        <h4 class="font-semibold mb-3">Basic Information</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <div class="text-gray-600">Owner</div>
+                                <div>${selectedAsset.owner}</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-600">Location</div>
+                                <div>${selectedAsset.location || 'N/A'}</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-600">Retention Period</div>
+                                <div>${selectedAsset.retention || 'N/A'}</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-600">Status</div>
+                                <div>${selectedAsset.status}</div>
+                            </div>
+                        </div>
+                        ${selectedAsset.description ? `
+                            <div class="mt-3">
+                                <div class="text-gray-600 text-sm">Description</div>
+                                <div class="text-sm">${selectedAsset.description}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- Data Protection Controls -->
+                    <div>
+                        <h4 class="font-semibold mb-3">Data Protection Controls</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            ${renderControlItem('Data Inventory Complete', selectedAsset.hasInventory)}
+                            ${renderControlItem('Data Flow Mapped', selectedAsset.hasDataMapping)}
+                            ${renderControlItem('Risk Assessment Done', selectedAsset.hasRiskAssessment)}
+                            ${renderControlItem('DPIA Completed', selectedAsset.hasDPIA)}
+                            ${renderControlItem('Retention Schedule', selectedAsset.hasRetentionSchedule)}
+                            ${renderControlItem('Access Controls', selectedAsset.hasAccessControls)}
+                            ${renderControlItem('Encryption Enabled', selectedAsset.hasEncryption)}
+                            ${renderControlItem('Backup Procedure', selectedAsset.hasBackupProcedure)}
+                        </div>
+                    </div>
+
+                    <!-- Compliance Requirements -->
+                    ${selectedAsset.compliance && selectedAsset.compliance.length > 0 ? `
+                        <div>
+                            <h4 class="font-semibold mb-3">Compliance Requirements</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${selectedAsset.compliance.map(req => `
+                                    <span class="badge bg-purple-100 text-purple-800">${req}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Gap Analysis -->
+                    ${selectedAsset.gapAnalysis && selectedAsset.gapAnalysis.missingControls?.length > 0 ? `
+                        <div>
+                            <h4 class="font-semibold mb-3">Identified Gaps (${selectedAsset.gapAnalysis.missingControls.length})</h4>
+                            <div class="space-y-2">
+                                <div class="p-3 rounded-lg bg-red-50 border border-red-200">
+                                    <div class="font-medium text-sm mb-2">Missing Controls</div>
+                                    <div class="flex flex-wrap gap-2">
+                                        ${selectedAsset.gapAnalysis.missingControls.map(control => `
+                                            <span class="badge bg-red-100 text-red-800">${control}</span>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                ${selectedAsset.gapAnalysis.recommendations?.length > 0 ? `
+                                    <div class="p-3 rounded-lg bg-blue-50 border border-blue-200">
+                                        <div class="font-medium text-sm mb-2">Recommendations</div>
+                                        <ul class="text-sm space-y-1">
+                                            ${selectedAsset.gapAnalysis.recommendations.map(rec => `
+                                                <li class="flex items-start gap-2">
+                                                    <span class="text-[#005B96] dark:text-[#33A1DE]">•</span>
+                                                    <span>${rec}</span>
+                                                </li>
+                                            `).join('')}
+                                        </ul>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            updateProgressBars(details);
+        }
+
+        function renderControlItem(label, value) {
+            const icon = value ? 
+                '<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' :
+                '<svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+            
+            return `
+                <div class="flex items-center gap-2">
+                    ${icon}
+                    <span class="text-sm">${label}</span>
+                </div>
+            `;
+        }
+
+        // Badge Classes
+        function getClassificationBadgeClass(classification) {
+            const classes = {
+                'Restricted': 'bg-red-100 text-red-800',
+                'Confidential': 'bg-orange-100 text-orange-800',
+                'Internal': 'bg-blue-100 text-blue-800',
+                'Public': 'bg-green-100 text-green-800'
+            };
+            return classes[classification] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getRiskBadgeClass(riskLevel) {
+            const classes = {
+                'High': 'bg-red-100 text-red-800',
+                'Medium': 'bg-yellow-100 text-yellow-800',
+                'Low': 'bg-green-100 text-green-800'
+            };
+            return classes[riskLevel] || 'bg-gray-100 text-gray-800';
+        }
+
+        // Update Statistics
+        function updateStatistics() {
+            document.getElementById('stat-total').textContent = assets.length;
+            document.getElementById('stat-restricted').textContent = assets.filter(a => a.classification === 'Restricted').length;
+            document.getElementById('stat-high-risk').textContent = assets.filter(a => a.riskLevel === 'High').length;
+            document.getElementById('stat-gaps').textContent = assets.filter(a => a.gapAnalysis && a.gapAnalysis.missingControls?.length > 0).length;
+            
+            const avgCompleteness = assets.length > 0 
+                ? Math.round(assets.reduce((sum, a) => sum + a.completenessScore, 0) / assets.length)
+                : 0;
+            document.getElementById('stat-completeness').textContent = `${avgCompleteness}%`;
+            
+            const fullyCompliant = assets.filter(a => a.completenessScore === 100).length;
+            document.getElementById('stat-compliant').textContent = fullyCompliant;
+        }
+
+        // Render Gap Analysis
+        function renderGapAnalysis() {
+            const container = document.getElementById('gap-analysis-content');
+            
+            if (assets.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <p>No assets to analyze</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const gapControls = ['Data Inventory', 'Data Mapping', 'Risk Assessment', 'DPIA', 
+                               'Retention Schedule', 'Access Controls', 'Encryption', 'Backup Procedure'];
+            
+            let html = '<div class="space-y-6">';
+            
+            // Gap distribution
+            html += `
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="text-2xl font-bold text-red-600">
+                                ${assets.filter(a => a.completenessScore < 50).length}
+                            </div>
+                            <div class="text-sm text-gray-600">Critical (&lt;50%)</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="text-2xl font-bold text-yellow-600">
+                                ${assets.filter(a => a.completenessScore >= 50 && a.completenessScore < 80).length}
+                            </div>
+                            <div class="text-sm text-gray-600">Needs Work (50-79%)</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="text-2xl font-bold text-green-600">
+                                ${assets.filter(a => a.completenessScore >= 80).length}
+                            </div>
+                            <div class="text-sm text-gray-600">Good (80-99%)</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="text-2xl font-bold text-[#005B96] dark:text-[#33A1DE]">
+                                ${assets.filter(a => a.completenessScore === 100).length}
+                            </div>
+                            <div class="text-sm text-gray-600">Complete (100%)</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Top gaps
+            html += `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Top Control Gaps</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="space-y-3">
+                            ${gapControls.map(control => {
+                                const count = assets.filter(a => a.gapAnalysis?.missingControls?.includes(control)).length;
+                                const percentage = assets.length > 0 ? Math.round((count / assets.length) * 100) : 0;
+                                return `
+                                    <div>
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm">${control}</span>
+                                            <span class="text-sm font-medium ${count > 0 ? 'text-red-600' : 'text-green-600'}">
+                                                ${count} assets (${percentage}%)
+                                            </span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="progress-bar-fill ${count > 0 ? 'bg-red-500' : 'bg-green-500'} h-2 rounded-full" 
+                                                 data-width="${percentage}"></div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Assets with gaps
+            const assetsWithGaps = assets.filter(a => a.gapAnalysis && a.gapAnalysis.missingControls?.length > 0);
+            if (assetsWithGaps.length > 0) {
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-lg font-semibold">Assets Requiring Attention</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="space-y-2">
+                                ${assetsWithGaps.slice(0, 10).map(asset => `
+                                    <div class="flex justify-between items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                                         onclick="selectAsset(${asset.id}); switchTab('assets')">
+                                        <div>
+                                            <div class="font-medium">${asset.name}</div>
+                                            <div class="text-sm text-gray-600">${asset.type} • ${asset.classification}</div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-sm font-medium text-red-600">${asset.gapAnalysis.missingControls.length} gaps</div>
+                                            <div class="text-xs text-gray-500">${asset.completenessScore}% complete</div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+            updateProgressBars(container);
+        }
+
+        // Render Classification View
+        function renderClassificationView() {
+            const container = document.getElementById('classification-content');
+            
+            if (assets.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <p>No assets to classify</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const classifications = ['Public', 'Internal', 'Confidential', 'Restricted'];
+            
+            let html = '<div class="space-y-6">';
+            
+            // Distribution by classification
+            html += `
+                <div class="grid grid-cols-4 gap-4">
+                    ${classifications.map(cls => {
+                        const count = assets.filter(a => a.classification === cls).length;
+                        const percentage = assets.length > 0 ? Math.round((count / assets.length) * 100) : 0;
+                        return `
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <div class="text-3xl font-bold">${count}</div>
+                                    <div class="text-sm text-gray-600 mb-2">${cls}</div>
+                                    <div class="text-xs text-gray-500">${percentage}% of total</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            // Assets by classification
+            classifications.forEach(cls => {
+                const classAssets = assets.filter(a => a.classification === cls);
+                if (classAssets.length > 0) {
+                    html += `
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="text-lg font-semibold">${cls} Assets (${classAssets.length})</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="space-y-2">
+                                    ${classAssets.slice(0, 5).map(asset => `
+                                        <div class="flex justify-between items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                                             onclick="selectAsset(${asset.id}); switchTab('assets')">
+                                            <div>
+                                                <div class="font-medium">${asset.name}</div>
+                                                <div class="text-sm text-gray-600">${asset.type}${asset.owner ? ' • ' + asset.owner : ''}</div>
+                                            </div>
+                                            <span class="badge ${getRiskBadgeClass(asset.riskLevel)}">${asset.riskLevel}</span>
+                                        </div>
+                                    `).join('')}
+                                    ${classAssets.length > 5 ? `
+                                        <div class="text-sm text-gray-500 text-center pt-2">
+                                            +${classAssets.length - 5} more assets
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Render Compliance View
+        function renderComplianceView() {
+            const container = document.getElementById('compliance-content');
+            
+            if (assets.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <p>No assets to analyze</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const complianceFrameworks = ['GDPR', 'CCPA', 'HIPAA', 'SOC 2', 'ISO 27001'];
+            
+            let html = '<div class="space-y-6">';
+            
+            // Compliance overview
+            html += `
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="text-2xl font-bold text-green-600">
+                                ${assets.filter(a => a.completenessScore === 100).length}
+                            </div>
+                            <div class="text-sm text-gray-600">Fully Compliant</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="text-2xl font-bold text-yellow-600">
+                                ${assets.filter(a => a.completenessScore >= 80 && a.completenessScore < 100).length}
+                            </div>
+                            <div class="text-sm text-gray-600">Mostly Compliant</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="text-2xl font-bold text-red-600">
+                                ${assets.filter(a => a.completenessScore < 80).length}
+                            </div>
+                            <div class="text-sm text-gray-600">Needs Attention</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // By framework
+            html += `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-lg font-semibold">Compliance by Framework</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="space-y-4">
+                            ${complianceFrameworks.map(framework => {
+                                const count = assets.filter(a => a.compliance && a.compliance.includes(framework)).length;
+                                const compliant = assets.filter(a => 
+                                    a.compliance && a.compliance.includes(framework) && a.completenessScore >= 80
+                                ).length;
+                                return `
+                                    <div>
+                                        <div class="flex justify-between mb-2">
+                                            <span class="font-medium">${framework}</span>
+                                            <span class="text-sm">
+                                                ${compliant}/${count} assets compliant
+                                            </span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="progress-bar-fill bg-[#005B96] dark:bg-[#0066B3] h-2 rounded-full" 
+                                                 data-width="${count > 0 ? (compliant / count) * 100 : 0}"></div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            html += '</div>';
+            container.innerHTML = html;
+            updateProgressBars(container);
+        }
+
+        // Dialog Functions
+        function showImportDialog() {
+            document.getElementById('import-dialog').classList.add('active');
+            importStep = 1;
+            showImportStep();
+        }
+
+        function closeImportDialog() {
+            document.getElementById('import-dialog').classList.remove('active');
+            resetImport();
+        }
+
+        function showAddDialog() {
+            document.getElementById('add-dialog').classList.add('active');
+        }
+
+        function closeAddDialog() {
+            document.getElementById('add-dialog').classList.remove('active');
+            document.getElementById('add-asset-form').reset();
+        }
+
+        function showImportStep() {
+            document.querySelectorAll('.import-step').forEach(el => el.classList.add('hidden'));
+            document.getElementById('import-step-' + importStep).classList.remove('hidden');
+        }
+
+        // File Upload Handler
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            
+            if (!['csv', 'json'].includes(fileExtension)) {
+                alert('Unsupported file format. Please use CSV or JSON files.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    if (fileExtension === 'json') {
+                        const data = JSON.parse(e.target.result);
+                        importData = Array.isArray(data) ? data : [data];
+                    } else if (fileExtension === 'csv') {
+                        const lines = e.target.result.split('\n');
+                        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+                        importData = lines.slice(1).filter(line => line.trim()).map(line => {
+                            const values = line.split(',').map(v => v.trim().replace(/"/g, ''));
+                            const row = {};
+                            headers.forEach((header, index) => {
+                                row[header] = values[index] || '';
+                            });
+                            return row;
+                        });
+                    }
+
+                    document.getElementById('file-info').innerHTML = `
+                        <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <p class="text-sm text-green-800">
+                                ✓ File uploaded: ${file.name} (${(file.size / 1024).toFixed(2)} KB)
+                                <br>Found ${importData.length} records
+                            </p>
+                        </div>
+                    `;
+                    document.getElementById('file-info').classList.remove('hidden');
+                    
+                    importStep = 2;
+                    showImportStep();
+                    renderFieldMapping();
+                } catch (error) {
+                    alert('Error parsing file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Render Field Mapping
+        function renderFieldMapping() {
+            if (importData.length === 0) return;
+
+            const container = document.getElementById('field-mapping-container');
+            const sourceFields = Object.keys(importData[0]);
+
+            container.innerHTML = sourceFields.map(sourceField => `
+                <div class="flex items-center gap-4">
+                    <div class="w-1/3 font-medium text-sm">${sourceField}</div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                    <select class="flex-1 px-3 py-2 border border-gray-300 rounded-lg" 
+                            onchange="fieldMapping['${sourceField}'] = this.value"
+                            aria-label="Map ${sourceField} to target field"
+                            title="Map ${sourceField} to target field">
+                        <option value="">Select target field...</option>
+                        <option value="ignore">Ignore this field</option>
+                        ${availableFields.map(field => 
+                            `<option value="${field.value}">${field.label}</option>`
+                        ).join('')}
+                    </select>
+                </div>
+            `).join('');
+        }
+
+        // Validate Import Data
+        function validateImportData() {
+            const requiredFields = ['name', 'type', 'owner', 'classification'];
+            const errors = [];
+            previewData = [];
+
+            importData.forEach((row, index) => {
+                const mappedRow = {};
+                let hasErrors = false;
+
+                Object.keys(fieldMapping).forEach(sourceField => {
+                    const targetField = fieldMapping[sourceField];
+                    if (targetField && targetField !== 'ignore') {
+                        let value = row[sourceField];
+                        
+                        // Handle boolean fields
+                        const booleanFields = ['hasInventory', 'hasDataMapping', 'hasRiskAssessment', 'hasDPIA',
+                                               'hasRetentionSchedule', 'hasAccessControls', 'hasEncryption', 'hasBackupProcedure'];
+                        if (booleanFields.includes(targetField)) {
+                            value = value === 'true' || value === 'yes' || value === '1' || 
+                                   value === 'TRUE' || value === 'YES' || value === true;
+                        }
+                        
+                        mappedRow[targetField] = value;
+                    }
+                });
+
+                // Validate required fields
+                requiredFields.forEach(field => {
+                    if (!mappedRow[field] || mappedRow[field] === '') {
+                        errors.push(`Row ${index + 1}: Missing required field '${field}'`);
+                        hasErrors = true;
+                    }
+                });
+
+                if (!hasErrors) {
+                    const completeRow = {
+                        ...mappedRow,
+                        classification: mappedRow.classification || 'Internal',
+                        riskLevel: mappedRow.riskLevel || 'Medium',
+                        status: mappedRow.status || 'Active',
+                        hasInventory: mappedRow.hasInventory || false,
+                        hasDataMapping: mappedRow.hasDataMapping || false,
+                        hasRiskAssessment: mappedRow.hasRiskAssessment || false,
+                        hasDPIA: mappedRow.hasDPIA || false,
+                        hasRetentionSchedule: mappedRow.hasRetentionSchedule || false,
+                        hasAccessControls: mappedRow.hasAccessControls || false,
+                        hasEncryption: mappedRow.hasEncryption || false,
+                        hasBackupProcedure: mappedRow.hasBackupProcedure || false,
+                        compliance: mappedRow.compliance ? mappedRow.compliance.split(',').map(c => c.trim()) : []
+                    };
+                    
+                    completeRow.completenessScore = calculateCompletenessScore(completeRow);
+                    completeRow.gapAnalysis = identifyGaps(completeRow);
+                    
+                    previewData.push(completeRow);
+                }
+            });
+
+            if (errors.length > 0) {
+                alert('Validation errors:\n' + errors.join('\n'));
+                return;
+            }
+
+            importStep = 3;
+            showImportStep();
+            renderPreview();
+        }
+
+        // Render Preview
+        function renderPreview() {
+            const container = document.getElementById('preview-container');
+            container.innerHTML = `
+                <div class="p-4 bg-green-50 border border-green-200 rounded-lg mb-4">
+                    <p class="text-sm text-green-800">
+                        ✓ Ready to import ${previewData.length} assets. Review the preview below.
+                    </p>
+                </div>
+                ${previewData.slice(0, 5).map(asset => `
+                    <div class="card mb-2">
+                        <div class="card-body p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="font-semibold">${asset.name}</div>
+                                    <div class="text-sm text-gray-600">${asset.type} • ${asset.classification}</div>
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        Completeness: ${asset.completenessScore}%
+                                        ${asset.gapAnalysis.missingControls?.length > 0 ? 
+                                          `• ${asset.gapAnalysis.missingControls.length} gaps` : ''}
+                                    </div>
+                                </div>
+                                <span class="badge ${getClassificationBadgeClass(asset.classification)}">${asset.classification}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+                ${previewData.length > 5 ? `
+                    <div class="text-center text-sm text-gray-500 py-2">
+                        +${previewData.length - 5} more assets
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        // Execute Import
+        async function executeImport() {
+            importStep = 4;
+            showImportStep();
+            
+            let progress = 0;
+            const increment = 100 / previewData.length;
+            
+            for (let i = 0; i < previewData.length; i++) {
+                const newAsset = {
+                    ...previewData[i],
+                    id: assets.length > 0 ? Math.max(...assets.map(a => a.id)) + i + 1 : i + 1,
+                    createdDate: new Date().toISOString().split('T')[0],
+                    lastUpdated: new Date().toISOString().split('T')[0]
+                };
+                
+                assets.push(newAsset);
+                
+                progress += increment;
+                document.getElementById('import-progress').style.setProperty('--progress-width', `${progress}%`);
+                document.getElementById('import-progress-text').textContent = Math.round(progress);
+                
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+
+            document.getElementById('import-success-count').textContent = previewData.length;
+            importStep = 5;
+            showImportStep();
+            
+            filteredAssets = assets;
+            renderAssets();
+            updateStatistics();
+        }
+
+        // Reset Import
+        function resetImport() {
+            importStep = 1;
+            importData = [];
+            fieldMapping = {};
+            previewData = [];
+            document.getElementById('file-input').value = '';
+            document.getElementById('file-info').classList.add('hidden');
+        }
+
+        // Add Asset
+        function handleAddAsset(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const newAsset = {
+                id: assets.length > 0 ? Math.max(...assets.map(a => a.id)) + 1 : 1,
+                name: formData.get('name'),
+                type: formData.get('type'),
+                category: formData.get('category') || '',
+                owner: formData.get('owner'),
+                classification: formData.get('classification'),
+                description: formData.get('description') || '',
+                location: formData.get('location') || '',
+                retention: formData.get('retention') || '',
+                riskLevel: formData.get('riskLevel'),
+                status: 'Active',
+                hasInventory: formData.get('hasInventory') === 'on',
+                hasDataMapping: formData.get('hasDataMapping') === 'on',
+                hasRiskAssessment: formData.get('hasRiskAssessment') === 'on',
+                hasDPIA: formData.get('hasDPIA') === 'on',
+                hasRetentionSchedule: formData.get('hasRetentionSchedule') === 'on',
+                hasAccessControls: formData.get('hasAccessControls') === 'on',
+                hasEncryption: formData.get('hasEncryption') === 'on',
+                hasBackupProcedure: formData.get('hasBackupProcedure') === 'on',
+                compliance: [],
+                createdDate: new Date().toISOString().split('T')[0],
+                lastUpdated: new Date().toISOString().split('T')[0]
+            };
+
+            newAsset.completenessScore = calculateCompletenessScore(newAsset);
+            newAsset.gapAnalysis = identifyGaps(newAsset);
+
+            assets.push(newAsset);
+            filteredAssets = assets;
+            
+            renderAssets();
+            updateStatistics();
+            closeAddDialog();
+        }
+
+        // Export Functions
+        function exportAssets(format, includeGaps) {
+            const exportData = assets.map(asset => {
+                const baseData = {
+                    name: asset.name,
+                    type: asset.type,
+                    category: asset.category,
+                    owner: asset.owner,
+                    classification: asset.classification,
+                    description: asset.description,
+                    location: asset.location,
+                    retention: asset.retention,
+                    riskLevel: asset.riskLevel,
+                    status: asset.status,
+                    completenessScore: asset.completenessScore
+                };
+
+                if (includeGaps) {
+                    return {
+                        ...baseData,
+                        hasInventory: asset.hasInventory,
+                        hasDataMapping: asset.hasDataMapping,
+                        hasRiskAssessment: asset.hasRiskAssessment,
+                        hasDPIA: asset.hasDPIA,
+                        hasRetentionSchedule: asset.hasRetentionSchedule,
+                        hasAccessControls: asset.hasAccessControls,
+                        hasEncryption: asset.hasEncryption,
+                        hasBackupProcedure: asset.hasBackupProcedure,
+                        totalGaps: asset.gapAnalysis?.missingControls?.length || 0,
+                        missingControls: asset.gapAnalysis?.missingControls?.join('; ') || ''
+                    };
+                }
+
+                return baseData;
+            });
+
+            if (format === 'csv') {
+                const headers = Object.keys(exportData[0] || {});
+                const csvContent = [
+                    headers.join(','),
+                    ...exportData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+                ].join('\n');
+
+                downloadFile(csvContent, `asset-register-${includeGaps ? 'with-gaps-' : ''}${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+            } else if (format === 'json') {
+                downloadFile(JSON.stringify(exportData, null, 2), `asset-register-${includeGaps ? 'with-gaps-' : ''}${new Date().toISOString().split('T')[0]}.json`, 'application/json');
+            }
+        }
+
+        function exportGapAnalysisReport() {
+            const reportData = assets.map(asset => ({
+                assetName: asset.name,
+                classification: asset.classification,
+                completenessScore: asset.completenessScore,
+                totalGaps: asset.gapAnalysis?.missingControls?.length || 0,
+                missingControls: asset.gapAnalysis?.missingControls?.join('; ') || '',
+                recommendations: asset.gapAnalysis?.recommendations?.join('; ') || '',
+                complianceGaps: asset.gapAnalysis?.complianceGaps?.join('; ') || ''
+            }));
+
+            const headers = Object.keys(reportData[0] || {});
+            const csvContent = [
+                headers.join(','),
+                ...reportData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+            ].join('\n');
+
+            downloadFile(csvContent, `gap-analysis-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+        }
+
+        function exportClassificationReport() {
+            const classifications = ['Public', 'Internal', 'Confidential', 'Restricted'];
+            const reportData = classifications.map(cls => ({
+                classification: cls,
+                assetCount: assets.filter(a => a.classification === cls).length,
+                avgCompleteness: Math.round(
+                    assets.filter(a => a.classification === cls)
+                          .reduce((sum, a) => sum + a.completenessScore, 0) / 
+                    assets.filter(a => a.classification === cls).length || 0
+                ),
+                highRisk: assets.filter(a => a.classification === cls && a.riskLevel === 'High').length
+            }));
+
+            const headers = Object.keys(reportData[0] || {});
+            const csvContent = [
+                headers.join(','),
+                ...reportData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+            ].join('\n');
+
+            downloadFile(csvContent, `classification-report-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+        }
+
+        function exportComplianceReport() {
+            const reportData = assets.map(asset => ({
+                assetName: asset.name,
+                classification: asset.classification,
+                completenessScore: asset.completenessScore,
+                hasInventory: asset.hasInventory,
+                hasDataMapping: asset.hasDataMapping,
+                hasRiskAssessment: asset.hasRiskAssessment,
+                hasDPIA: asset.hasDPIA,
+                hasAccessControls: asset.hasAccessControls,
+                hasEncryption: asset.hasEncryption,
+                compliance: asset.compliance?.join('; ') || ''
+            }));
+
+            const headers = Object.keys(reportData[0] || {});
+            const csvContent = [
+                headers.join(','),
+                ...reportData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+            ].join('\n');
+
+            downloadFile(csvContent, `compliance-report-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+        }
+
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
