@@ -56,25 +56,14 @@ class ServiceFallbackManager {
   }
 
   private async checkNetworkStatus(): Promise<void> {
-    try {
-      // Lightweight connectivity check
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000);
-      
-      await fetch('https://www.google.com/favicon.ico', {
-        method: 'HEAD',
-        mode: 'no-cors',
-        signal: controller.signal,
-        cache: 'no-cache'
-      });
-      
-      clearTimeout(timeoutId);
-      this.networkStatus.isOnline = true;
+    // Use navigator.onLine instead of external fetch to avoid CSP violations
+    // The online/offline events are already handled in the constructor
+    this.networkStatus.isOnline = navigator.onLine !== false;
+    this.networkStatus.lastCheck = Date.now();
+    
+    // Reset failure counter if online
+    if (this.networkStatus.isOnline) {
       this.networkStatus.consecutiveFailures = 0;
-      this.networkStatus.lastCheck = Date.now();
-    } catch {
-      this.networkStatus.isOnline = false;
-      this.networkStatus.lastCheck = Date.now();
     }
   }
 

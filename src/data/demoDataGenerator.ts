@@ -123,7 +123,9 @@ export function generateAllDemoPackages(): Record<string, DemoDataPackage> {
 
 // Enhanced demo data with realistic relationships and dependencies
 export function createRealisticDemoAssets(scenarioId: string): Asset[] {
-  const baseAssets = generateAssetInventory(scenarioId);
+  // Map demo scenario ID to inventory scenario ID if needed
+  const inventoryScenarioId = mapDemoScenarioToInventoryScenario(scenarioId);
+  const baseAssets = generateAssetInventory(inventoryScenarioId);
   
   // Add realistic relationships between assets
   return baseAssets.map(asset => {
