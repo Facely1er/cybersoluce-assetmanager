@@ -5,9 +5,14 @@ import { Home, BarChart3, Menu, X, Shield, BookOpen, Play } from 'lucide-react';
 
 interface HeaderProps {
   className?: string;
+  [key: string]: unknown; // Allow other props but ignore them
 }
 
-export const Header: React.FC<HeaderProps> = ({ className = '' }: HeaderProps) => {
+export const Header: React.FC<HeaderProps> = (props) => {
+  // Extract only the className prop, ignore any other props from React Router
+  const { className = '', ...rest } = props;
+  // Explicitly ignore rest props to prevent React Router from passing unexpected props
+  void rest;
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
