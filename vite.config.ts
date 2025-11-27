@@ -105,51 +105,14 @@ export default defineConfig({
     // Enhanced bundle optimization
     rollupOptions: {
       output: {
-        // Optimized chunk splitting strategy with granular vendor splitting
+        // CRITICAL FIX: Disable manual chunking for ALL node_modules
+        // This prevents React from being split into vendor chunk, which causes
+        // "Cannot read properties of undefined (reading 'createContext')" errors
+        // All node_modules will stay in main bundle, only our source code is split
         manualChunks: (id: string) => {
-          // CRITICAL: Keep React and React-DOM in the main bundle to avoid
-          // "Cannot read properties of undefined (reading 'createContext')" errors
-          // This happens when React is split into a separate chunk and loaded asynchronously
-          // Check for all possible React paths and variations - MUST be in main bundle
-          if (id.includes('node_modules/react') || 
-              id.includes('node_modules/react-dom') ||
-              id.includes('node_modules/react/index') ||
-              id.includes('node_modules/react-dom/index') ||
-              id.includes('node_modules/react/jsx-runtime') ||
-              id.includes('node_modules/react/jsx-dev-runtime') ||
-              id.includes('node_modules/scheduler') ||
-              id.includes('node_modules/object-assign')) {
-            return undefined; // Keep in main bundle - DO NOT split
-          }
+          // ONLY split our own source code - keep ALL node_modules in main bundle
+          // This ensures React and all dependencies load together synchronously
           
-          // Keep React-dependent libraries with React to prevent loading order issues
-          // These libraries have hard dependencies on React and can fail if loaded before React
-          if (id.includes('node_modules/react-hot-toast') ||
-              id.includes('node_modules/lucide-react') ||
-              id.includes('node_modules/recharts') ||
-              id.includes('node_modules/@nivo') ||
-              id.includes('node_modules/@react-spring') ||
-              id.includes('node_modules/framer-motion') ||
-              id.includes('node_modules/react-router') ||
-              id.includes('@remix-run')) {
-            return undefined; // Keep in main bundle with React
-          }
-          
-          // Supabase
-          if (id.includes('node_modules/@supabase')) {
-            return 'supabase';
-          }
-          // Date utilities
-          if (id.includes('node_modules/date-fns')) {
-            return 'date-utils';
-          }
-          // Office/Export utilities
-          if (id.includes('node_modules/xlsx') || 
-              id.includes('node_modules/jspdf') || 
-              id.includes('node_modules/html2canvas')) {
-            return 'office-utils';
-          }
-          // Split large component groups
           if (id.includes('/src/components/reports/')) {
             return 'reports';
           }
@@ -171,35 +134,8 @@ export default defineConfig({
           if (id.includes('/src/components/dependencies/')) {
             return 'dependencies';
           }
-          // CRITICAL: Keep services in main bundle to avoid circular dependency and initialization issues
-          if (id.includes('/src/services/')) {
-            return undefined; // Keep in main bundle - DO NOT split
-          }
-          // Other node_modules as vendor (but NOT React/React-DOM/React-deps)
-          // Must explicitly exclude ALL React-related packages - be very strict
-          if (id.includes('node_modules')) {
-            // Double-check: if it's ANY React-related package, keep in main bundle
-            const reactRelated = id.includes('react') || 
-                                 id.includes('scheduler') ||
-                                 id.includes('react-dom') ||
-                                 id.includes('react-hot-toast') ||
-                                 id.includes('lucide-react') ||
-                                 id.includes('recharts') ||
-                                 id.includes('@nivo') ||
-                                 id.includes('@react-spring') ||
-                                 id.includes('framer-motion') ||
-                                 id.includes('object-assign') ||
-                                 id.includes('react-router') ||
-                                 id.includes('@remix-run');
-            
-            if (reactRelated) {
-              return undefined; // Keep in main bundle
-            }
-            
-            return 'vendor';
-          }
           
-          // If we reach here, it's likely source code - keep in main bundle
+          // Keep everything else (including ALL node_modules) in main bundle
           return undefined;
         },
         // Optimize asset filenames
