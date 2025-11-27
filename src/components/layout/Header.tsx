@@ -50,11 +50,12 @@ export const Header: React.FC<HeaderProps> = (props) => {
         <div className="flex items-center justify-between h-20 py-2">
           {/* Logo and Branding - Enhanced */}
           <Link to="/" className="flex items-center group flex-shrink-0">
-            <div className="relative flex-shrink-0">
+            <div className="relative flex-shrink-0 mr-4">
               <img 
                 src="/cybersoluce.png" 
                 alt="CyberSoluce Logo" 
-                className="h-16 w-16 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-lg"
+                className="h-14 w-14 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-lg"
+                loading="eager"
                 onError={(e) => {
                   // Fallback if image fails to load
                   const target = e.target as HTMLImageElement;
@@ -63,7 +64,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
               />
               <div className="absolute inset-0 bg-command-blue-500/0 group-hover:bg-command-blue-500/10 rounded-full blur-xl transition-all duration-300"></div>
             </div>
-            <div className="ml-4 flex flex-col leading-tight min-w-0">
+            <div className="flex flex-col leading-tight min-w-0">
               {/* Line 1: CyberSoluce™ */}
               <div className="flex items-baseline gap-0.5 leading-none">
                 <span className="font-outfit text-2xl font-bold tracking-tight bg-gradient-to-r from-gray-900 via-command-blue-600 to-command-blue-700 dark:from-white dark:via-command-blue-400 dark:to-action-cyan-400 bg-clip-text text-transparent group-hover:from-command-blue-600 group-hover:to-action-cyan-500 dark:group-hover:from-command-blue-300 dark:group-hover:to-action-cyan-300 transition-all duration-300 whitespace-nowrap">
@@ -123,11 +124,18 @@ export const Header: React.FC<HeaderProps> = (props) => {
           <div className="md:hidden border-t border-gray-200 dark:border-gray-800 py-4">
             {/* Mobile Logo Display */}
             <div className="flex items-center mb-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800">
-              <img 
-                src="/cybersoluce.png" 
-                alt="CyberSoluce Logo" 
-                className="h-12 w-12 object-contain mr-3"
-              />
+              <div className="relative flex-shrink-0 mr-3">
+                <img 
+                  src="/cybersoluce.png" 
+                  alt="CyberSoluce Logo" 
+                  className="h-12 w-12 object-contain"
+                  loading="eager"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </div>
               <div className="flex flex-col">
                 <div className="flex items-baseline gap-0.5">
                   <span className="font-outfit text-lg font-bold text-gray-900 dark:text-white">CyberSoluce</span>
@@ -157,6 +165,10 @@ export const Header: React.FC<HeaderProps> = (props) => {
                   </Link>
                 );
               })}
+              {/* Theme Toggle in Mobile Menu */}
+              <div className="px-4 pt-2 border-t border-gray-200 dark:border-gray-800 mt-2">
+                <ThemeToggle variant="mobile" />
+              </div>
             </nav>
           </div>
         )}

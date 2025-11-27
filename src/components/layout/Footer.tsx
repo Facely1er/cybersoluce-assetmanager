@@ -9,8 +9,6 @@ import {
   Workflow, 
   Play, 
   Wrench,
-  Building2,
-  Copyright,
   FileText,
   Lock,
   Cookie,
@@ -21,20 +19,25 @@ export const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 dark:bg-gray-950 text-white border-t border-gray-800 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-6">
           
-          {/* Company Info */}
-          <div className="col-span-1">
+          {/* Company Info - Left Side */}
+          <div className="md:col-span-1">
             <div className="flex items-center mb-3">
-              <div className="relative">
+              <div className="relative flex-shrink-0 mr-3">
                 <img 
                   src="/cybersoluce.png" 
                   alt="CyberSoluce Logo" 
-                  className="h-7 w-7 object-contain drop-shadow-lg"
+                  className="h-12 w-12 object-contain drop-shadow-lg"
+                  loading="eager"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
                 />
                 <div className="absolute inset-0 bg-action-cyan-400/20 rounded-full blur-xl"></div>
               </div>
-              <div className="ml-2 flex flex-col">
+              <div className="flex flex-col">
                 {/* Line 1: CyberSoluce™ */}
                 <div className="flex items-baseline gap-0.5 leading-none">
                   <span className="font-outfit text-lg font-bold tracking-tight bg-gradient-to-r from-white via-action-cyan-200 to-action-cyan-400 bg-clip-text text-transparent">
@@ -52,123 +55,104 @@ export const Footer: React.FC = () => {
               </div>
             </div>
             <p className="text-gray-400 text-xs leading-relaxed">
-              Comprehensive asset inventory management platform for cybersecurity professionals. Track, manage, and secure your digital assets with advanced filtering, compliance mapping, and risk assessment features.
+              Track, manage, and secure your digital assets with advanced filtering and compliance mapping.
             </p>
           </div>
 
-          {/* Product */}
-          <div>
-            <h3 className="text-base font-semibold mb-2 text-white">Product</h3>
-            <ul className="space-y-1">
-              <li>
-                <Link to="/dashboard" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <LayoutDashboard className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard/assets" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <Database className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Asset Inventory
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard/analytics" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <BarChart3 className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Analytics & Reports
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard/compliance" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <Shield className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Compliance
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Navigation Columns - Centered/Balanced */}
+          <div className="md:col-span-3 md:ml-8 grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
+            {/* Product */}
+            <div>
+              <h3 className="text-base font-semibold mb-2 text-white">Product</h3>
+              <ul className="space-y-1">
+                <li>
+                  <Link to="/dashboard" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <LayoutDashboard className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/assets" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <Database className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Asset Inventory
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/analytics" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <BarChart3 className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Analytics & Reports
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/compliance" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <Shield className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Compliance
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-          {/* Resources */}
-          <div>
-            <h3 className="text-base font-semibold mb-2 text-white">Resources</h3>
-            <ul className="space-y-1">
-              <li>
-                <Link to="/dashboard/user-manual" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <Book className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  User Manual
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard/workflow" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <Workflow className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Setup Workflow
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard/demo-scenarios" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <Play className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Demo Scenarios
-                </Link>
-              </li>
-              <li>
-                <a href="/tools/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <Wrench className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Free Tools
-                </a>
-              </li>
-            </ul>
-          </div>
+            {/* Resources */}
+            <div>
+              <h3 className="text-base font-semibold mb-2 text-white">Resources</h3>
+              <ul className="space-y-1">
+                <li>
+                  <Link to="/dashboard/user-manual" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <Book className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    User Manual
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/workflow" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <Workflow className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Setup Workflow
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/demo-scenarios" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <Play className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Demo Scenarios
+                  </Link>
+                </li>
+                <li>
+                  <a href="/tools/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <Wrench className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Free Tools
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          {/* Legal */}
-          <div>
-            <h3 className="text-base font-semibold mb-2 text-white">Legal</h3>
-            <ul className="space-y-1">
-              <li>
-                <Link to="/legal/privacy" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <Lock className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/terms" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <FileText className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/cookies" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <Cookie className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Cookie Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/acceptable-use" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
-                  <ShieldAlert className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
-                  Acceptable Use Policy
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="text-base font-semibold mb-2 text-white">Company</h3>
-            <ul className="space-y-1">
-              <li>
-                <span className="flex items-center gap-2 text-gray-400 text-xs">
-                  <Building2 className="h-3 w-3" />
-                  ERMITS Corporation
-                </span>
-              </li>
-              <li>
-                <span className="flex items-center gap-2 text-gray-400 text-xs">
-                  <Copyright className="h-3 w-3" />
-                  2025 ERMITS LLC.
-                </span>
-              </li>
-              <li>
-                <span className="text-gray-400 text-xs">All rights reserved.</span>
-              </li>
-            </ul>
+            {/* Legal */}
+            <div>
+              <h3 className="text-base font-semibold mb-2 text-white">Legal</h3>
+              <ul className="space-y-1">
+                <li>
+                  <Link to="/legal/privacy" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <Lock className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/terms" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <FileText className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Terms of Service
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/cookies" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <Cookie className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Cookie Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/acceptable-use" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs group">
+                    <ShieldAlert className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    Acceptable Use Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 

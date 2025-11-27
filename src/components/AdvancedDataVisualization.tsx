@@ -21,6 +21,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   PieChart as RechartsPieChart,
+  Pie,
   Cell,
   LineChart,
   Line,
@@ -203,28 +204,35 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Risk Distribution */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Risk Distribution</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Risk Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
             <RechartsPieChart>
-              <RechartsPieChart data={processedData.typeDistribution}>
+              <Pie
+                data={processedData.typeDistribution}
+                dataKey="count"
+                nameKey="level"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+              >
                 {processedData.typeDistribution.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
-              </RechartsPieChart>
+              </Pie>
               <Tooltip formatter={(value, name) => [`${value} assets`, name]} />
             </RechartsPieChart>
           </ResponsiveContainer>
         </div>
 
         {/* Compliance Status */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Compliance Status</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Compliance Status</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={processedData.complianceData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="status" />
-              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+              <XAxis dataKey="status" stroke="#6b7280" className="dark:stroke-gray-400" />
+              <YAxis stroke="#6b7280" className="dark:stroke-gray-400" />
               <Tooltip />
               <Bar dataKey="count" fill="#10B981" />
             </BarChart>
@@ -240,14 +248,14 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     return (
       <div className="space-y-6">
         {/* Multi-metric Trend */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Multi-Metric Trends</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Multi-Metric Trends</h3>
           <ResponsiveContainer width="100%" height={400}>
             <ComposedChart data={processedData.trendData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis yAxisId="left" />
-              <YAxis yAxisId="right" orientation="right" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+              <XAxis dataKey="date" stroke="#6b7280" className="dark:stroke-gray-400" />
+              <YAxis yAxisId="left" stroke="#6b7280" className="dark:stroke-gray-400" />
+              <YAxis yAxisId="right" orientation="right" stroke="#6b7280" className="dark:stroke-gray-400" />
               <Tooltip />
               <Legend />
               <Bar yAxisId="left" dataKey="value" fill="#8884d8" name="Asset Count" />
@@ -259,13 +267,13 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
 
         {/* Individual Trend Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Asset Growth Trend</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Asset Growth Trend</h3>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={processedData.trendData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+                <XAxis dataKey="date" stroke="#6b7280" className="dark:stroke-gray-400" />
+                <YAxis stroke="#6b7280" className="dark:stroke-gray-400" />
                 <Tooltip />
                 <Area 
                   type="monotone" 
@@ -278,13 +286,13 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Risk Trend</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Risk Trend</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={processedData.trendData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+                <XAxis dataKey="date" stroke="#6b7280" className="dark:stroke-gray-400" />
+                <YAxis stroke="#6b7280" className="dark:stroke-gray-400" />
                 <Tooltip />
                 <Line 
                   type="monotone" 
@@ -306,13 +314,13 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     return (
       <div className="space-y-6">
         {/* Asset Type Distribution */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Asset Type Distribution</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Asset Type Distribution</h3>
           <ResponsiveContainer width="100%" height={400}>
             <BarChart data={processedData.riskData} layout="horizontal">
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" />
-              <YAxis dataKey="type" type="category" width={100} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+              <XAxis type="number" stroke="#6b7280" className="dark:stroke-gray-400" />
+              <YAxis dataKey="type" type="category" width={100} stroke="#6b7280" className="dark:stroke-gray-400" />
               <Tooltip />
               <Bar dataKey="riskScore" fill="#8884d8" />
             </BarChart>
@@ -320,13 +328,13 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
         </div>
 
         {/* Risk vs Criticality Scatter */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Risk vs Criticality Analysis</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Risk vs Criticality Analysis</h3>
           <ResponsiveContainer width="100%" height={400}>
             <ScatterChart data={processedData.riskData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="riskScore" name="Risk Score" />
-              <YAxis dataKey="vulnerabilities" name="Vulnerabilities" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+              <XAxis dataKey="riskScore" name="Risk Score" stroke="#6b7280" className="dark:stroke-gray-400" />
+              <YAxis dataKey="vulnerabilities" name="Vulnerabilities" stroke="#6b7280" className="dark:stroke-gray-400" />
               <Tooltip cursor={{ strokeDasharray: '3 3' }} />
               <Scatter dataKey="complianceScore" fill="#8884d8" />
             </ScatterChart>
@@ -342,13 +350,13 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     return (
       <div className="space-y-6">
         {/* Risk vs Compliance Correlation */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Risk vs Compliance Correlation</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Risk vs Compliance Correlation</h3>
           <ResponsiveContainer width="100%" height={400}>
             <ScatterChart data={processedData.correlationData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="risk" name="Risk Score" />
-              <YAxis dataKey="compliance" name="Compliance Score" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+              <XAxis dataKey="risk" name="Risk Score" stroke="#6b7280" className="dark:stroke-gray-400" />
+              <YAxis dataKey="compliance" name="Compliance Score" stroke="#6b7280" className="dark:stroke-gray-400" />
               <Tooltip cursor={{ strokeDasharray: '3 3' }} />
               <Scatter dataKey="cost" fill="#8884d8" />
             </ScatterChart>
@@ -356,13 +364,13 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
         </div>
 
         {/* Cost vs Performance */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Cost vs Performance Analysis</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Cost vs Performance Analysis</h3>
           <ResponsiveContainer width="100%" height={400}>
             <ScatterChart data={processedData.correlationData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="cost" name="Cost" />
-              <YAxis dataKey="compliance" name="Compliance Score" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+              <XAxis dataKey="cost" name="Cost" stroke="#6b7280" className="dark:stroke-gray-400" />
+              <YAxis dataKey="compliance" name="Compliance Score" stroke="#6b7280" className="dark:stroke-gray-400" />
               <Tooltip cursor={{ strokeDasharray: '3 3' }} />
               <Scatter dataKey="vulnerabilities" fill="#ff7300" />
             </ScatterChart>
@@ -378,13 +386,13 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     return (
       <div className="space-y-6">
         {/* Asset Inventory Forecast */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Asset Inventory Forecast (90 days)</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Asset Inventory Forecast (90 days)</h3>
           <ResponsiveContainer width="100%" height={400}>
             <LineChart data={processedData.forecastData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+              <XAxis dataKey="date" stroke="#6b7280" className="dark:stroke-gray-400" />
+              <YAxis stroke="#6b7280" className="dark:stroke-gray-400" />
               <Tooltip />
               <Line 
                 type="monotone" 
@@ -414,13 +422,13 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
         </div>
 
         {/* Confidence Intervals */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Forecast Confidence</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Forecast Confidence</h3>
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={processedData.forecastData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+              <XAxis dataKey="date" stroke="#6b7280" className="dark:stroke-gray-400" />
+              <YAxis stroke="#6b7280" className="dark:stroke-gray-400" />
               <Tooltip />
               <Area 
                 type="monotone" 
@@ -442,13 +450,13 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     return (
       <div className="space-y-6">
         {/* Performance Radar */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Performance Radar</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Performance Radar</h3>
           <ResponsiveContainer width="100%" height={400}>
             <RadarChart data={processedData.radarData}>
-              <PolarGrid />
-              <PolarAngleAxis dataKey="metric" />
-              <PolarRadiusAxis angle={90} domain={[0, 100]} />
+              <PolarGrid stroke="#e5e7eb" className="dark:stroke-gray-700" />
+              <PolarAngleAxis dataKey="metric" stroke="#6b7280" className="dark:stroke-gray-400" />
+              <PolarRadiusAxis angle={90} domain={[0, 100]} stroke="#6b7280" className="dark:stroke-gray-400" />
               <Radar 
                 name="Performance" 
                 dataKey="value" 
@@ -461,24 +469,24 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
         </div>
 
         {/* Multi-Asset Comparison */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Asset Performance Comparison</h3>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Asset Performance Comparison</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {processedData.riskData.slice(0, 6).map((asset, index) => (
-              <div key={index} className="p-4 border border-gray-200 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-2">{asset.name}</h4>
+              <div key={index} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700/50">
+                <h4 className="font-medium text-gray-900 dark:text-white mb-2">{asset.name}</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Risk:</span>
-                    <span className="font-medium">{asset.riskScore}</span>
+                    <span className="text-gray-500 dark:text-gray-400">Risk:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{asset.riskScore}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Compliance:</span>
-                    <span className="font-medium">{Math.round(asset.complianceScore)}</span>
+                    <span className="text-gray-500 dark:text-gray-400">Compliance:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{Math.round(asset.complianceScore)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Cost:</span>
-                    <span className="font-medium">${asset.cost.toLocaleString()}</span>
+                    <span className="text-gray-500 dark:text-gray-400">Cost:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">${asset.cost.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -512,8 +520,8 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     return (
       <div className={`flex items-center justify-center h-96 ${className}`}>
         <div className="text-center">
-          <BarChart3 className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-          <p className="text-gray-600">No data available for visualization</p>
+          <BarChart3 className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
+          <p className="text-gray-600 dark:text-gray-400">No data available for visualization</p>
         </div>
       </div>
     );
@@ -522,14 +530,14 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-7xl h-[90vh] flex flex-col">
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-7xl h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-2xl font-bold text-gray-900">Advanced Data Visualization</h2>
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Advanced Data Visualization</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -539,32 +547,32 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
 
         {/* Content */}
         <div className="flex-1 overflow-auto p-6">
-          <div className={`space-y-6 ${isFullscreen ? 'fixed inset-0 z-50 bg-white p-6 overflow-auto' : ''} ${className}`}>
+          <div className={`space-y-6 ${isFullscreen ? 'fixed inset-0 z-50 bg-white dark:bg-gray-800 p-6 overflow-auto' : ''} ${className}`}>
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex justify-between items-center">
           <div>
-            <h2 className="text-2xl font-outfit font-bold text-gray-900">Advanced Data Visualization</h2>
-            <p className="text-gray-600">Interactive charts and analytics for your asset inventory</p>
+            <h2 className="text-2xl font-outfit font-bold text-gray-900 dark:text-white">Advanced Data Visualization</h2>
+            <p className="text-gray-600 dark:text-gray-400">Interactive charts and analytics for your asset inventory</p>
           </div>
           <div className="flex space-x-3">
             <button
               onClick={() => setShowSettings(!showSettings)}
-              className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               title="Settings"
             >
               <Settings className="h-5 w-5" />
             </button>
             <button
               onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
             >
               {isFullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
             </button>
             <button
               onClick={() => window.print()}
-              className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               title="Print"
             >
               <Download className="h-5 w-5" />
@@ -583,7 +591,7 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
                   selectedChart === type.id
                     ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -595,8 +603,8 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
 
         {/* Settings Panel */}
         {showSettings && (
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium text-gray-900 mb-4">Chart Settings</h3>
+          <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <h3 className="font-medium text-gray-900 dark:text-white mb-4">Chart Settings</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <label className="flex items-center space-x-2">
                 <input
@@ -605,7 +613,7 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
                   onChange={(e) => setChartSettings(prev => ({ ...prev, showGrid: e.target.checked }))}
                   className="rounded"
                 />
-                <span className="text-sm text-gray-700">Show Grid</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">Show Grid</span>
               </label>
               <label className="flex items-center space-x-2">
                 <input
@@ -614,7 +622,7 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
                   onChange={(e) => setChartSettings(prev => ({ ...prev, showLegend: e.target.checked }))}
                   className="rounded"
                 />
-                <span className="text-sm text-gray-700">Show Legend</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">Show Legend</span>
               </label>
               <label className="flex items-center space-x-2">
                 <input
@@ -623,7 +631,7 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
                   onChange={(e) => setChartSettings(prev => ({ ...prev, showTooltip: e.target.checked }))}
                   className="rounded"
                 />
-                <span className="text-sm text-gray-700">Show Tooltip</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">Show Tooltip</span>
               </label>
               <label className="flex items-center space-x-2">
                 <input
@@ -632,7 +640,7 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
                   onChange={(e) => setChartSettings(prev => ({ ...prev, animation: e.target.checked }))}
                   className="rounded"
                 />
-                <span className="text-sm text-gray-700">Animation</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">Animation</span>
               </label>
             </div>
           </div>

@@ -79,26 +79,6 @@ const HomePage: React.FC = () => {
     }
   ];
 
-  const assetExtensions = [
-    {
-      name: 'TechnoSoluce',
-      description: 'Software components, SBOM, and vulnerability management',
-      status: 'Extension',
-      link: '/dashboard'
-    },
-    {
-      name: 'VendorSoluce',
-      description: 'Vendor risk, contracts, and supply chain management',
-      status: 'Extension',
-      link: '/dashboard'
-    },
-    {
-      name: 'CyberCorrect',
-      description: 'Privacy compliance, GDPR, and data protection',
-      status: 'Extension',
-      link: '/dashboard'
-    }
-  ];
 
   const keyCapabilities = [
     {
@@ -429,65 +409,6 @@ const HomePage: React.FC = () => {
                backgroundSize: '40px 40px',
                backgroundPosition: '0 0, 20px 20px'
              }}>
-        </div>
-      </section>
-      
-      {/* Asset Extensions Section */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-command-blue-50 dark:from-gray-900 dark:to-command-blue-900/20 relative">
-        <div className="absolute inset-0 pointer-events-none opacity-20">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'linear-gradient(45deg, #005B96 25%, transparent 25%, transparent 50%, #005B96 50%, #005B96 75%, transparent 75%, transparent)',
-            backgroundSize: '60px 60px',
-            opacity: '0.03'
-          }}></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
-            className="text-center mb-16"
-            variants={fadeInUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Asset Inventory Extensions
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Extend your asset inventory with specialized product capabilities. Each extension enriches the core inventory with domain-specific intelligence.
-            </p>
-          </motion.div>
-          
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          >
-            {assetExtensions.map((extension, index) => {
-              return (
-                <Link key={extension.name} to={extension.link}>
-                  <motion.div 
-                    variants={itemVariants}
-                    whileHover={{ y: -5 }}
-                    className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:border-command-blue-200 dark:hover:border-command-blue-700 transition-all duration-300 cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold text-gray-900 dark:text-white">{extension.name}</h3>
-                      <div className="flex items-center">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                        <span className="text-xs text-blue-600 dark:text-blue-400">{extension.status}</span>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {extension.description}
-                    </p>
-                  </motion.div>
-                </Link>
-              );
-            })}
-          </motion.div>
         </div>
       </section>
       

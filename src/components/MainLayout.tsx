@@ -10,24 +10,25 @@ import toast from 'react-hot-toast';
 import { logger } from '../utils/logger';
 
 // Lazy load components for better performance
-const AssetInventoryDashboard = lazy(() => import('./AssetInventoryDashboard'));
-const UserManualPage = lazy(() => import('./UserManualPage'));
-const GuidedWorkflow = lazy(() => import('./GuidedWorkflow'));
-const AdvancedReportingDashboard = lazy(() => import('./reports/AdvancedReportingDashboard'));
-const ComplianceManagement = lazy(() => import('./compliance/ComplianceManagement'));
-const PrivacyComplianceDashboard = lazy(() => import('./privacy/PrivacyComplianceDashboard'));
-const DependenciesPage = lazy(() => import('./dependencies/DependenciesPage'));
-const DataProtectionDashboard = lazy(() => import('./protection/DataProtectionDashboard'));
-const VulnerabilityDashboard = lazy(() => import('./vulnerabilities/VulnerabilityDashboard'));
-const OrganizationManagement = lazy(() => import('./organizations/OrganizationManagement'));
-const UserManagement = lazy(() => import('./users/UserManagement'));
-const ActivityLog = lazy(() => import('./activity/ActivityLog'));
-const SystemSettings = lazy(() => import('./settings/SystemSettings'));
-const DemoShowcase = lazy(() => import('./DemoShowcase'));
-const MitigationPageWrapper = lazy(() => import('./mitigation/MitigationPageWrapper'));
-const BusinessImpactPageWrapper = lazy(() => import('./business-impact/BusinessImpactPageWrapper'));
-const NISTPageWrapper = lazy(() => import('./nist/NISTPageWrapper'));
-const FrameworkPageWrapper = lazy(() => import('./framework/FrameworkPageWrapper'));
+// Using .then() to handle named exports properly
+const AssetInventoryDashboard = lazy(() => import('./AssetInventoryDashboard').then(module => ({ default: module.AssetInventoryDashboard })));
+const UserManualPage = lazy(() => import('./UserManualPage').then(module => ({ default: module.UserManualPage })));
+const GuidedWorkflow = lazy(() => import('./GuidedWorkflow').then(module => ({ default: module.GuidedWorkflow })));
+const AdvancedReportingDashboard = lazy(() => import('./reports/AdvancedReportingDashboard').then(module => ({ default: module.AdvancedReportingDashboard })));
+const ComplianceManagement = lazy(() => import('./compliance/ComplianceManagement').then(module => ({ default: module.ComplianceManagement })));
+const PrivacyComplianceDashboard = lazy(() => import('./privacy/PrivacyComplianceDashboard').then(module => ({ default: module.PrivacyComplianceDashboard })));
+const DependenciesPage = lazy(() => import('./dependencies/DependenciesPage').then(module => ({ default: module.DependenciesPage })));
+const DataProtectionDashboard = lazy(() => import('./protection/DataProtectionDashboard').then(module => ({ default: module.DataProtectionDashboard })));
+const VulnerabilityDashboard = lazy(() => import('./vulnerabilities/VulnerabilityDashboard').then(module => ({ default: module.VulnerabilityDashboard })));
+const OrganizationManagement = lazy(() => import('./organizations/OrganizationManagement').then(module => ({ default: module.OrganizationManagement })));
+const UserManagement = lazy(() => import('./users/UserManagement').then(module => ({ default: module.UserManagement })));
+const ActivityLog = lazy(() => import('./activity/ActivityLog').then(module => ({ default: module.ActivityLog })));
+const SystemSettings = lazy(() => import('./settings/SystemSettings').then(module => ({ default: module.SystemSettings })));
+const DemoShowcase = lazy(() => import('./DemoShowcase').then(module => ({ default: module.DemoShowcase })));
+const MitigationPageWrapper = lazy(() => import('./mitigation/MitigationPageWrapper').then(module => ({ default: module.MitigationPageWrapper })));
+const BusinessImpactPageWrapper = lazy(() => import('./business-impact/BusinessImpactPageWrapper').then(module => ({ default: module.BusinessImpactPageWrapper })));
+const NISTPageWrapper = lazy(() => import('./nist/NISTPageWrapper').then(module => ({ default: module.NISTPageWrapper })));
+const FrameworkPageWrapper = lazy(() => import('./framework/FrameworkPageWrapper').then(module => ({ default: module.FrameworkPageWrapper })));
 const DataNormalizationEngine = lazy(() => import('./DataNormalizationEngine'));
 
 interface MainLayoutProps {
