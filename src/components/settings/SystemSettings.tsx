@@ -185,20 +185,20 @@ export const SystemSettings: React.FC = () => {
       {/* Database Status Alert */}
       <div className={`p-4 rounded-lg border-2 ${
         isSupabaseEnabled 
-          ? 'bg-green-50 border-green-200' 
-          : 'bg-yellow-50 border-yellow-200'
+          ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800' 
+          : 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800'
       }`}>
         <div className="flex items-center">
           {isSupabaseEnabled ? (
-            <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
+            <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mr-2" />
           ) : (
-            <AlertTriangle className="h-5 w-5 text-yellow-600 mr-2" />
+            <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mr-2" />
           )}
           <div>
-            <p className={`font-medium ${isSupabaseEnabled ? 'text-green-900' : 'text-yellow-900'}`}>
+            <p className={`font-medium ${isSupabaseEnabled ? 'text-green-900 dark:text-green-200' : 'text-yellow-900 dark:text-yellow-200'}`}>
               {isSupabaseEnabled ? 'Database Connected' : 'Running in Demo Mode'}
             </p>
-            <p className={`text-sm ${isSupabaseEnabled ? 'text-green-700' : 'text-yellow-700'}`}>
+            <p className={`text-sm ${isSupabaseEnabled ? 'text-green-700 dark:text-green-300' : 'text-yellow-700 dark:text-yellow-300'}`}>
               {isSupabaseEnabled 
                 ? 'All settings will be persisted to your Supabase database'
                 : 'Settings changes will not be saved. Connect to Supabase for persistence.'
@@ -209,9 +209,9 @@ export const SystemSettings: React.FC = () => {
       </div>
 
       {/* Settings Container */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         {/* Tabs */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-gray-200 dark:border-gray-700">
           <nav className="flex">
             {tabs.map((tab) => (
               <button
@@ -219,8 +219,8 @@ export const SystemSettings: React.FC = () => {
                 onClick={() => setActiveTab(tab.id as 'general' | 'security' | 'notifications' | 'integrations' | 'database' | 'advanced')}
                 className={`flex items-center px-6 py-4 text-sm font-medium border-b-2 ${
                   activeTab === tab.id
-                    ? 'border-blue-500 text-blue-600 bg-blue-50'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                    ? 'border-blue-500 dark:border-blue-400 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
               >
                 <tab.icon className="h-4 w-4 mr-2" />
@@ -234,11 +234,11 @@ export const SystemSettings: React.FC = () => {
         <div className="p-6">
           {activeTab === 'general' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">General Settings</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">General Settings</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Organization Name
                   </label>
                   <input
@@ -248,12 +248,12 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       general: { ...prev.general, organization_name: e.target.value }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Timezone
                   </label>
                   <select
@@ -262,7 +262,7 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       general: { ...prev.general, timezone: e.target.value }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   >
                     <option value="UTC">UTC</option>
                     <option value="America/New_York">Eastern Time</option>
@@ -273,7 +273,7 @@ export const SystemSettings: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Date Format
                   </label>
                   <select
@@ -282,7 +282,7 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       general: { ...prev.general, date_format: e.target.value }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   >
                     <option value="MM/dd/yyyy">MM/DD/YYYY</option>
                     <option value="dd/MM/yyyy">DD/MM/YYYY</option>
@@ -291,7 +291,7 @@ export const SystemSettings: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Theme
                   </label>
                   <select
@@ -300,7 +300,7 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       general: { ...prev.general, theme: e.target.value as 'light' | 'dark' | 'auto' }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   >
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
@@ -313,11 +313,11 @@ export const SystemSettings: React.FC = () => {
 
           {activeTab === 'security' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">Security Settings</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Security Settings</h3>
               
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Session Timeout (hours)
                   </label>
                   <input
@@ -329,7 +329,7 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       security: { ...prev.security, session_timeout: parseInt(e.target.value) }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 </div>
 
@@ -342,17 +342,17 @@ export const SystemSettings: React.FC = () => {
                         ...prev,
                         security: { ...prev.security, require_mfa: e.target.checked }
                       }))}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
                     />
-                    <span className="ml-2 text-sm text-gray-700">Require Multi-Factor Authentication</span>
+                    <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">Require Multi-Factor Authentication</span>
                   </label>
                 </div>
 
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h4 className="font-medium text-gray-900 mb-3">Password Policy</h4>
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                  <h4 className="font-medium text-gray-900 dark:text-white mb-3">Password Policy</h4>
                   <div className="space-y-3">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Minimum Length
                       </label>
                       <input
@@ -370,7 +370,7 @@ export const SystemSettings: React.FC = () => {
                             }
                           }
                         }))}
-                        className="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-20 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -394,9 +394,9 @@ export const SystemSettings: React.FC = () => {
                                 }
                               }
                             }))}
-                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
                           />
-                          <span className="ml-2 text-sm text-gray-700">{label}</span>
+                          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">{label}</span>
                         </label>
                       ))}
                     </div>
@@ -408,7 +408,7 @@ export const SystemSettings: React.FC = () => {
 
           {activeTab === 'notifications' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">Notification Settings</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Notification Settings</h3>
               
               <div className="space-y-4">
                 {[
@@ -418,10 +418,10 @@ export const SystemSettings: React.FC = () => {
                   { key: 'vulnerability_alerts', label: 'Vulnerability Alerts', description: 'Immediate alerts for new security vulnerabilities' },
                   { key: 'compliance_reports', label: 'Compliance Reports', description: 'Weekly compliance status reports' },
                 ].map(({ key, label, description }) => (
-                  <div key={key} className="flex items-start justify-between p-4 bg-gray-50 rounded-lg">
+                  <div key={key} className="flex items-start justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <div>
-                      <div className="font-medium text-gray-900">{label}</div>
-                      <div className="text-sm text-gray-600">{description}</div>
+                      <div className="font-medium text-gray-900 dark:text-white">{label}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">{description}</div>
                     </div>
                     <label className="flex items-center">
                       <input
@@ -431,7 +431,7 @@ export const SystemSettings: React.FC = () => {
                           ...prev,
                           notifications: { ...prev.notifications, [key]: e.target.checked }
                         }))}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
                       />
                     </label>
                   </div>
@@ -442,7 +442,7 @@ export const SystemSettings: React.FC = () => {
 
           {activeTab === 'integrations' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">Integration Settings</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Integration Settings</h3>
               
               <div className="space-y-6">
                 <div>
@@ -454,14 +454,14 @@ export const SystemSettings: React.FC = () => {
                         ...prev,
                         integrations: { ...prev.integrations, api_enabled: e.target.checked }
                       }))}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
                     />
-                    <span className="ml-2 text-sm font-medium text-gray-700">Enable API Access</span>
+                    <span className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Enable API Access</span>
                   </label>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     API Rate Limit (requests per minute)
                   </label>
                   <input
@@ -473,15 +473,15 @@ export const SystemSettings: React.FC = () => {
                       ...prev,
                       integrations: { ...prev.integrations, rate_limit: parseInt(e.target.value) }
                     }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 </div>
 
-                <div className="bg-blue-50 rounded-lg p-4">
-                  <h4 className="font-medium text-blue-900 mb-3">Webhook Configuration</h4>
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                  <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-3">Webhook Configuration</h4>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Webhook URL
                       </label>
                       <input
@@ -491,13 +491,13 @@ export const SystemSettings: React.FC = () => {
                           ...prev,
                           integrations: { ...prev.integrations, webhook_url: e.target.value }
                         }))}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                         placeholder="https://your-app.com/webhook"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Webhook Secret
                       </label>
                       <div className="flex space-x-2">
@@ -509,7 +509,7 @@ export const SystemSettings: React.FC = () => {
                               ...prev,
                               integrations: { ...prev.integrations, webhook_secret: e.target.value }
                             }))}
-                            className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                             placeholder="Webhook secret for signature verification"
                           />
                           <button
@@ -518,15 +518,15 @@ export const SystemSettings: React.FC = () => {
                             className="absolute inset-y-0 right-0 pr-3 flex items-center"
                           >
                             {showWebhookSecret ? (
-                              <EyeOff className="h-4 w-4 text-gray-400" />
+                              <EyeOff className="h-4 w-4 text-gray-400 dark:text-gray-500" />
                             ) : (
-                              <Eye className="h-4 w-4 text-gray-400" />
+                              <Eye className="h-4 w-4 text-gray-400 dark:text-gray-500" />
                             )}
                           </button>
                         </div>
                         <button
                           onClick={generateWebhookSecret}
-                          className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                          className="px-3 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
                         >
                           Generate
                         </button>
@@ -536,7 +536,7 @@ export const SystemSettings: React.FC = () => {
                     <div className="flex space-x-3">
                       <button
                         onClick={testWebhook}
-                        className="inline-flex items-center px-4 py-2 border border-blue-300 text-blue-700 rounded-lg hover:bg-blue-50"
+                        className="inline-flex items-center px-4 py-2 border border-blue-300 dark:border-blue-600 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                       >
                         <Zap className="h-4 w-4 mr-2" />
                         Test Webhook
@@ -550,7 +550,7 @@ export const SystemSettings: React.FC = () => {
 
           {activeTab === 'database' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-900">Database Settings</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Database Settings</h3>
               
               <div className="space-y-6">
                 <div>
@@ -562,15 +562,15 @@ export const SystemSettings: React.FC = () => {
                         ...prev,
                         database: { ...prev.database, backup_enabled: e.target.checked }
                       }))}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
                     />
-                    <span className="ml-2 text-sm font-medium text-gray-700">Enable Automated Backups</span>
+                    <span className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Enable Automated Backups</span>
                   </label>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Backup Frequency
                     </label>
                     <select
@@ -579,7 +579,7 @@ export const SystemSettings: React.FC = () => {
                         ...prev,
                         database: { ...prev.database, backup_frequency: e.target.value as 'daily' | 'weekly' | 'monthly' }
                       }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={!settings.database.backup_enabled}
                     >
                       <option value="daily">Daily</option>
@@ -588,7 +588,7 @@ export const SystemSettings: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Retention Period (days)
                     </label>
                     <input
@@ -600,18 +600,18 @@ export const SystemSettings: React.FC = () => {
                         ...prev,
                         database: { ...prev.database, retention_days: parseInt(e.target.value) }
                       }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={!settings.database.backup_enabled}
                     />
                   </div>
                 </div>
 
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
                   <div className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
+                    <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mr-2" />
                     <div>
-                      <p className="font-medium text-green-900">Database Status</p>
-                      <p className="text-sm text-green-700">
+                      <p className="font-medium text-green-900 dark:text-green-200">Database Status</p>
+                      <p className="text-sm text-green-700 dark:text-green-300">
                         {isSupabaseEnabled 
                           ? 'Connected to Supabase PostgreSQL database'
                           : 'Running in demo mode - no database persistence'
@@ -626,11 +626,11 @@ export const SystemSettings: React.FC = () => {
         </div>
 
         {/* Save Button */}
-        <div className="bg-gray-50 px-6 py-4 flex justify-end">
+        <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-end">
           <button
             onClick={handleSaveSettings}
             disabled={isSaving}
-            className="inline-flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="inline-flex items-center px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {isSaving ? (
               <>

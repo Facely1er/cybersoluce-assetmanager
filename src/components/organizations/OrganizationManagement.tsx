@@ -134,15 +134,15 @@ export const OrganizationManagement: React.FC = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-outfit font-semibold text-gray-900 mb-2">Organizations</h2>
-            <p className="text-gray-600">Manage your organizational structure and team access</p>
+            <h2 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white mb-2">Organizations</h2>
+            <p className="text-gray-600 dark:text-gray-400">Manage your organizational structure and team access</p>
           </div>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
           >
             <Plus className="h-4 w-4 mr-2" />
             Create Organization
@@ -153,20 +153,20 @@ export const OrganizationManagement: React.FC = () => {
       {/* Organizations Grid */}
       {loading ? (
         <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {organizations.map((org) => (
-            <div key={org.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div key={org.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Building2 className="h-6 w-6 text-blue-600" />
+                  <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                    <Building2 className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">{org.name}</h3>
-                    <p className="text-sm text-gray-500">@{org.slug}</p>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{org.name}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">@{org.slug}</p>
                   </div>
                 </div>
                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getPlanColor(org.plan)}`}>
@@ -175,24 +175,24 @@ export const OrganizationManagement: React.FC = () => {
               </div>
 
               {org.description && (
-                <p className="text-sm text-gray-600 mb-4">{org.description}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{org.description}</p>
               )}
 
               <div className="space-y-3 mb-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">Created</span>
-                  <span className="font-medium">{new Date(org.created_at).toLocaleDateString()}</span>
+                  <span className="text-gray-600 dark:text-gray-400">Created</span>
+                  <span className="font-medium text-gray-900 dark:text-white">{new Date(org.created_at).toLocaleDateString()}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">Plan</span>
-                  <span className="font-medium capitalize">{org.plan}</span>
+                  <span className="text-gray-600 dark:text-gray-400">Plan</span>
+                  <span className="font-medium capitalize text-gray-900 dark:text-white">{org.plan}</span>
                 </div>
               </div>
 
               <div className="flex space-x-2">
                 <button
                   onClick={() => handleManageTeam(org)}
-                  className="flex-1 inline-flex items-center justify-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="flex-1 inline-flex items-center justify-center px-3 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
                 >
                   <Users className="h-4 w-4 mr-2" />
                   Manage Team
@@ -202,7 +202,7 @@ export const OrganizationManagement: React.FC = () => {
                     setSelectedOrg(org);
                     setShowSettingsModal(true);
                   }}
-                  className="inline-flex items-center px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                   aria-label="Organization settings"
                 >
                   <Settings className="h-4 w-4" />
@@ -215,14 +215,14 @@ export const OrganizationManagement: React.FC = () => {
 
       {/* Create Organization Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
+        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full">
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 text-white rounded-t-xl">
               <h2 className="text-xl font-outfit font-bold">Create Organization</h2>
             </div>
             <form onSubmit={handleCreateOrganization} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Organization Name *
                 </label>
                 <input
@@ -235,32 +235,32 @@ export const OrganizationManagement: React.FC = () => {
                       slug: generateSlug(e.target.value)
                     });
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   placeholder="Enter organization name"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   URL Slug *
                 </label>
                 <input
                   type="text"
                   value={newOrgData.slug}
                   onChange={(e) => setNewOrgData({ ...newOrgData, slug: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   placeholder="organization-slug"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Description
                 </label>
                 <textarea
                   value={newOrgData.description}
                   onChange={(e) => setNewOrgData({ ...newOrgData, description: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   rows={3}
                   placeholder="Optional description"
                 />
@@ -269,13 +269,13 @@ export const OrganizationManagement: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
                 >
                   Create Organization
                 </button>
