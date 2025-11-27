@@ -13,7 +13,47 @@
   2. Security
     - Enable RLS on `assets` table
     - Add policies for authenticated users to manage their own assets
+  
+  Note: This migration assumes the `profiles` table exists (typically created by Supabase Auth).
+  If profiles table doesn't exist, create it first or update the foreign key reference.
 */
+
+-- Create profiles table if it doesn't exist (basic structure for Supabase Auth)
+CREATE TABLE IF NOT EXISTS profiles (
+  id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  email text,
+  full_name text,
+  avatar_url text,
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+
+-- Enable RLS on profiles if not already enabled
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+
+-- Create basic profile policies if they don't exist
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'profiles' AND policyname = 'Users can view own profile'
+  ) THEN
+    CREATE POLICY "Users can view own profile"
+      ON profiles FOR SELECT
+      TO authenticated
+      USING (auth.uid() = id);
+  END IF;
+  
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'profiles' AND policyname = 'Users can update own profile'
+  ) THEN
+    CREATE POLICY "Users can update own profile"
+      ON profiles FOR UPDATE
+      TO authenticated
+      USING (auth.uid() = id);
+  END IF;
+END $$;
 
 -- Create assets table
 CREATE TABLE IF NOT EXISTS assets (
