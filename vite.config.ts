@@ -111,13 +111,13 @@ export default defineConfig({
           // "Cannot read properties of undefined (reading 'createContext')" errors
           // This happens when React is split into a separate chunk and loaded asynchronously
           // Check for all possible React paths and variations - MUST be in main bundle
-          if (id.includes('node_modules/react/') || 
-              id.includes('node_modules/react-dom/') ||
+          if (id.includes('node_modules/react') || 
+              id.includes('node_modules/react-dom') ||
               id.includes('node_modules/react/index') ||
               id.includes('node_modules/react-dom/index') ||
               id.includes('node_modules/react/jsx-runtime') ||
               id.includes('node_modules/react/jsx-dev-runtime') ||
-              id.includes('node_modules/scheduler/') ||
+              id.includes('node_modules/scheduler') ||
               id.includes('node_modules/object-assign')) {
             return undefined; // Keep in main bundle - DO NOT split
           }
@@ -129,7 +129,9 @@ export default defineConfig({
               id.includes('node_modules/recharts') ||
               id.includes('node_modules/@nivo') ||
               id.includes('node_modules/@react-spring') ||
-              id.includes('node_modules/framer-motion')) {
+              id.includes('node_modules/framer-motion') ||
+              id.includes('node_modules/react-router') ||
+              id.includes('@remix-run')) {
             return undefined; // Keep in main bundle with React
           }
           
@@ -187,7 +189,8 @@ export default defineConfig({
                                  id.includes('@react-spring') ||
                                  id.includes('framer-motion') ||
                                  id.includes('object-assign') ||
-                                 id.includes('react-router');
+                                 id.includes('react-router') ||
+                                 id.includes('@remix-run');
             
             if (reactRelated) {
               return undefined; // Keep in main bundle
