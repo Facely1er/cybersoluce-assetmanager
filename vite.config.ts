@@ -174,18 +174,25 @@ export default defineConfig({
             return undefined; // Keep in main bundle - DO NOT split
           }
           // Other node_modules as vendor (but NOT React/React-DOM/React-deps)
-          // Must explicitly exclude ALL React-related packages
-          if (id.includes('node_modules') && 
-              !id.includes('react') && 
-              !id.includes('scheduler') &&
-              !id.includes('react-dom') &&
-              !id.includes('react-hot-toast') &&
-              !id.includes('lucide-react') &&
-              !id.includes('recharts') &&
-              !id.includes('@nivo') &&
-              !id.includes('@react-spring') &&
-              !id.includes('framer-motion') &&
-              !id.includes('object-assign')) {
+          // Must explicitly exclude ALL React-related packages - be very strict
+          if (id.includes('node_modules')) {
+            // Double-check: if it's ANY React-related package, keep in main bundle
+            const reactRelated = id.includes('react') || 
+                                 id.includes('scheduler') ||
+                                 id.includes('react-dom') ||
+                                 id.includes('react-hot-toast') ||
+                                 id.includes('lucide-react') ||
+                                 id.includes('recharts') ||
+                                 id.includes('@nivo') ||
+                                 id.includes('@react-spring') ||
+                                 id.includes('framer-motion') ||
+                                 id.includes('object-assign') ||
+                                 id.includes('react-router');
+            
+            if (reactRelated) {
+              return undefined; // Keep in main bundle
+            }
+            
             return 'vendor';
           }
           
