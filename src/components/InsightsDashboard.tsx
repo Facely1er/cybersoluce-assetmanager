@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   TrendingUp,
   AlertTriangle,
@@ -167,8 +167,8 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
     return (
       <div className={`flex items-center justify-center h-96 ${className}`}>
         <div className="text-center">
-          <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-4 text-blue-600" />
-          <p className="text-gray-600">Loading insights...</p>
+          <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-4 text-blue-600 dark:text-blue-400" />
+          <p className="text-gray-600 dark:text-gray-400">Loading insights...</p>
         </div>
       </div>
     );
@@ -177,11 +177,11 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
   if (!analyticsInsights || !chartData) {
     return (
       <div className={`text-center py-12 ${className}`}>
-        <BarChart3 className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-        <p className="text-gray-600">No insights available</p>
+        <BarChart3 className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
+        <p className="text-gray-600 dark:text-gray-400">No insights available</p>
         <button
           onClick={loadInsights}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="mt-4 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
         >
           Load Insights
         </button>
@@ -192,14 +192,14 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-7xl h-[90vh] flex flex-col">
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-7xl h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-2xl font-bold text-gray-900">Asset Insights & Analytics</h2>
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Asset Insights & Analytics</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -237,15 +237,15 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
       </div>
 
       {/* Controls */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
           <div className="flex flex-wrap gap-4">
             <div className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5 text-gray-400" />
+              <Calendar className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               <select
                 value={selectedTimeRange}
                 onChange={(e) => setSelectedTimeRange(e.target.value as any)}
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="7d">Last 7 days</option>
                 <option value="30d">Last 30 days</option>
@@ -255,11 +255,11 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
             </div>
             
             <div className="flex items-center space-x-2">
-              <Filter className="h-5 w-5 text-gray-400" />
+              <Filter className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               <select
                 value={selectedView}
                 onChange={(e) => setSelectedView(e.target.value as any)}
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="overview">Overview</option>
                 <option value="trends">Trends</option>
@@ -321,8 +321,8 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Risk Distribution */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Risk Distribution</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Risk Distribution</h3>
             <ResponsiveContainer width="100%" height={300}>
               <RechartsPieChart>
                 <Pie data={chartData.riskDistribution} dataKey="value" nameKey="level" cx="50%" cy="50%" outerRadius={100}>
@@ -340,20 +340,20 @@ export const InsightsDashboard: React.FC<InsightsDashboardProps> = ({
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: COLORS[index % COLORS.length] }}
                   />
-                  <span className="text-sm text-gray-600">{item.level}: {item.count}</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">{item.level}: {item.count}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Compliance Status */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Compliance Status</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Compliance Status</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={chartData.complianceStatus}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="status" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="status" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
                 <Tooltip />
                 <Bar dataKey="count" fill="#10B981" />
               </BarChart>
@@ -685,9 +685,9 @@ const MetricCard: React.FC<MetricCardProps> = ({
 }) => {
   const getTrendColor = (trend?: string) => {
     switch (trend) {
-      case 'Increasing': return 'text-red-600';
-      case 'Decreasing': return 'text-green-600';
-      default: return 'text-gray-600';
+      case 'Increasing': return 'text-red-600 dark:text-red-400';
+      case 'Decreasing': return 'text-green-600 dark:text-green-400';
+      default: return 'text-gray-600 dark:text-gray-400';
     }
   };
 
@@ -700,14 +700,14 @@ const MetricCard: React.FC<MetricCardProps> = ({
   };
 
   return (
-    <div className={`bg-white p-6 rounded-lg border-2 ${border} hover:shadow-md transition-all duration-300`}>
+    <div className={`bg-white dark:bg-gray-800 p-6 rounded-lg border-2 ${border} hover:shadow-md transition-all duration-300`}>
       <div className="flex items-center">
         <div className={`p-3 rounded-lg ${color}`}>
           <Icon className="h-6 w-6" />
         </div>
         <div className="ml-4 flex-1">
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className="text-2xl font-outfit font-bold text-gray-900">{value}</p>
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
+          <p className="text-2xl font-outfit font-bold text-gray-900 dark:text-white">{value}</p>
           {trend && trendValue !== undefined && (
             <div className={`flex items-center space-x-1 text-xs ${getTrendColor(trend)}`}>
               {getTrendIcon(trend)}
@@ -736,19 +736,19 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
   children 
 }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
       <button
         onClick={onToggle}
-        className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+        className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
       >
         <div className="flex items-center space-x-3">
-          <Icon className="h-5 w-5 text-gray-500" />
-          <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+          <Icon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h2>
         </div>
         {isExpanded ? (
-          <ChevronDown className="h-5 w-5 text-gray-500" />
+          <ChevronDown className="h-5 w-5 text-gray-500 dark:text-gray-400" />
         ) : (
-          <ChevronRight className="h-5 w-5 text-gray-500" />
+          <ChevronRight className="h-5 w-5 text-gray-500 dark:text-gray-400" />
         )}
       </button>
       {isExpanded && (

@@ -155,16 +155,16 @@ export const AdvancedReportingDashboard: React.FC = () => {
       </div>
 
       {/* Controls */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
           <div className="flex flex-wrap gap-4">
             <div className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5 text-gray-400" />
+              <Calendar className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               <select
                 value={selectedTimeRange}
                 onChange={(e) => setSelectedTimeRange(e.target.value as '7d' | '30d' | '90d' | '1y')}
                 aria-label="Select time range"
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="7d">Last 7 days</option>
                 <option value="30d">Last 30 days</option>
@@ -174,12 +174,12 @@ export const AdvancedReportingDashboard: React.FC = () => {
             </div>
             
             <div className="flex items-center space-x-2">
-              <Filter className="h-5 w-5 text-gray-400" />
+              <Filter className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               <select
                 value={selectedReport}
                 onChange={(e) => setSelectedReport(e.target.value as 'overview' | 'compliance' | 'risk' | 'trends')}
                 aria-label="Select report type"
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="overview">Overview</option>
                 <option value="compliance">Compliance</option>
@@ -192,21 +192,21 @@ export const AdvancedReportingDashboard: React.FC = () => {
           <div className="flex space-x-3">
             <button
               onClick={() => generateReport('pdf')}
-              className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-red-600 dark:bg-red-500 text-white rounded-lg hover:bg-red-700 dark:hover:bg-red-600 transition-colors"
             >
               <FileText className="h-4 w-4 mr-2" />
               PDF Report
             </button>
             <button
               onClick={() => generateReport('excel')}
-              className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
             >
               <Download className="h-4 w-4 mr-2" />
               Excel Export
             </button>
             <button
               onClick={generateRiskReport}
-              className="inline-flex items-center px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-orange-600 dark:bg-orange-500 text-white rounded-lg hover:bg-orange-700 dark:hover:bg-orange-600 transition-colors"
             >
               <AlertTriangle className="h-4 w-4 mr-2" />
               Risk Report
@@ -217,58 +217,58 @@ export const AdvancedReportingDashboard: React.FC = () => {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Assets</p>
-              <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
-              <p className="text-sm text-green-600">+12% from last month</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Assets</p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
+              <p className="text-sm text-green-600 dark:text-green-400">+12% from last month</p>
             </div>
-            <div className="p-3 bg-blue-50 rounded-lg">
-              <Shield className="h-6 w-6 text-blue-600" />
+            <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+              <Shield className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Critical Assets</p>
-              <p className="text-3xl font-bold text-red-600">{stats.critical}</p>
-              <p className="text-sm text-red-600">{stats.total > 0 ? Math.round((stats.critical / stats.total) * 100) : 0}% of total</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Critical Assets</p>
+              <p className="text-3xl font-bold text-red-600 dark:text-red-400">{stats.critical}</p>
+              <p className="text-sm text-red-600 dark:text-red-400">{stats.total > 0 ? Math.round((stats.critical / stats.total) * 100) : 0}% of total</p>
             </div>
-            <div className="p-3 bg-red-50 rounded-lg">
-              <AlertTriangle className="h-6 w-6 text-red-600" />
+            <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+              <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Avg Risk Score</p>
-              <p className="text-3xl font-bold text-orange-600">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Avg Risk Score</p>
+              <p className="text-3xl font-bold text-orange-600 dark:text-orange-400">
                 {assets.length > 0 ? Math.round(assets.reduce((sum, a) => sum + a.riskScore, 0) / assets.length) : 0}
               </p>
-              <p className="text-sm text-orange-600">Medium risk level</p>
+              <p className="text-sm text-orange-600 dark:text-orange-400">Medium risk level</p>
             </div>
-            <div className="p-3 bg-orange-50 rounded-lg">
-              <TrendingUp className="h-6 w-6 text-orange-600" />
+            <div className="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+              <TrendingUp className="h-6 w-6 text-orange-600 dark:text-orange-400" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Vulnerabilities</p>
-              <p className="text-3xl font-bold text-purple-600">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Vulnerabilities</p>
+              <p className="text-3xl font-bold text-purple-600 dark:text-purple-400">
                 {assets.reduce((sum, a) => sum + (a.vulnerabilities?.length || 0), 0)}
               </p>
-              <p className="text-sm text-purple-600">Across all assets</p>
+              <p className="text-sm text-purple-600 dark:text-purple-400">Across all assets</p>
             </div>
-            <div className="p-3 bg-purple-50 rounded-lg">
-              <Activity className="h-6 w-6 text-purple-600" />
+            <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+              <Activity className="h-6 w-6 text-purple-600 dark:text-purple-400" />
             </div>
           </div>
         </div>
@@ -278,8 +278,8 @@ export const AdvancedReportingDashboard: React.FC = () => {
       {selectedReport === 'overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Asset Type Distribution */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Asset Distribution by Type</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Asset Distribution by Type</h3>
             <ResponsiveContainer width="100%" height={300}>
               <RechartsPieChart>
                 <RechartsPieChart data={assetTypeData}>
@@ -297,7 +297,7 @@ export const AdvancedReportingDashboard: React.FC = () => {
                 return (
                   <div key={item.name} className="flex items-center space-x-2">
                     <ChartLegendDot color={color} />
-                    <span className="text-sm text-gray-600">{item.name}: {item.value}</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">{item.name}: {item.value}</span>
                   </div>
                 );
               })}
@@ -305,13 +305,13 @@ export const AdvancedReportingDashboard: React.FC = () => {
           </div>
 
           {/* Criticality Breakdown */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Asset Criticality Levels</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Asset Criticality Levels</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={criticalityData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="name" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
                 <Tooltip />
                 <Bar dataKey="value" fill="#8884d8" />
               </BarChart>
@@ -323,15 +323,15 @@ export const AdvancedReportingDashboard: React.FC = () => {
       {selectedReport === 'compliance' && (
         <div className="space-y-8">
           {/* Compliance Overview */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Compliance Framework Coverage</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Compliance Framework Coverage</h3>
               <div className="flex space-x-2">
                 {complianceFrameworks.slice(0, 3).map(framework => (
                   <button
                     key={framework}
                     onClick={() => generateComplianceReport(framework)}
-                    className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium hover:bg-blue-200 transition-colors"
+                    className="px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-xs font-medium hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
                   >
                     {framework} Report
                   </button>
@@ -340,9 +340,9 @@ export const AdvancedReportingDashboard: React.FC = () => {
             </div>
             <ResponsiveContainer width="100%" height={400}>
               <BarChart data={complianceData} layout="horizontal">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
-                <YAxis dataKey="framework" type="category" width={80} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis type="number" stroke="#6b7280" />
+                <YAxis dataKey="framework" type="category" width={80} stroke="#6b7280" />
                 <Tooltip formatter={(value: number | string) => [`${value} assets`, 'Coverage']} />
                 <Bar dataKey="covered" fill="#10B981" />
               </BarChart>
@@ -352,15 +352,15 @@ export const AdvancedReportingDashboard: React.FC = () => {
           {/* Compliance Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {complianceData.map((item) => (
-              <div key={item.framework} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div key={item.framework} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-semibold text-gray-900">{item.framework}</h4>
-                  <span className="text-2xl font-bold text-green-600">{item.percentage}%</span>
+                  <h4 className="font-semibold text-gray-900 dark:text-white">{item.framework}</h4>
+                  <span className="text-2xl font-bold text-green-600 dark:text-green-400">{item.percentage}%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                   <ComplianceProgressBar percentage={item.percentage} />
                 </div>
-                <p className="text-sm text-gray-600 mt-2">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                   {item.covered} of {item.total} assets covered
                 </p>
               </div>
@@ -372,13 +372,13 @@ export const AdvancedReportingDashboard: React.FC = () => {
       {selectedReport === 'risk' && (
         <div className="space-y-8">
           {/* Risk Distribution */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Risk Score Distribution</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Risk Score Distribution</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={riskDistribution}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="range" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="range" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
                 <Tooltip />
                 <Bar dataKey="count">
                   {riskDistribution.map((entry, index) => (
@@ -390,40 +390,40 @@ export const AdvancedReportingDashboard: React.FC = () => {
           </div>
 
           {/* High Risk Assets */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">High Risk Assets (Score &gt; 75)</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">High Risk Assets (Score &gt; 75)</h3>
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Asset</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Risk Score</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vulnerabilities</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Owner</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Asset</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Type</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Risk Score</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Vulnerabilities</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Owner</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {assets
                     .filter(asset => asset.riskScore > 75)
                     .slice(0, 10)
                     .map((asset) => (
-                      <tr key={asset.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <tr key={asset.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {asset.name}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                           {asset.type}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
                             {asset.riskScore}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                           {asset.vulnerabilities?.length || 0}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                           {asset.owner}
                         </td>
                       </tr>
@@ -438,13 +438,13 @@ export const AdvancedReportingDashboard: React.FC = () => {
       {selectedReport === 'trends' && (
         <div className="space-y-8">
           {/* Vulnerability Trends */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Vulnerability Discovery Trends</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Vulnerability Discovery Trends</h3>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={trendData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="month" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
                 <Tooltip />
                 <Area 
                   type="monotone" 
@@ -458,10 +458,10 @@ export const AdvancedReportingDashboard: React.FC = () => {
           </div>
 
           {/* Asset Growth */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Asset Inventory Growth</h3>
-            <div className="text-center py-8 text-gray-500">
-              <BarChart3 className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Asset Inventory Growth</h3>
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <BarChart3 className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
               <p>Historical growth data coming soon</p>
             </div>
           </div>
