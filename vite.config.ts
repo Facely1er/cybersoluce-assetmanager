@@ -162,10 +162,16 @@ export default defineConfig({
             return 'services';
           }
           // Other node_modules as vendor (but NOT React/React-DOM/React-deps)
-          // Double-check we're not accidentally including React
+          // Double-check we're not accidentally including React or any React-related packages
           if (id.includes('node_modules') && 
               !id.includes('react') && 
-              !id.includes('scheduler')) {
+              !id.includes('scheduler') &&
+              !id.includes('react-dom') &&
+              !id.includes('react-hot-toast') &&
+              !id.includes('lucide-react') &&
+              !id.includes('recharts') &&
+              !id.includes('@nivo') &&
+              !id.includes('@react-spring')) {
             return 'vendor';
           }
           
