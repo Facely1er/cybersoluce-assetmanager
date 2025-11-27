@@ -216,74 +216,131 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" role="main">
-      {/* Header Section - Matching Wireframe */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700" role="banner">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950" role="main">
+      {/* Header Section - Polished Design */}
+      <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/60 dark:border-gray-800/60 sticky top-0 z-50 shadow-sm" role="banner">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-r from-command-blue-600 to-action-cyan-500 rounded-lg">
-                <Shield className="h-6 w-6 text-white" />
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <img 
+                  src="/icon.svg" 
+                  alt="CyberSoluce Logo" 
+                  className="h-10 w-10 object-contain"
+                  onError={(e) => {
+                    // Fallback to Shield icon if logo fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerHTML = '<div class="p-2.5 bg-gradient-to-br from-command-blue-600 via-command-blue-500 to-action-cyan-500 rounded-xl shadow-lg shadow-command-blue-500/30"><svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>';
+                    }
+                  }}
+                />
               </div>
               <div>
-                <h1 className="text-xl font-outfit font-bold text-gray-900 dark:text-white">
-                  CyberSoluce<sup className="text-sm">™</sup>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-command-blue-600 via-action-cyan-500 to-command-blue-600 bg-clip-text text-transparent tracking-tight">
+                  CyberSoluce<sup className="text-xs font-normal ml-0.5">™</sup>
                 </h1>
-                <p className="text-xs text-gray-500 dark:text-gray-400">by ERMITS</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-medium tracking-wide">by ERMITS</p>
               </div>
             </div>
             <div className="flex gap-3">
               <button
                 onClick={handleGetStarted}
                 aria-label="Get started with CyberSoluce Asset Manager"
-                className="inline-flex items-center px-6 py-3 bg-command-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-command-blue-700 focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                className="group inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-command-blue-600 to-action-cyan-500 text-white text-sm font-semibold rounded-xl hover:from-command-blue-700 hover:to-action-cyan-600 focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:ring-offset-2 transition-all duration-300 shadow-lg shadow-command-blue-500/30 hover:shadow-xl hover:shadow-command-blue-500/40 hover:-translate-y-0.5 active:translate-y-0"
               >
                 Get Started
-                <ArrowRight className="h-4 w-4 ml-2" aria-hidden="true" />
+                <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true" />
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Features Section - Matching Wireframe Layout */}
-      <section className="py-16 bg-white dark:bg-gray-800" aria-labelledby="features-heading">
+      {/* Hero Section - Polished */}
+      <section className="relative py-24 md:py-32 overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-command-blue-600/5 via-transparent to-action-cyan-500/5"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-command-blue-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-action-cyan-400/10 rounded-full blur-3xl"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="mb-8 inline-block">
+            <img 
+              src="/icon.svg" 
+              alt="CyberSoluce" 
+              className="h-20 w-20 mx-auto mb-6 drop-shadow-lg"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+          </div>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-command-blue-600 via-action-cyan-500 to-command-blue-600 bg-clip-text text-transparent leading-tight tracking-tight">
+            Enterprise Asset Management
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed font-light">
+            Comprehensive cybersecurity asset inventory platform with risk assessment, compliance tracking, and intelligent analytics
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={handleGetStarted}
+              className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-command-blue-600 to-action-cyan-500 text-white text-base font-semibold rounded-xl hover:from-command-blue-700 hover:to-action-cyan-600 focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:ring-offset-2 transition-all duration-300 shadow-xl shadow-command-blue-500/30 hover:shadow-2xl hover:shadow-command-blue-500/40 hover:-translate-y-1 active:translate-y-0"
+            >
+              Get Started Free
+              <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+            </button>
+            <button
+              onClick={handleLoadDemo}
+              className="inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-base font-semibold rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-command-blue-500 dark:hover:border-command-blue-500 hover:bg-gray-50 dark:hover:bg-gray-750 focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:ring-offset-2 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 active:translate-y-0"
+            >
+              <Play className="h-5 w-5 mr-2" />
+              View Demo
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Features Section - Polished Design */}
+      <section className="py-24 bg-white dark:bg-gray-900" aria-labelledby="features-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="mb-12">
-            <h2 id="features-heading" className="text-4xl md:text-5xl font-outfit font-bold text-gray-900 dark:text-white mb-4">
+          <div className="text-center mb-20">
+            <h2 id="features-heading" className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
               Everything You Need for Asset Management
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed font-light">
               Powerful features designed to streamline your cybersecurity operations, ensure comprehensive asset visibility, and maintain compliance with industry standards.
             </p>
           </div>
 
-          {/* Features and Dashboard Grid - Wireframe Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Left: Feature Cards - Stacked Vertically */}
-            <div className="space-y-4">
+          {/* Features and Dashboard Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            {/* Left: Feature Cards - Polished */}
+            <div className="space-y-6">
               {features.map((feature, index) => (
                 <div
                   key={index}
-                  className="p-6 rounded-xl border border-command-blue-200 dark:border-command-blue-800 bg-gradient-to-r from-command-blue-50/50 to-action-cyan-50/50 dark:from-command-blue-900/20 dark:to-action-cyan-900/20 hover:shadow-lg transition-all duration-200"
+                  className="group p-8 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700/60 hover:border-command-blue-300 dark:hover:border-command-blue-700/60 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 backdrop-blur-sm"
                 >
-                  <div className="flex items-start space-x-4">
-                    <div className="p-3 rounded-lg bg-command-blue-600 dark:bg-command-blue-500 flex-shrink-0">
-                      <feature.icon className="h-6 w-6 text-white" />
+                  <div className="flex items-start space-x-5">
+                    <div className="p-4 rounded-xl bg-gradient-to-br from-command-blue-500 to-action-cyan-500 shadow-lg shadow-command-blue-500/30 group-hover:scale-110 group-hover:shadow-xl group-hover:shadow-command-blue-500/40 transition-all duration-300 flex-shrink-0">
+                      <feature.icon className="h-7 w-7 text-white" />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white mb-2">
+                    <div className="flex-1 pt-1">
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
                         {feature.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm">
+                      <p className="text-gray-600 dark:text-gray-300 mb-5 leading-relaxed text-base">
                         {feature.description}
                       </p>
-                      <ul className="space-y-1.5">
+                      <ul className="space-y-2.5">
                         {feature.benefits.map((benefit, benefitIndex) => (
-                          <li key={benefitIndex} className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                            <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-                            {benefit}
+                          <li key={benefitIndex} className="flex items-center text-sm text-gray-700 dark:text-gray-300">
+                            <CheckCircle className="h-4 w-4 text-green-500 mr-3 flex-shrink-0" />
+                            <span>{benefit}</span>
                           </li>
                         ))}
                       </ul>
@@ -294,45 +351,48 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
             </div>
 
             {/* Right: Asset Dashboard Preview */}
-            <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 text-white shadow-2xl border border-gray-700">
+            <div className="sticky top-24 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-8 text-white shadow-2xl border border-gray-700/50 backdrop-blur-sm">
               <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-outfit font-semibold">Asset Dashboard</h3>
+                <div className="flex items-center justify-between pb-4 border-b border-gray-700/50">
+                  <h3 className="text-2xl font-bold">Live Dashboard</h3>
                   <div className="flex space-x-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                     <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                   </div>
                 </div>
                 
-                <div className="space-y-4">
-                  <div className="bg-white/10 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm opacity-75 whitespace-nowrap">Total Assets</span>
-                      <span className="text-2xl font-bold ml-2 whitespace-nowrap">1,247</span>
+                <div className="space-y-5">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/10">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm font-medium text-gray-300">Total Assets</span>
+                      <span className="text-3xl font-bold">1,247</span>
                     </div>
-                    <div className="w-full bg-white/20 rounded-full h-2">
-                      <div className="bg-green-400 h-2 rounded-full w-3/4"></div>
+                    <div className="w-full bg-white/20 rounded-full h-2.5 overflow-hidden">
+                      <div className="bg-gradient-to-r from-green-400 to-emerald-500 h-2.5 rounded-full w-3/4 transition-all duration-1000"></div>
                     </div>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white/10 rounded-lg p-3">
-                      <div className="text-lg font-bold text-red-400 whitespace-nowrap">23</div>
-                      <div className="text-xs opacity-75 mt-1 whitespace-nowrap">Critical</div>
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                      <div className="text-2xl font-bold text-red-400 mb-1">23</div>
+                      <div className="text-xs font-medium text-gray-400 uppercase tracking-wide">Critical</div>
                     </div>
-                    <div className="bg-white/10 rounded-lg p-3">
-                      <div className="text-lg font-bold text-green-400 whitespace-nowrap">89%</div>
-                      <div className="text-xs opacity-75 mt-1 whitespace-nowrap">Compliant</div>
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                      <div className="text-2xl font-bold text-green-400 mb-1">89%</div>
+                      <div className="text-xs font-medium text-gray-400 uppercase tracking-wide">Compliant</div>
                     </div>
                   </div>
                   
                   <div className="space-y-2">
+                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Recent Assets</div>
                     {['Production Server', 'Database Cluster', 'Network Switch'].map((asset, index) => (
-                      <div key={index} className="flex items-center justify-between bg-white/5 rounded p-2">
-                        <span className="text-sm">{asset}</span>
-                        <div className={`w-2 h-2 rounded-full ${
-                          index === 0 ? 'bg-red-400' : index === 1 ? 'bg-yellow-400' : 'bg-green-400'
+                      <div key={index} className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5 hover:bg-white/10 transition-colors">
+                        <span className="text-sm font-medium">{asset}</span>
+                        <div className={`w-2.5 h-2.5 rounded-full ${
+                          index === 0 ? 'bg-red-400 shadow-lg shadow-red-400/50' : 
+                          index === 1 ? 'bg-yellow-400 shadow-lg shadow-yellow-400/50' : 
+                          'bg-green-400 shadow-lg shadow-green-400/50'
                         }`}></div>
                       </div>
                     ))}
