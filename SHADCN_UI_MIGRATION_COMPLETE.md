@@ -25,8 +25,11 @@ Successfully migrated AssetManager from custom components to **shadcn/ui** struc
 
 ### 2. Configuration Files Created
 - ✅ `components.json` - shadcn/ui configuration
-- ✅ `src/utils/cn.ts` - `cn()` utility function for className merging (matches other ERMITS projects)
+- ✅ `src/utils/cn.ts` - `cn()` utility function for className merging (matches vendorsoluce.com structure)
+- ✅ `src/lib/utils.ts` - Re-exports `cn` from `@/utils/cn` for shadcn/ui CLI compatibility
 - ✅ CSS variables added to `src/index.css` for shadcn/ui theming
+
+**Note**: Structure matches other ERMITS projects (vendorsoluce.com uses `src/utils/cn.ts`). Components import from `@/utils/cn` directly, while `@/lib/utils` re-exports for shadcn/ui CLI compatibility.
 
 ### 3. Components Migrated
 
