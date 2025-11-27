@@ -293,24 +293,24 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ organizationId }) => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
           <div className="flex flex-wrap gap-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
               <input
                 type="text"
                 placeholder="Search activities..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
               />
             </div>
 
             <select
               value={actionFilter}
               onChange={(e) => setActionFilter(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
               <option value="">All Actions</option>
               {uniqueActions.map(action => (
@@ -321,7 +321,7 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ organizationId }) => {
             <select
               value={userFilter}
               onChange={(e) => setUserFilter(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
               <option value="">All Users</option>
               {uniqueUsers.map(email => (
@@ -332,7 +332,7 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ organizationId }) => {
             <select
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value as 'today' | '7d' | '30d' | '90d')}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
               <option value="today">Today</option>
               <option value="7d">Last 7 days</option>
@@ -349,14 +349,14 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ organizationId }) => {
                 setUserFilter('');
                 setDateRange('7d');
               }}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               <Filter className="h-4 w-4 mr-2" />
               Clear Filters
             </button>
             <button
               onClick={exportActivityLog}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
             >
               <Download className="h-4 w-4 mr-2" />
               Export Log
@@ -366,36 +366,36 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ organizationId }) => {
       </div>
 
       {/* Activity Timeline */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         {loading ? (
           <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
           </div>
         ) : filteredActivities.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
-            <Activity className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+            <Activity className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
             <p>No activities found matching your criteria</p>
           </div>
         ) : (
           <div className="space-y-6">
             {Object.entries(groupedActivities).map(([date, dateActivities]) => (
               <div key={date}>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 sticky top-0 bg-white py-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 sticky top-0 bg-white dark:bg-gray-800 py-2">
                   {date}
                 </h3>
                 <div className="space-y-4">
                   {dateActivities.map((activity) => (
-                    <div key={activity.id} className="flex items-start space-x-4 p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                    <div key={activity.id} className="flex items-start space-x-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                       <div className={`p-2 rounded-lg ${getActionColor(activity.action)}`}>
                         {getActionIcon(activity.action)}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="font-medium text-gray-900">
+                            <p className="font-medium text-gray-900 dark:text-white">
                               {activity.user?.full_name || 'System'} {formatActionDescription(activity)}
                             </p>
-                            <div className="flex items-center space-x-4 mt-1 text-sm text-gray-500">
+                            <div className="flex items-center space-x-4 mt-1 text-sm text-gray-500 dark:text-gray-400">
                               <span>{format(activity.created_at, 'HH:mm')}</span>
                               <span>{activity.user?.email}</span>
                               {activity.ip_address && (
@@ -410,21 +410,21 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ organizationId }) => {
                         
                         {/* Show changes for update actions */}
                         {activity.old_values && activity.new_values && (
-                          <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                            <p className="text-sm font-medium text-blue-900 mb-2">Changes:</p>
+                          <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                            <p className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2">Changes:</p>
                             <div className="space-y-1 text-sm">
                               {Object.entries(activity.new_values).map(([key, value]) => (
                                 <div key={key} className="flex items-center space-x-2">
-                                  <span className="text-blue-600 font-medium">{key}:</span>
+                                  <span className="text-blue-600 dark:text-blue-400 font-medium">{key}:</span>
                                   {activity.old_values && activity.old_values[key] && (
                                     <>
-                                      <span className="text-red-600 line-through">
+                                      <span className="text-red-600 dark:text-red-400 line-through">
                                         {JSON.stringify(activity.old_values[key])}
                                       </span>
-                                      <span className="text-gray-400">→</span>
+                                      <span className="text-gray-400 dark:text-gray-500">→</span>
                                     </>
                                   )}
-                                  <span className="text-green-600 font-medium">
+                                  <span className="text-green-600 dark:text-green-400 font-medium">
                                     {JSON.stringify(value)}
                                   </span>
                                 </div>

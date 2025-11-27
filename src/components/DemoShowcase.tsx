@@ -56,7 +56,7 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
       <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,7 +88,7 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
       </div>
 
       {/* Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex space-x-8">
             {[
@@ -101,8 +101,8 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
                 onClick={() => setActiveTab(id as any)}
                 className={`flex items-center py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === id
-                    ? 'border-command-blue-500 text-command-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-command-blue-500 text-command-blue-600 dark:text-command-blue-400'
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
               >
                 <Icon className="h-5 w-5 mr-2" />
@@ -116,16 +116,16 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Filters */}
         {activeTab === 'scenarios' && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Industry
                 </label>
                 <select
                   value={selectedIndustry}
                   onChange={(e) => setSelectedIndustry(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-command-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="all">All Industries</option>
                   <option value="Healthcare">Healthcare</option>
@@ -137,13 +137,13 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
                 </select>
               </div>
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Risk Level
                 </label>
                 <select
                   value={selectedDifficulty}
                   onChange={(e) => setSelectedDifficulty(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-command-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="all">All Risk Levels</option>
                   <option value="low">Low Risk</option>
@@ -162,33 +162,33 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
             {filteredScenarios.map((scenario) => {
               const IndustryIcon = getIndustryIcon(scenario.industry);
               return (
-                <div key={scenario.id} className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+                <div key={scenario.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-2">
-                        <div className="p-2 bg-command-blue-100 rounded-lg">
-                          <IndustryIcon className="h-6 w-6 text-command-blue-600" />
+                        <div className="p-2 bg-command-blue-100 dark:bg-command-blue-900/20 rounded-lg">
+                          <IndustryIcon className="h-6 w-6 text-command-blue-600 dark:text-command-blue-400" />
                         </div>
-                        <span className="text-sm font-medium text-gray-600">{scenario.industry}</span>
+                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">{scenario.industry}</span>
                       </div>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getDifficultyColor(scenario.riskProfile.level)}`}>
                         {scenario.riskProfile.level} Risk
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-2">
+                    <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white mb-2">
                       {scenario.name}
                     </h3>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
                       {scenario.description}
                     </p>
 
                     <div className="space-y-2 mb-4">
-                      <div className="flex items-center text-sm text-gray-500">
+                      <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                         <Users className="h-4 w-4 mr-2" />
                         {scenario.companySize} • {scenario.assets.length} assets
                       </div>
-                      <div className="flex items-center text-sm text-gray-500">
+                      <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                         <Clock className="h-4 w-4 mr-2" />
                         {scenario.demoSteps.reduce((total, step) => total + parseInt(step.duration), 0)} min demo
                       </div>
@@ -196,12 +196,12 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
 
                     <div className="flex flex-wrap gap-2 mb-4">
                       {scenario.complianceRequirements.slice(0, 3).map((framework) => (
-                        <span key={framework} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                        <span key={framework} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded">
                           {framework}
                         </span>
                       ))}
                       {scenario.complianceRequirements.length > 3 && (
-                        <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded">
                           +{scenario.complianceRequirements.length - 3} more
                         </span>
                       )}
@@ -210,14 +210,14 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
                     <div className="flex space-x-2">
                       <button
                         onClick={() => onStartDemo(scenario.id)}
-                        className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-command-blue-600 text-white rounded-lg hover:bg-command-blue-700 transition-colors text-sm font-medium"
+                        className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-command-blue-600 dark:bg-command-blue-500 text-white rounded-lg hover:bg-command-blue-700 dark:hover:bg-command-blue-600 transition-colors text-sm font-medium"
                       >
                         <Play className="h-4 w-4 mr-2" />
                         Start Demo
                       </button>
                       <button
                         onClick={() => onViewDemo(scenario.id)}
-                        className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+                        className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm font-medium"
                       >
                         View Details
                       </button>
@@ -232,33 +232,33 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
         {activeTab === 'quickstart' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {quickStartScenarios.map((scenario) => (
-              <div key={scenario.id} className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+              <div key={scenario.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="p-2 bg-green-100 rounded-lg">
-                      <Zap className="h-6 w-6 text-green-600" />
+                    <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
+                      <Zap className="h-6 w-6 text-green-600 dark:text-green-400" />
                     </div>
-                    <span className="text-sm font-medium text-green-600 bg-green-50 px-2 py-1 rounded">
+                    <span className="text-sm font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded">
                       {scenario.difficulty}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-2">
+                  <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white mb-2">
                     {scenario.name}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
                     {scenario.description}
                   </p>
 
-                  <div className="flex items-center text-sm text-gray-500 mb-4">
+                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
                     <Clock className="h-4 w-4 mr-2" />
                     {scenario.duration}
                   </div>
 
                   <div className="space-y-2 mb-4">
                     {scenario.steps.map((step, index) => (
-                      <div key={index} className="flex items-center text-sm text-gray-600">
-                        <CheckCircle className="h-4 w-4 mr-2 text-green-500" />
+                      <div key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-500 dark:text-green-400" />
                         {step}
                       </div>
                     ))}
@@ -266,7 +266,7 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
 
                   <button
                     onClick={() => onStartDemo(scenario.id)}
-                    className="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+                    className="w-full inline-flex items-center justify-center px-4 py-2 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors text-sm font-medium"
                   >
                     <Play className="h-4 w-4 mr-2" />
                     Start Quick Demo
@@ -280,13 +280,13 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
         {activeTab === 'industries' && (
           <div className="space-y-8">
             {industryScenarios.map((industry) => (
-              <div key={industry.industry} className="bg-white rounded-xl shadow-sm border border-gray-200">
-                <div className="p-6 border-b border-gray-200">
+              <div key={industry.industry} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-command-blue-100 rounded-lg">
-                      {React.createElement(getIndustryIcon(industry.industry), { className: "h-6 w-6 text-command-blue-600" })}
+                    <div className="p-2 bg-command-blue-100 dark:bg-command-blue-900/20 rounded-lg">
+                      {React.createElement(getIndustryIcon(industry.industry), { className: "h-6 w-6 text-command-blue-600 dark:text-command-blue-400" })}
                     </div>
-                    <h3 className="text-xl font-outfit font-semibold text-gray-900">
+                    <h3 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white">
                       {industry.industry}
                     </h3>
                   </div>
@@ -294,11 +294,11 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
                 <div className="p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {industry.scenarios.map((scenario) => (
-                      <div key={scenario.id} className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                        <h4 className="font-medium text-gray-900 mb-2">{scenario.name}</h4>
+                      <div key={scenario.id} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <h4 className="font-medium text-gray-900 dark:text-white mb-2">{scenario.name}</h4>
                         <button
                           onClick={() => onStartDemo(scenario.id)}
-                          className="inline-flex items-center text-command-blue-600 hover:text-command-blue-700 text-sm font-medium"
+                          className="inline-flex items-center text-command-blue-600 dark:text-command-blue-400 hover:text-command-blue-700 dark:hover:text-command-blue-300 text-sm font-medium"
                         >
                           Start Demo
                           <ChevronRight className="h-4 w-4 ml-1" />

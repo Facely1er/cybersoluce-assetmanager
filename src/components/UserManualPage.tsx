@@ -46,28 +46,28 @@ export const UserManualPage: React.FC = () => {
       icon: Lightbulb,
       content: (
         <div className="space-y-6">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-            <h4 className="text-lg font-semibold text-blue-900 mb-3 flex items-center">
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+            <h4 className="text-lg font-semibold text-blue-900 dark:text-blue-200 mb-3 flex items-center">
               <Target className="h-5 w-5 mr-2" />
               Welcome to CyberSoluce™ Asset Manager
             </h4>
-            <p className="text-blue-800 mb-4">
+            <p className="text-blue-800 dark:text-blue-200 mb-4">
               CyberSoluce™ Asset Manager by ERMITS is a comprehensive asset inventory management platform designed for cybersecurity professionals. 
               This manual will guide you through all the features and help you get the most out of the system.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white rounded-lg p-4 border border-blue-200">
-                <h5 className="font-medium text-blue-900 mb-2">Quick Start</h5>
-                <ol className="text-sm text-blue-800 space-y-1">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                <h5 className="font-medium text-blue-900 dark:text-blue-200 mb-2">Quick Start</h5>
+                <ol className="text-sm text-blue-800 dark:text-blue-300 space-y-1">
                   <li>1. Import your existing assets via CSV</li>
                   <li>2. Or generate sample data to explore</li>
                   <li>3. Configure compliance frameworks</li>
                   <li>4. Start managing your inventory</li>
                 </ol>
               </div>
-              <div className="bg-white rounded-lg p-4 border border-blue-200">
-                <h5 className="font-medium text-blue-900 mb-2">Key Benefits</h5>
-                <ul className="text-sm text-blue-800 space-y-1">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                <h5 className="font-medium text-blue-900 dark:text-blue-200 mb-2">Key Benefits</h5>
+                <ul className="text-sm text-blue-800 dark:text-blue-300 space-y-1">
                   <li>• Centralized asset tracking</li>
                   <li>• Automated risk assessment</li>
                   <li>• Compliance monitoring</li>
@@ -78,19 +78,19 @@ export const UserManualPage: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold text-gray-900 mb-3">Navigation Overview</h4>
+            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Navigation Overview</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 { icon: BarChart3, title: 'Dashboard', desc: 'Overview and key metrics' },
                 { icon: Shield, title: 'Assets', desc: 'Manage your inventory' },
                 { icon: Database, title: 'Analytics', desc: 'Reports and insights' },
               ].map((item, index) => (
-                <div key={index} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <div key={index} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                   <div className="flex items-center mb-2">
-                    <item.icon className="h-5 w-5 text-command-blue-600 mr-2" />
-                    <h5 className="font-medium text-gray-900">{item.title}</h5>
+                    <item.icon className="h-5 w-5 text-command-blue-600 dark:text-command-blue-400 mr-2" />
+                    <h5 className="font-medium text-gray-900 dark:text-white">{item.title}</h5>
                   </div>
-                  <p className="text-sm text-gray-600">{item.desc}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -946,20 +946,20 @@ export const UserManualPage: React.FC = () => {
       {/* Search */}
       <div className="mb-8">
         <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500" />
           <input
             type="text"
             placeholder="Search manual..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:border-command-blue-500"
+            className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-command-blue-500 focus:border-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
       </div>
 
       {/* Table of Contents */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-        <h2 className="text-xl font-outfit font-semibold text-gray-900 mb-4">Table of Contents</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+        <h2 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white mb-4">Table of Contents</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {sections.map((section) => (
             <button
@@ -968,10 +968,10 @@ export const UserManualPage: React.FC = () => {
                 const element = document.getElementById(section.id);
                 element?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="flex items-center p-3 text-left rounded-lg hover:bg-gray-50 transition-colors group"
+              className="flex items-center p-3 text-left rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group"
             >
-              <section.icon className="h-5 w-5 text-command-blue-600 mr-3 group-hover:text-command-blue-700" />
-              <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+              <section.icon className="h-5 w-5 text-command-blue-600 dark:text-command-blue-400 mr-3 group-hover:text-command-blue-700 dark:group-hover:text-command-blue-300" />
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
                 {section.title}
               </span>
             </button>
@@ -985,27 +985,27 @@ export const UserManualPage: React.FC = () => {
           <div
             key={section.id}
             id={section.id}
-            className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden"
           >
             <button
               onClick={() => toggleSection(section.id)}
-              className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+              className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               <div className="flex items-center">
-                <section.icon className="h-6 w-6 text-command-blue-600 mr-3" />
-                <h3 className="text-xl font-outfit font-semibold text-gray-900">
+                <section.icon className="h-6 w-6 text-command-blue-600 dark:text-command-blue-400 mr-3" />
+                <h3 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white">
                   {section.title}
                 </h3>
               </div>
               {expandedSections.has(section.id) ? (
-                <ChevronDown className="h-5 w-5 text-gray-400" />
+                <ChevronDown className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               ) : (
-                <ChevronRight className="h-5 w-5 text-gray-400" />
+                <ChevronRight className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               )}
             </button>
             
             {expandedSections.has(section.id) && (
-              <div className="px-6 pb-6 border-t border-gray-100">
+              <div className="px-6 pb-6 border-t border-gray-100 dark:border-gray-700">
                 <div className="pt-6">
                   {section.content}
                 </div>
@@ -1016,19 +1016,19 @@ export const UserManualPage: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="mt-12 bg-gray-50 rounded-xl p-6 text-center">
-        <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-2">
+      <div className="mt-12 bg-gray-50 dark:bg-gray-800 rounded-xl p-6 text-center border border-gray-200 dark:border-gray-700">
+        <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white mb-2">
           Need Additional Help?
         </h3>
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
           If you can't find what you're looking for in this manual, don't hesitate to reach out for support.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <button className="inline-flex items-center px-4 py-2 bg-command-blue-600 text-white rounded-lg hover:bg-command-blue-700 transition-colors">
+          <button className="inline-flex items-center px-4 py-2 bg-command-blue-600 text-white rounded-lg hover:bg-command-blue-700 dark:bg-command-blue-500 dark:hover:bg-command-blue-600 transition-colors">
             <ExternalLink className="h-4 w-4 mr-2" />
             Contact Support
           </button>
-          <button className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+          <button className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
             <BookOpen className="h-4 w-4 mr-2" />
             Download PDF Manual
           </button>

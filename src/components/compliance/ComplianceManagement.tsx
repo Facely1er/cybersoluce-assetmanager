@@ -134,73 +134,73 @@ export const ComplianceManagement: React.FC = () => {
 
       {/* Compliance Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Assets</p>
-              <p className="text-3xl font-outfit font-bold text-gray-900">{assets.length}</p>
-              <p className="text-sm text-blue-600">Asset inventory</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Assets</p>
+              <p className="text-3xl font-outfit font-bold text-gray-900 dark:text-white">{assets.length}</p>
+              <p className="text-sm text-blue-600 dark:text-blue-400">Asset inventory</p>
             </div>
-            <div className="p-3 bg-blue-50 rounded-lg">
-              <Building2 className="h-6 w-6 text-blue-600" />
+            <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+              <Building2 className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Compliant Assets</p>
-              <p className="text-3xl font-outfit font-bold text-green-600">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Compliant Assets</p>
+              <p className="text-3xl font-outfit font-bold text-green-600 dark:text-green-400">
                 {assets.filter(a => a.complianceFrameworks.length > 0).length}
               </p>
-              <p className="text-sm text-green-600">{overallComplianceRate}% coverage</p>
+              <p className="text-sm text-green-600 dark:text-green-400">{overallComplianceRate}% coverage</p>
             </div>
-            <div className="p-3 bg-green-50 rounded-lg">
-              <CheckCircle className="h-6 w-6 text-green-600" />
+            <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Non-Compliant</p>
-              <p className="text-3xl font-outfit font-bold text-orange-600">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Non-Compliant</p>
+              <p className="text-3xl font-outfit font-bold text-orange-600 dark:text-orange-400">
                 {assets.filter(a => a.complianceFrameworks.length === 0).length}
               </p>
-              <p className="text-sm text-orange-600">Need attention</p>
+              <p className="text-sm text-orange-600 dark:text-orange-400">Need attention</p>
             </div>
-            <div className="p-3 bg-orange-50 rounded-lg">
-              <AlertTriangle className="h-6 w-6 text-orange-600" />
+            <div className="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+              <AlertTriangle className="h-6 w-6 text-orange-600 dark:text-orange-400" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Frameworks</p>
-              <p className="text-3xl font-outfit font-bold text-purple-600">{complianceFrameworks.length}</p>
-              <p className="text-sm text-purple-600">Available standards</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Frameworks</p>
+              <p className="text-3xl font-outfit font-bold text-purple-600 dark:text-purple-400">{complianceFrameworks.length}</p>
+              <p className="text-sm text-purple-600 dark:text-purple-400">Available standards</p>
             </div>
-            <div className="p-3 bg-purple-50 rounded-lg">
-              <FileText className="h-6 w-6 text-purple-600" />
+            <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+              <FileText className="h-6 w-6 text-purple-600 dark:text-purple-400" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Framework Status Grid */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-outfit font-semibold text-gray-900">
+          <h2 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white">
             Framework Compliance Status
           </h2>
           <div className="flex items-center space-x-3">
             <button
               onClick={clearFilters}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               <Filter className="h-4 w-4 mr-2 inline" />
               Clear Filters
@@ -214,17 +214,17 @@ export const ComplianceManagement: React.FC = () => {
               key={framework.name}
               className={`rounded-lg border-2 p-6 cursor-pointer transition-all hover:shadow-md ${
                 selectedFramework === framework.name 
-                  ? getFrameworkColor(framework.name)
-                  : 'bg-white border-gray-200 hover:border-gray-300'
+                  ? getFrameworkColor(framework.name) + ' dark:border-opacity-50'
+                  : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
               }`}
               onClick={() => handleFrameworkFilter(framework.name)}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold text-gray-900">{framework.name}</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">{framework.name}</h3>
                 <span className={`text-2xl font-bold ${
-                  framework.complianceRate >= 80 ? 'text-green-600' :
-                  framework.complianceRate >= 60 ? 'text-yellow-600' :
-                  'text-red-600'
+                  framework.complianceRate >= 80 ? 'text-green-600 dark:text-green-400' :
+                  framework.complianceRate >= 60 ? 'text-yellow-600 dark:text-yellow-400' :
+                  'text-red-600 dark:text-red-400'
                 }`}>
                   {framework.complianceRate}%
                 </span>
@@ -232,23 +232,23 @@ export const ComplianceManagement: React.FC = () => {
 
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Compliant Assets</span>
-                  <span className="font-medium">{framework.compliantAssets} / {framework.totalAssets}</span>
+                  <span className="text-gray-600 dark:text-gray-400">Compliant Assets</span>
+                  <span className="font-medium text-gray-900 dark:text-white">{framework.compliantAssets} / {framework.totalAssets}</span>
                 </div>
                 
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                   <div 
                     className={`h-2 rounded-full transition-all ${
-                      framework.complianceRate >= 80 ? 'bg-green-600' :
-                      framework.complianceRate >= 60 ? 'bg-yellow-600' :
-                      'bg-red-600'
+                      framework.complianceRate >= 80 ? 'bg-green-600 dark:bg-green-500' :
+                      framework.complianceRate >= 60 ? 'bg-yellow-600 dark:bg-yellow-500' :
+                      'bg-red-600 dark:bg-red-500'
                     }`}
                     style={{ width: `${framework.complianceRate}%` }}
                   />
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
                     {framework.criticalAssets} critical assets
                   </span>
                   <button
@@ -256,7 +256,7 @@ export const ComplianceManagement: React.FC = () => {
                       e.stopPropagation();
                       exportComplianceReport(framework.name);
                     }}
-                    className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+                    className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
                   >
                     <Download className="h-3 w-3 inline mr-1" />
                     Export
@@ -271,9 +271,9 @@ export const ComplianceManagement: React.FC = () => {
       {/* Compliance Gaps and Recommendations */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Compliance Gaps */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4 flex items-center">
-            <AlertTriangle className="h-5 w-5 mr-2 text-orange-600" />
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+            <AlertTriangle className="h-5 w-5 mr-2 text-orange-600 dark:text-orange-400" />
             Compliance Gaps
           </h3>
           <div className="space-y-4">
@@ -281,17 +281,17 @@ export const ComplianceManagement: React.FC = () => {
               .filter(asset => asset.complianceFrameworks.length === 0)
               .slice(0, 5)
               .map((asset) => (
-                <div key={asset.id} className="flex items-center justify-between p-3 bg-orange-50 rounded-lg border border-orange-200">
+                <div key={asset.id} className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-800">
                   <div>
-                    <div className="font-medium text-gray-900">{asset.name}</div>
-                    <div className="text-sm text-gray-600">{asset.type} • {asset.criticality}</div>
+                    <div className="font-medium text-gray-900 dark:text-white">{asset.name}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">{asset.type} • {asset.criticality}</div>
                   </div>
-                  <span className="text-orange-600 text-sm font-medium">No framework assigned</span>
+                  <span className="text-orange-600 dark:text-orange-400 text-sm font-medium">No framework assigned</span>
                 </div>
               ))}
             {assets.filter(asset => asset.complianceFrameworks.length === 0).length === 0 && (
-              <div className="text-center py-6 text-gray-500">
-                <CheckCircle className="h-12 w-12 mx-auto mb-3 text-green-400" />
+              <div className="text-center py-6 text-gray-500 dark:text-gray-400">
+                <CheckCircle className="h-12 w-12 mx-auto mb-3 text-green-400 dark:text-green-500" />
                 <p>All assets have compliance frameworks assigned!</p>
               </div>
             )}
@@ -299,27 +299,27 @@ export const ComplianceManagement: React.FC = () => {
         </div>
 
         {/* Recommendations */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-4 flex items-center">
-            <TrendingUp className="h-5 w-5 mr-2 text-blue-600" />
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+            <TrendingUp className="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400" />
             Recommendations
           </h3>
           <div className="space-y-4">
-            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <h4 className="font-medium text-blue-900 mb-2">Critical Asset Focus</h4>
-              <p className="text-sm text-blue-800">
+            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+              <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-2">Critical Asset Focus</h4>
+              <p className="text-sm text-blue-800 dark:text-blue-300">
                 Prioritize compliance for {assets.filter(a => a.criticality === 'Critical').length} critical assets
               </p>
             </div>
-            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-              <h4 className="font-medium text-green-900 mb-2">Framework Consolidation</h4>
-              <p className="text-sm text-green-800">
+            <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+              <h4 className="font-medium text-green-900 dark:text-green-200 mb-2">Framework Consolidation</h4>
+              <p className="text-sm text-green-800 dark:text-green-300">
                 Consider focusing on 2-3 primary frameworks for better coverage
               </p>
             </div>
-            <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-              <h4 className="font-medium text-purple-900 mb-2">Regular Audits</h4>
-              <p className="text-sm text-purple-800">
+            <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+              <h4 className="font-medium text-purple-900 dark:text-purple-200 mb-2">Regular Audits</h4>
+              <p className="text-sm text-purple-800 dark:text-purple-300">
                 Schedule quarterly compliance reviews for all critical assets
               </p>
             </div>
@@ -329,14 +329,14 @@ export const ComplianceManagement: React.FC = () => {
 
       {/* Detailed Framework Analysis */}
       {selectedFramework && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-outfit font-semibold text-gray-900">
+            <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white">
               {selectedFramework} Detailed Analysis
             </h3>
             <button
               onClick={() => exportComplianceReport(selectedFramework)}
-              className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
             >
               <Download className="h-4 w-4 mr-2" />
               Export Report
@@ -356,16 +356,16 @@ export const ComplianceManagement: React.FC = () => {
               return (
                 <>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-green-600">{frameworkAssets.length}</div>
-                    <div className="text-sm text-gray-600">Compliant Assets</div>
+                    <div className="text-3xl font-bold text-green-600 dark:text-green-400">{frameworkAssets.length}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">Compliant Assets</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-red-600">{criticalCount}</div>
-                    <div className="text-sm text-gray-600">Critical Assets</div>
+                    <div className="text-3xl font-bold text-red-600 dark:text-red-400">{criticalCount}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">Critical Assets</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-orange-600">{avgRisk}</div>
-                    <div className="text-sm text-gray-600">Avg Risk Score</div>
+                    <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">{avgRisk}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">Avg Risk Score</div>
                   </div>
                 </>
               );
@@ -373,48 +373,48 @@ export const ComplianceManagement: React.FC = () => {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Asset</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Criticality</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Risk Score</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Owner</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Asset</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Type</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Criticality</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Risk Score</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Owner</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {assets
                   .filter(asset => (asset.complianceFrameworks || []).includes(selectedFramework))
                   .slice(0, 10)
                   .map((asset) => (
-                    <tr key={asset.id} className="hover:bg-gray-50">
+                    <tr key={asset.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="font-medium text-gray-900">{asset.name}</div>
-                        <div className="text-sm text-gray-500">{asset.location}</div>
+                        <div className="font-medium text-gray-900 dark:text-white">{asset.name}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">{asset.location}</div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{asset.type}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{asset.type}</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          asset.criticality === 'Critical' ? 'bg-red-100 text-red-800' :
-                          asset.criticality === 'High' ? 'bg-orange-100 text-orange-800' :
-                          asset.criticality === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-green-100 text-green-800'
+                          asset.criticality === 'Critical' ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300' :
+                          asset.criticality === 'High' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300' :
+                          asset.criticality === 'Medium' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' :
+                          'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
                         }`}>
                           {asset.criticality}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          asset.riskScore >= 80 ? 'bg-red-100 text-red-800' :
-                          asset.riskScore >= 60 ? 'bg-orange-100 text-orange-800' :
-                          asset.riskScore >= 40 ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-green-100 text-green-800'
+                          asset.riskScore >= 80 ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300' :
+                          asset.riskScore >= 60 ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300' :
+                          asset.riskScore >= 40 ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' :
+                          'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
                         }`}>
                           {asset.riskScore}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{asset.owner}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{asset.owner}</td>
                     </tr>
                   ))}
               </tbody>
