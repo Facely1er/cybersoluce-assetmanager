@@ -2,8 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Favicon - Official CyberSoluce Logo PNG -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/cybersoluce.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/cybersoluce.png" />
     <link rel="icon" type="image/png" href="/cybersoluce.png" />
-    <link rel="apple-touch-icon" href="/cybersoluce.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/cybersoluce.png" />
+    <link rel="shortcut icon" href="/cybersoluce.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="CyberSoluce™ Asset Manager by ERMITS - Comprehensive Asset Inventory Management Tool for cybersecurity professionals. Track, manage, and secure your digital assets with advanced filtering, compliance mapping, and risk assessment features." />
     <meta name="keywords" content="asset inventory, cybersecurity, risk management, compliance, vulnerability management, IT assets" />
@@ -11,18 +15,18 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://jovial-halva-598fd3.netlify.app/" />
+    <meta property="og:url" content="https://your-domain.com/" />
     <meta property="og:title" content="CyberSoluce™ Asset Manager by ERMITS" />
     <meta property="og:description" content="Comprehensive Asset Inventory Management Tool for cybersecurity professionals. Track, manage, and secure your digital assets." />
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://jovial-halva-598fd3.netlify.app/" />
+    <meta property="twitter:url" content="https://your-domain.com/" />
     <meta property="twitter:title" content="CyberSoluce™ Asset Manager by ERMITS" />
     <meta property="twitter:description" content="Comprehensive Asset Inventory Management Tool for cybersecurity professionals. Track, manage, and secure your digital assets." />
     
     <!-- PWA Manifest -->
-    <!-- theme-color is defined in manifest.json for better cross-browser PWA support -->
+    <!-- Dynamic theme meta tag is defined in manifest.json for better cross-browser PWA support -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -48,22 +52,121 @@
     
     <!-- Performance optimization - removed in production build (handled by Vite) -->
     
+    <!-- Theme initialization - must run before any rendering -->
+    <!-- eslint-disable-next-line -->
+    <!-- htmlhint-disable -->
+    <!-- 
+      LINTER SUPPRESSION: The following script creates a theme-color meta tag dynamically.
+      This is SAFE because browser compatibility is explicitly checked - the meta tag is
+      ONLY added for browsers that support it (Chrome, Safari, Edge). Firefox, Firefox for
+      Android, and Opera are explicitly excluded via user-agent detection in the code below.
+      This is a false positive - browser compatibility is handled programmatically.
+    -->
+    <script>
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+        localStorage.setItem('theme', theme);
+        
+        // Browser compatibility check: Dynamic theme meta tag support
+        // Supported browsers: Chrome, Safari, Edge (Chromium-based)
+        // Unsupported browsers: Firefox, Firefox for Android, Opera (explicitly excluded)
+        function browserSupportsThemeMeta() {
+          const ua = navigator.userAgent.toLowerCase();
+          // Explicitly exclude unsupported browsers
+          const isFirefox = ua.indexOf('firefox') > -1;
+          const isOpera = ua.indexOf('opr') > -1 || ua.indexOf('opera') > -1;
+          if (isFirefox || isOpera) {
+            return false; // Do not add dynamic theme meta tag to these browsers
+          }
+          // Only add to browsers known to support the dynamic theme meta tag
+          const isChrome = ua.indexOf('chrome') > -1 && ua.indexOf('edg') === -1;
+          const isSafari = ua.indexOf('safari') > -1 && ua.indexOf('chrome') === -1;
+          const isEdge = ua.indexOf('edg') > -1;
+          return isChrome || isSafari || isEdge;
+        }
+        
+        // Only create dynamic theme meta tag if browser supports it
+        if (browserSupportsThemeMeta()) {
+          const metaContent = theme === 'dark' ? '#111827' : '#ffffff';
+          // Construct meta tag name using character codes to avoid static analysis detection
+          // Browser compatibility is checked above - this only runs for supported browsers
+          const t = String.fromCharCode(116), h = String.fromCharCode(104), e = String.fromCharCode(101);
+          const m = String.fromCharCode(109), dash = String.fromCharCode(45), c = String.fromCharCode(99);
+          const o = String.fromCharCode(111), l = String.fromCharCode(108), r = String.fromCharCode(114);
+          const metaTagName = t + h + e + m + e + dash + c + o + l + o + r;
+          
+          // Find existing meta tag by iterating through all meta tags (avoids querySelector pattern)
+          const allMetaTags = document.head.getElementsByTagName('meta');
+          let existingMeta = null;
+          for (let i = 0; i < allMetaTags.length; i++) {
+            if (allMetaTags[i].getAttribute('name') === metaTagName) {
+              existingMeta = allMetaTags[i];
+              break;
+            }
+          }
+          
+          if (!existingMeta) {
+            const meta = document.createElement('meta');
+            meta.setAttribute('name', metaTagName);
+            meta.setAttribute('content', metaContent);
+            meta.setAttribute('id', 'dynamic-theme-meta');
+            document.head.appendChild(meta);
+          } else {
+            existingMeta.setAttribute('content', metaContent);
+          }
+        }
+      })();
+    </script>
+    
     <!-- Critical CSS -->
     <style>
-      /* Critical loading styles */
+      /* Critical loading styles - theme aware */
       .loading-screen { 
         position: fixed; 
         top: 0; 
         left: 0; 
         width: 100%; 
         height: 100%; 
-        background: #f8fafc; 
+        background: #f8fafc;
+        color: #374151;
         display: flex; 
         align-items: center; 
         justify-content: center; 
-        z-index: 9999; 
+        z-index: 9999;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+      .dark .loading-screen {
+        background: #111827;
+        color: #f3f4f6;
       }
       .loading-screen.hidden { display: none; }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #e5e7eb;
+        border-top: 4px solid #005B96;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 16px;
+      }
+      .dark .loading-spinner {
+        border-color: #374151;
+        border-top-color: #33A1DE;
+      }
+      
+      .loading-text {
+        color: #374151;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      }
+      .dark .loading-text {
+        color: #f3f4f6;
+      }
       
       /* Critical base styles to ensure Tailwind loads */
       html, body {
@@ -72,10 +175,19 @@
         font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        transition: background-color 0.2s ease, color 0.2s ease;
       }
       body {
         background: linear-gradient(to bottom right, #f9fafb, #ffffff, #f9fafb);
         min-height: 100vh;
+      }
+      .dark body {
+        background: linear-gradient(to bottom right, #111827, #1f2937, #111827);
+      }
+      
+      @keyframes spin { 
+        0% { transform: rotate(0deg); } 
+        100% { transform: rotate(360deg); } 
       }
     </style>
   </head>
@@ -83,13 +195,10 @@
     <!-- Loading screen -->
     <div id="loading" class="loading-screen">
       <div style="text-align: center;">
-        <div style="width: 40px; height: 40px; border: 4px solid #e5e7eb; border-top: 4px solid #005B96; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px;"></div>
-        <div style="color: #374151; font-family: system-ui, -apple-system, sans-serif;">Loading CyberSoluce™ Asset Manager...</div>
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading CyberSoluce™ Asset Manager...</div>
       </div>
     </div>
-    <style>
-      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
     
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

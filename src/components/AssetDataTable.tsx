@@ -3,13 +3,15 @@ import { ChevronUp, ChevronDown, Eye, Edit, Trash2, Network, AlertTriangle } fro
 import { Asset, SortConfig } from '../types/asset';
 import { getCriticalityColor, getStatusColor, getRiskScoreColor } from '../utils/assetUtils';
 import { format } from 'date-fns';
-import { TableLoadingSkeleton } from './LoadingSpinner';
+import { SkeletonTable } from './ui/skeleton';
+import { EmptyState, EmptyAssets, EmptySearch, EmptyFilters } from './ui/empty-state';
 
 interface AssetDataTableProps {
   assets: Asset[];
   selectedAssets: string[];
   sortConfig: SortConfig;
   loading?: boolean;
+  hasActiveFilters?: boolean;
   onSort: (key: keyof Asset) => void;
   onSelectAsset: (assetId: string) => void;
   onSelectAll: () => void;
@@ -18,6 +20,9 @@ interface AssetDataTableProps {
   onDeleteAsset: (assetId: string) => void;
   onManageRelationships?: (asset: Asset) => void;
   onManageVulnerabilities?: (asset: Asset) => void;
+  onCreateAsset?: () => void;
+  onImportAssets?: () => void;
+  onClearFilters?: () => void;
 }
 
 export const AssetDataTable: React.FC<AssetDataTableProps> = ({
@@ -25,6 +30,7 @@ export const AssetDataTable: React.FC<AssetDataTableProps> = ({
   selectedAssets,
   sortConfig,
   loading = false,
+  hasActiveFilters = false,
   onSort,
   onSelectAsset,
   onSelectAll,
@@ -33,6 +39,9 @@ export const AssetDataTable: React.FC<AssetDataTableProps> = ({
   onDeleteAsset,
   onManageRelationships,
   onManageVulnerabilities,
+  onCreateAsset,
+  onImportAssets,
+  onClearFilters,
 }) => {
   const [expandedRow] = React.useState<string | null>(null);
   const [contextMenu, setContextMenu] = React.useState<{ x: number; y: number; assetId: string } | null>(null);
@@ -88,13 +97,26 @@ export const AssetDataTable: React.FC<AssetDataTableProps> = ({
   );
 
   if (loading) {
-    return <TableLoadingSkeleton />;
+    return (
+      <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
+        <SkeletonTable rows={5} columns={9} />
+      </div>
+    );
   }
 
   if (assets.length === 0) {
     return (
-      <div className="bg-white shadow-sm rounded-lg p-8 text-center">
-        <p className="text-gray-500">No assets found matching your criteria.</p>
+      <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg">
+        {hasActiveFilters ? (
+          <EmptyFilters 
+            onClearFilters={onClearFilters || (() => {})}
+          />
+        ) : (
+          <EmptyAssets 
+            onCreateAsset={onCreateAsset || (() => {})}
+            onImport={onImportAssets}
+          />
+        )}
       </div>
     );
   }

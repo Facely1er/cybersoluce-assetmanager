@@ -9,7 +9,9 @@ import {
   ChevronRight,
   CheckCircle,
   Target,
-  FileText
+  FileText,
+  Gift,
+  ExternalLink
 } from 'lucide-react';
 import { DEMO_SCENARIOS } from '../data/demoScenarios';
 import { getQuickStartScenarios, getIndustryScenarios } from '../data/demoDataGenerator';
@@ -312,8 +314,76 @@ export const DemoShowcase: React.FC<DemoShowcaseProps> = ({ onStartDemo, onViewD
           </div>
         )}
 
+        {/* Free Tools Section */}
+        <div className="mt-12 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/20 rounded-full mb-4">
+              <Gift className="h-8 w-8 text-green-600 dark:text-green-400" />
+            </div>
+            <h2 className="text-2xl font-outfit font-bold text-gray-900 dark:text-white mb-2">
+              Free Browser-Based Tools
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Start your cybersecurity journey with our professional asset evaluation tools. No installation, no account required.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <a
+              href="/tools/DataInventoryTool.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group"
+            >
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-command-blue-100 dark:bg-command-blue-900/20 rounded-lg">
+                  <FileText className="h-5 w-5 text-command-blue-600 dark:text-command-blue-400" />
+                </div>
+                <span className="font-medium text-gray-900 dark:text-white">Data Inventory Tool</span>
+              </div>
+              <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-command-blue-600 dark:group-hover:text-command-blue-400" />
+            </a>
+            <a
+              href="/tools/InformationAssetRegister.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group"
+            >
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-command-blue-100 dark:bg-command-blue-900/20 rounded-lg">
+                  <Target className="h-5 w-5 text-command-blue-600 dark:text-command-blue-400" />
+                </div>
+                <span className="font-medium text-gray-900 dark:text-white">Asset Register</span>
+              </div>
+              <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-command-blue-600 dark:group-hover:text-command-blue-400" />
+            </a>
+            <a
+              href="/tools/VendorRegisterManager.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group"
+            >
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-action-cyan-100 dark:bg-action-cyan-900/20 rounded-lg">
+                  <Building2 className="h-5 w-5 text-action-cyan-600 dark:text-action-cyan-400" />
+                </div>
+                <span className="font-medium text-gray-900 dark:text-white">Vendor Register</span>
+              </div>
+              <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-action-cyan-600 dark:group-hover:text-action-cyan-400" />
+            </a>
+          </div>
+          <div className="text-center">
+            <a
+              href="/tools/"
+              className="inline-flex items-center text-command-blue-600 dark:text-command-blue-400 hover:text-command-blue-700 dark:hover:text-command-blue-300 font-medium"
+            >
+              View All Free Tools
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </a>
+          </div>
+        </div>
+
         {/* Call to Action */}
-        <div className="mt-12 bg-gradient-to-r from-command-blue-600 to-action-cyan-600 rounded-xl p-8 text-white text-center">
+        <div className="mt-8 bg-gradient-to-r from-command-blue-600 to-action-cyan-600 rounded-xl p-8 text-white text-center">
           <h2 className="text-2xl font-outfit font-bold mb-4">
             Ready to See CyberSoluce™ Asset Manager in Action?
           </h2>

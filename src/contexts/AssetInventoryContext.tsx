@@ -1,3 +1,16 @@
+/**
+ * AssetInventoryContext
+ * 
+ * TERMINOLOGY CLARIFICATION:
+ * This context manages ASSET INVENTORY data (servers, databases, applications, etc.).
+ * 
+ * "Assessment" in this codebase refers to:
+ * - Automated risk scoring (calculating risk scores for assets)
+ * - Automated compliance evaluation (checking compliance status)
+ * 
+ * This is NOT about security assessment questionnaires or storing assessment answers.
+ * For security assessments, see the CyberCaution platform.
+ */
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { Asset, AssetFilters, AssetInventoryState, SortConfig, AssetStats } from '../types/asset';
 import { filterAssets, sortAssets, calculateAssetStats } from '../utils/assetUtils';

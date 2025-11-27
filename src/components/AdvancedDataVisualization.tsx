@@ -537,6 +537,8 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Advanced Data Visualization</h2>
           <button
             onClick={onClose}
+            aria-label="Close visualization"
+            title="Close visualization"
             className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -548,109 +550,111 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
         {/* Content */}
         <div className="flex-1 overflow-auto p-6">
           <div className={`space-y-6 ${isFullscreen ? 'fixed inset-0 z-50 bg-white dark:bg-gray-800 p-6 overflow-auto' : ''} ${className}`}>
-      {/* Header */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h2 className="text-2xl font-outfit font-bold text-gray-900 dark:text-white">Advanced Data Visualization</h2>
-            <p className="text-gray-600 dark:text-gray-400">Interactive charts and analytics for your asset inventory</p>
-          </div>
-          <div className="flex space-x-3">
-            <button
-              onClick={() => setShowSettings(!showSettings)}
-              className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-              title="Settings"
-            >
-              <Settings className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-              title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-            >
-              {isFullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
-            </button>
-            <button
-              onClick={() => window.print()}
-              className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-              title="Print"
-            >
-              <Download className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
+            {/* Chart Controls Header */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <p className="text-gray-600 dark:text-gray-400">Interactive charts and analytics for your asset inventory</p>
+                </div>
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => setShowSettings(!showSettings)}
+                    className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                    title="Settings"
+                    aria-label="Settings"
+                  >
+                    <Settings className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={() => setIsFullscreen(!isFullscreen)}
+                    className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                    title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+                    aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+                  >
+                    {isFullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
+                  </button>
+                  <button
+                    onClick={() => window.print()}
+                    className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                    title="Print"
+                    aria-label="Print"
+                  >
+                    <Download className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
 
-        {/* Chart Type Selector */}
-        <div className="mt-6 flex flex-wrap gap-2">
-          {chartTypes.map((type) => {
-            const Icon = type.icon;
-            return (
-              <button
-                key={type.id}
-                onClick={() => setSelectedChart(type.id)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                  selectedChart === type.id
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                <span>{type.name}</span>
-              </button>
-            );
-          })}
-        </div>
+              {/* Chart Type Selector */}
+              <div className="flex flex-wrap gap-2">
+                {chartTypes.map((type) => {
+                  const Icon = type.icon;
+                  return (
+                    <button
+                      key={type.id}
+                      onClick={() => setSelectedChart(type.id)}
+                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                        selectedChart === type.id
+                          ? 'bg-command-blue-600 dark:bg-command-blue-500 text-white'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      <span>{type.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
 
-        {/* Settings Panel */}
-        {showSettings && (
-          <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-            <h3 className="font-medium text-gray-900 dark:text-white mb-4">Chart Settings</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={chartSettings.showGrid}
-                  onChange={(e) => setChartSettings(prev => ({ ...prev, showGrid: e.target.checked }))}
-                  className="rounded"
-                />
-                <span className="text-sm text-gray-700 dark:text-gray-300">Show Grid</span>
-              </label>
-              <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={chartSettings.showLegend}
-                  onChange={(e) => setChartSettings(prev => ({ ...prev, showLegend: e.target.checked }))}
-                  className="rounded"
-                />
-                <span className="text-sm text-gray-700 dark:text-gray-300">Show Legend</span>
-              </label>
-              <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={chartSettings.showTooltip}
-                  onChange={(e) => setChartSettings(prev => ({ ...prev, showTooltip: e.target.checked }))}
-                  className="rounded"
-                />
-                <span className="text-sm text-gray-700 dark:text-gray-300">Show Tooltip</span>
-              </label>
-              <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={chartSettings.animation}
-                  onChange={(e) => setChartSettings(prev => ({ ...prev, animation: e.target.checked }))}
-                  className="rounded"
-                />
-                <span className="text-sm text-gray-700 dark:text-gray-300">Animation</span>
-              </label>
+              {/* Settings Panel */}
+              {showSettings && (
+                <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <h3 className="font-medium text-gray-900 dark:text-white mb-4">Chart Settings</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={chartSettings.showGrid}
+                        onChange={(e) => setChartSettings(prev => ({ ...prev, showGrid: e.target.checked }))}
+                        className="rounded"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Show Grid</span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={chartSettings.showLegend}
+                        onChange={(e) => setChartSettings(prev => ({ ...prev, showLegend: e.target.checked }))}
+                        className="rounded"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Show Legend</span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={chartSettings.showTooltip}
+                        onChange={(e) => setChartSettings(prev => ({ ...prev, showTooltip: e.target.checked }))}
+                        className="rounded"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Show Tooltip</span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={chartSettings.animation}
+                        onChange={(e) => setChartSettings(prev => ({ ...prev, animation: e.target.checked }))}
+                        className="rounded"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Animation</span>
+                    </label>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        )}
-      </div>
 
-      {/* Chart Content */}
-      <div className="min-h-96">
-        {renderChart()}
-      </div>
+            {/* Chart Content */}
+            <div className="min-h-96">
+              {renderChart()}
+            </div>
           </div>
         </div>
       </div>

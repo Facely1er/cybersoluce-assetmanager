@@ -1,5 +1,5 @@
 import React, { useState, Suspense, lazy, useCallback, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { NavigationSidebar } from './NavigationSidebar';
 import { DashboardHome } from './DashboardHome';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -295,19 +295,19 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
               <div className="space-y-4">
                 <button
                   onClick={() => handleViewChange('user-manual')}
-                  className="px-6 py-3 bg-action-cyan-600 text-white rounded-lg hover:bg-action-cyan-700 transition-colors mr-4"
+                  className="px-6 py-3 bg-action-cyan-600 dark:bg-action-cyan-500 text-white rounded-lg hover:bg-action-cyan-700 dark:hover:bg-action-cyan-600 transition-colors mr-4"
                 >
                   View User Manual
                 </button>
                 <button
                   onClick={() => navigate('/')}
-                  className="px-6 py-3 bg-command-blue-600 text-white rounded-lg hover:bg-command-blue-700 transition-colors mr-4"
+                  className="px-6 py-3 bg-command-blue-600 dark:bg-command-blue-500 text-white rounded-lg hover:bg-command-blue-700 dark:hover:bg-command-blue-600 transition-colors mr-4"
                 >
                   View Start Screen
                 </button>
                 <button
                   onClick={() => handleViewChange('assets')}
-                  className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  className="px-6 py-3 bg-gray-600 dark:bg-gray-500 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
                 >
                   View Assets
                 </button>
@@ -340,11 +340,35 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
       />
       
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-gray-50 dark:bg-gray-900">
+        {/* Minimal Header */}
+        <header className="h-12 border-b border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm flex-shrink-0">
+          <div className="h-full flex items-center justify-between px-4 sm:px-6 lg:px-8">
+            <Link 
+              to="/" 
+              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
+            >
+              ← Back to Home
+            </Link>
+            <div className="text-xs text-gray-500 dark:text-gray-500">
+              CyberSoluce™ Asset Manager
+            </div>
+          </div>
+        </header>
+
         <main className="flex-1 overflow-y-auto overflow-x-hidden bg-gray-50 dark:bg-gray-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 w-full">
             {renderContent()}
           </div>
         </main>
+
+        {/* Minimal Footer */}
+        <footer className="h-10 border-t border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm flex-shrink-0">
+          <div className="h-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
+            <p className="text-xs text-gray-500 dark:text-gray-500">
+              © {new Date().getFullYear()} ERMITS LLC. All rights reserved.
+            </p>
+          </div>
+        </footer>
       </div>
     </div>
   );

@@ -110,6 +110,14 @@
   VITE_APP_ENV = "development"
   VITE_DEBUG_MODE = "true"
 
+# Demo branch specific configuration
+[context.demo.environment]
+  NODE_ENV = "production"
+  VITE_APP_ENV = "demo"
+  VITE_DEBUG_MODE = "true"
+  VITE_ENABLE_ERROR_REPORTING = "false"
+  # Demo mode - Supabase optional (app will work without it)
+
 # Functions configuration
 [functions]
   directory = "netlify/functions"

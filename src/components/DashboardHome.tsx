@@ -1,3 +1,15 @@
+/**
+ * DashboardHome Component
+ * 
+ * IMPORTANT TERMINOLOGY CLARIFICATION:
+ * - "Risk Assessment" / "Risk Analysis" = Automated risk scoring of assets based on vulnerabilities, criticality, etc.
+ *   This is NOT a security questionnaire or assessment form.
+ * - "Compliance Evaluation" / "Compliance Check" = Automated checking of asset compliance with frameworks (SOC 2, ISO 27001, etc.)
+ *   This is NOT a compliance assessment questionnaire.
+ * 
+ * This platform manages ASSET INVENTORY and performs automated analysis.
+ * For security assessment questionnaires, see CyberCaution platform.
+ */
 import React, { useRef, useEffect } from 'react';
 import { 
   Shield, 
@@ -68,7 +80,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
     },
     {
       title: 'Generate Reports',
-      description: 'Create compliance and risk assessment reports',
+      description: 'Create compliance evaluation and risk analysis reports',
       icon: BarChart3,
       color: 'bg-action-cyan-500',
       action: onNavigateToReports,
@@ -100,7 +112,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
     },
     {
       type: 'compliance_check',
-      message: 'SOC 2 compliance assessment completed',
+      message: 'SOC 2 compliance evaluation completed',
       time: subDays(new Date(), 2),
       icon: CheckCircle,
       color: 'text-command-blue-600',
@@ -117,7 +129,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
   return (
     <div className="space-y-8">
       {/* Welcome Header - Polished */}
-      <div className="relative bg-gradient-to-br from-command-blue-600 via-command-blue-700 to-action-cyan-600 rounded-3xl p-10 text-white shadow-2xl overflow-hidden">
+      <div className="relative bg-gradient-to-br from-command-blue-600 via-command-blue-700 to-action-cyan-600 dark:from-command-blue-700 dark:via-command-blue-800 dark:to-action-cyan-700 rounded-3xl p-10 text-white shadow-2xl overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -mr-48 -mt-48"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -ml-48 -mb-48"></div>
@@ -126,7 +138,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           <div className="flex-1">
             <div className="flex items-center space-x-4 mb-4">
               <img 
-                src="/icon.svg" 
+                src="/cybersoluce.png" 
                 alt="CyberSoluce" 
                 className="h-16 w-16 object-contain drop-shadow-lg"
                 onError={(e) => {
@@ -318,7 +330,10 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
         {/* Criticality Breakdown */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white">Risk Assessment</h3>
+            <div>
+              <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white">Asset Risk Analysis</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Automated risk scoring based on vulnerabilities and criticality</p>
+            </div>
             <BarChart3 className="h-5 w-5 text-gray-400 dark:text-gray-500" />
           </div>
           {stats.total > 0 ? (

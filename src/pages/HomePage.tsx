@@ -17,7 +17,11 @@ import {
   Play,
   Database,
   Lock,
-  Globe
+  Globe,
+  Gift,
+  FileText,
+  Building2,
+  ExternalLink
 } from 'lucide-react';
 import DomainBackground from '../components/common/DomainBackground';
 import TextCarousel from '../components/common/TextCarousel';
@@ -32,7 +36,7 @@ const HomePage: React.FC = () => {
     },
     {
       primary: "Enterprise Asset Management",
-      secondary: "Comprehensive cybersecurity asset inventory platform with risk assessment, compliance tracking, and intelligent analytics"
+      secondary: "Comprehensive cybersecurity asset inventory platform with automated risk analysis, compliance evaluation, and intelligent analytics"
     },
     {
       primary: "AI-Powered Intelligence Engine™",
@@ -49,8 +53,8 @@ const HomePage: React.FC = () => {
     },
     {
       icon: BarChart3,
-      title: 'Risk Assessment & Analytics',
-      description: 'Get detailed insights into your asset risk profile with automated scoring, vulnerability tracking, compliance monitoring, and comprehensive reporting.',
+      title: 'Risk Analysis & Analytics',
+      description: 'Get detailed insights into your asset risk profile with automated risk scoring, vulnerability tracking, compliance evaluation, and comprehensive reporting.',
       link: '/dashboard'
     },
     {
@@ -90,8 +94,8 @@ const HomePage: React.FC = () => {
     },
     {
       icon: Shield,
-      title: 'Risk Assessment',
-      description: 'Automated risk scoring, vulnerability tracking, and compliance monitoring across all assets',
+      title: 'Automated Risk Analysis',
+      description: 'Automated risk scoring and vulnerability tracking across all assets in your inventory',
       metrics: { value: '80%', label: 'Efficiency Gain' },
       link: '/dashboard'
     },
@@ -288,7 +292,7 @@ const HomePage: React.FC = () => {
                     className="bg-command-blue-700/40 p-4 rounded-lg backdrop-blur-sm border border-command-blue-400/20"
                   >
                     <div className="flex justify-between mb-2">
-                      <div className="text-sm text-command-blue-100 font-medium">Risk Assessment</div>
+                      <div className="text-sm text-command-blue-100 font-medium">Risk Analysis</div>
                       <div className="text-sm text-action-cyan-300 font-bold">89%</div>
                     </div>
                     <div className="h-2 bg-command-blue-900/50 rounded-full">
@@ -486,6 +490,175 @@ const HomePage: React.FC = () => {
                 </Link>
               );
             })}
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* Free Tools Section */}
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-16"
+            variants={fadeInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <div className="inline-flex items-center justify-center mb-4">
+              <Gift className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400 mr-3" />
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Free Browser-Based Tools
+              </h2>
+            </div>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-4">
+              Start your cybersecurity journey with our professional asset evaluation and inventory tools. 
+              No installation, no account required. Privacy-first design.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                No Installation
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                Privacy-First
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                Instant Access
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                Export Ready
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            variants={staggerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
+          >
+            {/* Data Inventory Tool */}
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 hover:border-command-blue-300 dark:hover:border-command-blue-700 transition-all"
+            >
+              <div className="bg-gradient-to-br from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/30 p-4 rounded-2xl w-16 h-16 flex items-center justify-center mb-6">
+                <FileText className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                Data Inventory Tool
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                Discover, catalog, and track all organizational data. Perfect for GDPR Article 30 preparation and compliance documentation.
+              </p>
+              <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1 mb-6">
+                <li>• 13 core data fields</li>
+                <li>• PII & Sensitive tracking</li>
+                <li>• CSV/JSON export</li>
+                <li>• 20 sample items</li>
+              </ul>
+              <a 
+                href="/tools/DataInventoryTool.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center w-full justify-center px-4 py-3 bg-command-blue-600 hover:bg-command-blue-700 text-white rounded-lg font-semibold transition-colors"
+              >
+                Open Tool
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </a>
+            </motion.div>
+
+            {/* Information Asset Register */}
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 hover:border-command-blue-300 dark:hover:border-command-blue-700 transition-all"
+            >
+              <div className="bg-gradient-to-br from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/30 p-4 rounded-2xl w-16 h-16 flex items-center justify-center mb-6">
+                <Database className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                Information Asset Register
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                Comprehensive asset management with automated gap analysis and compliance tracking. Ideal for ISO 27001, SOC 2, and NIST.
+              </p>
+              <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1 mb-6">
+                <li>• 20+ asset fields</li>
+                <li>• 8-point control framework</li>
+                <li>• Automated gap analysis</li>
+                <li>• 20 sample assets</li>
+              </ul>
+              <a 
+                href="/tools/InformationAssetRegister.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center w-full justify-center px-4 py-3 bg-command-blue-600 hover:bg-command-blue-700 text-white rounded-lg font-semibold transition-colors"
+              >
+                Open Tool
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </a>
+            </motion.div>
+
+            {/* Vendor Register Manager */}
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 hover:border-action-cyan-300 dark:hover:border-action-cyan-700 transition-all"
+            >
+              <div className="bg-gradient-to-br from-action-cyan-50 to-command-blue-50 dark:from-action-cyan-900/30 dark:to-command-blue-900/30 p-4 rounded-2xl w-16 h-16 flex items-center justify-center mb-6">
+                <Building2 className="h-8 w-8 text-action-cyan-600 dark:text-action-cyan-400" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                Vendor Register Manager
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                Third-party risk management with automated risk scoring and compliance tracking. Track contracts and vendor relationships.
+              </p>
+              <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-1 mb-6">
+                <li>• 15+ vendor fields</li>
+                <li>• Automated risk scoring</li>
+                <li>• 9-point compliance checklist</li>
+                <li>• 20 sample vendors</li>
+              </ul>
+              <a 
+                href="/tools/VendorRegisterManager.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center w-full justify-center px-4 py-3 bg-action-cyan-600 hover:bg-action-cyan-700 text-white rounded-lg font-semibold transition-colors"
+              >
+                Open Tool
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </a>
+            </motion.div>
+          </motion.div>
+
+          {/* View All Tools CTA */}
+          <motion.div 
+            variants={fadeInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <a
+              href="/tools/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-command-blue-600 to-action-cyan-600 text-white rounded-lg font-semibold hover:from-command-blue-700 hover:to-action-cyan-700 transition-all shadow-lg hover:shadow-xl"
+            >
+              <Gift className="mr-2 h-5 w-5" />
+              View All Free Tools
+              <ExternalLink className="ml-2 h-5 w-5" />
+            </a>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
+              Import your data into CyberSoluce Asset Manager when ready to upgrade
+            </p>
           </motion.div>
         </div>
       </section>

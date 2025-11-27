@@ -16,7 +16,7 @@
   --danger-red: #EF4444;
   --neutral-gray: #6B7280;
   
-  /* shadcn/ui CSS Variables */
+  /* shadcn/ui CSS Variables - Light Theme */
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
@@ -37,9 +37,20 @@
   --input: 214.3 31.8% 91.4%;
   --ring: 222.2 84% 4.9%;
   --radius: 0.5rem;
+  
+  /* Toast Notification Colors - Light Theme */
+  --toast-bg: #363636;
+  --toast-text: #ffffff;
+  --toast-success-bg: #065F46;
+  --toast-success-text: #D1FAE5;
+  --toast-error-bg: #7F1D1D;
+  --toast-error-text: #FEE2E2;
+  --toast-loading-bg: #1F2937;
+  --toast-loading-text: #F3F4F6;
 }
 
 .dark {
+  /* shadcn/ui CSS Variables - Dark Theme */
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
   --card: 222.2 84% 4.9%;
@@ -59,13 +70,33 @@
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
   --ring: 212.7 26.8% 83.9%;
+  
+  /* Toast Notification Colors - Dark Theme */
+  --toast-bg: #1F2937;
+  --toast-text: #F3F4F6;
+  --toast-success-bg: #064E3B;
+  --toast-success-text: #A7F3D0;
+  --toast-error-bg: #991B1B;
+  --toast-error-text: #FEE2E2;
+  --toast-loading-bg: #374151;
+  --toast-loading-text: #E5E7EB;
 }
 
 /* Ensure the app takes full height */
-html, body {
+html {
   height: 100%;
   margin: 0;
   padding: 0;
+  /* Smooth theme transitions */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /* Smooth theme transitions */
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 #root {

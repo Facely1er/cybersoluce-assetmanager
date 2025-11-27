@@ -25,20 +25,22 @@ const App: React.FC = () => {
           <AssetInventoryProvider>
             <BrowserRouter>
               <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-950" role="main">
-                {/* Global Toaster */}
+                {/* Global Toaster - Theme Aware */}
                 <Toaster 
                   position="top-right"
                   toastOptions={{
                     duration: 4000,
-                    // Enhanced styling for better accessibility
+                    // Theme-aware styling
+                    className: 'toast-theme-aware',
                     style: {
-                      background: '#363636',
-                      color: '#fff',
                       fontSize: '14px',
                       maxWidth: '400px',
                       padding: '12px 16px',
                       borderRadius: '8px',
-                      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05)'
+                      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05)',
+                      // Default colors (will be overridden by CSS)
+                      background: 'var(--toast-bg, #363636)',
+                      color: 'var(--toast-text, #fff)',
                     },
                     success: {
                       duration: 3000,
@@ -47,8 +49,8 @@ const App: React.FC = () => {
                         secondary: '#fff',
                       },
                       style: {
-                        background: '#065F46',
-                        color: '#D1FAE5'
+                        background: 'var(--toast-success-bg, #065F46)',
+                        color: 'var(--toast-success-text, #D1FAE5)'
                       }
                     },
                     error: {
@@ -58,15 +60,15 @@ const App: React.FC = () => {
                         secondary: '#fff',
                       },
                       style: {
-                        background: '#7F1D1D',
-                        color: '#FEE2E2'
+                        background: 'var(--toast-error-bg, #7F1D1D)',
+                        color: 'var(--toast-error-text, #FEE2E2)'
                       }
                     },
                     loading: {
                       duration: Infinity,
                       style: {
-                        background: '#1F2937',
-                        color: '#F3F4F6'
+                        background: 'var(--toast-loading-bg, #1F2937)',
+                        color: 'var(--toast-loading-text, #F3F4F6)'
                       }
                     },
                   }}

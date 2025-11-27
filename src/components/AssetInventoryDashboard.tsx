@@ -353,6 +353,7 @@ export const AssetInventoryDashboard: React.FC = () => {
                 selectedAssets={selectedAssets}
                 sortConfig={sortConfig}
                 loading={loading}
+                hasActiveFilters={Object.keys(filters).length > 0 || Object.values(filters).some(v => v !== null && v !== undefined && v !== '')}
                 onSort={updateSort}
                 onSelectAsset={selectAsset}
                 onSelectAll={selectAllAssets}
@@ -361,6 +362,14 @@ export const AssetInventoryDashboard: React.FC = () => {
                 onDeleteAsset={handleDeleteAsset}
                 onManageRelationships={handleManageRelationships}
                 onManageVulnerabilities={handleManageVulnerabilities}
+                onCreateAsset={() => {
+                  setShowAssetForm(true);
+                  setEditingAsset(null);
+                }}
+                onImportAssets={() => setShowImportModal(true)}
+                onClearFilters={() => {
+                  updateFilters({});
+                }}
               />
 
               <AssetTablePagination

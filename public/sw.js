@@ -6,7 +6,7 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icon.svg'
+  '/cybersoluce.png'
 ];
 
 // Cache CSS and JS files on demand (not in initial cache to avoid stale assets)
