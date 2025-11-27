@@ -31,6 +31,8 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="CyberSoluce™ Asset Manager" />
+    <!-- Theme color meta tag - will be updated dynamically by ThemeContext -->
+    <meta name="theme-color" content="#ffffff" id="theme-color-meta" />
     
     <title>CyberSoluce™ Asset Manager by ERMITS</title>
     
@@ -53,72 +55,25 @@
     <!-- Performance optimization - removed in production build (handled by Vite) -->
     
     <!-- Theme initialization - must run before any rendering -->
-    <!-- eslint-disable-next-line -->
-    <!-- htmlhint-disable -->
-    <!-- 
-      LINTER SUPPRESSION: The following script creates a theme-color meta tag dynamically.
-      This is SAFE because browser compatibility is explicitly checked - the meta tag is
-      ONLY added for browsers that support it (Chrome, Safari, Edge). Firefox, Firefox for
-      Android, and Opera are explicitly excluded via user-agent detection in the code below.
-      This is a false positive - browser compatibility is handled programmatically.
-    -->
     <script>
       (function() {
+        // Initialize theme from localStorage or system preference
         const savedTheme = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : (prefersDark ? 'dark' : 'light');
+        
+        // Apply theme class immediately to prevent flash of unstyled content
         if (theme === 'dark') {
           document.documentElement.classList.add('dark');
         }
+        
+        // Save theme preference
         localStorage.setItem('theme', theme);
         
-        // Browser compatibility check: Dynamic theme meta tag support
-        // Supported browsers: Chrome, Safari, Edge (Chromium-based)
-        // Unsupported browsers: Firefox, Firefox for Android, Opera (explicitly excluded)
-        function browserSupportsThemeMeta() {
-          const ua = navigator.userAgent.toLowerCase();
-          // Explicitly exclude unsupported browsers
-          const isFirefox = ua.indexOf('firefox') > -1;
-          const isOpera = ua.indexOf('opr') > -1 || ua.indexOf('opera') > -1;
-          if (isFirefox || isOpera) {
-            return false; // Do not add dynamic theme meta tag to these browsers
-          }
-          // Only add to browsers known to support the dynamic theme meta tag
-          const isChrome = ua.indexOf('chrome') > -1 && ua.indexOf('edg') === -1;
-          const isSafari = ua.indexOf('safari') > -1 && ua.indexOf('chrome') === -1;
-          const isEdge = ua.indexOf('edg') > -1;
-          return isChrome || isSafari || isEdge;
-        }
-        
-        // Only create dynamic theme meta tag if browser supports it
-        if (browserSupportsThemeMeta()) {
-          const metaContent = theme === 'dark' ? '#111827' : '#ffffff';
-          // Construct meta tag name using character codes to avoid static analysis detection
-          // Browser compatibility is checked above - this only runs for supported browsers
-          const t = String.fromCharCode(116), h = String.fromCharCode(104), e = String.fromCharCode(101);
-          const m = String.fromCharCode(109), dash = String.fromCharCode(45), c = String.fromCharCode(99);
-          const o = String.fromCharCode(111), l = String.fromCharCode(108), r = String.fromCharCode(114);
-          const metaTagName = t + h + e + m + e + dash + c + o + l + o + r;
-          
-          // Find existing meta tag by iterating through all meta tags (avoids querySelector pattern)
-          const allMetaTags = document.head.getElementsByTagName('meta');
-          let existingMeta = null;
-          for (let i = 0; i < allMetaTags.length; i++) {
-            if (allMetaTags[i].getAttribute('name') === metaTagName) {
-              existingMeta = allMetaTags[i];
-              break;
-            }
-          }
-          
-          if (!existingMeta) {
-            const meta = document.createElement('meta');
-            meta.setAttribute('name', metaTagName);
-            meta.setAttribute('content', metaContent);
-            meta.setAttribute('id', 'dynamic-theme-meta');
-            document.head.appendChild(meta);
-          } else {
-            existingMeta.setAttribute('content', metaContent);
-          }
+        // Update theme-color meta tag if it exists
+        const metaThemeColor = document.getElementById('theme-color-meta');
+        if (metaThemeColor) {
+          metaThemeColor.setAttribute('content', theme === 'dark' ? '#111827' : '#ffffff');
         }
       })();
     </script>
