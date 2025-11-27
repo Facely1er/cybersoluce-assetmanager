@@ -1,13 +1,26 @@
 // Service Worker for CyberSoluce Asset Manager
 // Basic service worker to enable PWA features
 
-const CACHE_NAME = 'cybersoluce-asset-manager-v1';
+const CACHE_NAME = 'cybersoluce-asset-manager-v2'; // Increment version to force update
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
   '/icon.svg'
 ];
+
+// Helper function to get app origin dynamically
+function getAppOrigin() {
+  try {
+    // Try to get origin from registration scope (most reliable in service workers)
+    if (self.registration && self.registration.scope) {
+      return new URL(self.registration.scope).origin;
+    }
+  } catch (e) {
+    // If that fails, return null - we'll skip all requests to be safe
+  }
+  return null;
+}
 
 // Install event - cache essential resources
 self.addEventListener('install', (event) => {
@@ -49,14 +62,36 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Skip cross-origin requests that might violate CSP (let browser handle them)
-  const url = new URL(event.request.url);
-  const isCrossOrigin = url.origin !== self.location.origin;
-  
-  // For cross-origin requests to fonts, let the browser handle them directly
-  // Service worker shouldn't intercept these as they're handled by CSP
-  if (isCrossOrigin && (url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com'))) {
-    return; // Let browser handle directly
+  // Skip ALL cross-origin and external requests - let browser handle them directly
+  // This prevents CSP violations and ensures external resources load correctly
+  try {
+    const url = new URL(event.request.url);
+    const requestOrigin = url.origin;
+    
+    // Get app origin dynamically (in case registration wasn't available at load time)
+    const appOrigin = getAppOrigin();
+    
+    // If we can't determine app origin, skip all requests to be safe
+    if (!appOrigin) {
+      return;
+    }
+    
+    // Skip any request that's not from the same origin
+    if (requestOrigin !== appOrigin) {
+      return; // Let browser handle cross-origin requests directly
+    }
+    
+    // Additional safety check: skip known external domains (double-check)
+    if (url.hostname.includes('fonts.googleapis.com') || 
+        url.hostname.includes('fonts.gstatic.com') ||
+        url.hostname.includes('googleapis.com') ||
+        url.hostname.includes('gstatic.com') ||
+        url.hostname.includes('supabase.co')) {
+      return; // Let browser handle directly
+    }
+  } catch (e) {
+    // If URL parsing fails, skip service worker to be safe
+    return;
   }
 
   event.respondWith(
