@@ -100,7 +100,7 @@ export const OrganizationManagement: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 rounded-2xl p-8 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-outfit font-bold mb-2 flex items-center">
@@ -142,7 +142,7 @@ export const OrganizationManagement: React.FC = () => {
           </div>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-command-blue-600 dark:bg-command-blue-500 text-white rounded-lg hover:bg-command-blue-700 dark:hover:bg-command-blue-600 transition-colors"
           >
             <Plus className="h-4 w-4 mr-2" />
             Create Organization
@@ -217,7 +217,7 @@ export const OrganizationManagement: React.FC = () => {
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center p-4 z-50">
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 text-white rounded-t-xl">
+            <div className="bg-gradient-to-r from-command-blue-600 to-action-cyan-600 px-6 py-4 text-white rounded-t-xl">
               <h2 className="text-xl font-outfit font-bold">Create Organization</h2>
             </div>
             <form onSubmit={handleCreateOrganization} className="p-6 space-y-4">
@@ -275,7 +275,7 @@ export const OrganizationManagement: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                  className="px-4 py-2 bg-command-blue-600 dark:bg-command-blue-500 text-white rounded-lg hover:bg-command-blue-700 dark:hover:bg-command-blue-600 transition-colors"
                 >
                   Create Organization
                 </button>
