@@ -108,27 +108,28 @@ export default defineConfig({
         // Optimized chunk splitting strategy with granular vendor splitting
         manualChunks: (id: string) => {
           // CRITICAL: Keep React and React-DOM in the main bundle to avoid
-          // "Cannot read properties of undefined (reading '__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED')" errors
+          // "Cannot read properties of undefined (reading 'createContext')" errors
           // This happens when React is split into a separate chunk and loaded asynchronously
-          // Check for all possible React paths and variations
-          if (id.includes('node_modules/react') || 
-              id.includes('node_modules/react-dom') ||
-              id.includes('react/index') ||
-              id.includes('react-dom/index') ||
-              id.includes('react/jsx-runtime') ||
-              id.includes('react/jsx-dev-runtime') ||
-              id.includes('scheduler')) {
+          // Check for all possible React paths and variations - MUST be in main bundle
+          if (id.includes('node_modules/react/') || 
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/react/index') ||
+              id.includes('node_modules/react-dom/index') ||
+              id.includes('node_modules/react/jsx-runtime') ||
+              id.includes('node_modules/react/jsx-dev-runtime') ||
+              id.includes('node_modules/scheduler/') ||
+              id.includes('node_modules/object-assign')) {
             return undefined; // Keep in main bundle - DO NOT split
           }
           
           // Keep React-dependent libraries with React to prevent loading order issues
           // These libraries have hard dependencies on React and can fail if loaded before React
-          // Also include @nivo packages which have nested React dependencies (@react-spring/web)
           if (id.includes('node_modules/react-hot-toast') ||
               id.includes('node_modules/lucide-react') ||
               id.includes('node_modules/recharts') ||
               id.includes('node_modules/@nivo') ||
-              id.includes('node_modules/@react-spring')) {
+              id.includes('node_modules/@react-spring') ||
+              id.includes('node_modules/framer-motion')) {
             return undefined; // Keep in main bundle with React
           }
           
@@ -169,14 +170,11 @@ export default defineConfig({
             return 'dependencies';
           }
           // CRITICAL: Keep services in main bundle to avoid circular dependency and initialization issues
-          // Services are small and frequently used, so splitting doesn't provide much benefit
-          // The "Cannot access 'i' before initialization" error occurs when services are split
-          // and terser minification creates variable hoisting issues
           if (id.includes('/src/services/')) {
             return undefined; // Keep in main bundle - DO NOT split
           }
           // Other node_modules as vendor (but NOT React/React-DOM/React-deps)
-          // Double-check we're not accidentally including React or any React-related packages
+          // Must explicitly exclude ALL React-related packages
           if (id.includes('node_modules') && 
               !id.includes('react') && 
               !id.includes('scheduler') &&
@@ -185,7 +183,9 @@ export default defineConfig({
               !id.includes('lucide-react') &&
               !id.includes('recharts') &&
               !id.includes('@nivo') &&
-              !id.includes('@react-spring')) {
+              !id.includes('@react-spring') &&
+              !id.includes('framer-motion') &&
+              !id.includes('object-assign')) {
             return 'vendor';
           }
           
