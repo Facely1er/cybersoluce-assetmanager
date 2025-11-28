@@ -32,6 +32,9 @@ const BusinessImpactPageWrapper = lazy(() => import('./business-impact/BusinessI
 const NISTPageWrapper = lazy(() => import('./nist/NISTPageWrapper').then(module => ({ default: module.NISTPageWrapper })));
 const FrameworkPageWrapper = lazy(() => import('./framework/FrameworkPageWrapper').then(module => ({ default: module.FrameworkPageWrapper })));
 const DataNormalizationEngine = lazy(() => import('./DataNormalizationEngine'));
+const MagicalDashboard = lazy(() => import('./magical/MagicalDashboard'));
+const AIClassificationEngine = lazy(() => import('./magical/AIClassificationEngine'));
+const MagicalOrchestrationEngine = lazy(() => import('./magical/MagicalOrchestrationEngine'));
 
 interface MainLayoutProps {
   onShowStartScreen?: () => void;
@@ -311,6 +314,24 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
         return (
           <Suspense fallback={<LoadingFallback />}>
             <DataNormalizationEngine onViewChange={handleViewChange} />
+          </Suspense>
+        );
+      case 'magical-dashboard':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <MagicalDashboard />
+          </Suspense>
+        );
+      case 'magical-orchestration':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <MagicalOrchestrationEngine />
+          </Suspense>
+        );
+      case 'ai-classification':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <AIClassificationEngine />
           </Suspense>
         );
       case 'help':

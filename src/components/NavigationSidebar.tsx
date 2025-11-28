@@ -27,7 +27,9 @@ import {
   Globe,
   HelpCircle,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Sparkles,
+  Brain
 } from 'lucide-react';
 import { ThemeToggle } from './common/ThemeToggle';
 import { Logo } from './common/Logo';
@@ -64,7 +66,7 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
   const location = useLocation();
   
   // State to track which groups are expanded/collapsed
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['core', 'security', 'compliance', 'tools', 'system']));
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['core', 'security', 'compliance', 'ai-magic', 'tools', 'system']));
   
   // Toggle group expansion
   const toggleGroup = (groupId: string) => {
@@ -197,6 +199,33 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
           icon: TrendingUp,
           description: 'Implementation tracking',
           group: 'compliance'
+        }
+      ]
+    },
+    {
+      id: 'ai-magic',
+      label: '✨ AI Magic',
+      items: [
+        {
+          id: 'magical-dashboard',
+          label: 'Magical AI Center',
+          icon: Sparkles,
+          description: 'AI-powered automation hub',
+          group: 'ai-magic'
+        },
+        {
+          id: 'magical-orchestration',
+          label: 'Orchestration Engine',
+          icon: Zap,
+          description: 'Automated data transformation',
+          group: 'ai-magic'
+        },
+        {
+          id: 'ai-classification',
+          label: 'Classification Engine',
+          icon: Brain,
+          description: 'Intelligent asset routing',
+          group: 'ai-magic'
         }
       ]
     },

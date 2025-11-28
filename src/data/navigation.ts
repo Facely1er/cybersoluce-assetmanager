@@ -41,6 +41,9 @@ export const NAVIGATION_ROUTES = {
   userManual: '/user-manual',
   settings: '/settings',
   demoScenarios: '/demo-scenarios',
+  magicalOrchestration: '/magical-orchestration',
+  aiClassification: '/ai-classification',
+  magicalDashboard: '/magical-dashboard',
   help: '/help'
 } as const;
 
