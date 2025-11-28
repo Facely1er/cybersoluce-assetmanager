@@ -121,13 +121,15 @@ const DemoShowcaseComponent: React.FC<DemoShowcaseProps> = ({ onStartDemo, onVie
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="industry-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Industry
                 </label>
                 <select
+                  id="industry-filter"
                   value={selectedIndustry}
                   onChange={(e) => setSelectedIndustry(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-command-blue-500 dark:focus:ring-command-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  aria-label="Filter by industry"
                 >
                   <option value="all" className="bg-white dark:bg-gray-700">All Industries</option>
                   <option value="Healthcare" className="bg-white dark:bg-gray-700">Healthcare</option>
@@ -139,13 +141,15 @@ const DemoShowcaseComponent: React.FC<DemoShowcaseProps> = ({ onStartDemo, onVie
                 </select>
               </div>
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="risk-level-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Risk Level
                 </label>
                 <select
+                  id="risk-level-filter"
                   value={selectedDifficulty}
                   onChange={(e) => setSelectedDifficulty(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-command-blue-500 dark:focus:ring-command-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  aria-label="Filter by risk level"
                 >
                   <option value="all" className="bg-white dark:bg-gray-700">All Risk Levels</option>
                   <option value="low" className="bg-white dark:bg-gray-700">Low Risk</option>
