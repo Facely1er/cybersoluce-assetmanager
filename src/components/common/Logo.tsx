@@ -30,7 +30,7 @@ export const Logo: React.FC<LogoProps> = ({
       </div>
       
       {showText && (
-        <div className="flex flex-col justify-center min-w-0 ml-4">
+        <div className="flex flex-col justify-center min-w-0 ml-2">
           {/* CyberSoluce - Increased size, refined styling */}
           <div className="flex items-baseline gap-0.5 leading-none">
             <span className="font-outfit text-2xl font-semibold tracking-tight bg-gradient-to-r from-gray-900 via-command-blue-600 to-action-cyan-400 dark:from-white dark:via-command-blue-400 dark:to-action-cyan-400 bg-clip-text text-transparent transition-all duration-300 whitespace-nowrap">

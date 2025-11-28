@@ -136,7 +136,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
         
         <div className="relative flex items-center justify-between">
           <div className="flex-1">
-            <div className="flex items-center space-x-4 mb-4">
+            <div className="flex items-center space-x-2 mb-4">
               <img 
                 src="/cybersoluce.png" 
                 alt="CyberSoluce" 
