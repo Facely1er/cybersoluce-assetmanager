@@ -18,6 +18,9 @@ import { Compliance } from './pages/legal/Compliance';
 import { AcceptableUsePolicy } from './pages/legal/AcceptableUsePolicy';
 import ToolsPage from './pages/ToolsPage';
 import Pricing from './pages/Pricing';
+import VcisoStarterKit from './pages/VcisoStarterKit';
+import VcisoProfessionalKit from './pages/VcisoProfessionalKit';
+import ExecutiveDashboardTemplate from './pages/ExecutiveDashboardTemplate';
 
 const App: React.FC = () => {
   return (
@@ -177,6 +180,38 @@ const App: React.FC = () => {
                         <>
                           <Header />
                           <ToolsPage />
+                          <Footer />
+                        </>
+                      } 
+                    />
+                    
+                    {/* Product pages */}
+                    <Route 
+                      path="/products/vciso-starter" 
+                      element={
+                        <>
+                          <Header />
+                          <VcisoStarterKit />
+                          <Footer />
+                        </>
+                      } 
+                    />
+                    <Route 
+                      path="/products/vciso-professional" 
+                      element={
+                        <>
+                          <Header />
+                          <VcisoProfessionalKit />
+                          <Footer />
+                        </>
+                      } 
+                    />
+                    <Route 
+                      path="/products/dashboard-template" 
+                      element={
+                        <>
+                          <Header />
+                          <ExecutiveDashboardTemplate />
                           <Footer />
                         </>
                       } 

@@ -29,6 +29,16 @@ export const Header: React.FC<HeaderProps> = (props) => {
       icon: BarChart3,
     },
     {
+      label: 'Products',
+      href: '#',
+      icon: Gift,
+      submenu: [
+        { label: 'vCISO Starter Kit', href: '/products/vciso-starter' },
+        { label: 'vCISO Professional Kit', href: '/products/vciso-professional' },
+        { label: 'Executive Dashboard Template', href: '/products/dashboard-template' },
+      ],
+    },
+    {
       label: 'Demo',
       href: '/dashboard/demo-scenarios',
       icon: Play,
