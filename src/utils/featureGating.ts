@@ -4,7 +4,7 @@
  */
 
 import { PRODUCTS, FEATURE_FLAGS, canAccessFeature, getUsageLimit } from '../config/stripe';
-import { checkFeatureAccess, checkUsageLimit } from '../../../shared-utils/feature-gating';
+import { checkFeatureAccess, checkUsageLimit } from '@/shared-utils/feature-gating';
 
 // Re-export shared utilities with platform-specific types
 export function checkFeature(userTier: string, feature: string): boolean {

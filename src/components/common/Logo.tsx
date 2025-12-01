@@ -30,20 +30,20 @@ export const Logo: React.FC<LogoProps> = ({
       </div>
       
       {showText && (
-        <div className="flex flex-col justify-center min-w-0 ml-2">
+        <div className="flex flex-col justify-center min-w-0 ml-2 -space-y-0.5">
           {/* CyberSoluce - Increased size, refined styling */}
           <div className="flex items-baseline gap-0.5 leading-none">
-            <span className="font-outfit text-2xl font-semibold tracking-tight bg-gradient-to-r from-gray-900 via-command-blue-600 to-action-cyan-400 dark:from-white dark:via-command-blue-400 dark:to-action-cyan-400 bg-clip-text text-transparent transition-all duration-300 whitespace-nowrap">
+            <span className="font-outfit text-3xl font-semibold tracking-tight bg-gradient-to-r from-gray-900 via-command-blue-600 to-action-cyan-400 dark:from-white dark:via-command-blue-400 dark:to-action-cyan-400 bg-clip-text text-transparent transition-all duration-300 whitespace-nowrap">
               CyberSoluce
             </span>
-            <sup className="font-outfit text-[10px] font-semibold text-action-cyan-400 dark:text-action-cyan-300 leading-none relative -top-1">™</sup>
+            <sup className="font-outfit text-xs font-semibold text-action-cyan-400 dark:text-action-cyan-300 leading-none relative -top-1">™</sup>
           </div>
           {/* Asset Manager - Decreased size, refined styling */}
-          <span className="font-inter text-sm font-bold text-gray-900 dark:text-white tracking-tight whitespace-nowrap leading-none">
+          <span className="font-inter text-sm font-bold text-gray-900 dark:text-white tracking-tight whitespace-nowrap leading-none -mt-0.5">
             Asset Manager
           </span>
           {/* ERMITS - Refined alignment */}
-          <div className="flex items-baseline gap-1.5 leading-none">
+          <div className="flex items-baseline gap-1.5 leading-none -mt-0.5">
             <span className="text-[9px] text-gray-500 dark:text-gray-400 font-medium tracking-wide">by</span>
             <span className="font-inter text-[10px] font-bold text-action-cyan-400 dark:text-action-cyan-300 uppercase tracking-widest whitespace-nowrap">
               ERMITS

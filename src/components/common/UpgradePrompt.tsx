@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UpgradePrompt as SharedUpgradePrompt, InlineUpgradePrompt as SharedInlinePrompt, UsageLimitBanner as SharedUsageBanner } from '../../../shared-utils/upgrade-prompt';
+import { UpgradePrompt as SharedUpgradePrompt, InlineUpgradePrompt as SharedInlinePrompt, UsageLimitBanner as SharedUsageBanner } from '@/shared-utils/upgrade-prompt';
 
 interface UpgradePromptProps {
   title: string;
