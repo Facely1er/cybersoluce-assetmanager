@@ -5,13 +5,10 @@ import {
   Edit, 
   Trash2, 
   Shield, 
-  Mail,
   Calendar,
   Activity,
-  Settings,
   Crown,
   Search,
-  Filter,
   MoreHorizontal
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
@@ -39,22 +36,23 @@ export const UserManagement: React.FC = () => {
   const [roleFilter, setRoleFilter] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const [editingUser, setEditingUser] = useState<User | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
 
   useEffect(() => {
     loadUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadUsers = async () => {
     setLoading(true);
     try {
       // Demo mode - simulate user data
+      const currentUser = user || null;
       const demoUsers: User[] = [
         {
           id: '1',
-          email: user?.email || 'demo@example.com',
-          full_name: user?.user_metadata?.full_name || 'Demo User',
+          email: currentUser?.email || 'demo@example.com',
+          full_name: (currentUser?.user_metadata as { full_name?: string })?.full_name || 'Demo User',
           role: 'owner',
           status: 'active',
           last_sign_in: new Date(),
@@ -93,17 +91,19 @@ export const UserManagement: React.FC = () => {
         }
       ];
       setUsers(demoUsers);
-    } catch (error) {
+    } catch {
       toast.error('Failed to load users');
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredUsers = users.filter(user => {
+  const filteredUsers = (Array.isArray(users) ? users : []).filter(user => {
+    if (!user || !user.email) return false;
+    
     const matchesSearch = !searchQuery || 
-      user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.full_name?.toLowerCase().includes(searchQuery.toLowerCase());
+      (user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (user.full_name && user.full_name.toLowerCase().includes(searchQuery.toLowerCase()));
     
     const matchesRole = !roleFilter || user.role === roleFilter;
     const matchesStatus = !statusFilter || user.status === statusFilter;
@@ -111,13 +111,20 @@ export const UserManagement: React.FC = () => {
     return matchesSearch && matchesRole && matchesStatus;
   });
 
+  const safeUsers = Array.isArray(users) ? users : [];
   const userStats = {
-    total: users.length,
-    active: users.filter(u => u.status === 'active').length,
-    admins: users.filter(u => u.role === 'admin' || u.role === 'owner').length,
-    recent: users.filter(u => {
-      const dayAgo = new Date(Date.now() - 1000 * 60 * 60 * 24);
-      return u.last_sign_in && u.last_sign_in >= dayAgo;
+    total: safeUsers.length,
+    active: safeUsers.filter(u => u && u.status === 'active').length,
+    admins: safeUsers.filter(u => u && (u.role === 'admin' || u.role === 'owner')).length,
+    recent: safeUsers.filter(u => {
+      if (!u || !u.last_sign_in) return false;
+      try {
+        const dayAgo = new Date(Date.now() - 1000 * 60 * 60 * 24);
+        const lastSignIn = u.last_sign_in instanceof Date ? u.last_sign_in : new Date(u.last_sign_in);
+        return lastSignIn >= dayAgo;
+      } catch {
+        return false;
+      }
     }).length
   };
 
@@ -151,22 +158,24 @@ export const UserManagement: React.FC = () => {
   };
 
   const handleEditUser = (user: User) => {
-    setEditingUser(user);
     // In a real implementation, this would open an edit modal
     // For now, we'll show a toast with edit options
     toast.success(`Edit user: ${user.email}`, {
       duration: 3000,
       icon: '✏️',
     });
-    // Simulate edit functionality
-    setTimeout(() => {
-      setEditingUser(null);
-    }, 100);
   };
 
   const handleDeleteUser = async (userId: string) => {
-    const userToDelete = users.find(u => u.id === userId);
-    if (!userToDelete) return;
+    if (!userId) return;
+    
+    const safeUsers = Array.isArray(users) ? users : [];
+    const userToDelete = safeUsers.find(u => u && u.id === userId);
+    if (!userToDelete) {
+      toast.error('User not found');
+      setShowDeleteConfirm(null);
+      return;
+    }
 
     if (userToDelete.role === 'owner') {
       toast.error('Cannot remove the owner account');
@@ -176,10 +185,10 @@ export const UserManagement: React.FC = () => {
 
     try {
       // In a real implementation, this would call an API
-      setUsers(users.filter(u => u.id !== userId));
-      toast.success(`User ${userToDelete.email} has been removed`);
+      setUsers(safeUsers.filter(u => u && u.id !== userId));
+      toast.success(`User ${userToDelete.email || 'Unknown'} has been removed`);
       setShowDeleteConfirm(null);
-    } catch (error) {
+    } catch {
       toast.error('Failed to remove user');
       setShowDeleteConfirm(null);
     }
@@ -302,6 +311,7 @@ export const UserManagement: React.FC = () => {
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
               className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              aria-label="Filter by role"
             >
               <option value="">All Roles</option>
               <option value="owner">Owner</option>
@@ -315,6 +325,7 @@ export const UserManagement: React.FC = () => {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-command-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              aria-label="Filter by status"
             >
               <option value="">All Statuses</option>
               <option value="active">Active</option>
@@ -382,10 +393,32 @@ export const UserManagement: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                      {user.last_sign_in ? format(user.last_sign_in, 'MMM dd, yyyy HH:mm') : 'Never'}
+                      {user.last_sign_in ? (() => {
+                        try {
+                          const lastSignIn = user.last_sign_in instanceof Date 
+                            ? user.last_sign_in 
+                            : new Date(user.last_sign_in);
+                          return isNaN(lastSignIn.getTime()) 
+                            ? 'Invalid Date' 
+                            : format(lastSignIn, 'MMM dd, yyyy HH:mm');
+                        } catch {
+                          return 'Invalid Date';
+                        }
+                      })() : 'Never'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                      {format(user.created_at, 'MMM dd, yyyy')}
+                      {(() => {
+                        try {
+                          const createdAt = user.created_at instanceof Date 
+                            ? user.created_at 
+                            : new Date(user.created_at);
+                          return isNaN(createdAt.getTime()) 
+                            ? 'Invalid Date' 
+                            : format(createdAt, 'MMM dd, yyyy');
+                        } catch {
+                          return 'Invalid Date';
+                        }
+                      })()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex items-center space-x-2">

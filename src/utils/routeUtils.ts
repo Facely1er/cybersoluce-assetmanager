@@ -10,8 +10,8 @@ export const isValidRoute = (path: string): boolean => {
   const normalizedPath = path.replace(/\/$/, '') || '/';
   
   // Check exact matches first
-  const validPaths = Object.values(NAVIGATION_ROUTES);
-  if (validPaths.includes(normalizedPath as any)) {
+  const validPaths = Object.values(NAVIGATION_ROUTES) as readonly string[];
+  if (validPaths.includes(normalizedPath)) {
     return true;
   }
   
@@ -120,6 +120,9 @@ export const parseUrlParams = (search: string): Record<string, string> => {
  * @returns The current route key
  */
 export const getCurrentRoute = (): string => {
+  if (typeof window === 'undefined' || !window.location) {
+    return 'dashboard';
+  }
   return getRouteFromPath(window.location.pathname);
 };
 
