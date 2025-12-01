@@ -39,6 +39,8 @@ export const UserManagement: React.FC = () => {
   const [roleFilter, setRoleFilter] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
 
   useEffect(() => {
     loadUsers();
@@ -146,6 +148,49 @@ export const UserManagement: React.FC = () => {
       case 'pending': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
       default: return 'text-gray-600 bg-gray-50 border-gray-200';
     }
+  };
+
+  const handleEditUser = (user: User) => {
+    setEditingUser(user);
+    // In a real implementation, this would open an edit modal
+    // For now, we'll show a toast with edit options
+    toast.success(`Edit user: ${user.email}`, {
+      duration: 3000,
+      icon: '✏️',
+    });
+    // Simulate edit functionality
+    setTimeout(() => {
+      setEditingUser(null);
+    }, 100);
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    const userToDelete = users.find(u => u.id === userId);
+    if (!userToDelete) return;
+
+    if (userToDelete.role === 'owner') {
+      toast.error('Cannot remove the owner account');
+      setShowDeleteConfirm(null);
+      return;
+    }
+
+    try {
+      // In a real implementation, this would call an API
+      setUsers(users.filter(u => u.id !== userId));
+      toast.success(`User ${userToDelete.email} has been removed`);
+      setShowDeleteConfirm(null);
+    } catch (error) {
+      toast.error('Failed to remove user');
+      setShowDeleteConfirm(null);
+    }
+  };
+
+  const handleMoreOptions = (user: User) => {
+    // In a real implementation, this would open a dropdown menu
+    toast.success(`More options for: ${user.email}`, {
+      duration: 2000,
+      icon: '⚙️',
+    });
   };
 
   return (
@@ -345,24 +390,45 @@ export const UserManagement: React.FC = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex items-center space-x-2">
                         <button
-                          onClick={() => toast.info('Edit user functionality coming soon')}
-                          className="text-command-blue-600 dark:text-command-blue-400 hover:text-command-blue-900 dark:hover:text-command-blue-300"
+                          onClick={() => handleEditUser(user)}
+                          className="text-command-blue-600 dark:text-command-blue-400 hover:text-command-blue-900 dark:hover:text-command-blue-300 transition-colors"
                           title="Edit user"
                         >
                           <Edit className="h-4 w-4" />
                         </button>
                         {user.role !== 'owner' && (
-                          <button
-                            onClick={() => toast.info('Remove user functionality coming soon')}
-                            className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
-                            title="Remove user"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
+                          <>
+                            {showDeleteConfirm === user.id ? (
+                              <div className="flex items-center space-x-1">
+                                <button
+                                  onClick={() => handleDeleteUser(user.id)}
+                                  className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 px-2 py-1 text-xs font-medium transition-colors"
+                                  title="Confirm removal"
+                                >
+                                  Confirm
+                                </button>
+                                <button
+                                  onClick={() => setShowDeleteConfirm(null)}
+                                  className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300 px-2 py-1 text-xs font-medium transition-colors"
+                                  title="Cancel"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => setShowDeleteConfirm(user.id)}
+                                className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors"
+                                title="Remove user"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            )}
+                          </>
                         )}
                         <button
-                          onClick={() => toast.info('More options coming soon')}
-                          className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300"
+                          onClick={() => handleMoreOptions(user)}
+                          className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300 transition-colors"
                           title="More options"
                         >
                           <MoreHorizontal className="h-4 w-4" />

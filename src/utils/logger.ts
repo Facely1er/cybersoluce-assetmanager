@@ -1,12 +1,40 @@
 /**
  * Production-safe logging utility
  * Automatically filters out logs in production unless explicitly enabled
+ * Supports Sentry integration for error tracking
  */
 
 const isDev = import.meta.env.DEV;
 const isProduction = import.meta.env.PROD;
 const debugMode = import.meta.env.VITE_DEBUG_MODE === 'true';
 const enableErrorReporting = import.meta.env.VITE_ENABLE_ERROR_REPORTING === 'true';
+const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
+
+// Sentry integration helper
+const sendToSentry = (level: 'warning' | 'error', message: string, error?: Error, context?: Record<string, unknown>) => {
+  if (!enableErrorReporting || !isProduction) return;
+  
+  // Check if Sentry is available (will be loaded via CDN or npm package)
+  if (typeof window !== 'undefined' && (window as any).Sentry) {
+    const Sentry = (window as any).Sentry;
+    try {
+      if (level === 'error' && error) {
+        Sentry.captureException(error, {
+          extra: context,
+          tags: { source: 'logger' }
+        });
+      } else {
+        Sentry.captureMessage(message, level, {
+          extra: context,
+          tags: { source: 'logger' }
+        });
+      }
+    } catch (sentryError) {
+      // Fail silently if Sentry fails
+      console.warn('Failed to send to Sentry:', sentryError);
+    }
+  }
+};
 
 /**
  * Logger utility that respects environment settings
@@ -37,12 +65,10 @@ export const logger = {
     if (isDev || debugMode || enableErrorReporting) {
       console.warn('[WARN]', ...args);
     }
-    // In production, could send to error tracking service
+    // In production, send to error tracking service
     if (isProduction && enableErrorReporting) {
-      // TODO: Send to Sentry or other error tracking service
-      // if (window.Sentry) {
-      //   window.Sentry.captureMessage(args.join(' '), 'warning');
-      // }
+      const message = args.map(arg => String(arg)).join(' ');
+      sendToSentry('warning', message, undefined, { args });
     }
   },
 
@@ -59,13 +85,8 @@ export const logger = {
 
     // In production, send to error tracking service
     if (isProduction && enableErrorReporting) {
-      // TODO: Send to Sentry or other error tracking service
-      // if (window.Sentry) {
-      //   window.Sentry.captureException(error || new Error(message), {
-      //     extra: context,
-      //     tags: { source: 'logger' }
-      //   });
-      // }
+      const errorObj = error instanceof Error ? error : new Error(message);
+      sendToSentry('error', message, errorObj, context);
     }
   },
 
