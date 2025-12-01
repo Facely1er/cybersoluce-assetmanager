@@ -45,9 +45,9 @@ export const Header: React.FC<HeaderProps> = (props) => {
     },
     {
       label: 'Free Tools',
-      href: '/tools/',
+      href: '/tools',
       icon: Gift,
-      external: true,
+      external: false,
     },
   ];
 

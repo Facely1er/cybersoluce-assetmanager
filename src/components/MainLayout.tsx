@@ -10,31 +10,117 @@ import { generateDemoDataPackage } from '../data/demoDataGenerator';
 import toast from 'react-hot-toast';
 import { logger } from '../utils/logger';
 
-// Lazy load components for better performance
+// Lazy load components for better performance with error handling
 // Using .then() to handle named exports properly
-const AssetInventoryDashboard = lazy(() => import('./AssetInventoryDashboard').then(module => ({ default: module.AssetInventoryDashboard })));
-const UserManualPage = lazy(() => import('./UserManualPage').then(module => ({ default: module.UserManualPage })));
-const GuidedWorkflow = lazy(() => import('./GuidedWorkflow').then(module => ({ default: module.GuidedWorkflow })));
-const AdvancedReportingDashboard = lazy(() => import('./reports/AdvancedReportingDashboard').then(module => ({ default: module.AdvancedReportingDashboard })));
-const ComplianceManagement = lazy(() => import('./compliance/ComplianceManagement').then(module => ({ default: module.ComplianceManagement })));
-const PrivacyComplianceDashboard = lazy(() => import('./privacy/PrivacyComplianceDashboard').then(module => ({ default: module.PrivacyComplianceDashboard })));
-const DependenciesPage = lazy(() => import('./dependencies/DependenciesPage').then(module => ({ default: module.DependenciesPage })));
-const DataProtectionDashboard = lazy(() => import('./protection/DataProtectionDashboard').then(module => ({ default: module.DataProtectionDashboard })));
-const VulnerabilityDashboard = lazy(() => import('./vulnerabilities/VulnerabilityDashboard').then(module => ({ default: module.VulnerabilityDashboard })));
-const OrganizationManagement = lazy(() => import('./organizations/OrganizationManagement').then(module => ({ default: module.OrganizationManagement })));
-const UserManagement = lazy(() => import('./users/UserManagement').then(module => ({ default: module.UserManagement })));
-const ActivityLog = lazy(() => import('./activity/ActivityLog').then(module => ({ default: module.ActivityLog })));
-const SystemSettings = lazy(() => import('./settings/SystemSettings').then(module => ({ default: module.SystemSettings })));
-// Lazy load DemoShowcase - use default export for better compatibility
-const DemoShowcase = lazy(() => import('./DemoShowcase'));
-const MitigationPageWrapper = lazy(() => import('./mitigation/MitigationPageWrapper').then(module => ({ default: module.MitigationPageWrapper })));
-const BusinessImpactPageWrapper = lazy(() => import('./business-impact/BusinessImpactPageWrapper').then(module => ({ default: module.BusinessImpactPageWrapper })));
-const NISTPageWrapper = lazy(() => import('./nist/NISTPageWrapper').then(module => ({ default: module.NISTPageWrapper })));
-const FrameworkPageWrapper = lazy(() => import('./framework/FrameworkPageWrapper').then(module => ({ default: module.FrameworkPageWrapper })));
-const DataNormalizationEngine = lazy(() => import('./DataNormalizationEngine'));
-const MagicalDashboard = lazy(() => import('./magical/MagicalDashboard'));
-const AIClassificationEngine = lazy(() => import('./magical/AIClassificationEngine'));
-const MagicalOrchestrationEngine = lazy(() => import('./magical/MagicalOrchestrationEngine'));
+const AssetInventoryDashboard = lazy(() => 
+  import('./AssetInventoryDashboard')
+    .then(module => ({ default: module.AssetInventoryDashboard }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Asset Inventory Dashboard</div> }))
+);
+const UserManualPage = lazy(() => 
+  import('./UserManualPage')
+    .then(module => ({ default: module.UserManualPage }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load User Manual</div> }))
+);
+const GuidedWorkflow = lazy(() => 
+  import('./GuidedWorkflow')
+    .then(module => ({ default: module.GuidedWorkflow }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Guided Workflow</div> }))
+);
+const AdvancedReportingDashboard = lazy(() => 
+  import('./reports/AdvancedReportingDashboard')
+    .then(module => ({ default: module.AdvancedReportingDashboard }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Reporting Dashboard</div> }))
+);
+const ComplianceManagement = lazy(() => 
+  import('./compliance/ComplianceManagement')
+    .then(module => ({ default: module.ComplianceManagement }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Compliance Management</div> }))
+);
+const PrivacyComplianceDashboard = lazy(() => 
+  import('./privacy/PrivacyComplianceDashboard')
+    .then(module => ({ default: module.PrivacyComplianceDashboard }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Privacy Compliance Dashboard</div> }))
+);
+const DependenciesPage = lazy(() => 
+  import('./dependencies/DependenciesPage')
+    .then(module => ({ default: module.DependenciesPage }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Dependencies Page</div> }))
+);
+const DataProtectionDashboard = lazy(() => 
+  import('./protection/DataProtectionDashboard')
+    .then(module => ({ default: module.DataProtectionDashboard }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Data Protection Dashboard</div> }))
+);
+const VulnerabilityDashboard = lazy(() => 
+  import('./vulnerabilities/VulnerabilityDashboard')
+    .then(module => ({ default: module.VulnerabilityDashboard }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Vulnerability Dashboard</div> }))
+);
+const OrganizationManagement = lazy(() => 
+  import('./organizations/OrganizationManagement')
+    .then(module => ({ default: module.OrganizationManagement }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Organization Management</div> }))
+);
+const UserManagement = lazy(() => 
+  import('./users/UserManagement')
+    .then(module => ({ default: module.UserManagement }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load User Management</div> }))
+);
+const ActivityLog = lazy(() => 
+  import('./activity/ActivityLog')
+    .then(module => ({ default: module.ActivityLog }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Activity Log</div> }))
+);
+const SystemSettings = lazy(() => 
+  import('./settings/SystemSettings')
+    .then(module => ({ default: module.SystemSettings }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load System Settings</div> }))
+);
+// Lazy load components with error handling for better reliability
+// Components with default exports
+const DemoShowcase = lazy(() => 
+  import('./DemoShowcase')
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Demo Showcase</div> }))
+);
+const DataNormalizationEngine = lazy(() => 
+  import('./DataNormalizationEngine')
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Data Normalization Engine</div> }))
+);
+const MagicalDashboard = lazy(() => 
+  import('./magical/MagicalDashboard')
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Magical Dashboard</div> }))
+);
+const AIClassificationEngine = lazy(() => 
+  import('./magical/AIClassificationEngine')
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load AI Classification Engine</div> }))
+);
+const MagicalOrchestrationEngine = lazy(() => 
+  import('./magical/MagicalOrchestrationEngine')
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Magical Orchestration Engine</div> }))
+);
+
+// Components with named exports
+const MitigationPageWrapper = lazy(() => 
+  import('./mitigation/MitigationPageWrapper')
+    .then(module => ({ default: module.MitigationPageWrapper }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Mitigation Page</div> }))
+);
+const BusinessImpactPageWrapper = lazy(() => 
+  import('./business-impact/BusinessImpactPageWrapper')
+    .then(module => ({ default: module.BusinessImpactPageWrapper }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Business Impact Page</div> }))
+);
+const NISTPageWrapper = lazy(() => 
+  import('./nist/NISTPageWrapper')
+    .then(module => ({ default: module.NISTPageWrapper }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load NIST Page</div> }))
+);
+const FrameworkPageWrapper = lazy(() => 
+  import('./framework/FrameworkPageWrapper')
+    .then(module => ({ default: module.FrameworkPageWrapper }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Framework Page</div> }))
+);
 
 interface MainLayoutProps {
   onShowStartScreen?: () => void;

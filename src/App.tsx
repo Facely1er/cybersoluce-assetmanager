@@ -163,19 +163,9 @@ const App: React.FC = () => {
                       element={<AcceptableUsePolicy />} 
                     />
                     
-                    {/* Tools page */}
+                    {/* Tools page - handles both /tools and /tools/ */}
                     <Route 
-                      path="/tools" 
-                      element={
-                        <>
-                          <Header />
-                          <ToolsPage />
-                          <Footer />
-                        </>
-                      } 
-                    />
-                    <Route 
-                      path="/tools/" 
+                      path="/tools/*" 
                       element={
                         <>
                           <Header />

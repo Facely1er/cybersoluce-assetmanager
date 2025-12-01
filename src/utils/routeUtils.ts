@@ -6,32 +6,68 @@ import { NAVIGATION_ROUTES } from '../data/navigation';
  * @returns true if the path is a valid route
  */
 export const isValidRoute = (path: string): boolean => {
+  // Normalize path (remove trailing slash, handle both /dashboard/ and /dashboard)
+  const normalizedPath = path.replace(/\/$/, '') || '/';
+  
+  // Check exact matches first
   const validPaths = Object.values(NAVIGATION_ROUTES);
-  return validPaths.includes(path as any);
+  if (validPaths.includes(normalizedPath as any)) {
+    return true;
+  }
+  
+  // Check if it's a dashboard route
+  if (normalizedPath.startsWith('/dashboard/')) {
+    const view = normalizedPath.replace('/dashboard/', '');
+    return Object.values(NAVIGATION_ROUTES).some(route => 
+      route === `/dashboard/${view}`
+    );
+  }
+  
+  // Check root dashboard
+  if (normalizedPath === '/dashboard') {
+    return true;
+  }
+  
+  return false;
 };
 
 /**
  * Converts a URL path to a route key
- * @param path - The URL path (e.g., '/assets', '/user-manual')
+ * @param path - The URL path (e.g., '/dashboard/assets', '/dashboard/user-manual')
  * @returns The route key (e.g., 'assets', 'userManual')
  */
 export const getRouteFromPath = (path: string): string => {
-  // Remove leading slash and convert to route key
-  const cleanPath = path.replace(/^\//, '');
+  // Normalize path (remove trailing slash)
+  const normalizedPath = path.replace(/\/$/, '') || '/';
   
-  // Handle root path
+  // Handle root paths
+  if (normalizedPath === '/' || normalizedPath === '/dashboard') {
+    return 'dashboard';
+  }
+  
+  // Handle dashboard routes
+  if (normalizedPath.startsWith('/dashboard/')) {
+    const view = normalizedPath.replace('/dashboard/', '');
+    if (!view) return 'dashboard';
+    
+    // Handle kebab-case to camelCase conversion
+    const routeKey = view.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+    return routeKey;
+  }
+  
+  // Handle legacy paths (without /dashboard prefix) - for backwards compatibility
+  const cleanPath = normalizedPath.replace(/^\//, '');
   if (!cleanPath) return 'dashboard';
   
   // Handle kebab-case to camelCase conversion
   const routeKey = cleanPath.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
-  
   return routeKey;
 };
 
 /**
  * Converts a route key to a URL path
  * @param route - The route key (e.g., 'assets', 'userManual')
- * @returns The URL path (e.g., '/assets', '/user-manual')
+ * @returns The URL path (e.g., '/dashboard/assets', '/dashboard/user-manual')
  */
 export const getPathFromRoute = (route: string): string => {
   // Check if route exists in NAVIGATION_ROUTES
@@ -40,9 +76,9 @@ export const getPathFromRoute = (route: string): string => {
     return NAVIGATION_ROUTES[routeKey];
   }
   
-  // Fallback: convert camelCase to kebab-case
+  // Fallback: convert camelCase to kebab-case and add /dashboard prefix
   const path = route.replace(/([A-Z])/g, '-$1').toLowerCase();
-  return `/${path}`;
+  return `/dashboard/${path}`;
 };
 
 /**
