@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import { ONE_TIME_PRODUCTS, getOneTimeCheckoutConfig } from '../config/stripe';
 import { stripeClient } from '../lib/stripe';
+import { logger } from '../utils/logger';
+import toast from 'react-hot-toast';
 
 const VcisoProfessionalKit: React.FC = () => {
   const navigate = useNavigate();
@@ -31,8 +33,9 @@ const VcisoProfessionalKit: React.FC = () => {
       });
       window.location.href = url;
     } catch (error) {
-      console.error('Checkout error:', error);
-      alert('Failed to start checkout. Please try again or contact support.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      logger.error('Checkout error', error instanceof Error ? error : new Error(errorMessage), { product: 'vcisoProfessionalKit' });
+      toast.error('Failed to start checkout. Please try again or contact support.');
       setLoading(false);
     }
   };

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Check, Shield, Zap, Building2, Database, BarChart3, Users, Lock, Cloud } from 'lucide-react';
 import { PRODUCTS, ONE_TIME_PRODUCTS, ANNUAL_DISCOUNT, getCheckoutConfig, getOneTimeCheckoutConfig } from '../config/stripe';
 import { stripeClient } from '../lib/stripe';
+import { logger } from '../utils/logger';
+import toast from 'react-hot-toast';
 
 const Pricing: React.FC = () => {
   const navigate = useNavigate();
@@ -34,7 +36,9 @@ const Pricing: React.FC = () => {
         window.location.href = url;
       }
     } catch (error) {
-      console.error('Checkout error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      logger.error('Checkout error', error instanceof Error ? error : new Error(errorMessage), { page: 'pricing' });
+      toast.error('Failed to start checkout. Please try again or contact support.');
       alert('Failed to start checkout. Please try again.');
     } finally {
       setLoading(null);

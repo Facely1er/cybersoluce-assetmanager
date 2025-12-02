@@ -254,8 +254,8 @@ export function getCheckoutConfig(plan: keyof typeof PRODUCTS, isAnnual: boolean
         quantity: 1,
       },
     ],
-    successUrl: `${typeof window !== 'undefined' && window.location ? window.location.origin : 'https://cybersoluce.ermits.com'}/dashboard?success=true&session_id={CHECKOUT_SESSION_ID}`,
-    cancelUrl: `${typeof window !== 'undefined' && window.location ? window.location.origin : 'https://cybersoluce.ermits.com'}/pricing`,
+    successUrl: `${typeof window !== 'undefined' && window.location ? window.location.origin : 'https://www.cybersoluce.com'}/dashboard?success=true&session_id={CHECKOUT_SESSION_ID}`,
+    cancelUrl: `${typeof window !== 'undefined' && window.location ? window.location.origin : 'https://www.cybersoluce.com'}/pricing`,
     allowPromotionCodes: true,
     metadata: {
       plan,
@@ -281,8 +281,8 @@ export function getOneTimeCheckoutConfig(productKey: keyof typeof ONE_TIME_PRODU
         quantity: 1,
       },
     ],
-    successUrl: `${typeof window !== 'undefined' && window.location ? window.location.origin : 'https://cybersoluce.ermits.com'}/dashboard?success=true&product=${productKey}`,
-    cancelUrl: `${typeof window !== 'undefined' && window.location ? window.location.origin : 'https://cybersoluce.ermits.com'}/pricing`,
+    successUrl: `${typeof window !== 'undefined' && window.location ? window.location.origin : 'https://www.cybersoluce.com'}/dashboard?success=true&product=${productKey}`,
+    cancelUrl: `${typeof window !== 'undefined' && window.location ? window.location.origin : 'https://www.cybersoluce.com'}/pricing`,
     allowPromotionCodes: true,
     metadata: {
       product: productKey,

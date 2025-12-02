@@ -1,7 +1,7 @@
 // Service Worker for CyberSoluce Asset Manager
 // Basic service worker to enable PWA features
 
-const CACHE_NAME = 'cybersoluce-asset-manager-v3'; // Increment version to force update
+const CACHE_NAME = 'cybersoluce-asset-manager-v4'; // Increment version to force update
 const urlsToCache = [
   '/',
   '/index.html',

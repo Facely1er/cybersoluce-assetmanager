@@ -7,7 +7,7 @@ export const APP_METADATA = {
   author: 'ERMITS Corporation',
   license: 'MIT',
   repository: 'https://github.com/ermits-cybersoluce/asset-manager',
-  homepage: 'https://cybersoluce.ermits.com',
+  homepage: 'https://www.cybersoluce.com',
   keywords: [
     'asset-inventory',
     'cybersecurity',
@@ -48,9 +48,9 @@ export const NAVIGATION_ROUTES = {
 } as const;
 
 export const EXTERNAL_LINKS = {
-  documentation: 'https://docs.cybersoluce.ermits.com',
-  support: 'https://support.cybersoluce.ermits.com',
+  documentation: 'https://www.cybersoluce.com/dashboard/user-manual', // User Manual page
+  support: 'https://www.cybersoluce.com', // Main website (can be updated to contact page if exists)
   github: 'https://github.com/ermits-cybersoluce',
-  website: 'https://cybersoluce.ermits.com'
+  website: 'https://www.cybersoluce.com'
 } as const;
 

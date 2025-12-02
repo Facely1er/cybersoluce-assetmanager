@@ -5,6 +5,7 @@
 
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { STRIPE_CONFIG } from '../config/stripe';
+import { logger } from '../utils/logger';
 
 // Initialize Stripe
 let stripePromise: Promise<Stripe | null>;
@@ -12,7 +13,7 @@ let stripePromise: Promise<Stripe | null>;
 export const getStripe = () => {
   if (!stripePromise) {
     if (!STRIPE_CONFIG.publishableKey) {
-      console.warn('Stripe publishable key not configured. Please configure VITE_STRIPE_PUBLISHABLE_KEY environment variable.');
+      logger.warn('Stripe publishable key not configured. Please configure VITE_STRIPE_PUBLISHABLE_KEY environment variable.');
       return Promise.resolve(null);
     }
     stripePromise = loadStripe(STRIPE_CONFIG.publishableKey);
@@ -69,7 +70,7 @@ export class StripeClient {
 
       return await response.json();
     } catch (error) {
-      console.error('Error creating checkout session', error);
+      logger.error('Error creating checkout session', error instanceof Error ? error : new Error(String(error)), { operation: 'createCheckoutSession' });
       throw error;
     }
   }
@@ -103,7 +104,7 @@ export class StripeClient {
 
       return await response.json();
     } catch (error) {
-      console.error('Error creating portal session', error);
+      logger.error('Error creating portal session', error instanceof Error ? error : new Error(String(error)), { operation: 'createPortalSession' });
       throw error;
     }
   }

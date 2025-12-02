@@ -13,15 +13,18 @@
     <meta name="keywords" content="asset inventory, cybersecurity, risk management, compliance, vulnerability management, IT assets" />
     <meta name="author" content="ERMITS Corporation" />
     
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.cybersoluce.com/" />
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://your-domain.com/" />
+    <meta property="og:url" content="https://www.cybersoluce.com/" />
     <meta property="og:title" content="CyberSoluce™ Asset Manager by ERMITS" />
     <meta property="og:description" content="Comprehensive Asset Inventory Management Tool for cybersecurity professionals. Track, manage, and secure your digital assets." />
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://your-domain.com/" />
+    <meta property="twitter:url" content="https://www.cybersoluce.com/" />
     <meta property="twitter:title" content="CyberSoluce™ Asset Manager by ERMITS" />
     <meta property="twitter:description" content="Comprehensive Asset Inventory Management Tool for cybersecurity professionals. Track, manage, and secure your digital assets." />
     
@@ -172,18 +175,8 @@
         }, 100);
       });
       
-      // Service Worker with error handling (production-safe)
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(() => {
-              // Service worker registered successfully
-            })
-            .catch(() => {
-              // Service worker registration failed - app will work without it
-            });
-        });
-      }
+      // Service Worker removed - not needed for this application
+      // The app requires internet connection (Supabase) and has no offline functionality
       
       // Global error handler for production monitoring
       // Note: Error handling is managed by the application's error boundary

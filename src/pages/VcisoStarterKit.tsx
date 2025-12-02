@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import { ONE_TIME_PRODUCTS, getOneTimeCheckoutConfig } from '../config/stripe';
 import { stripeClient } from '../lib/stripe';
+import { logger } from '../utils/logger';
+import toast from 'react-hot-toast';
 
 const VcisoStarterKit: React.FC = () => {
   const navigate = useNavigate();
@@ -31,8 +33,9 @@ const VcisoStarterKit: React.FC = () => {
       });
       window.location.href = url;
     } catch (error) {
-      console.error('Checkout error:', error);
-      alert('Failed to start checkout. Please try again or contact support.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      logger.error('Checkout error', error instanceof Error ? error : new Error(errorMessage), { product: 'vcisoStarterKit' });
+      toast.error('Failed to start checkout. Please try again or contact support.');
       setLoading(false);
     }
   };
@@ -469,52 +472,61 @@ const VcisoStarterKit: React.FC = () => {
                   </div>
 
                   {/* Current Step Display */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <h3 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
-                        {workflowSteps[workflowStep].title}
-                      </h3>
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                        <Clock size={16} />
-                        <span>{workflowSteps[workflowStep].duration}</span>
-                      </div>
-                    </div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                      Step {workflowStep + 1} of {workflowSteps.length}
-                      {workflowStep === 0 && <span className="ml-2 text-green-600">(Preview)</span>}
-                    </div>
-                  </div>
+                  {(() => {
+                    const currentStep = workflowSteps[workflowStep];
+                    if (!currentStep) return null;
+                    
+                    return (
+                      <>
+                        <div className="flex items-center justify-between mb-6">
+                          <div>
+                            <h3 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+                              {currentStep.title}
+                            </h3>
+                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                              <Clock size={16} />
+                              <span>{currentStep.duration}</span>
+                            </div>
+                          </div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            Step {workflowStep + 1} of {workflowSteps.length}
+                            {workflowStep === 0 && <span className="ml-2 text-green-600">(Preview)</span>}
+                          </div>
+                        </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold mb-3 text-gray-900 dark:text-white flex items-center gap-2">
-                        <CheckSquare size={18} />
-                        Key Activities
-                      </h4>
-                      <ul className="space-y-2">
-                        {workflowSteps[workflowStep].activities.map((activity, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
-                            <CheckCircle size={16} className="text-green-500 mt-0.5 flex-shrink-0" />
-                            <span>{activity}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-3 text-gray-900 dark:text-white flex items-center gap-2">
-                        <FileText size={18} />
-                        Deliverables
-                      </h4>
-                      <ul className="space-y-2">
-                        {workflowSteps[workflowStep].deliverables.map((deliverable, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
-                            <FileText size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-                            <span>{deliverable}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                            <h4 className="font-semibold mb-3 text-gray-900 dark:text-white flex items-center gap-2">
+                              <CheckSquare size={18} />
+                              Key Activities
+                            </h4>
+                            <ul className="space-y-2">
+                              {currentStep.activities.map((activity, idx) => (
+                                <li key={idx} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                                  <CheckCircle size={16} className="text-green-500 mt-0.5 flex-shrink-0" />
+                                  <span>{activity}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold mb-3 text-gray-900 dark:text-white flex items-center gap-2">
+                              <FileText size={18} />
+                              Deliverables
+                            </h4>
+                            <ul className="space-y-2">
+                              {currentStep.deliverables.map((deliverable, idx) => (
+                                <li key={idx} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                                  <FileText size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                                  <span>{deliverable}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
             </motion.div>

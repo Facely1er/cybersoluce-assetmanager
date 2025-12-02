@@ -11,12 +11,18 @@ const enableErrorReporting = import.meta.env.VITE_ENABLE_ERROR_REPORTING === 'tr
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
 
 // Sentry integration helper
+// Type definition for Sentry when loaded via CDN
+interface SentryType {
+  captureException: (error: Error, options?: { extra?: Record<string, unknown>; tags?: Record<string, string> }) => void;
+  captureMessage: (message: string, level: 'warning' | 'error', options?: { extra?: Record<string, unknown>; tags?: Record<string, string> }) => void;
+}
+
 const sendToSentry = (level: 'warning' | 'error', message: string, error?: Error, context?: Record<string, unknown>) => {
   if (!enableErrorReporting || !isProduction) return;
   
   // Check if Sentry is available (will be loaded via CDN or npm package)
-  if (typeof window !== 'undefined' && (window as any).Sentry) {
-    const Sentry = (window as any).Sentry;
+  if (typeof window !== 'undefined' && 'Sentry' in window) {
+    const Sentry = (window as typeof window & { Sentry: SentryType }).Sentry;
     try {
       if (level === 'error' && error) {
         Sentry.captureException(error, {

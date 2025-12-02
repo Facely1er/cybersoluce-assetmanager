@@ -1,6 +1,7 @@
 import { Asset } from '../types/asset';
 import { DemoScenario, getDemoScenario } from './demoScenarios';
 import { generateAssetInventory, INVENTORY_SCENARIOS } from './assetGenerators';
+import { logger } from '../utils/logger';
 
 export interface DemoDataPackage {
   scenario: DemoScenario;
@@ -113,7 +114,7 @@ export function generateAllDemoPackages(): Record<string, DemoDataPackage> {
     try {
       packages[scenarioId] = generateDemoDataPackage(scenarioId);
     } catch (error) {
-      console.error(`Failed to generate demo package for ${scenarioId}:`, error);
+      logger.error(`Failed to generate demo package for ${scenarioId}`, error instanceof Error ? error : new Error(String(error)), { scenarioId });
     }
   });
 
