@@ -21,6 +21,11 @@ import Pricing from './pages/Pricing';
 import VcisoStarterKit from './pages/VcisoStarterKit';
 import VcisoProfessionalKit from './pages/VcisoProfessionalKit';
 import ExecutiveDashboardTemplate from './pages/ExecutiveDashboardTemplate';
+import { SectorDemoLauncher } from './demo/SectorDemoLauncher';
+import { SectorDemoOrchestratorWrapper } from './features/demo/SectorDemoOrchestratorWrapper';
+import { HowAssetIntelligenceWorks } from './pages/HowAssetIntelligenceWorks';
+import DataImports from './pages/DataImports';
+import CyberCautionPreCheck from './pages/CyberCautionPreCheck';
 
 const App: React.FC = () => {
   return (
@@ -87,7 +92,7 @@ const App: React.FC = () => {
                 {/* Application Content with Suspense */}
                 <Suspense fallback={
                   <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                    <LoadingSpinner size="lg" text="Loading CyberSoluce™ Asset Manager..." />
+                    <LoadingSpinner size="lg" text="Loading CyberSoluce™ Asset Intelligence..." />
                   </div>
                 }>
                   <Routes>
@@ -161,6 +166,108 @@ const App: React.FC = () => {
                     <Route 
                       path="/legal/acceptable-use" 
                       element={<AcceptableUsePolicy />} 
+                    />
+                    
+                    {/* Demo launcher route */}
+                    <Route 
+                      path="/demo/sector" 
+                      element={
+                        <>
+                          <Header />
+                          <SectorDemoLauncher />
+                          <Footer />
+                        </>
+                      } 
+                    />
+                    
+                    {/* Demo orchestrator route */}
+                    <Route 
+                      path="/demo/orchestrator" 
+                      element={
+                        <>
+                          <Header />
+                          <SectorDemoOrchestratorWrapper />
+                          <Footer />
+                        </>
+                      } 
+                    />
+                    
+                    {/* How Asset Intelligence Works page */}
+                    <Route 
+                      path="/how-asset-intelligence-works" 
+                      element={<HowAssetIntelligenceWorks />} 
+                    />
+                    
+                    {/* Data Imports route */}
+                    <Route 
+                      path="/imports" 
+                      element={
+                        <AuthGuard 
+                          requireAuth={false}
+                          fallback={
+                            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                              <LoadingSpinner size="lg" text="Initializing..." />
+                            </div>
+                          }
+                        >
+                          <>
+                            <Header />
+                            <DataImports />
+                            <Footer />
+                          </>
+                        </AuthGuard>
+                      } 
+                    />
+                    
+                    {/* CyberCaution Pre-Check route */}
+                    <Route 
+                      path="/cybercaution/precheck" 
+                      element={
+                        <AuthGuard 
+                          requireAuth={false}
+                          fallback={
+                            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                              <LoadingSpinner size="lg" text="Initializing..." />
+                            </div>
+                          }
+                        >
+                          <MainLayout />
+                        </AuthGuard>
+                      } 
+                    />
+                    
+                    {/* VendorSoluce Watchlist route */}
+                    <Route 
+                      path="/vendorsoluce/watchlist" 
+                      element={
+                        <AuthGuard 
+                          requireAuth={false}
+                          fallback={
+                            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                              <LoadingSpinner size="lg" text="Initializing..." />
+                            </div>
+                          }
+                        >
+                          <MainLayout />
+                        </AuthGuard>
+                      } 
+                    />
+                    
+                    {/* ERMITS Advisory Visibility Annex route */}
+                    <Route 
+                      path="/ermits-advisory/visibility-annex" 
+                      element={
+                        <AuthGuard 
+                          requireAuth={false}
+                          fallback={
+                            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                              <LoadingSpinner size="lg" text="Initializing..." />
+                            </div>
+                          }
+                        >
+                          <MainLayout />
+                        </AuthGuard>
+                      } 
                     />
                     
                     {/* Tools page - handles both /tools and /tools/ */}

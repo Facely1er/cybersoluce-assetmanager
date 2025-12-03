@@ -1,0 +1,258 @@
+✅ CURSOR TODO — Verify & Complete CyberSoluce as Asset Intelligence Layer
+
+PROJECT: CyberSoluce
+GOAL:
+
+Lock CyberSoluce as the Asset Intelligence & Dependency Visibility layer
+
+Verify focus funnels (privacy / ransomware / vendor / software / governance)
+
+Add one explanatory screen
+
+Enforce guardrails (no fake posture / compliance)
+
+1️⃣ Naming & Positioning Sanity Sweep
+// TODO[CS-NAMING-POSITIONING-CHECK]:
+
+1. Full-text search the repo for these terms (case-insensitive):
+   - "Asset Manager"
+   - "asset manager"
+   - "IAM"
+   - "Intelligent Asset Manager"
+   - "CMDB"
+   - "posture"
+   - "compliant"
+   - "certified"
+
+2. For UI-facing occurrences:
+   - Replace any "Asset Manager" phrasing with:
+     - "Asset Intelligence" or
+     - "Asset Intelligence & Dependency Visibility"
+   - Remove any "IAM" product-name style references.
+   - Ensure "posture", "compliant", "certified" do NOT appear in user-facing CyberSoluce UI.
+
+3. For internal-only comments:
+   - Keep "intelligent asset manager" ONLY if clearly marked as internal design label, e.g.:
+
+     /**
+      * INTERNAL DESIGN NOTE:
+      * CyberSoluce serves as the asset intelligence layer for the ERMITS ecosystem.
+      * Do not present this as a standalone "Asset Manager" product to users.
+      */
+
+4. Stop when:
+   - No user-facing copy describes CyberSoluce as:
+     - "Asset Manager"
+     - "CMDB"
+     - "posture" / "compliant" / "certified" anything.
+
+2️⃣ Guardrail Comments in Enrichment & Funnel
+// TODO[CS-GUARDRAILS-ASSET-INTEL]:
+
+1. Open enrichment service:
+   - src/services/assetEnrichmentService.ts
+
+2. At the TOP of the file, add:
+
+   /**
+    * CyberSoluce Asset Intelligence Layer
+    *
+    * NOTE:
+    * - This logic surfaces QUALITATIVE focus signals only.
+    * - It must never claim:
+    *     - Overall security posture
+    *     - Compliance / certification
+    *     - Formal risk ratings
+    * - Outputs are indicative and require deeper, asset-based evaluation
+    *   in the relevant ERMITS products (CyberCorrect, CyberCaution, VendorSoluce, TechnoSoluce, ERMITS Advisory).
+    */
+
+3. Open signal detection service:
+   - src/services/signalDetectionService.ts
+
+4. Add similar note at the top:
+
+   /**
+    * Signal Detection – focuses on WHERE attention may be needed,
+    * not WHAT to do next.
+    *
+    * Outputs must remain:
+    * - Qualitative
+    * - Non-prescriptive
+    * - Free of scoring / posture claims
+    */
+
+5. Open focus funnel UI:
+   - src/components/FocusFunnel.tsx
+
+6. Add at top:
+
+   /**
+    * FocusFunnel shows where attention clusters (privacy, ransomware, vendor, software, governance).
+    * It must NOT:
+    * - Act as a remediation engine
+    * - Present posture or compliance conclusions
+    * - Directly sell or mandate ERMITS products
+    */
+
+3️⃣ “How Asset Intelligence Works” Page
+// TODO[CS-INFO-PAGE-ASSET-INTEL]:
+
+1. Create new page component:
+   - File: src/pages/HowAssetIntelligenceWorks.tsx
+
+2. Component content (structure; wording can be close to this):
+
+   - H1: "How CyberSoluce Asset Intelligence Works"
+
+   - Section 1: "What CyberSoluce Does"
+     - Bullet list:
+       - "Creates a dependency-aware view of systems, vendors, and data"
+       - "Normalizes asset information from imports and manual input"
+       - "Highlights where exposure and dependencies may concentrate"
+
+   - Section 2: "What It Does Not Do"
+     - Bullet list:
+       - "Does not provide compliance or certification status"
+       - "Does not rate overall enterprise posture"
+       - "Does not replace expert, human-led analysis"
+
+   - Section 3: "How Focus Areas Are Used"
+     - Copy example:
+       - "When patterns emerge (e.g., sensitive data with unclear lineage, vendor concentration, software clustering), CyberSoluce surfaces them as focus areas."
+       - "Specialized ERMITS products provide deeper evaluation of those areas."
+
+   - Section 4: "Where It Fits in ERMITS"
+     - Short paragraph:
+       - "CyberSoluce sits at the foundation of the ERMITS ecosystem as the asset intelligence layer. It helps CyberCorrect, CyberCaution, VendorSoluce, TechnoSoluce, and ERMITS Advisory start from a cleaner map of what matters."
+
+3. Wire this page to the router:
+   - Open main routing file (likely src/App.tsx or src/router/AppRouter.tsx)
+   - Add a route:
+     - path: "/how-asset-intelligence-works"
+     - element: <HowAssetIntelligenceWorks />
+
+4. Add link from main nav or dashboard:
+   - Location suggestion:
+     - In top-level nav under "Help" or "About"
+     - OR as a small link on the main Asset Intelligence / dashboard page:
+       - Label: "How Asset Intelligence Works"
+
+5. Ensure:
+   - No marketing language like "ultimate", "guaranteed", etc.
+   - The role statement is clear:
+     - "Asset Intelligence & Dependency Visibility foundation for ERMITS"
+
+4️⃣ Focus Funnel – Routing & Copy Verification
+// TODO[CS-FOCUSFUNNEL-ROUTES-VERIFY]:
+
+1. Open:
+   - src/components/FocusFunnel.tsx
+
+2. For each focus block, verify the routing target:
+
+   - Privacy focus → CyberCorrect:
+     - CTA label example: "Review privacy exposure in more detail"
+     - Link / route:
+       - Internal: "/cybercorrect" or
+       - External: https://cybercorrect.com (depending on current design)
+
+   - Ransomware focus → CyberCaution:
+     - CTA: "Explore ransomware readiness"
+     - Route/Link: CyberCaution target
+
+   - Vendor dependence → VendorSoluce:
+     - CTA: "Examine vendor concentration and dependencies"
+     - Route/Link: VendorSoluce target
+
+   - Software concentration → TechnoSoluce:
+     - CTA: "Look deeper at software & SBOM risk"
+     - Route/Link: TechnoSoluce target (even if placeholder for now)
+
+   - Governance ambiguity → ERMITS Advisory:
+     - CTA: "Discuss governance and decision clarity"
+     - Route/Link: ERMITS Advisory site or contact page
+
+3. Copy rules:
+   - Allowed phrases:
+     - "may warrant deeper evaluation"
+     - "could be explored further"
+     - "signals that might benefit from a closer look"
+
+   - Forbidden phrases:
+     - "you must"
+     - "you need Product X"
+     - "fix now"
+     - "this proves you should buy"
+
+4. If any CTA uses hard-sell or prescriptive language, soften to:
+   - "Explore deeper evaluation options"
+   - "See how this area can be examined in more detail"
+
+5. Make sure:
+   - FocusFunnel does not list **prices**, **plans**, or **offers**.
+   - It only points attention to where deeper evaluation lives in the ecosystem.
+
+5️⃣ Demo Mode Safety for Sector Generator
+
+(You already have generator + SectorDemoLauncher, but we lock the safety.)
+
+// TODO[CS-DEMO-SAFETY-VERIFY]:
+
+1. Confirm demo generator file:
+   - src/demo/sampleAssetInventoryGenerator.ts
+   - Has header comment with:
+     - "DEMO-ONLY"
+     - "must never be used as real evidence"
+
+2. Confirm demo manager:
+   - src/demo/demoDataManager.ts (or similar)
+   - Demo assets are tagged with:
+     - demo: true OR demoNote: "DEMO_ONLY_NOT_REAL"
+
+3. Confirm launch UI:
+   - src/demo/SectorDemoLauncher.tsx
+
+   - Check:
+     - Text explicitly states:
+       - "This is demo data" or
+       - "Fictional data generated for illustration only"
+     - Button label is something like:
+       - "Launch Sector Demo"
+
+4. Check dashboards when in demo mode:
+   - FocusFunnel or main dashboard should show a visible badge or banner:
+     - "Demo mode: viewing fictional sector data (not your environment)."
+
+5. Confirm:
+   - There is NO export or "report download" in demo mode without DEMO disclaimer.
+   - No wording implies this demo data reflects the customer’s environment.
+
+6️⃣ Final Asset Intelligence Checklist (Cursor Must Confirm)
+// TODO[CS-ASSET-INTEL-FINAL-VERIFY]:
+
+Before closing this work, verify ALL of the following:
+
+☐ No user-facing copy calls CyberSoluce:
+   - "Asset Manager"
+   - "CMDB"
+   - or claims "posture", "compliant", "certified"
+
+☐ Enrichment and signal detection services have guardrail comments.
+
+☐ "How Asset Intelligence Works" page exists, is reachable from UI,
+   and clearly states:
+   - what CyberSoluce does,
+   - what it does NOT do,
+   - how focus areas connect to ERMITS products.
+
+☐ FocusFunnel:
+   - Uses only qualitative language.
+   - Routes to CyberCorrect / CyberCaution / VendorSoluce / TechnoSoluce / ERMITS Advisory.
+   - Does not prescribe purchases or remediation.
+
+☐ Demo mode:
+   - Clearly labeled.
+   - Fictional data cannot be mistaken for real evidence.
+
+If ANY checkbox fails → mark TODO as INCOMPLETE and fix before considering CyberSoluce “locked” as the Asset Intelligence foundation.

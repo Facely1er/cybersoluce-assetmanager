@@ -38,9 +38,9 @@ export const Logo: React.FC<LogoProps> = ({
             </span>
             <sup className="font-outfit text-xs font-semibold text-action-cyan-400 dark:text-action-cyan-300 leading-none relative -top-1">™</sup>
           </div>
-          {/* Asset Manager - Decreased size, refined styling */}
+          {/* Asset Intelligence - Decreased size, refined styling */}
           <span className="font-inter text-sm font-bold text-gray-900 dark:text-white tracking-tight whitespace-nowrap leading-none -mt-0.5">
-            Asset Manager
+            Asset Intelligence
           </span>
           {/* ERMITS - Refined alignment */}
           <div className="flex items-baseline gap-1.5 leading-none -mt-0.5">

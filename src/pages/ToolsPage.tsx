@@ -167,7 +167,7 @@ const ToolsPage: React.FC = () => {
         <div className="bg-gradient-to-r from-[#005B96] to-[#33A1DE] rounded-xl shadow-lg p-12 text-center text-white">
           <h2 className="text-3xl font-bold mb-4">Ready for More?</h2>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Import your data into CyberSoluce Asset Manager for advanced features: real-time collaboration, automated compliance tracking, vulnerability management, and more.
+            Import your data into CyberSoluce Asset Intelligence for advanced features: real-time collaboration, automated compliance tracking, vulnerability management, and more.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -193,7 +193,7 @@ const ToolsPage: React.FC = () => {
           <p>
             These tools are provided free of charge. For enterprise features, compliance automation, and team collaboration, upgrade to{' '}
             <Link to="/" className="text-[#005B96] dark:text-[#33A1DE] hover:underline">
-              CyberSoluce Asset Manager
+              CyberSoluce Asset Intelligence
             </Link>
             .
           </p>

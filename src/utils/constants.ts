@@ -1,5 +1,5 @@
 export const APP_CONFIG = {
-  NAME: 'CyberSoluce™ Asset Manager',
+  NAME: 'CyberSoluce™ Asset Intelligence',
   VERSION: '1.0.0',
   API_TIMEOUT: import.meta.env.PROD ? 10000 : 30000,
   MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB

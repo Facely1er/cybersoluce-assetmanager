@@ -1,0 +1,296 @@
+Below is a single Cursor-ready TODO file. Paste it into your workspace and execute step by step.
+
+# TODO – CyberSoluce Guided Demo (Sector-Based Asset Inventories)
+
+## Goal
+
+Turn CyberSoluce into a **guided sales demo** where:
+- The user picks **Sector + Size + Scenario**.
+- CyberSoluce loads a **sector-specific asset inventory** using the existing demo generator.
+- Assets are wrapped in the **data contracts** you just implemented.
+- The **focus funnel** routes them to the right ERMITS product with clear rationale.
+- Absolutely **no scores / posture / compliance** leak in.
+
+---
+
+## 1) Sector Demo Domain Layer
+
+### 1.1 Create a sector demo config model
+
+**File:** `src/demo/sectorDemoConfig.ts`
+
+**Tasks:**
+- Define a `SectorDemoConfig` type that links:
+  - `sectorId` (e.g., `"healthcare"`, `"financial"`, `"saas"`, `"manufacturing"`, `"education"`, `"publicSector"`)
+  - `orgSize` (e.g., `"small" | "medium" | "large"`)
+  - `primaryScenario` (e.g., `"privacy" | "ransomware" | "vendor-risk" | "software-supply-chain"`)
+  - `defaultSignals`: array of `AssetSignal` (from `cyberSoluce.signal.contract.ts`) that should be injected for the demo.
+
+- Export a `SECTOR_DEMO_CONFIGS: SectorDemoConfig[]` covering at least:
+  - Healthcare – small/medium/large (privacy + ransomware)
+  - Financial – small/medium/large (privacy + vendor-risk)
+  - SaaS – small/medium/large (software-supply-chain + ransomware)
+
+> Constraint: **no scores, no compliance labels**, only qualitative descriptions.
+
+---
+
+### 1.2 Wrap demo assets with contracts
+
+**File (or existing):** `src/demo/sampleAssetInventoryGenerator.ts`
+
+**Tasks:**
+- Ensure the generator returns assets that conform to `AssetContract` from `cyberSoluce.asset.contract.ts`.
+- If needed, add a helper:
+
+  ```ts
+  import { AssetContract } from '@/contracts/cyberSoluce.asset.contract';
+
+  export function generateSectorDemoAssets(
+    sectorId: string,
+    orgSize: 'small' | 'medium' | 'large'
+  ): AssetContract[] {
+    // use existing generator logic but ensure it returns AssetContract[]
+  }
+
+
+Validate that no forbidden fields (score, rating, compliance, etc.) are being added.
+
+If any such fields exist in the old demo, strip them here.
+
+1.3 Inject demo signals
+
+File: src/demo/sectorDemoSignals.ts
+
+Tasks:
+
+Create a function:
+
+import { AssetSignal } from '@/contracts/cyberSoluce.signal.contract';
+import { SectorDemoConfig } from './sectorDemoConfig';
+
+export function buildSectorDemoSignals(
+  assets: AssetContract[],
+  config: SectorDemoConfig
+): AssetSignal[] {
+  // combine config.defaultSignals with a few asset-specific signals
+}
+
+
+Rule:
+
+Signals describe exposure, dependency, change, uncertainty.
+
+No “high risk”, “critical”, “non-compliant” wording.
+
+Use phrases like:
+
+“unclear vendor data processing terms”
+
+“unmapped third-party dependency”
+
+“uncertain backup ownership”
+
+“opaque SaaS-to-SaaS integration chain”
+
+2) Guided Demo UI – Sector → Assets → Focus Funnel
+2.1 Create a Sector Demo Entry Screen
+
+File: src/features/demo/SectorDemoLauncher.tsx
+
+Tasks:
+
+Build a simple 3-step selector:
+
+Sector (dropdown / cards)
+
+Organization size
+
+Scenario focus (privacy / ransomware / vendor-risk / software-supply-chain)
+
+Store selected values in local component state and expose a “Start Guided Demo” button.
+
+When clicked:
+
+Call generateSectorDemoAssets(sectorId, orgSize)
+
+Call buildSectorDemoSignals(assets, config)
+
+Pass both into a new SectorDemoOrchestrator component.
+
+2.2 Create Sector Demo Orchestrator
+
+File: src/features/demo/SectorDemoOrchestrator.tsx
+
+Tasks:
+
+Props:
+
+type SectorDemoOrchestratorProps = {
+  assets: AssetContract[];
+  signals: AssetSignal[];
+  config: SectorDemoConfig;
+};
+
+
+Responsibilities:
+
+Display summary:
+
+“Sector: Healthcare | Size: 500–1,000 staff | Scenario: Privacy”
+
+Show asset list preview (10–20 assets, grouped by category).
+
+Highlight a few notable signals (“unmapped SaaS dependencies”, “unknown vendor data flow”).
+
+Add a CTA: “See What We Do With This Intelligence”
+
+On click, feed key signals + user intent into useFocusFunnel (next section).
+
+3) Wire into useFocusFunnel (Demo Mode)
+3.1 Extend useFocusFunnel to support demo mode
+
+File: src/funnel/useFocusFunnel.ts
+
+Tasks:
+
+Add an optional mode?: 'live' | 'demo' parameter.
+
+Default is 'live'.
+
+In demo mode:
+
+Do not call any real APIs or persistence.
+
+Use only the passed-in signals + config.primaryScenario + a simple userIntent string.
+
+Example usage:
+
+const { destination, rationale } = useFocusFunnel({
+  signals,
+  userIntent: 'explore-privacy-impact',
+  mode: 'demo',
+});
+
+
+Outputs must include:
+
+destination.product (e.g., 'CyberCorrect' | 'CyberCaution' | 'VendorSoluce' | 'TechnoSoluce' | 'ERMITSAdvisory')
+
+destination.handoffIntent (string from export manifest)
+
+rationale.title, rationale.body (plain text, no scores)
+
+3.2 Connect Orchestrator → Funnel → Export Adapters
+
+File: src/features/demo/SectorDemoOrchestrator.tsx
+
+Tasks:
+
+After calling useFocusFunnel, display:
+
+“Recommended next step: CyberCorrect – Privacy Impact & Compliance” (example)
+
+2–3 bullet rationale lines from rationale.body.
+
+Add a “Show Handoff Payload” toggle (for sales engineers):
+
+When enabled, show the JSON produced by the corresponding export adapter, e.g.:
+
+const exportPayload = toCyberCorrect(assets, signals);
+
+
+This must strictly conform to your contracts and be validated via contractGuard.
+
+Ensure that if contractGuard throws:
+
+In dev: show a visible warning banner “Demo payload violated data contract – see console”.
+
+In prod: fail silently but never show broken payloads.
+
+4) Guardrails – Demo vs Real Data
+4.1 Add a Demo Mode Flag
+
+File: src/config/appConfig.ts (or existing config)
+
+Tasks:
+
+Add:
+
+export const APP_MODES = {
+  demo: true, // can be toggled by env
+  live: true,
+} as const;
+
+
+Use environment variables (VITE_CYBERSOLUCE_DEMO_ENABLED or similar) to enable/disable the Sector Demo from navigation.
+
+4.2 Prevent Demo Data from Polluting Live Flows
+
+Files to update:
+
+src/router/... (where routes are defined)
+
+Any global store that might receive assets/signals
+
+Tasks:
+
+Ensure demo assets/signals are contained within demo components.
+
+Do not persist demo data into any shared store or backend.
+
+If you have global state for assets, wrap demo usage in a dedicated key, e.g. demoAssets instead of assets.
+
+5) UX & Copy – Sales-Grade, No Overreach
+5.1 Demo Landing Copy
+
+File: src/features/demo/SectorDemoLauncher.tsx
+
+Tasks:
+
+Add a short description (static text) above the sector selector:
+
+Line 1 (headline):
+“See how asset intelligence drives your next cybersecurity move.”
+
+Line 2–3 (supporting):
+“Pick a sector and scenario. We’ll generate a realistic asset map, highlight weak visibility points, and show you which ERMITS product takes over from there – without scores or compliance claims.”
+
+5.2 Handoff Explanation Panel
+
+File: src/features/demo/SectorDemoOrchestrator.tsx
+
+Tasks:
+
+Below the “Recommended next step” area, add a small info panel:
+
+Title: “What happens next?”
+
+3 bullet points:
+
+“CyberSoluce stops at asset intelligence and qualitative signals.”
+
+“Specialized ERMITS products interpret those signals for privacy, threats, vendors, or software supply chain.”
+
+“You stay in control of decisions – our tools just make the landscape visible.”
+
+No mention of “guarantee”, “compliance ready”, or similar language.
+
+6) Minimal QA Checklist (No Visual Guessing)
+
+Before you call this done, verify:
+
+ Selecting different sectors/sizes actually changes the assets and signals shown.
+
+ useFocusFunnel only uses contract-backed signals + user intent (no raw asset shortcuts).
+
+ Export payloads (toCyberCorrect, toCyberCaution, etc.) all pass contractGuard in demo flows.
+
+ There is no occurrence of score, rating, maturity, compliance in payloads, UI labels, or copy.
+
+ Disabling demo mode via env removes the Sector Demo entry from navigation.
+
+If any check fails, fix at the source (contracts / adapters / copy), not by adding exceptions.
+
+
+If you want next, we can do **TechnoSoluce SBOM integration (C)** _after_ this, using the same contracts and funnel so you don’t end up rebuilding anything twice.

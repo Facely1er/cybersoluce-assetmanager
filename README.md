@@ -2,6 +2,29 @@
 
 A production-ready, high-performance asset inventory management platform designed for cybersecurity professionals. This enhanced version features improved performance, better error handling, simplified architecture, enhanced user experience, and **free browser-based assessment tools** for lead generation and user onboarding.
 
+## 🔒 CyberSoluce Positioning Lock
+
+**CRITICAL: This section defines non-negotiable design principles that prevent feature drift.**
+
+### What CyberSoluce Provides
+- **Asset Intelligence**: Dependency-aware visibility into asset inventory
+- **Focus Signals**: Qualitative indicators of where attention may be warranted
+- **Service Funneling**: Guidance toward appropriate ERMITS services for deeper evaluation
+
+### What CyberSoluce Does NOT Provide
+- ❌ **Risk Posture**: No assertions about overall risk posture or security status
+- ❌ **Compliance Status**: No claims about compliance achievement or gaps
+- ❌ **Remediation Guidance**: No specific recommendations or fixes
+- ❌ **Authoritative Conclusions**: No definitive assessments or evaluations
+
+### Design Principles
+1. **Qualitative Only**: All signals are descriptive, not numeric scores
+2. **Indicative, Not Authoritative**: Signals suggest focus areas, not conclusions
+3. **Internal Enrichment**: Enrichment data is hidden from users
+4. **Focus, Not Solutions**: Language guides toward evaluation, not fixes
+
+**Any change that introduces scoring, posture, or recommendations violates CyberSoluce design principles.**
+
 ## 🚀 Key Improvements
 
 ### Performance Optimizations

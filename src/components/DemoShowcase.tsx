@@ -456,7 +456,7 @@ const DemoShowcaseComponent: React.FC<DemoShowcaseProps> = ({ onStartDemo, onVie
         {/* Call to Action */}
         <div className="mt-6 md:mt-8 bg-gradient-to-r from-command-blue-600 via-command-blue-700 to-action-cyan-600 dark:from-command-blue-800 dark:via-command-blue-900 dark:to-action-cyan-800 rounded-xl p-6 md:p-8 text-white text-center shadow-lg">
           <h2 className="text-xl md:text-2xl font-outfit font-bold mb-3 md:mb-4 text-white">
-            Ready to See CyberSoluce™ Asset Manager in Action?
+            Ready to See CyberSoluce™ Asset Intelligence in Action?
           </h2>
           <p className="text-base md:text-lg opacity-90 dark:opacity-95 mb-4 md:mb-6 max-w-2xl mx-auto text-white">
             Choose a demo scenario that matches your industry and see how our platform can help with your asset inventory management needs.

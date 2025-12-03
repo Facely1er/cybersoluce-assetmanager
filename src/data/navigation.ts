@@ -1,7 +1,7 @@
-// Navigation routes and metadata for CyberSoluce™ Asset Manager
+// Navigation routes and metadata for CyberSoluce™ Asset Intelligence
 
 export const APP_METADATA = {
-  name: 'CyberSoluce™ Asset Manager',
+  name: 'CyberSoluce™ Asset Intelligence',
   version: '1.0.0',
   description: 'Comprehensive Asset Inventory Management Tool for cybersecurity professionals',
   author: 'ERMITS Corporation',
@@ -44,7 +44,8 @@ export const NAVIGATION_ROUTES = {
   magicalOrchestration: '/dashboard/magical-orchestration',
   aiClassification: '/dashboard/ai-classification',
   magicalDashboard: '/dashboard/magical-dashboard',
-  help: '/dashboard/help'
+  help: '/dashboard/help',
+  imports: '/imports'
 } as const;
 
 export const EXTERNAL_LINKS = {

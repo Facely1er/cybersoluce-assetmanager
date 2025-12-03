@@ -286,6 +286,23 @@ export const generateCSVTemplate = (): void => {
 };
 
 export const exportAssetsToCSV = (assets: Asset[]): void => {
+  // Check for demo mode
+  let isDemo = false;
+  try {
+    // Dynamic import to avoid circular dependencies
+    const demoModule = require('../demo/demoDataManager');
+    if (demoModule && typeof demoModule.isDemoMode === 'function') {
+      isDemo = demoModule.isDemoMode();
+    }
+  } catch {
+    // Demo module not available, assume not demo mode
+  }
+  
+  // Also check if any assets are demo assets
+  if (!isDemo && assets.length > 0) {
+    isDemo = assets.some(asset => asset.tags.includes('DEMO_ONLY_NOT_REAL'));
+  }
+
   const headers = [
     'Name',
     'Type',
@@ -303,7 +320,13 @@ export const exportAssetsToCSV = (assets: Asset[]): void => {
     'Updated At'
   ];
 
+  // Add DEMO disclaimer if in demo mode
+  const disclaimer = isDemo 
+    ? ['DEMO DATA - FICTIONAL - DO NOT USE FOR REAL DECISIONS', '', 'This export contains DEMO data generated for illustration only.', 'It does not reflect your environment and should not be used for any decisions.', '']
+    : [];
+
   const csvContent = [
+    ...disclaimer,
     headers.join(','),
     ...assets.map(asset => [
       `"${asset.name}"`,
@@ -328,7 +351,10 @@ export const exportAssetsToCSV = (assets: Asset[]): void => {
   const url = URL.createObjectURL(blob);
   
   link.setAttribute('href', url);
-  link.setAttribute('download', `asset-inventory-export-${new Date().toISOString().split('T')[0]}.csv`);
+  const filename = isDemo 
+    ? `DEMO-asset-inventory-export-${new Date().toISOString().split('T')[0]}.csv`
+    : `asset-inventory-export-${new Date().toISOString().split('T')[0]}.csv`;
+  link.setAttribute('download', filename);
   link.style.visibility = 'hidden';
   
   document.body.appendChild(link);

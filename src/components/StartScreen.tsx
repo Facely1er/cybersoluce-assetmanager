@@ -54,7 +54,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
       secondary: "Comprehensive cybersecurity asset inventory platform with risk assessment, compliance tracking, and intelligent analytics"
     },
     {
-      primary: "AI-Powered Intelligence Engine™",
+      primary: "Dependency-Aware Visibility",
       secondary: "Advanced cybersecurity insights with predictive analytics and cross-product data correlation across global frameworks"
     }
   ];
@@ -137,7 +137,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
     },
     {
       icon: Brain,
-      title: 'Intelligence Engine™',
+      title: 'Asset Intelligence',
       description: 'AI-powered insights with predictive modeling, automated recommendations, and correlation',
       metrics: { value: '95%', label: 'Accuracy' }
     },

@@ -98,6 +98,22 @@ export const AssetInventoryProvider: React.FC<AssetInventoryProviderProps> = ({ 
     const loadAssets = async () => {
       setState(prev => ({ ...prev, loading: true }));
       try {
+        // Check for demo assets first
+        try {
+          const { getDemoAssets, isDemoMode } = await import('../demo/demoDataManager');
+          if (isDemoMode()) {
+            const demoAssets = getDemoAssets();
+            if (demoAssets && demoAssets.length > 0) {
+              setState(prev => ({ ...prev, assets: demoAssets, loading: false }));
+              return;
+            }
+          }
+        } catch (demoError) {
+          // Demo module not available, continue with normal asset loading
+          console.debug('Demo module not available, loading normal assets');
+        }
+
+        // Load real assets
         const assets = await assetService.getAssets();
         setState(prev => ({ ...prev, assets, loading: false }));
       } catch (error) {

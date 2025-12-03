@@ -2,7 +2,7 @@
  * Magical AI-Powered Components
  * 
  * This module exports intelligent automation and orchestration engines
- * that power the CyberSoluce Asset Manager's AI capabilities.
+ * that power CyberSoluce Asset Intelligence's AI capabilities.
  */
 
 export { default as AIClassificationEngine } from './AIClassificationEngine';

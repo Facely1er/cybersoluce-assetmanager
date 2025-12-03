@@ -1,6 +1,6 @@
 # Magical AI-Powered Components 🪄✨
 
-A suite of intelligent automation and orchestration engines that transform the CyberSoluce Asset Manager into an autonomous cybersecurity command center.
+A suite of intelligent automation and orchestration engines that transform CyberSoluce Asset Intelligence into an autonomous cybersecurity command center.
 
 ## Overview
 
@@ -276,7 +276,7 @@ When extending these components:
 
 ## License
 
-Part of CyberSoluce™ Asset Manager
+Part of CyberSoluce™ Asset Intelligence
 © 2024 ERMITS LLC. All rights reserved.
 
 ---

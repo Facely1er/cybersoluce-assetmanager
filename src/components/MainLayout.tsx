@@ -121,6 +121,18 @@ const FrameworkPageWrapper = lazy(() =>
     .then(module => ({ default: module.FrameworkPageWrapper }))
     .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Framework Page</div> }))
 );
+const CyberCautionPreCheck = lazy(() => 
+  import('../pages/CyberCautionPreCheck')
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load CyberCaution Pre-Check</div> }))
+);
+const VendorSoluceWatchlistPage = lazy(() => 
+  import('../pages/VendorSoluceWatchlist')
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load VendorSoluce Watchlist</div> }))
+);
+const ERMITSAdvisoryVisibilityAnnexPage = lazy(() => 
+  import('../pages/ERMITSAdvisoryVisibilityAnnex')
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load ERMITS Advisory Visibility Annex</div> }))
+);
 
 interface MainLayoutProps {
   onShowStartScreen?: () => void;
@@ -142,6 +154,18 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
     const path = location.pathname;
     if (path === '/dashboard' || path === '/dashboard/') {
       return 'dashboard';
+    }
+    // Handle CyberCaution pre-check route
+    if (path === '/cybercaution/precheck') {
+      return 'cybercaution-precheck';
+    }
+    // Handle VendorSoluce watchlist route
+    if (path === '/vendorsoluce/watchlist') {
+      return 'vendorsoluce-watchlist';
+    }
+    // Handle ERMITS Advisory Visibility Annex route
+    if (path === '/ermits-advisory/visibility-annex') {
+      return 'ermits-advisory-visibility-annex';
     }
     const viewMatch = path.match(/\/dashboard\/([^/?#]+)/);
     if (viewMatch) {
@@ -169,6 +193,12 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
     setActiveView(view);
     if (view === 'dashboard') {
       navigate('/dashboard', { replace: true });
+    } else if (view === 'cybercaution-precheck') {
+      navigate('/cybercaution/precheck', { replace: true });
+    } else if (view === 'vendorsoluce-watchlist') {
+      navigate('/vendorsoluce/watchlist', { replace: true });
+    } else if (view === 'ermits-advisory-visibility-annex') {
+      navigate('/ermits-advisory/visibility-annex', { replace: true });
     } else {
       navigate(`/dashboard/${view}`, { replace: true });
     }
@@ -453,6 +483,24 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
             </div>
           </div>
         );
+      case 'cybercaution-precheck':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <CyberCautionPreCheck />
+          </Suspense>
+        );
+      case 'vendorsoluce-watchlist':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <VendorSoluceWatchlistPage />
+          </Suspense>
+        );
+      case 'ermits-advisory-visibility-annex':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <ERMITSAdvisoryVisibilityAnnexPage />
+          </Suspense>
+        );
       default:
         return (
           <DashboardHome
@@ -488,7 +536,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
               ← Back to Home
             </Link>
             <div className="text-xs text-gray-500 dark:text-gray-500">
-              CyberSoluce™ Asset Manager
+              CyberSoluce™ Asset Intelligence
             </div>
           </div>
         </header>

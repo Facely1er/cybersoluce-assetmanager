@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Server, Shield, Network, AlertTriangle, Calendar, MapPin, User, Tag, HardDrive } from 'lucide-react';
 import { Asset } from '../types/asset';
 import { getCriticalityColor, getStatusColor, getRiskScoreColor } from '../utils/assetUtils';
 import { format } from 'date-fns';
+import { signalHistoryStore } from '../time/signalHistoryStore';
+import { analyzeSignalDrift } from '../time/signalDriftAnalyzer';
+import { DriftInsight } from '../contracts/cyberSoluce.drift.contract';
 
 interface AssetDetailModalProps {
   asset: Asset | null;
@@ -17,6 +20,38 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
   onClose,
   onEdit,
 }) => {
+  const [driftInsight, setDriftInsight] = useState<DriftInsight | null>(null);
+
+  // Load drift insight when asset changes
+  useEffect(() => {
+    if (!isOpen || !asset) {
+      setDriftInsight(null);
+      return;
+    }
+
+    let isMounted = true;
+    (async () => {
+      try {
+        const history = await signalHistoryStore.getHistory(asset.id, { limit: 20 });
+        const insight = analyzeSignalDrift(history);
+        if (isMounted) {
+          setDriftInsight(insight);
+        }
+      } catch (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('[AssetDetailModal] Failed to load drift insight:', error);
+        }
+        if (isMounted) {
+          setDriftInsight(null);
+        }
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [asset?.id, isOpen]);
+
   if (!isOpen || !asset) return null;
 
   const getTypeIcon = (type: string) => {
@@ -45,6 +80,7 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
             <button
               onClick={onClose}
               className="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+              aria-label="Close modal"
             >
               <X className="h-5 w-5" />
             </button>
@@ -96,6 +132,30 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
               <div className="bg-gray-50 rounded-lg p-4">
                 <h3 className="text-lg font-outfit font-semibold text-gray-900 mb-2">Description</h3>
                 <p className="text-gray-700">{asset.description}</p>
+              </div>
+
+              {/* Visibility Over Time */}
+              <div className="bg-gray-50 rounded-lg p-4 border-t border-gray-200">
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">Visibility Over Time</h3>
+                {!driftInsight || driftInsight.status === 'no-history' ? (
+                  <p className="text-xs text-gray-500">
+                    No historical visibility yet for this asset.
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-xs font-medium text-gray-700 mb-2">
+                      {driftInsight.status === 'stable-visibility' && 'Visibility has been broadly stable across observations.'}
+                      {driftInsight.status === 'emerging-change' && 'Recent changes in how this asset appears in your landscape.'}
+                      {driftInsight.status === 'increasing-uncertainty' && 'Signals indicate growing uncertainty around this asset.'}
+                      {driftInsight.status === 'high-variance' && 'Signals about this asset have varied significantly over time.'}
+                    </p>
+                    <ul className="mt-1 space-y-1">
+                      {driftInsight.supportingSignals.map((msg, idx) => (
+                        <li key={idx} className="text-xs text-gray-600">• {msg}</li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </div>
 
               {/* Tags */}

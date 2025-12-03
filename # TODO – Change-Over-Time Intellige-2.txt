@@ -1,0 +1,424 @@
+# TODO – Change-Over-Time Intelligence (Continuation After 1.1)
+
+## 2. Minimal History Store (Pluggable, No Dashboards)
+
+### 2.1 Create History Store Interface
+
+**File:** `src/time/signalHistoryStore.ts`
+
+**Tasks:**
+- Import your existing types:
+
+  ```ts
+  import { SignalSnapshot, SignalHistory } from '@/contracts/cyberSoluce.signalHistory.contract';
+Define the store interface:
+
+ts
+Copy code
+export interface SignalHistoryStore {
+  recordSnapshot(snapshot: SignalSnapshot): Promise<void>;
+  getHistory(
+    assetId: string,
+    options?: { limit?: number; since?: string }
+  ): Promise<SignalHistory | null>;
+}
+Implement a default in-memory store (for now):
+
+ts
+Copy code
+class InMemorySignalHistoryStore implements SignalHistoryStore {
+  private store = new Map<string, SignalSnapshot[]>();
+
+  async recordSnapshot(snapshot: SignalSnapshot): Promise<void> {
+    const list = this.store.get(snapshot.assetId) ?? [];
+    list.push(snapshot);
+    this.store.set(snapshot.assetId, list);
+  }
+
+  async getHistory(
+    assetId: string,
+    options?: { limit?: number; since?: string }
+  ): Promise<SignalHistory | null> {
+    let snapshots = this.store.get(assetId) ?? [];
+
+    if (options?.since) {
+      const sinceTime = new Date(options.since).getTime();
+      snapshots = snapshots.filter(s => new Date(s.capturedAt).getTime() >= sinceTime);
+    }
+
+    if (options?.limit && snapshots.length > options.limit) {
+      snapshots = snapshots.slice(-options.limit);
+    }
+
+    if (!snapshots.length) {
+      return null;
+    }
+
+    return {
+      assetId,
+      snapshots,
+    };
+  }
+}
+
+export const signalHistoryStore: SignalHistoryStore = new InMemorySignalHistoryStore();
+This is deliberately simple and replaceable with a real backend later.
+
+3. Drift Analysis Engine (Visibility Drift, Not Risk Trend)
+3.1 Define Drift Status Types
+File: src/contracts/cyberSoluce.drift.contract.ts
+
+Tasks:
+
+Create:
+
+ts
+Copy code
+export type DriftStatus =
+  | 'no-history'
+  | 'stable-visibility'
+  | 'emerging-change'
+  | 'increasing-uncertainty'
+  | 'high-variance';
+
+export interface DriftInsight {
+  assetId: string;
+  status: DriftStatus;
+  windowStart: string | null;
+  windowEnd: string | null;
+  supportingSignals: string[]; // human-readable summaries
+}
+Add comments (in code) that this is not risk or posture.
+
+3.2 Implement Drift Analyzer
+File: src/time/signalDriftAnalyzer.ts
+
+Tasks:
+
+Implement:
+
+ts
+Copy code
+import { SignalHistory } from '@/contracts/cyberSoluce.signalHistory.contract';
+import { DriftInsight, DriftStatus } from '@/contracts/cyberSoluce.drift.contract';
+import { AssetSignal } from '@/contracts/cyberSoluce.signal.contract';
+
+export function analyzeSignalDrift(history: SignalHistory | null): DriftInsight {
+  if (!history || history.snapshots.length === 0) {
+    return {
+      assetId: history?.assetId ?? 'unknown',
+      status: 'no-history',
+      windowStart: null,
+      windowEnd: null,
+      supportingSignals: ['No historical visibility data available.'],
+    };
+  }
+
+  const snapshots = [...history.snapshots].sort(
+    (a, b) => new Date(a.capturedAt).getTime() - new Date(b.capturedAt).getTime(),
+  );
+
+  const windowStart = snapshots[0].capturedAt;
+  const windowEnd = snapshots[snapshots.length - 1].capturedAt;
+
+  const signalTypesOverTime: string[][] = snapshots.map(s =>
+    s.signals.map(sig => sig.signalType),
+  );
+
+  const status: DriftStatus = deriveDriftStatus(signalTypesOverTime);
+  const supportingSignals = buildSupportingNarrative(signalTypesOverTime, status);
+
+  return {
+    assetId: history.assetId,
+    status,
+    windowStart,
+    windowEnd,
+    supportingSignals,
+  };
+}
+
+function deriveDriftStatus(signalTypesOverTime: string[][]): DriftStatus {
+  if (!signalTypesOverTime.length) return 'no-history';
+
+  const first = new Set(signalTypesOverTime[0]);
+  const last = new Set(signalTypesOverTime[signalTypesOverTime.length - 1]);
+
+  const allTypes = new Set(signalTypesOverTime.flat());
+  const distinctCount = allTypes.size;
+
+  // Count "uncertainty" style types:
+  const uncertaintyKeywords = ['uncertainty', 'unknown'];
+  const uncertaintyCountFirst = signalTypesOverTime[0].filter(t =>
+    uncertaintyKeywords.some(k => t.includes(k)),
+  ).length;
+  const uncertaintyCountLast = signalTypesOverTime[signalTypesOverTime.length - 1].filter(t =>
+    uncertaintyKeywords.some(k => t.includes(k)),
+  ).length;
+
+  const hasNewTypesInLast = [...last].some(t => !first.has(t));
+
+  if (distinctCount <= 2 && !hasNewTypesInLast && uncertaintyCountLast === uncertaintyCountFirst) {
+    return 'stable-visibility';
+  }
+
+  if (hasNewTypesInLast && uncertaintyCountLast <= uncertaintyCountFirst) {
+    return 'emerging-change';
+  }
+
+  if (uncertaintyCountLast > uncertaintyCountFirst) {
+    return 'increasing-uncertainty';
+  }
+
+  // crude high-variance check: large differences between snapshots
+  const varianceScore = estimateVariance(signalTypesOverTime);
+  if (varianceScore > 0.6) {
+    return 'high-variance';
+  }
+
+  return 'emerging-change';
+}
+
+function estimateVariance(signalTypesOverTime: string[][]): number {
+  if (signalTypesOverTime.length < 2) return 0;
+  let changes = 0;
+  let comparisons = 0;
+
+  for (let i = 1; i < signalTypesOverTime.length; i++) {
+    const prev = new Set(signalTypesOverTime[i - 1]);
+    const curr = new Set(signalTypesOverTime[i]);
+    const all = new Set([...prev, ...curr]);
+    let diff = 0;
+    all.forEach(t => {
+      const inPrev = prev.has(t);
+      const inCurr = curr.has(t);
+      if (inPrev !== inCurr) diff++;
+    });
+    if (all.size > 0) {
+      changes += diff / all.size;
+      comparisons++;
+    }
+  }
+
+  return comparisons === 0 ? 0 : changes / comparisons;
+}
+
+function buildSupportingNarrative(
+  signalTypesOverTime: string[][],
+  status: DriftStatus
+): string[] {
+  const messages: string[] = [];
+
+  switch (status) {
+    case 'stable-visibility':
+      messages.push('Signal types have remained broadly consistent across observations.');
+      break;
+    case 'emerging-change':
+      messages.push('New types of signals have appeared in more recent observations.');
+      break;
+    case 'increasing-uncertainty':
+      messages.push('Uncertainty-related signals have increased over recent observations.');
+      break;
+    case 'high-variance':
+      messages.push('Signal types for this asset have changed significantly between observations.');
+      break;
+    case 'no-history':
+    default:
+      messages.push('No historical visibility data is available for this asset.');
+      break;
+  }
+
+  return messages;
+}
+The language stays at “signal / visibility”, never “risk going up/down”.
+
+4. Where to Record Snapshots (Live Only, No Fake Demo Drift)
+4.1 Hook Snapshot Recording on Asset Intelligence Updates
+File: src/features/assets/assetIntelligenceService.ts (or whatever you use to finalize asset signals)
+
+Tasks:
+
+After you finalize the current AssetSignal[] for an asset (live context, not demo), call:
+
+ts
+Copy code
+import { signalHistoryStore } from '@/time/signalHistoryStore';
+import { SignalSnapshot } from '@/contracts/cyberSoluce.signalHistory.contract';
+
+async function updateAssetIntelligence(assetId: string, signals: AssetSignal[]) {
+  // ... existing logic
+
+  const snapshot: SignalSnapshot = {
+    assetId,
+    capturedAt: new Date().toISOString(),
+    signals,
+    source: 'cybersoluce', // or 'technosoluce' when appropriate
+  };
+
+  await signalHistoryStore.recordSnapshot(snapshot);
+}
+Do NOT wire this into:
+
+Sector demo flows
+
+Anything clearly marked as demo/sample
+
+5. Surface Drift Insights (Text-Only, No Charts)
+5.1 Asset Detail: Visibility Drift Panel
+File: src/features/assets/AssetDetailPanel.tsx (or your closest equivalent)
+
+Tasks:
+
+Import:
+
+ts
+Copy code
+import { signalHistoryStore } from '@/time/signalHistoryStore';
+import { analyzeSignalDrift } from '@/time/signalDriftAnalyzer';
+import { DriftInsight } from '@/contracts/cyberSoluce.drift.contract';
+In the component:
+
+tsx
+Copy code
+const [driftInsight, setDriftInsight] = useState<DriftInsight | null>(null);
+
+useEffect(() => {
+  let isMounted = true;
+  (async () => {
+    const history = await signalHistoryStore.getHistory(asset.id, { limit: 20 });
+    const insight = analyzeSignalDrift(history);
+    if (isMounted) setDriftInsight(insight);
+  })();
+  return () => {
+    isMounted = false;
+  };
+}, [asset.id]);
+Render a small section:
+
+tsx
+Copy code
+<section className="mt-4 border-t pt-3">
+  <h3 className="text-sm font-semibold">Visibility Over Time</h3>
+  {!driftInsight || driftInsight.status === 'no-history' ? (
+    <p className="text-xs text-muted-foreground">
+      No historical visibility yet for this asset.
+    </p>
+  ) : (
+    <>
+      <p className="text-xs font-medium">
+        {driftInsight.status === 'stable-visibility' && 'Visibility has been broadly stable across observations.'}
+        {driftInsight.status === 'emerging-change' && 'Recent changes in how this asset appears in your landscape.'}
+        {driftInsight.status === 'increasing-uncertainty' && 'Signals indicate growing uncertainty around this asset.'}
+        {driftInsight.status === 'high-variance' && 'Signals about this asset have varied significantly over time.'}
+      </p>
+      <ul className="mt-1 space-y-1">
+        {driftInsight.supportingSignals.map((msg, idx) => (
+          <li key={idx} className="text-xs text-muted-foreground">• {msg}</li>
+        ))}
+      </ul>
+    </>
+  )}
+</section>
+No charts, no heatmaps, no trend lines.
+
+6. Keep Drift Out of Marketing & Demo Embellishment
+6.1 Ensure Sector Demo Does Not Fake Time Series
+Files:
+
+src/features/demo/SectorDemoOrchestrator.tsx
+
+src/demo/sectorDemoSignals.ts
+
+Tasks:
+
+Confirm demo flows either:
+
+Do not call recordSnapshot, OR
+
+If they do for code reuse, they tag snapshots with source: 'demo'.
+
+If demos use snapshots at all, update analyzeSignalDrift:
+
+ts
+Copy code
+const allDemo = history.snapshots.every(s => s.source === 'demo');
+if (allDemo) {
+  return {
+    assetId: history.assetId,
+    status: 'no-history',
+    windowStart: null,
+    windowEnd: null,
+    supportingSignals: ['Change-over-time insights require real operational data.'],
+  };
+}
+7. Guardrails: No Posture/Trend Scoring Slipping In
+7.1 Strengthen contractGuard Against Trend/Score Creep
+File: src/guards/contractGuard.ts
+
+Tasks:
+
+Extend forbidden keyword list with:
+
+posture
+
+trend
+
+trend score
+
+risk trend
+
+improving
+
+worsening
+
+heatmap
+
+Ensure the guard runs for:
+
+Drift-related payloads (if any serialized/exported)
+
+Any new “history” or “drift” exports
+
+8. Documentation – Lock the Narrative
+8.1 Update docs/ecosystem-data-boundaries.md
+Tasks:
+
+Add section:
+
+Change-Over-Time (Visibility Drift)
+“Tracks how visibility and qualitative signals about an asset change over time.”
+
+“Highlights stability, emerging change, and uncertainty – NOT risk scores or compliance status.”
+
+Principle line:
+
+“Drift insights describe how our picture of an asset changes, not how ‘safe’ it is.”
+
+9. Validation Checklist
+ signalHistoryStore works with multiple snapshots and limit/since filters.
+
+ analyzeSignalDrift handles:
+
+No history
+
+Single snapshot
+
+Multiple snapshots with evolving signal types
+
+ Asset detail shows only text, no visual trends.
+
+ Demo flows do not simulate fake historical drift.
+
+ No new copy includes “risk trend”, “posture”, “compliant”, “severity”, “vulnerability”, “score”.
+
+ Removing signalHistoryStore + signalDriftAnalyzer does not break CyberSoluce/TechnoSoluce core features.
+
+markdown
+Copy code
+
+Once you’ve implemented this, give me a **D-style summary** again (like you did for A–C), and then we’ll decide where drift gets consumed first: **CyberCaution**, **VendorSoluce**, or **ERMITS Advisory**.
+
+
+
+
+
+

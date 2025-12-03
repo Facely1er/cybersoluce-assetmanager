@@ -10,7 +10,8 @@
  * This platform manages ASSET INVENTORY and performs automated analysis.
  * For security assessment questionnaires, see CyberCaution platform.
  */
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Shield, 
   TrendingUp, 
@@ -27,6 +28,11 @@ import {
 } from 'lucide-react';
 import { AssetStats } from '../types/asset';
 import { format, subDays } from 'date-fns';
+import { useAssetInventory } from '../contexts/AssetInventoryContext';
+import { FocusFunnel } from './FocusFunnel';
+import { signalDetectionService } from '../services/signalDetectionService';
+import { FocusSignal } from '../types/enrichment';
+import { getDemoContext } from '../demo/demoDataManager';
 
 // Helper component for progress bar with dynamic width
 const ProgressBar: React.FC<{ percentage: number; className?: string }> = ({ percentage, className = '' }) => {
@@ -56,6 +62,41 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
   onNavigateToSettings,
   onNavigateToActivity,
 }) => {
+  const { assets } = useAssetInventory();
+  const [signals, setSignals] = useState<FocusSignal[]>([]);
+  const [loadingSignals, setLoadingSignals] = useState(false);
+  const [isDemo, setIsDemo] = useState(false);
+  const [demoSector, setDemoSector] = useState<string | undefined>();
+
+  // Check for demo mode
+  useEffect(() => {
+    const demoContext = getDemoContext();
+    setIsDemo(demoContext.isDemoMode);
+    setDemoSector(demoContext.sector);
+  }, []);
+
+  // Detect signals when assets change
+  useEffect(() => {
+    const detectSignals = async () => {
+      if (assets.length === 0) {
+        setSignals([]);
+        return;
+      }
+
+      setLoadingSignals(true);
+      try {
+        const detectedSignals = await signalDetectionService.detectSignals(assets, { isDemo });
+        setSignals(detectedSignals);
+      } catch (error) {
+        console.error('Failed to detect signals:', error);
+        setSignals([]);
+      } finally {
+        setLoadingSignals(false);
+      }
+    };
+
+    detectSignals();
+  }, [assets]);
   const criticalityPercentages = {
     critical: stats.total > 0 ? Math.round((stats.byCriticality['Critical'] || 0) / stats.total * 100) : 0,
     high: stats.total > 0 ? Math.round((stats.byCriticality['High'] || 0) / stats.total * 100) : 0,
@@ -128,6 +169,25 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
 
   return (
     <div className="space-y-8">
+      {/* Demo Mode Banner */}
+      {isDemo && (
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-200 dark:border-yellow-800 rounded-xl p-4">
+          <div className="flex items-center space-x-3">
+            <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
+            <div>
+              <p className="text-sm font-medium text-yellow-900 dark:text-yellow-200">
+                You are viewing a sector demo with fictional data.
+              </p>
+              {demoSector && (
+                <p className="text-xs text-yellow-800 dark:text-yellow-300 mt-1">
+                  Sector: {demoSector.charAt(0).toUpperCase() + demoSector.slice(1)}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Welcome Header - Polished */}
       <div className="relative bg-gradient-to-br from-command-blue-600 via-command-blue-700 to-action-cyan-600 dark:from-command-blue-700 dark:via-command-blue-800 dark:to-action-cyan-700 rounded-3xl p-10 text-white shadow-2xl overflow-hidden">
         {/* Decorative elements */}
@@ -151,7 +211,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
                   CyberSoluce<sup className="text-sm font-semibold">™</sup>
                 </h1>
                 <h2 className="text-xl font-bold opacity-100 leading-none">
-                  Asset Manager
+                  Asset Intelligence
                 </h2>
                 <p className="text-xs opacity-90 tracking-wide">
                   by ERMITS
@@ -432,6 +492,33 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
               </button>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Focus Funnel */}
+      {!loadingSignals && signals.length > 0 && (
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <FocusFunnel signals={signals} />
+        </div>
+      )}
+
+      {/* How Asset Intelligence Works Link */}
+      <div className="bg-gradient-to-r from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/20 dark:to-action-cyan-900/20 rounded-xl border border-command-blue-200 dark:border-command-blue-800 p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-outfit font-semibold text-gray-900 dark:text-white mb-2">
+              Learn More About Asset Intelligence
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Understand what CyberSoluce does, what it doesn't do, and how it fits into the ERMITS ecosystem.
+            </p>
+          </div>
+          <Link
+            to="/how-asset-intelligence-works"
+            className="ml-4 px-6 py-3 bg-command-blue-600 text-white rounded-lg font-semibold hover:bg-command-blue-700 transition-colors whitespace-nowrap"
+          >
+            Learn More
+          </Link>
         </div>
       </div>
 

@@ -1,0 +1,234 @@
+# TODO – TechnoSoluce SBOM Integration Design (Signal-Only, Contract-Safe)
+
+## Objective (Non-Negotiable)
+
+Integrate **SBOM-derived software composition facts** into the ERMITS ecosystem such that:
+- TechnoSoluce is the **only** system that ingests and interprets SBOMs.
+- CyberSoluce **never parses SBOMs**, never computes risk, never scores.
+- Outputs are **qualitative signals only**, aligned with existing contracts.
+- Integration unlocks future **change-over-time intelligence** without redesign.
+
+---
+
+## 1. Define SBOM Boundary Contracts (Authoritative)
+
+### 1.1 Create SBOM Intake Contract (TechnoSoluce-only)
+
+**File:** `src/contracts/technoSoluce.sbom.contract.ts`
+
+**Tasks:**
+- Define an `SBOMIntake` interface representing factual SBOM data only.
+- Supported formats as metadata (do not parse yet):
+  - SPDX
+  - CycloneDX
+- Fields allowed:
+  - `sbomId`
+  - `format`
+  - `generatedAt`
+  - `toolName`
+  - `componentsCount`
+  - `hasLicenses: boolean`
+  - `hasDependencies: boolean`
+  - `source: 'upload' | 'repo' | 'ci'`
+
+**Explicitly forbidden:**
+- CVE
+- severity
+- score
+- compliance
+- pass/fail
+
+Add a header comment:
+> “This contract represents software composition facts, not security posture.”
+
+---
+
+## 2. Translate SBOM Facts → Qualitative Signals
+
+### 2.1 Define SBOM-Derived Signal Types
+
+**File:** `src/contracts/technoSoluce.sbom.signals.ts`
+
+**Tasks:**
+- Define **only** the following signal types (enum or union):
+
+```ts
+type SBOMSignalType =
+  | 'software-composition-known'
+  | 'software-composition-partial'
+  | 'software-composition-unknown'
+  | 'transitive-dependency-opacity'
+  | 'component-churn-detected';
+Define SBOMSignal extending AssetSignal without adding fields.
+
+Example wording rules:
+
+✅ “Software components listed but dependency depth incomplete”
+
+❌ “High risk due to vulnerable dependencies”
+
+2.2 Build SBOM Signal Builder
+File: src/technoSoluce/sbom/sbomSignalBuilder.ts
+
+Tasks:
+
+Create a pure function:
+
+ts
+Copy code
+buildSBOMSignals(
+  sbom: SBOMIntake,
+  linkedAssetIds: string[]
+): AssetSignal[]
+Logic rules (simple, explicit):
+
+If no SBOM → software-composition-unknown
+
+If components listed but no dependency graph → software-composition-partial
+
+If component count changes week-over-week (stub for now) → component-churn-detected
+
+If dependencies exceed depth threshold without identifiers → transitive-dependency-opacity
+
+No heuristics. No scoring. No vuln logic.
+
+3. Asset Binding (Minimal & Reversible)
+3.1 Map SBOMs to Assets (No Assumptions)
+File: src/technoSoluce/sbom/sbomAssetBinding.ts
+
+Tasks:
+
+Create a lightweight binding model:
+
+ts
+Copy code
+type SBOMAssetBinding = {
+  sbomId: string;
+  assetId: string;
+  bindingSource: 'user-declared' | 'repository-link' | 'ci-pipeline';
+};
+No automatic inference beyond declared links.
+
+If multiple assets reference the same SBOM, allow it.
+
+4. Export SBOM Signals Back Into Ecosystem
+4.1 TechnoSoluce → CyberSoluce Export Adapter
+File: src/exports/technoSoluceToCyberSoluce.ts
+
+Tasks:
+
+Export signals only (never raw SBOM data).
+
+Adapter signature:
+
+ts
+Copy code
+export function exportSBOMSignalsToCyberSoluce(
+  signals: AssetSignal[]
+): AssetSignal[];
+Enforce:
+
+Signal types must be from SBOMSignalType
+
+All text fields validated via contractGuard
+
+4.2 Funnel Compatibility Check
+File: src/funnel/useFocusFunnel.ts
+
+Tasks:
+
+Verify funnel logic correctly routes:
+
+SBOM-related signals → TechnoSoluce (default)
+
+SBOM + ransomware-related user intent → CyberCaution
+
+SBOM + vendor-linked assets → VendorSoluce
+
+Do not add new destinations.
+
+Do not embed SBOM logic here—routing only.
+
+5. Demo Extension (Optional but Recommended)
+5.1 Extend Sector Demo with SBOM Awareness
+File: src/demo/sectorDemoSignals.ts
+
+Tasks:
+
+For SaaS and Manufacturing sectors:
+
+Inject mock SBOM-derived signals using SBOMSignalType
+
+Mark source: 'inferred' and confidence: 'low'
+
+Add demo copy:
+
+“Software composition visibility available via TechnoSoluce”
+
+No fake SBOM files. No CVE talk.
+
+6. Guardrails (Mandatory)
+6.1 Update contractGuard Forbidden Keywords
+File: src/guards/contractGuard.ts
+
+Tasks:
+
+Ensure SBOM-related exports are blocked if they contain:
+
+cve
+
+vulnerability
+
+severity
+
+exploit
+
+patch
+
+secure / insecure
+
+These belong downstream, not here.
+
+7. Documentation (Boundary Lock)
+7.1 Update Ecosystem Data Boundaries
+File: docs/ecosystem-data-boundaries.md
+
+Add section:
+
+TechnoSoluce (Software Composition Intelligence)
+Include:
+
+SBOM ingestion responsibility
+
+Signal-only exports
+
+What CyberSoluce can/cannot say about software
+
+Explicit statement:
+
+“CyberSoluce never evaluates software risk or vulnerabilities.”
+
+8. Validation Checklist (Must All Pass)
+ CyberSoluce contains zero SBOM parsing code
+
+ SBOM signals appear only as qualitative visibility markers
+
+ No CVE, severity, or score strings anywhere in payloads
+
+ Export adapters pass contractGuard
+
+ Funnel routes SBOM signals predictably
+
+ Removing SBOM module does not break CyberSoluce
+
+If any fail: fix the boundary, not the symptom.
+
+ 
+
+ 
+
+
+
+
+
+

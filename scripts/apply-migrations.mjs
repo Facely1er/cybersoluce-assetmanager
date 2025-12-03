@@ -23,7 +23,7 @@ const __dirname = dirname(__filename);
 const projectRoot = join(__dirname, '..');
 
 // Use CyberSoluce Supabase project
-const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || 'https://uvdrwbmhmtgacwzujfzc.supabase.co';
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || 'https://dfklqsdfycwjlcasfciu.supabase.co';
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_SERVICE_ROLE_KEY;
 
 if (!SUPABASE_SERVICE_ROLE_KEY) {
@@ -33,7 +33,7 @@ if (!SUPABASE_SERVICE_ROLE_KEY) {
   console.error('\nOr add it to your .env file:');
   console.error('  SUPABASE_SERVICE_ROLE_KEY=your_service_role_key');
   console.error('\nGet your service role key from:');
-  console.error('  https://app.supabase.com/project/uvdrwbmhmtgacwzujfzc/settings/api');
+  console.error('  https://app.supabase.com/project/dfklqsdfycwjlcasfciu/settings/api');
   process.exit(1);
 }
 
@@ -45,7 +45,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 });
 
 // Get project reference from URL
-const projectRef = SUPABASE_URL.match(/https:\/\/([^.]+)\.supabase\.co/)?.[1] || 'uvdrwbmhmtgacwzujfzc';
+const projectRef = SUPABASE_URL.match(/https:\/\/([^.]+)\.supabase\.co/)?.[1] || 'dfklqsdfycwjlcasfciu';
 
 console.log('🚀 CyberSoluce AssetManager - Database Migration Tool\n');
 console.log(`📍 Supabase URL: ${SUPABASE_URL}`);
@@ -155,7 +155,7 @@ async function runMigrations() {
     console.log('   Due to Supabase security restrictions, migrations must be applied');
     console.log('   manually through the Supabase Dashboard SQL Editor.');
     console.log('\n📋 Next Steps:');
-    console.log('   1. Go to: https://app.supabase.com/project/uvdrwbmhmtgacwzujfzc/sql/new');
+    console.log('   1. Go to: https://app.supabase.com/project/dfklqsdfycwjlcasfciu/sql/new');
     console.log('   2. Copy and paste each migration file in order:');
     
     files.forEach((f, i) => {
@@ -170,12 +170,12 @@ async function runMigrations() {
     console.log('\n✅ Migration files are ready to be applied manually');
     console.log('\n💡 Alternative Methods:');
     console.log('\n   Option 1: Supabase CLI');
-    console.log('   supabase link --project-ref uvdrwbmhmtgacwzujfzc');
+    console.log('   supabase link --project-ref dfklqsdfycwjlcasfciu');
     console.log('   supabase db push');
     console.log('\n   Option 2: psql (PostgreSQL Client)');
-    console.log('   psql "postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres" -f supabase/migrations/[migration-file].sql');
+    console.log('   psql "postgresql://postgres:K1551d0ug0u@db.dfklqsdfycwjlcasfciu.supabase.co:5432/postgres" -f supabase/migrations/[migration-file].sql');
     console.log('\n   Database Connection String:');
-    console.log('   postgresql://postgres:K1551d0ug0u@db.uvdrwbmhmtgacwzujfzc.supabase.co:5432/postgres');
+    console.log('   postgresql://postgres:K1551d0ug0u@db.dfklqsdfycwjlcasfciu.supabase.co:5432/postgres');
 
   } catch (error) {
     console.error('❌ Error reading migrations:', error.message);

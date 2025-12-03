@@ -208,6 +208,10 @@ export const assetService = {
 
   // Create a new asset
   async createAsset(assetData: Omit<Asset, 'id' | 'createdAt' | 'updatedAt'>): Promise<Asset> {
+    // Prevent demo assets from being persisted
+    if (assetData.tags?.includes('DEMO_ONLY_NOT_REAL')) {
+      throw new Error('Cannot persist demo assets. Demo assets are for demonstration purposes only.');
+    }
     if (!isSupabaseEnabled || !supabase) {
       const newAsset: Asset = {
         ...assetData,
@@ -253,6 +257,16 @@ export const assetService = {
 
   // Update an existing asset
   async updateAsset(id: string, updates: Partial<Asset>): Promise<Asset> {
+    // Prevent demo assets from being persisted
+    if (updates.tags?.includes('DEMO_ONLY_NOT_REAL') || id.startsWith('DEMO-')) {
+      throw new Error('Cannot persist demo assets. Demo assets are for demonstration purposes only.');
+    }
+    
+    // Check if existing asset is a demo asset
+    const existingAsset = await this.getAssetById(id);
+    if (existingAsset && (existingAsset.tags?.includes('DEMO_ONLY_NOT_REAL') || existingAsset.id.startsWith('DEMO-'))) {
+      throw new Error('Cannot update demo assets. Demo assets are for demonstration purposes only.');
+    }
     if (!isSupabaseEnabled || !supabase) {
       const existingAsset = sampleAssets.find(asset => asset.id === id);
       if (!existingAsset) throw new Error('Asset not found');

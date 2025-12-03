@@ -49,10 +49,10 @@ export const UserManualPage: React.FC = () => {
           <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
             <h4 className="text-lg font-semibold text-blue-900 dark:text-blue-200 mb-3 flex items-center">
               <Target className="h-5 w-5 mr-2" />
-              Welcome to CyberSoluce™ Asset Manager
+              Welcome to CyberSoluce™ Asset Intelligence
             </h4>
             <p className="text-blue-800 dark:text-blue-200 mb-4">
-              CyberSoluce™ Asset Manager by ERMITS is a comprehensive asset inventory management platform designed for cybersecurity professionals. 
+              CyberSoluce™ Asset Intelligence by ERMITS is a comprehensive asset inventory management platform designed for cybersecurity professionals. 
               This manual will guide you through all the features and help you get the most out of the system.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -932,7 +932,7 @@ export const UserManualPage: React.FC = () => {
               User Manual
             </h1>
             <p className="text-lg opacity-90">
-              Complete guide to using CyberSoluce™ Asset Manager by ERMITS
+              Complete guide to using CyberSoluce™ Asset Intelligence by ERMITS
             </p>
           </div>
           <div className="hidden lg:block">

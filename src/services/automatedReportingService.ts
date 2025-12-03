@@ -222,7 +222,7 @@ class AutomatedReportingService {
       {
         id: 'security-assessment',
         name: 'Security Assessment',
-        description: 'Security posture and vulnerability assessment',
+        description: 'Security visibility and vulnerability assessment',
         category: 'security',
         defaultFormat: 'pdf',
         sections: [
@@ -230,8 +230,8 @@ class AutomatedReportingService {
             id: 'security-overview',
             name: 'Security Overview',
             type: 'summary',
-            title: 'Security Posture Summary',
-            description: 'Overall security status and key metrics',
+            title: 'Security Visibility Summary',
+            description: 'Overall security visibility and key metrics',
             config: { showThreats: true, showControls: true },
             required: true
           },
@@ -498,15 +498,48 @@ class AutomatedReportingService {
     enrichmentData: Map<string, EnrichmentData>,
     analyticsInsights: AnalyticsInsights
   ): Promise<any> {
+    // Check for demo mode
+    let isDemo = false;
+    try {
+      const demoModule = await import('../demo/demoDataManager');
+      if (demoModule && typeof demoModule.isDemoMode === 'function') {
+        isDemo = demoModule.isDemoMode();
+      }
+    } catch {
+      // Demo module not available
+    }
+    
+    // Also check if any assets are demo assets
+    if (!isDemo && assets.length > 0) {
+      isDemo = assets.some(asset => asset.tags.includes('DEMO_ONLY_NOT_REAL'));
+    }
+
     const content: any = {
       metadata: {
         generatedAt: new Date(),
         scheduleName: schedule.name,
         totalAssets: assets.length,
-        filters: schedule.filters
+        filters: schedule.filters,
+        isDemo: isDemo,
+        demoDisclaimer: isDemo ? 'DEMO DATA - FICTIONAL - DO NOT USE FOR REAL DECISIONS. This report contains DEMO data generated for illustration only. It does not reflect your environment and should not be used for any decisions.' : undefined
       },
       sections: []
     };
+    
+    // Add demo disclaimer as first section if in demo mode
+    if (isDemo) {
+      content.sections.push({
+        id: 'demo-disclaimer',
+        name: 'DEMO Data Notice',
+        type: 'summary',
+        data: {
+          disclaimer: 'DEMO DATA - FICTIONAL - DO NOT USE FOR REAL DECISIONS',
+          message: 'This report contains DEMO data generated for illustration only. It does not reflect your environment and should not be used for any decisions.',
+          warning: 'All data in this report is fictional and for demonstration purposes only.'
+        },
+        config: {}
+      });
+    }
 
     for (const reportType of schedule.reportTypes) {
       const template = this.templates.get(reportType.template);

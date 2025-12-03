@@ -29,10 +29,13 @@ import {
   ChevronDown,
   ChevronRight,
   Sparkles,
-  Brain
+  Brain,
+  Upload,
+  Store
 } from 'lucide-react';
 import { ThemeToggle } from './common/ThemeToggle';
 import { Logo } from './common/Logo';
+import { isDemoModeEnabled } from '../config/appConfig';
 
 type NavigationItem = {
   id: string;
@@ -86,6 +89,21 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
     if (viewId === 'dashboard') {
       return '/dashboard';
     }
+    if (viewId === 'sector-demo') {
+      return '/demo/sector';
+    }
+    if (viewId === 'imports') {
+      return '/imports';
+    }
+    if (viewId === 'cybercaution-precheck') {
+      return '/cybercaution/precheck';
+    }
+    if (viewId === 'vendorsoluce-watchlist') {
+      return '/vendorsoluce/watchlist';
+    }
+    if (viewId === 'ermits-advisory-visibility-annex') {
+      return '/ermits-advisory/visibility-annex';
+    }
     return `/dashboard/${viewId}`;
   };
   
@@ -95,7 +113,33 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
     if (viewId === 'dashboard') {
       return currentPath === '/dashboard' || currentPath === '/dashboard/';
     }
+    if (viewId === 'sector-demo') {
+      return currentPath === '/demo/sector';
+    }
+    if (viewId === 'imports') {
+      return currentPath === '/imports';
+    }
+    if (viewId === 'cybercaution-precheck') {
+      return currentPath === '/cybercaution/precheck';
+    }
+    if (viewId === 'vendorsoluce-watchlist') {
+      return currentPath === '/vendorsoluce/watchlist';
+    }
+    if (viewId === 'ermits-advisory-visibility-annex') {
+      return currentPath === '/ermits-advisory/visibility-annex';
+    }
     return currentPath === `/dashboard/${viewId}`;
+  };
+
+  // Filter navigation items based on feature flags
+  const filterNavigationItems = (items: NavigationItem[]): NavigationItem[] => {
+    return items.filter(item => {
+      // Hide sector-demo if demo mode is disabled
+      if (item.id === 'sector-demo' && !isDemoModeEnabled()) {
+        return false;
+      }
+      return true;
+    });
   };
 
   // Organized navigation groups for better visual hierarchy
@@ -165,6 +209,20 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
           icon: Building2,
           description: 'BIA and continuity planning',
           group: 'security'
+        },
+        {
+          id: 'cybercaution-precheck',
+          label: 'Scenario Pre-Check',
+          icon: Shield,
+          description: 'Visibility readiness for scenarios',
+          group: 'security'
+        },
+        {
+          id: 'vendorsoluce-watchlist',
+          label: 'Supplier Visibility Watchlist',
+          icon: Store,
+          description: 'Vendor visibility stability tracking',
+          group: 'security'
         }
       ]
     },
@@ -198,6 +256,13 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
           label: 'Framework',
           icon: TrendingUp,
           description: 'Implementation tracking',
+          group: 'compliance'
+        },
+        {
+          id: 'ermits-advisory-visibility-annex',
+          label: 'STEEL Visibility Annex',
+          icon: FileText,
+          description: 'Markdown annex for STEEL reports',
           group: 'compliance'
         }
       ]
@@ -241,6 +306,13 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
           group: 'tools'
         },
         {
+          id: 'sector-demo',
+          label: 'Sector Demo',
+          icon: Play,
+          description: 'Try sector-specific demo data',
+          group: 'tools'
+        },
+        {
           id: 'demo-scenarios',
           label: 'Demo Scenarios',
           icon: Play,
@@ -261,6 +333,13 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
           label: 'Data Normalization',
           icon: Code,
           description: 'Transform and standardize data',
+          group: 'tools'
+        },
+        {
+          id: 'imports',
+          label: 'Data Imports',
+          icon: Upload,
+          description: 'Import CSV assets and upload SBOM files',
           group: 'tools'
         }
       ]
@@ -349,11 +428,13 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
       <nav className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
         <div className="p-4 space-y-6">
           {navigationGroups.map((group, groupIndex) => {
-            const hasItems = group.items.length > 0;
+            // Filter items based on feature flags
+            const filteredItems = filterNavigationItems(group.items);
+            const hasItems = filteredItems.length > 0;
             if (!hasItems) return null;
 
             const isExpanded = expandedGroups.has(group.id);
-            const hasActiveItem = group.items.some(item => isViewActive(item.id));
+            const hasActiveItem = filteredItems.some(item => isViewActive(item.id));
 
             return (
               <div key={group.id} className="space-y-2">
@@ -378,7 +459,7 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
                 {/* Group Items - Conditionally rendered */}
                 {(!isCollapsed ? isExpanded : true) && (
                   <div className="space-y-1">
-                  {group.items.map((item) => {
+                  {filteredItems.map((item) => {
                     const navItem = item as NavigationItem;
                     const isExternal = navItem.external === true;
                     const href = navItem.href;

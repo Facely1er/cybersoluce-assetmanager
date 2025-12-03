@@ -1,4 +1,4 @@
-# CyberSoluce™ Asset Manager by ERMITS
+# CyberSoluce™ Asset Intelligence & Dependency Visibility by ERMITS
 # Production robots.txt
 
 User-agent: *

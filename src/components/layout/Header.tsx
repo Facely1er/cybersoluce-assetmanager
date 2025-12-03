@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { Logo } from '../common/Logo';
-import { Home, BarChart3, Menu, X, Shield, BookOpen, Play, Gift } from 'lucide-react';
+import { Home, BarChart3, Menu, X, Shield, BookOpen, Play, Gift, Info } from 'lucide-react';
 
 interface HeaderProps {
   className?: string;
@@ -47,6 +47,12 @@ export const Header: React.FC<HeaderProps> = (props) => {
       label: 'Free Tools',
       href: '/tools',
       icon: Gift,
+      external: false,
+    },
+    {
+      label: 'Help',
+      href: '/how-asset-intelligence-works',
+      icon: Info,
       external: false,
     },
   ];

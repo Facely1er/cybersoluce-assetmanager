@@ -79,7 +79,7 @@ const ExecutiveDashboardTemplate: React.FC = () => {
     },
     {
       title: "Organizations",
-      description: "Deploy internally to showcase your security posture"
+      description: "Deploy internally to showcase your asset intelligence"
     },
     {
       title: "Resellers",

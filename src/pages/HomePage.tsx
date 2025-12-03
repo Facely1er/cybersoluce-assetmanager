@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
       secondary: "Comprehensive cybersecurity asset inventory platform with automated risk analysis, compliance evaluation, and intelligent analytics"
     },
     {
-      primary: "AI-Powered Intelligence Engine™",
+      primary: "Dependency-Aware Visibility",
       secondary: "Advanced cybersecurity insights with predictive analytics and cross-product data correlation across global frameworks"
     }
   ];
@@ -115,7 +115,7 @@ const HomePage: React.FC = () => {
     },
     {
       icon: Brain,
-      title: 'Intelligence Engine™',
+      title: 'Asset Intelligence',
       description: 'AI-powered insights with predictive modeling, automated recommendations, and correlation',
       metrics: { value: '95%', label: 'Accuracy' },
       link: '/dashboard'
@@ -657,7 +657,7 @@ const HomePage: React.FC = () => {
               <ExternalLink className="ml-2 h-5 w-5" />
             </a>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
-              Import your data into CyberSoluce Asset Manager when ready to upgrade
+              Import your data into CyberSoluce Asset Intelligence when ready to upgrade
             </p>
           </motion.div>
         </div>

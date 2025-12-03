@@ -93,6 +93,12 @@ export const Footer: React.FC = () => {
                     Free Tools
                   </a>
                 </li>
+                <li>
+                  <Link to="/how-asset-intelligence-works" className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-xs group">
+                    <Book className="h-3 w-3 group-hover:text-action-cyan-400 transition-colors" />
+                    How Asset Intelligence Works
+                  </Link>
+                </li>
               </ul>
             </div>
 

@@ -1,0 +1,220 @@
+# TODO – CyberCaution Drift Hints v1 (Text-Only, Export-Side Integration)
+
+## Objective
+
+Enrich the **CyberCaution export** with **visibility drift hints** so that:
+- CyberCaution sees which assets have **stable vs evolving visibility**.
+- Hints remain **purely qualitative** and **text-only**.
+- No scores, posture, or “risk trending” language is added.
+- No CyberCaution code is required to compute drift – it just receives hints.
+
+We are working **only inside the CyberSoluce codebase**, reusing:
+- `signalHistoryStore`
+- `analyzeSignalDrift`
+- existing `toCyberCaution` adapter
+
+---
+
+## 1. Define CyberCaution Drift Hint Contract
+
+### 1.1 Create export-side contract
+
+**File:** `src/contracts/cyberCaution.driftHint.contract.ts`
+
+**Tasks:**
+- Define a minimal structure:
+
+```ts
+import { DriftStatus } from '@/contracts/cyberSoluce.drift.contract';
+
+export interface CyberCautionDriftHint {
+  assetId: string;
+  status: DriftStatus;
+  summary: string;      // one-line explanation
+  details: string[];    // bullet-level hints (optional, short)
+}
+Add a comment:
+
+“These hints describe how visibility around an asset has changed over time. They do not represent risk scores, posture, or compliance status.”
+
+Export from your contracts/index.ts.
+
+2. Extend toCyberCaution Export Adapter
+2.1 Wire in history + drift analysis
+File: src/exports/toCyberCaution.ts
+
+Tasks:
+
+Import required pieces:
+
+ts
+Copy code
+import { signalHistoryStore } from '@/time/signalHistoryStore';
+import { analyzeSignalDrift } from '@/time/signalDriftAnalyzer';
+import { CyberCautionDriftHint } from '@/contracts/cyberCaution.driftHint.contract';
+import { DriftStatus } from '@/contracts/cyberSoluce.drift.contract';
+import { contractGuard } from '@/guards/contractGuard';
+Extend your existing export payload type to optionally include drift hints, e.g.:
+
+ts
+Copy code
+export interface CyberCautionExportPayload {
+  assets: /* existing type */;
+  signals: /* existing type */;
+  handoffIntent: string;
+  nextQuestionPrompt: string;
+  driftHints?: CyberCautionDriftHint[];
+}
+In the main export function (whatever you named it, e.g. toCyberCaution), after you’ve determined which assets are in scope:
+
+ts
+Copy code
+async function buildDriftHintsForAssets(assetIds: string[]): Promise<CyberCautionDriftHint[]> {
+  const hints: CyberCautionDriftHint[] = [];
+
+  for (const assetId of assetIds) {
+    const history = await signalHistoryStore.getHistory(assetId, { limit: 20 });
+    const insight = analyzeSignalDrift(history);
+
+    if (insight.status === 'no-history') {
+      continue; // don’t spam CyberCaution with “no history”
+    }
+
+    const summary = summarizeDriftStatus(insight.status);
+    const details = insight.supportingSignals;
+
+    hints.push({
+      assetId,
+      status: insight.status,
+      summary,
+      details,
+    });
+  }
+
+  return hints;
+}
+
+function summarizeDriftStatus(status: DriftStatus): string {
+  switch (status) {
+    case 'stable-visibility':
+      return 'Visibility around this asset has been broadly stable across observations.';
+    case 'emerging-change':
+      return 'Recent updates have changed how this asset appears in your environment.';
+    case 'increasing-uncertainty':
+      return 'Signals indicate growing uncertainty about this asset’s role or dependencies.';
+    case 'high-variance':
+      return 'Signals about this asset have varied significantly over time.';
+    case 'no-history':
+    default:
+      return 'No historical visibility is available for this asset.';
+  }
+}
+Integrate into the main export:
+
+ts
+Copy code
+export async function toCyberCaution(
+  /* your existing params */
+): Promise<CyberCautionExportPayload> {
+  // existing logic to determine assets + signals + handoffIntent + nextQuestionPrompt
+
+  const assetIds = /* list of asset IDs included in this handoff */;
+  const driftHints = await buildDriftHintsForAssets(assetIds);
+
+  const payload: CyberCautionExportPayload = {
+    assets,
+    signals,
+    handoffIntent,
+    nextQuestionPrompt,
+    driftHints: driftHints.length ? driftHints : undefined,
+  };
+
+  contractGuard.validateExport(payload, 'CyberCautionExportPayload'); // or however you hook it
+  return payload;
+}
+If your contractGuard expects specific schemas, either:
+
+register CyberCautionExportPayload there, or
+
+validate driftHints separately with a dedicated guard function.
+
+3. Language & Guardrails (No Risk/Trend Creep)
+3.1 Double-check wording
+Files:
+
+cyberCaution.driftHint.contract.ts
+
+toCyberCaution.ts
+
+signalDriftAnalyzer.ts (for supporting narrative)
+
+Tasks:
+
+Ensure no strings like:
+
+“risk has increased”
+
+“risk is trending up/down”
+
+“posture is improving/worsening”
+
+“more/less secure now”
+
+Allowed patterns:
+
+“visibility has been stable”
+
+“signals have changed”
+
+“uncertainty about this asset has increased”
+
+“signal types have varied significantly”
+
+3.2 Update contractGuard (if needed)
+File: src/guards/contractGuard.ts
+
+Tasks:
+
+You already added trend, risk trend, improving, worsening, heatmap.
+
+Confirm that:
+
+New CyberCautionExportPayload and CyberCautionDriftHint are validated.
+
+Any attempt to introduce forbidden words into driftHints.summary or details will be caught in dev.
+
+4. Documentation – How CyberCaution Should Use This
+4.1 Add a short section for consumers
+File: docs/ecosystem-data-boundaries.md
+
+Tasks:
+
+Under CyberCaution, add:
+
+Visibility Drift Hints (from CyberSoluce)
+– CyberCaution receives text-only hints about how asset visibility has changed over time.
+– These hints are derived from historical signals and are intended to help prioritize which assets to include in scenarios, tabletop exercises, and investigations.
+– They do not express risk scores, posture, or compliance status.
+
+This sets expectations for whoever wires the CyberCaution UI later.
+
+5. Minimal Validation Checklist
+ toCyberCaution returns a payload with driftHints for assets that actually have history.
+
+ Assets with no history do not produce hints.
+
+ All driftHints.summary and details are purely qualitative, no risk/posture phrasing.
+
+ contractGuard passes for CyberCautionExportPayload in dev.
+
+ Removing signalHistoryStore / drift layer still leaves toCyberCaution functional (just no driftHints).
+
+If any of these fail: fix the export payload and wording, not by weakening the guardrails.
+
+vbnet
+Copy code
+
+When you’ve wired this and run through the checklist, give me a short **“CyberCaution drift integration” summary** like you did for A–D (what files changed, what’s in the payload). Then we can decide whether the **next consumer** is:
+
+- VendorSoluce → “supplier transparency drift”, or  
+- ERMITS Advisory → “STEEL qualitative trend inserts” in reports.

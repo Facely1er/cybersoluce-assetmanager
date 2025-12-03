@@ -1,0 +1,12 @@
+asset_id,asset_name,asset_type,environment,owner_team,vendor_name
+payments-core-api,Payments Core API,Application,prod,,Acme Cloud
+payments-worker,Payment Background Worker,Application,prod,FinOps,ACME CLOUD
+idp-main,Identity Provider,Service,prod,Security,Okta
+ehr-db-primary,EHR Database,Database,prod,,HealthData Inc
+ehr-api,EHR API,Application,prod,AppTeam,HealthData-Inc
+shared-file-server,Shared File Server,Server,prod,IT,
+legacy-crm,Legacy CRM,Application,prod,Sales,LegacySoft
+supplier-portal,Supplier Portal,Application,prod,,Acme Cloud
+build-pipeline,CI Pipeline,Pipeline,prod,DevOps,
+email-gateway,Email Gateway,Service,prod,IT,MailCo
+

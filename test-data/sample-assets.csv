@@ -1,0 +1,12 @@
+asset_id,asset_name,asset_type,business_role,vendor_name,owner_team,environment
+asset-001,Payment Gateway API,Application,payment-processing,Stripe,Finance Team,prod
+asset-002,EHR Database Server,Database,clinical-records,,IT Team,prod
+asset-003,CRM System,Application,customer-relationship,Salesforce,Sales Team,prod
+asset-004,Web Application Server,Server,web-hosting,,IT Team,prod
+asset-005,Email Service,Third Party Service,communication,SendGrid,IT Team,prod
+asset-006,Analytics Database,Database,business-intelligence,,Analytics Team,prod
+asset-007,API Gateway,Application,api-management,AWS,DevOps Team,prod
+asset-008,File Storage,Cloud Service,data-storage,AWS,IT Team,prod
+asset-009,Monitoring Service,Third Party Service,observability,DataDog,DevOps Team,prod
+asset-010,Backup System,Application,data-backup,,IT Team,prod
+
