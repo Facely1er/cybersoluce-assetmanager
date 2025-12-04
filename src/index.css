@@ -283,7 +283,7 @@ th.whitespace-nowrap {
   
   /* Feature card styling (aligned with shared ERMITS design system) */
   .feature-card {
-    @apply border border-gray-200 dark:border-gray-700 bg-card shadow-sm dark:shadow-none hover:shadow-md dark:hover:shadow-none transition-all duration-200 rounded-lg;
+    @apply border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm dark:shadow-none hover:shadow-md dark:hover:shadow-none transition-all duration-200 rounded-lg;
   }
 
   .card-header {
