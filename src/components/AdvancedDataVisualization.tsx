@@ -73,12 +73,6 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
     '#FFC658', '#FF7C7C', '#8DD1E1', '#D084D0', '#87CEEB', '#DDA0DD'
   ];
 
-  useEffect(() => {
-    if (isOpen && assets.length > 0) {
-      loadData();
-    }
-  }, [isOpen, assets, loadData]);
-
   const loadData = useCallback(async () => {
     try {
       // Import services dynamically to avoid circular dependencies
@@ -96,6 +90,12 @@ export const AdvancedDataVisualization: React.FC<AdvancedDataVisualizationProps>
       logger.error('Error loading visualization data', error instanceof Error ? error : undefined);
     }
   }, [assets]);
+
+  useEffect(() => {
+    if (isOpen && assets.length > 0) {
+      loadData();
+    }
+  }, [isOpen, assets, loadData]);
 
   const chartTypes = [
     { id: 'overview', name: 'Overview', icon: BarChart3 },

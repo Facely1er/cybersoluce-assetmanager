@@ -125,7 +125,7 @@
   [plugins.inputs.settings]
     output_path = "reports/lighthouse.html"
     # Production performance budgets
-    budget_path = "lighthouse-budget.json"
+    budget_path = "performance-budget.json"
     
 [[plugins]]
   package = "@netlify/plugin-sitemap"

@@ -25,10 +25,6 @@ export const AutomatedReportingManager: React.FC<AutomatedReportingManagerProps>
   const [editingSchedule, setEditingSchedule] = useState<ReportSchedule | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<string>('');
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
   const loadData = async () => {
     try {
       const [schedulesData, templatesData, reportsData] = await Promise.all([
@@ -44,6 +40,10 @@ export const AutomatedReportingManager: React.FC<AutomatedReportingManagerProps>
       logger.error('Error loading automated reporting data', error instanceof Error ? error : undefined);
     }
   };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const handleCreateSchedule = async (scheduleData: Omit<ReportSchedule, 'id' | 'createdAt' | 'updatedAt' | 'nextRun'>) => {
     try {

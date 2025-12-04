@@ -96,7 +96,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
     };
 
     detectSignals();
-  }, [assets]);
+  }, [assets, isDemo]);
   const criticalityPercentages = {
     critical: stats.total > 0 ? Math.round((stats.byCriticality['Critical'] || 0) / stats.total * 100) : 0,
     high: stats.total > 0 ? Math.round((stats.byCriticality['High'] || 0) / stats.total * 100) : 0,

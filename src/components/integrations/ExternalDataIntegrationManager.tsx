@@ -31,10 +31,6 @@ export const ExternalDataIntegrationManager: React.FC<ExternalDataIntegrationMan
   const [testingConnection, setTestingConnection] = useState<string | null>(null);
   const [syncResults, setSyncResults] = useState<Map<string, IntegrationResult>>(new Map());
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
   const loadData = async () => {
     try {
       const [sourcesData, rulesData, statusData] = await Promise.all([
@@ -50,6 +46,10 @@ export const ExternalDataIntegrationManager: React.FC<ExternalDataIntegrationMan
       logger.error('Error loading integration data', error instanceof Error ? error : undefined);
     }
   };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const handleCreateSource = async (sourceData: Omit<ExternalDataSource, 'id'>) => {
     try {

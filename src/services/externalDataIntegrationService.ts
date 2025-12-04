@@ -242,7 +242,15 @@ class ExternalDataIntegrationService {
         name: 'Nmap Network Scanner',
         type: 'asset_discovery',
         description: 'Network discovery and port scanning',
-        baseUrl: import.meta.env['VITE_NMAP_SCANNER_URL'] || 'http://localhost:8080/api',
+        baseUrl: (() => {
+          const url = import.meta.env['VITE_NMAP_SCANNER_URL'];
+          // Prevent localhost URLs in production
+          if (import.meta.env.PROD && (!url || url.includes('localhost') || url.includes('127.0.0.1'))) {
+            logger.warn('Nmap scanner URL not configured or uses localhost in production. Integration disabled.');
+            return '';
+          }
+          return url || 'http://localhost:8080/api';
+        })(),
         isActive: false,
         syncFrequency: 'daily',
         config: {
@@ -286,7 +294,15 @@ class ExternalDataIntegrationService {
         name: 'Prometheus Monitoring',
         type: 'performance_monitoring',
         description: 'System and application performance metrics',
-        baseUrl: import.meta.env['VITE_PROMETHEUS_URL'] || 'http://localhost:9090/api/v1',
+        baseUrl: (() => {
+          const url = import.meta.env['VITE_PROMETHEUS_URL'];
+          // Prevent localhost URLs in production
+          if (import.meta.env.PROD && (!url || url.includes('localhost') || url.includes('127.0.0.1'))) {
+            logger.warn('Prometheus URL not configured or uses localhost in production. Integration disabled.');
+            return '';
+          }
+          return url || 'http://localhost:9090/api/v1';
+        })(),
         isActive: false,
         syncFrequency: 'realtime',
         config: {
