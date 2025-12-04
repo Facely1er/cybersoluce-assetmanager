@@ -18,34 +18,25 @@ import {
   FileText,
   Info
 } from 'lucide-react';
-import { Header } from '../components/layout/Header';
-import { Footer } from '../components/layout/Footer';
+import { PageShell } from '../layouts/PageShell';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
 
 export const HowAssetIntelligenceWorks: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-950">
-      <Header />
-      
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Page Header */}
-        <div className="mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-command-blue-100 dark:bg-command-blue-900/30 rounded-full mb-4">
-            <Info className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
-          </div>
-          <h1 className="text-4xl font-outfit font-bold text-gray-900 dark:text-white mb-4">
-            How CyberSoluce Asset Intelligence Works
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            Understanding the foundation layer of the ERMITS ecosystem
-          </p>
-        </div>
+    <PageShell
+      title="How CyberSoluce Asset Intelligence Works"
+      subtitle="Understanding the foundation layer of the ERMITS ecosystem"
+    >
 
         {/* Section 1: What CyberSoluce Does */}
-        <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 mb-8">
-          <h2 className="text-2xl font-outfit font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-            <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400 mr-3" />
-            What CyberSoluce Does
-          </h2>
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400 mr-3" />
+              What CyberSoluce Does
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
           <ul className="space-y-4">
             <li className="flex items-start">
               <div className="flex-shrink-0 w-2 h-2 bg-command-blue-600 rounded-full mt-2 mr-4" />
@@ -66,14 +57,18 @@ export const HowAssetIntelligenceWorks: React.FC = () => {
               </p>
             </li>
           </ul>
-        </section>
+          </CardContent>
+        </Card>
 
         {/* Section 2: What It Does Not Do */}
-        <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 mb-8">
-          <h2 className="text-2xl font-outfit font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-            <XCircle className="h-6 w-6 text-red-600 dark:text-red-400 mr-3" />
-            What It Does Not Do
-          </h2>
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <XCircle className="h-6 w-6 text-red-600 dark:text-red-400 mr-3" />
+              What It Does Not Do
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
           <ul className="space-y-4">
             <li className="flex items-start">
               <div className="flex-shrink-0 w-2 h-2 bg-red-600 rounded-full mt-2 mr-4" />
@@ -94,13 +89,15 @@ export const HowAssetIntelligenceWorks: React.FC = () => {
               </p>
             </li>
           </ul>
-        </section>
+          </CardContent>
+        </Card>
 
         {/* Section 3: How Focus Areas Are Used */}
-        <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 mb-8">
-          <h2 className="text-2xl font-outfit font-semibold text-gray-900 dark:text-white mb-6">
-            How Focus Areas Are Used
-          </h2>
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>How Focus Areas Are Used</CardTitle>
+          </CardHeader>
+          <CardContent>
           <div className="space-y-4 text-gray-700 dark:text-gray-300">
             <p>
               When patterns emerge (e.g., sensitive data with unclear lineage, vendor concentration, software clustering), CyberSoluce surfaces them as focus areas.
@@ -162,17 +159,20 @@ export const HowAssetIntelligenceWorks: React.FC = () => {
               </p>
             </div>
           </div>
-        </section>
+          </CardContent>
+        </Card>
 
         {/* Section 4: Where It Fits in ERMITS */}
-        <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 mb-8">
-          <h2 className="text-2xl font-outfit font-semibold text-gray-900 dark:text-white mb-6">
-            Where It Fits in ERMITS
-          </h2>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-            CyberSoluce sits at the foundation of the ERMITS ecosystem as the asset intelligence layer. It helps CyberCorrect, CyberCaution, VendorSoluce, TechnoSoluce, and ERMITS Advisory start from a cleaner map of what matters.
-          </p>
-        </section>
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Where It Fits in ERMITS</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-foreground leading-relaxed">
+              CyberSoluce sits at the foundation of the ERMITS ecosystem as the asset intelligence layer. It helps CyberCorrect, CyberCaution, VendorSoluce, TechnoSoluce, and ERMITS Advisory start from a cleaner map of what matters.
+            </p>
+          </CardContent>
+        </Card>
 
         {/* Back to Dashboard Link */}
         <div className="flex justify-center mt-8">
@@ -184,10 +184,7 @@ export const HowAssetIntelligenceWorks: React.FC = () => {
             <ArrowRight className="h-5 w-5 ml-2" />
           </Link>
         </div>
-      </main>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 };
 

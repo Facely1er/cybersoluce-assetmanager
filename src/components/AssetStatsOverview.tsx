@@ -1,5 +1,6 @@
 import React from 'react';
 import { Server, AlertTriangle, Tag, Calendar } from 'lucide-react';
+import { Card, CardContent } from './ui/card';
 import { AssetStats } from '../types/asset';
 
 interface AssetStatsOverviewProps {
@@ -39,24 +40,26 @@ export const AssetStatsOverview: React.FC<AssetStatsOverviewProps> = ({ stats })
   ];
 
   return (
-    <div className="bg-white border-b border-gray-200 px-6 py-6">
+    <div className="border-b border-border px-6 py-6 bg-background">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((card, index) => (
-          <div
+          <Card
             key={card.title}
-            className={`bg-white p-6 rounded-lg border-2 ${card.border} hover:shadow-md transition-all duration-300 animate-fade-in`}
+            className={`border-2 ${card.border} hover:shadow-md transition-all duration-300 animate-fade-in`}
             style={{ animationDelay: `${index * 100}ms` }}
           >
-            <div className="flex items-center">
-              <div className={`p-3 rounded-lg ${card.color}`}>
-                <card.icon className="h-6 w-6" />
+            <CardContent className="p-6">
+              <div className="flex items-center">
+                <div className={`p-3 rounded-lg ${card.color}`}>
+                  <card.icon className="h-6 w-6" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-muted-foreground">{card.title}</p>
+                  <p className="text-2xl font-semibold text-foreground">{card.value}</p>
+                </div>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">{card.title}</p>
-                <p className="text-2xl font-outfit font-bold text-gray-900">{card.value}</p>
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>

@@ -1,3 +1,6 @@
+/* Base design tokens aligned with shared ERMITS design system (ported from archived Bolt starter). 
+   This file is now the single source of truth for color + card + layout tokens. */
+
 /* stylelint-disable at-rule-no-unknown */
 /* Tailwind CSS directives - these are valid and processed by PostCSS */
 /* stylelint-disable-next-line at-rule-no-unknown */
@@ -220,20 +223,24 @@ th.whitespace-nowrap {
   }
 
   h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl;
+    @apply text-2xl sm:text-3xl font-semibold tracking-tight;
   }
 
   h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl;
+    @apply text-xl sm:text-2xl font-semibold;
   }
 
   h3 {
-    @apply text-2xl md:text-3xl;
+    @apply text-lg font-semibold;
   }
 
   p {
-    @apply text-gray-700 dark:text-gray-300;
-    line-height: 1.7;
+    @apply text-sm sm:text-base leading-relaxed;
+  }
+  
+  /* Small labels */
+  .label-small {
+    @apply text-xs uppercase tracking-wide text-muted-foreground;
   }
 
   label {
@@ -272,6 +279,11 @@ th.whitespace-nowrap {
   .card:hover {
     @apply shadow-xl;
     transform: translateY(-2px);
+  }
+  
+  /* Feature card styling (aligned with shared ERMITS design system) */
+  .feature-card {
+    @apply border dark:border-muted bg-card shadow-sm dark:shadow-none hover:shadow-md dark:hover:shadow-none transition-all duration-200 rounded-lg;
   }
 
   .card-header {

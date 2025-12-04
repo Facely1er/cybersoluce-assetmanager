@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Check, Shield, Zap, Building2, Database, BarChart3, Users, Lock, Cloud } from 'lucide-react';
+import { PageShell } from '../layouts/PageShell';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
 import { PRODUCTS, ONE_TIME_PRODUCTS, ANNUAL_DISCOUNT, getCheckoutConfig, getOneTimeCheckoutConfig } from '../config/stripe';
 import { stripeClient } from '../lib/stripe';
 import { logger } from '../utils/logger';
@@ -50,17 +52,11 @@ const Pricing: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-950 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Choose Your Asset Management Plan
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Comprehensive asset inventory and risk management solutions for organizations of all sizes.
-          </p>
-        </div>
+    <PageShell
+      title="Choose Your Asset Management Plan"
+      subtitle="Comprehensive asset inventory and risk management solutions for organizations of all sizes"
+      maxWidth="wide"
+    >
 
         {/* Billing Toggle */}
         <div className="flex justify-center mb-8">
@@ -94,7 +90,7 @@ const Pricing: React.FC = () => {
         {/* Subscription Plans */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           {/* Free Plan */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border-2 border-gray-200 dark:border-gray-700 p-8">
+          <Card className="shadow-lg border-2 border-border p-8">
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full mb-4">
                 <Shield className="w-6 h-6 text-gray-600 dark:text-gray-400" />
@@ -124,10 +120,10 @@ const Pricing: React.FC = () => {
             >
               Get Started Free
             </button>
-          </div>
+          </Card>
 
           {/* Professional Plan */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border-2 border-blue-500 dark:border-blue-600 p-8 relative">
+          <Card className="shadow-xl border-2 border-blue-500 dark:border-blue-600 p-8 relative">
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <span className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium">
                 Most Popular
@@ -170,10 +166,10 @@ const Pricing: React.FC = () => {
             >
               {loading === 'professional' ? 'Loading...' : 'Start Professional'}
             </button>
-          </div>
+          </Card>
 
           {/* Enterprise Plan */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border-2 border-gray-200 dark:border-gray-700 p-8">
+          <Card className="shadow-lg border-2 border-border p-8">
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full mb-4">
                 <Building2 className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -211,7 +207,7 @@ const Pricing: React.FC = () => {
             >
               {loading === 'enterprise' ? 'Loading...' : 'Contact Sales'}
             </button>
-          </div>
+          </Card>
         </div>
 
         {/* One-Time Products */}
@@ -293,8 +289,7 @@ const Pricing: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+    </PageShell>
   );
 };
 

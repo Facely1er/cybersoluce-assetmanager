@@ -19,6 +19,7 @@ import {
   ArrowRight,
   AlertCircle
 } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from './ui/card';
 import { FocusSignal } from '../types/enrichment';
 import { SECTOR_SIGNAL_NARRATIVES, FocusSignalType } from '../demo/sectorNarratives';
 import { getDemoContext } from '../demo/demoDataManager';
@@ -105,17 +106,19 @@ export const FocusFunnel: React.FC<FocusFunnelProps> = ({ signals }) => {
 
   if (activeDomains.length === 0) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <div className="text-center py-8">
-          <AlertCircle className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            No focus signals detected at this time
-          </p>
-          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-            Focus areas will appear here as asset intelligence identifies concentration patterns
-          </p>
-        </div>
-      </div>
+      <Card>
+        <CardContent>
+          <div className="text-center py-8">
+            <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+            <p className="text-sm text-muted-foreground">
+              No focus signals detected at this time
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Focus areas will appear here as asset intelligence identifies concentration patterns
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
@@ -142,33 +145,37 @@ export const FocusFunnel: React.FC<FocusFunnelProps> = ({ signals }) => {
           ).size;
 
           return (
-            <div
+            <Card
               key={domain}
-              className={`${serviceMapping.bgColor} border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:shadow-lg transition-shadow`}
+              className={`${serviceMapping.bgColor} feature-card`}
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center space-x-3">
-                  <div className={`p-3 rounded-lg ${serviceMapping.bgColor} border border-gray-200 dark:border-gray-700`}>
-                    <serviceMapping.icon className={`h-6 w-6 ${serviceMapping.color}`} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {getFocusTitle(domain, sector)}
-                    </h3>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      {totalAffectedAssets} asset{totalAffectedAssets !== 1 ? 's' : ''} affected
-                    </p>
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className={`p-3 rounded-lg ${serviceMapping.bgColor} border border-border`}>
+                      <serviceMapping.icon className={`h-6 w-6 ${serviceMapping.color}`} />
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg">
+                        {getFocusTitle(domain, sector)}
+                      </CardTitle>
+                      <CardDescription className="text-xs mt-1">
+                        {totalAffectedAssets} asset{totalAffectedAssets !== 1 ? 's' : ''} affected
+                      </CardDescription>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </CardHeader>
 
+              <CardContent>
               <div className="space-y-3 mb-4">
                 {domainSignals.map((signal) => {
                   // Get sector-specific narrative if available
                   const narrative = getSectorNarrative(sector, domain);
                   
                   return (
-                    <div key={signal.id} className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
+                    <Card key={signal.id} className="mb-3">
+                      <CardContent className="p-3">
                       {narrative ? (
                         <>
                           <p className="text-sm font-medium text-gray-900 dark:text-white mb-2">
@@ -203,13 +210,14 @@ export const FocusFunnel: React.FC<FocusFunnelProps> = ({ signals }) => {
                           </p>
                         </>
                       )}
-                    </div>
+                      </CardContent>
+                    </Card>
                   );
                 })}
               </div>
 
-              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
+              <div className="pt-4 border-t border-border">
+                <p className="text-xs text-muted-foreground mb-3">
                   These signals may warrant deeper evaluation
                 </p>
                 <a
@@ -220,7 +228,8 @@ export const FocusFunnel: React.FC<FocusFunnelProps> = ({ signals }) => {
                   <ArrowRight className="h-4 w-4 ml-1" />
                 </a>
               </div>
-            </div>
+              </CardContent>
+            </Card>
           );
         })}
       </div>
