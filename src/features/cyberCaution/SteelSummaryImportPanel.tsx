@@ -12,7 +12,7 @@
 
 import React, { useState } from 'react';
 import type { SteelReadinessSummary } from '../steel';
-import { Upload, FileText, AlertCircle } from 'lucide-react';
+import { Upload, AlertCircle } from 'lucide-react';
 
 export function SteelSummaryImportPanel() {
   const [summary, setSummary] = useState<SteelReadinessSummary | null>(null);
