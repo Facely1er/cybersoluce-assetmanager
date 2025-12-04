@@ -104,6 +104,9 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
     if (viewId === 'ermits-advisory-visibility-annex') {
       return '/ermits-advisory/visibility-annex';
     }
+    if (viewId === 'steel-summary-import') {
+      return '/dashboard/steel-summary-import';
+    }
     return `/dashboard/${viewId}`;
   };
   
@@ -263,6 +266,13 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
           label: 'STEEL Visibility Annex',
           icon: FileText,
           description: 'Markdown annex for STEEL reports',
+          group: 'compliance'
+        },
+        {
+          id: 'steel-summary-import',
+          label: 'STEEL Summary Import',
+          icon: Upload,
+          description: 'Import STEEL readiness summaries from CyberCaution',
           group: 'compliance'
         }
       ]

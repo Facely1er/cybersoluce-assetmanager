@@ -11,7 +11,7 @@
  */
 
 import React, { useState } from 'react';
-import type { SteelReadinessSummary } from '@/features/steel';
+import type { SteelReadinessSummary } from '../steel';
 import { Upload, FileText, AlertCircle } from 'lucide-react';
 
 export function SteelSummaryImportPanel() {

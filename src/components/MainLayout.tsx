@@ -133,6 +133,11 @@ const ERMITSAdvisoryVisibilityAnnexPage = lazy(() =>
   import('../pages/ERMITSAdvisoryVisibilityAnnex')
     .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load ERMITS Advisory Visibility Annex</div> }))
 );
+const SteelSummaryImportPanel = lazy(() => 
+  import('../features/cyberCaution/SteelSummaryImportPanel')
+    .then(module => ({ default: module.SteelSummaryImportPanel }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load STEEL Summary Import</div> }))
+);
 
 interface MainLayoutProps {
   onShowStartScreen?: () => void;
@@ -199,6 +204,8 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
       navigate('/vendorsoluce/watchlist', { replace: true });
     } else if (view === 'ermits-advisory-visibility-annex') {
       navigate('/ermits-advisory/visibility-annex', { replace: true });
+    } else if (view === 'steel-summary-import') {
+      navigate('/dashboard/steel-summary-import', { replace: true });
     } else {
       navigate(`/dashboard/${view}`, { replace: true });
     }
@@ -494,6 +501,19 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
           <Suspense fallback={<LoadingFallback />}>
             <VendorSoluceWatchlistPage />
           </Suspense>
+        );
+      case 'steel-summary-import':
+        return (
+          <div className="p-6">
+            <div className="max-w-4xl mx-auto">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                STEEL Readiness Summary Import
+              </h1>
+              <Suspense fallback={<LoadingFallback />}>
+                <SteelSummaryImportPanel />
+              </Suspense>
+            </div>
+          </div>
         );
       case 'ermits-advisory-visibility-annex':
         return (
