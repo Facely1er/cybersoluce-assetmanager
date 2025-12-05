@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { User } from '@supabase/supabase-js';
 import { 
@@ -27,7 +27,6 @@ import {
   Globe,
   HelpCircle,
   ChevronDown,
-  ChevronRight,
   Sparkles,
   Brain,
   Upload,
@@ -68,8 +67,8 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
 }) => {
   const location = useLocation();
   
-  // State to track which groups are expanded/collapsed
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['core', 'security', 'compliance', 'ai-magic', 'tools', 'system']));
+  // State to track which groups are expanded/collapsed - default to getting-started and core-operations
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['getting-started', 'core-operations']));
   
   // Toggle group expansion
   const toggleGroup = (groupId: string) => {
@@ -151,37 +150,80 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
     });
   };
 
-  // Organized navigation groups for better visual hierarchy
+  // Navigation organized by customer journey phases
   const navigationGroups = [
     {
-      id: 'core',
-      label: 'Core',
+      id: 'getting-started',
+      label: 'Getting Started',
       items: [
         {
           id: 'dashboard',
           label: 'Dashboard',
           icon: Home,
           description: 'Overview and analytics',
-          group: 'core'
+          group: 'getting-started'
         },
+        {
+          id: 'sector-demo',
+          label: 'Sector Demo',
+          icon: Play,
+          description: 'Try sector-specific demo data',
+          group: 'getting-started'
+        },
+        {
+          id: 'demo-scenarios',
+          label: 'Demo Scenarios',
+          icon: Play,
+          description: 'Industry use cases and demos',
+          group: 'getting-started'
+        },
+        {
+          id: 'free-tools',
+          label: 'Free Tools',
+          icon: Gift,
+          description: 'Browser-based asset evaluation tools',
+          external: true,
+          href: '/tools/',
+          group: 'getting-started'
+        },
+        {
+          id: 'workflow',
+          label: 'Setup Workflow',
+          icon: Target,
+          description: 'Guided setup and roadmap',
+          group: 'getting-started'
+        },
+        {
+          id: 'imports',
+          label: 'Data Imports',
+          icon: Upload,
+          description: 'Import CSV assets and upload SBOM files',
+          group: 'getting-started'
+        }
+      ]
+    },
+    {
+      id: 'core-operations',
+      label: 'Core Operations',
+      items: [
         {
           id: 'assets',
           label: 'Assets',
-          icon: Shield,
+          icon: Database,
           description: 'Manage your inventory',
-          group: 'core'
+          group: 'core-operations'
         },
         {
           id: 'analytics',
           label: 'Analytics',
           icon: BarChart3,
           description: 'Reports and insights',
-          group: 'core'
+          group: 'core-operations'
         }
       ]
     },
     {
-      id: 'security',
+      id: 'security-risk',
       label: 'Security & Risk',
       items: [
         {
@@ -189,62 +231,62 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
           label: 'Vulnerabilities',
           icon: AlertTriangle,
           description: 'Security issues',
-          group: 'security'
+          group: 'security-risk'
         },
         {
           id: 'data-protection',
           label: 'Data Protection',
           icon: Lock,
           description: 'Security controls & data protection',
-          group: 'security'
+          group: 'security-risk'
         },
         {
           id: 'mitigation',
           label: 'Mitigation',
           icon: CheckCircle2,
           description: 'Risk mitigation planning',
-          group: 'security'
+          group: 'security-risk'
         },
         {
           id: 'dependencies',
           label: 'Dependencies',
           icon: Network,
           description: 'Asset dependencies mapping',
-          group: 'security'
+          group: 'security-risk'
         },
         {
           id: 'business-impact',
           label: 'Business Impact',
           icon: Building2,
           description: 'BIA and continuity planning',
-          group: 'security'
+          group: 'security-risk'
         },
         {
           id: 'cybercaution-precheck',
           label: 'Scenario Pre-Check',
           icon: Shield,
           description: 'Visibility readiness for scenarios',
-          group: 'security'
+          group: 'security-risk'
         },
         {
           id: 'technosoluce-export',
           label: 'TechnoSoluce Export',
           icon: Code,
           description: 'Export software assets for SBOM analysis',
-          group: 'security'
+          group: 'security-risk'
         },
         {
           id: 'vendorsoluce-watchlist',
           label: 'Supplier Visibility Watchlist',
           icon: Store,
           description: 'Vendor visibility stability tracking',
-          group: 'security'
+          group: 'security-risk'
         }
       ]
     },
     {
       id: 'compliance',
-      label: 'Compliance & Privacy',
+      label: 'Compliance & Governance',
       items: [
         {
           id: 'compliance',
@@ -291,138 +333,101 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
       ]
     },
     {
-      id: 'ai-magic',
-      label: '✨ AI Magic',
+      id: 'advanced',
+      label: 'Advanced Tools',
       items: [
         {
           id: 'magical-dashboard',
           label: 'Magical AI Center',
           icon: Sparkles,
           description: 'AI-powered automation hub',
-          group: 'ai-magic'
+          group: 'advanced'
         },
         {
           id: 'magical-orchestration',
           label: 'Orchestration Engine',
           icon: Zap,
           description: 'Automated data transformation',
-          group: 'ai-magic'
+          group: 'advanced'
         },
         {
           id: 'ai-classification',
           label: 'Classification Engine',
           icon: Brain,
           description: 'Intelligent asset routing',
-          group: 'ai-magic'
-        }
-      ]
-    },
-    {
-      id: 'tools',
-      label: 'Tools & Resources',
-      items: [
-        {
-          id: 'workflow',
-          label: 'Setup Workflow',
-          icon: Target,
-          description: 'Guided setup and roadmap',
-          group: 'tools'
-        },
-        {
-          id: 'sector-demo',
-          label: 'Sector Demo',
-          icon: Play,
-          description: 'Try sector-specific demo data',
-          group: 'tools'
-        },
-        {
-          id: 'demo-scenarios',
-          label: 'Demo Scenarios',
-          icon: Play,
-          description: 'Industry use cases and demos',
-          group: 'tools'
-        },
-        {
-          id: 'free-tools',
-          label: 'Free Tools',
-          icon: Gift,
-          description: 'Browser-based asset evaluation tools',
-          external: true,
-          href: '/tools/',
-          group: 'tools'
+          group: 'advanced'
         },
         {
           id: 'data-normalization',
           label: 'Data Normalization',
           icon: Code,
           description: 'Transform and standardize data',
-          group: 'tools'
-        },
-        {
-          id: 'imports',
-          label: 'Data Imports',
-          icon: Upload,
-          description: 'Import CSV assets and upload SBOM files',
-          group: 'tools'
+          group: 'advanced'
         }
       ]
     },
     {
-      id: 'system',
-      label: 'System',
+      id: 'administration',
+      label: 'Administration',
       items: [
         {
           id: 'organizations',
           label: 'Organizations',
           icon: Building2,
           description: 'Manage entities',
-          group: 'system'
+          group: 'administration'
         },
         {
           id: 'users',
           label: 'Users',
           icon: Users,
           description: 'User management',
-          group: 'system'
+          group: 'administration'
         },
         {
           id: 'activity',
           label: 'Activity Log',
           icon: Activity,
           description: 'System activity',
-          group: 'system'
+          group: 'administration'
         },
         {
           id: 'settings',
           label: 'Settings',
           icon: Settings,
           description: 'System configuration',
-          group: 'system'
-        },
+          group: 'administration'
+        }
+      ]
+    },
+    {
+      id: 'support',
+      label: 'Support & Resources',
+      items: [
         {
           id: 'user-manual',
           label: 'User Manual',
           icon: BookOpen,
           description: 'Help and documentation',
-          group: 'system'
+          group: 'support'
         },
         {
           id: 'help',
           label: 'Help & Support',
           icon: HelpCircle,
           description: 'Additional support',
-          group: 'system'
+          group: 'support'
         }
       ]
     }
   ];
 
   return (
-    <div className={`bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-r border-gray-200/60 dark:border-gray-800/60 transition-all duration-300 ${
+    <div className={`bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 ${
       isCollapsed ? 'w-16' : 'w-64'
     } flex flex-col h-screen shadow-sm flex-shrink-0`}>
-      {/* Header - Enhanced */}
-      <div className="p-4 border-b border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
+      {/* Header */}
+      <div className="p-4 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
         <div className={`flex items-center gap-3 ${isCollapsed ? 'flex-col' : 'justify-between'}`}>
           {!isCollapsed ? (
             <Logo size="md" showText={true} />
@@ -457,7 +462,6 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
             if (!hasItems) return null;
 
             const isExpanded = expandedGroups.has(group.id);
-            const hasActiveItem = filteredItems.some(item => isViewActive(item.id));
 
             return (
               <div key={group.id} className="space-y-2">
@@ -500,8 +504,8 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
                             isCollapsed ? 'justify-center px-2' : ''
                           } ${
                             isActive
-                              ? 'bg-gradient-to-r from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/30 text-command-blue-700 dark:text-command-blue-300 border border-command-blue-200 dark:border-command-blue-800 shadow-sm'
-                              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white'
+                              ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300 border border-command-blue-200 dark:border-command-blue-800'
+                              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
                           }`}
                           title={isCollapsed ? item.label : undefined}
                           aria-label={item.label}
@@ -547,8 +551,8 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
                           isCollapsed ? 'justify-center px-2' : ''
                         } ${
                           isActive
-                            ? 'bg-gradient-to-r from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/30 text-command-blue-700 dark:text-command-blue-300 border border-command-blue-200 dark:border-command-blue-800 shadow-sm'
-                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white'
+                            ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300 border border-command-blue-200 dark:border-command-blue-800'
+                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
                         }`}
                         title={isCollapsed ? item.label : undefined}
                         aria-label={item.label}
@@ -593,9 +597,9 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
         </div>
       </nav>
 
-      {/* User Section - Enhanced */}
+      {/* User Section */}
       {!isCollapsed && user && (
-        <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
           <div className="flex items-center gap-3 mb-3 pb-3 border-b border-gray-200 dark:border-gray-800">
             <div className="w-9 h-9 bg-gradient-to-br from-command-blue-100 to-action-cyan-100 dark:from-command-blue-900/40 dark:to-action-cyan-900/40 rounded-lg flex items-center justify-center flex-shrink-0">
               <UserIcon className="h-5 w-5 text-command-blue-600 dark:text-command-blue-400" />
@@ -630,9 +634,9 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
         </div>
       )}
 
-      {/* Footer - Enhanced */}
+      {/* Footer */}
       {!isCollapsed && (
-        <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
           <div className="bg-gradient-to-br from-command-blue-50/80 to-action-cyan-50/80 dark:from-command-blue-900/20 dark:to-action-cyan-900/20 rounded-xl p-4 border border-command-blue-100 dark:border-command-blue-900/30">
             <div className="flex items-start gap-3 mb-2">
               <HelpCircle className="h-5 w-5 text-command-blue-600 dark:text-command-blue-400 flex-shrink-0 mt-0.5" />

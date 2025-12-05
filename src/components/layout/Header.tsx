@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { Logo } from '../common/Logo';
-import { Home, BarChart3, Menu, X, Shield, BookOpen, Play, Gift, Info } from 'lucide-react';
+import { Home, BarChart3, Menu, X, Shield } from 'lucide-react';
 
 interface HeaderProps {
   className?: string;
@@ -24,36 +24,14 @@ export const Header: React.FC<HeaderProps> = (props) => {
       icon: Home,
     },
     {
-      label: 'Dashboard',
-      href: '/dashboard',
+      label: 'STEEL Assessment',
+      href: '/steel',
+      icon: Shield,
+    },
+    {
+      label: 'Pricing',
+      href: '/pricing',
       icon: BarChart3,
-    },
-    {
-      label: 'Products',
-      href: '#',
-      icon: Gift,
-      submenu: [
-        { label: 'vCISO Starter Kit', href: '/products/vciso-starter' },
-        { label: 'vCISO Professional Kit', href: '/products/vciso-professional' },
-        { label: 'Executive Dashboard Template', href: '/products/dashboard-template' },
-      ],
-    },
-    {
-      label: 'Demo',
-      href: '/dashboard/demo-scenarios',
-      icon: Play,
-    },
-    {
-      label: 'Free Tools',
-      href: '/tools',
-      icon: Gift,
-      external: false,
-    },
-    {
-      label: 'Help',
-      href: '/how-asset-intelligence-works',
-      icon: Info,
-      external: false,
     },
   ];
 
@@ -68,9 +46,58 @@ export const Header: React.FC<HeaderProps> = (props) => {
   const headerClassName = typeof className === 'string' ? className : '';
 
   return (
-    <header className={`bg-white dark:bg-gray-900 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 shadow-sm sticky top-0 z-50 ${headerClassName}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 py-2">
+    <>
+      {/* Top Navigation Bar */}
+      <div className="bg-command-blue-600 dark:bg-command-blue-900 text-white text-xs py-1.5 border-b border-command-blue-700 dark:border-command-blue-800 hidden md:block">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Link 
+                to="/offerings" 
+                className="hover:text-action-cyan-300 transition-colors"
+              >
+                Products
+              </Link>
+              <span className="text-command-blue-400 dark:text-command-blue-600">|</span>
+              <Link 
+                to="/ecosystem" 
+                className="hover:text-action-cyan-300 transition-colors"
+              >
+                Platform Ecosystem
+              </Link>
+              <span className="text-command-blue-400 dark:text-command-blue-600">|</span>
+              <Link 
+                to="/tools" 
+                className="hover:text-action-cyan-300 transition-colors"
+              >
+                Free Tools
+              </Link>
+            </div>
+            <div className="flex items-center space-x-4">
+              <a 
+                href="https://www.ermits-advisory.com" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-action-cyan-300 transition-colors"
+              >
+                Advisory Services
+              </a>
+              <span className="text-command-blue-400 dark:text-command-blue-600">|</span>
+              <Link 
+                to="/pricing" 
+                className="hover:text-action-cyan-300 transition-colors"
+              >
+                Pricing
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Header */}
+      <header className={`bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm sticky top-0 z-50 ${headerClassName}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 py-2">
           {/* Logo and Branding - Enhanced */}
           <Link to="/" className="flex items-center group flex-shrink-0">
             <Logo size="lg" showText={true} className="group-hover:scale-105 transition-transform duration-300" />
@@ -80,24 +107,8 @@ export const Header: React.FC<HeaderProps> = (props) => {
           <nav className="hidden md:flex items-center space-x-2 flex-1 justify-center mx-8">
             {navigationItems.map((item) => {
               const Icon = item.icon;
-              const active = !item.external && isActive(item.href);
+              const active = isActive(item.href);
               const iconClassName = active ? 'text-command-blue-600 dark:text-command-blue-400' : '';
-              const isExternal = item.external === true;
-              
-              if (isExternal) {
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400"
-                  >
-                    {Icon && <Icon className={`h-4 w-4 mr-2 ${iconClassName}`} />}
-                    <span>{item.label}</span>
-                  </a>
-                );
-              }
               
               return (
                 <Link
@@ -105,7 +116,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
                   to={item.href}
                   className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     active
-                      ? 'bg-gradient-to-r from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/20 text-command-blue-700 dark:text-command-blue-300 shadow-sm'
+                      ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
                   }`}
                 >
@@ -140,25 +151,8 @@ export const Header: React.FC<HeaderProps> = (props) => {
             <nav className="flex flex-col space-y-2">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
-                const active = !item.external && isActive(item.href);
+                const active = isActive(item.href);
                 const iconClassName = active ? 'text-command-blue-600 dark:text-command-blue-400' : '';
-                const isExternal = item.external === true;
-                
-                if (isExternal) {
-                  return (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400"
-                    >
-                      {Icon && <Icon className={`h-5 w-5 mr-3 ${iconClassName}`} />}
-                      <span>{item.label}</span>
-                    </a>
-                  );
-                }
                 
                 return (
                   <Link
@@ -167,7 +161,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                       active
-                        ? 'bg-gradient-to-r from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/20 text-command-blue-700 dark:text-command-blue-300 shadow-sm'
+                        ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
                         : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
                     }`}
                   >
@@ -185,6 +179,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
         )}
       </div>
     </header>
+    </>
   );
 };
 

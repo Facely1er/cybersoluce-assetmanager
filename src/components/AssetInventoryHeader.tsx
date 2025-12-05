@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Download, Upload, Plus, Trash2, Edit3, Shield, Building2, Filter, BarChart3, TrendingUp, FileText, Database } from 'lucide-react';
+import { Search, Download, Upload, Plus, Trash2, Edit3, Building2, Filter, BarChart3, TrendingUp, FileText, Database } from 'lucide-react';
 import { AssetFilters } from '../types/asset';
 
 interface AssetInventoryHeaderProps {
@@ -37,18 +37,7 @@ export const AssetInventoryHeader: React.FC<AssetInventoryHeaderProps> = ({
 }) => {
   return (
     <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-2">
-          <Shield className="h-8 w-8 text-command-blue-600 dark:text-command-blue-400" />
-          <div>
-            <h1 className="text-xl font-outfit font-semibold text-gray-900 dark:text-white leading-none tracking-tight">
-              CyberSoluce<sup className="text-[10px] font-semibold">™</sup>
-            </h1>
-            <p className="text-sm font-bold text-gray-900 dark:text-white leading-none">Asset Intelligence</p>
-            <p className="text-[10px] text-gray-500 dark:text-gray-400 tracking-wide">by ERMITS</p>
-          </div>
-        </div>
-        
+      <div className="flex items-center justify-end mb-4">
         <div className="flex items-center space-x-3">
           {onInsightsDashboard && (
             <button

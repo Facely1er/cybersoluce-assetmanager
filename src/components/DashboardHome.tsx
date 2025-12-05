@@ -189,36 +189,14 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
       )}
 
       {/* Welcome Header - Polished */}
-      <div className="relative bg-gradient-to-br from-command-blue-600 via-command-blue-700 to-action-cyan-600 dark:from-command-blue-700 dark:via-command-blue-800 dark:to-action-cyan-700 rounded-3xl p-10 text-white shadow-2xl overflow-hidden">
+      <div className="relative bg-gradient-to-br from-command-blue-600 via-command-blue-700 to-action-cyan-600 dark:from-command-blue-700 dark:via-command-blue-800 dark:to-action-cyan-700 rounded-3xl p-6 text-white shadow-2xl overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -mr-48 -mt-48"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -ml-48 -mb-48"></div>
         
         <div className="relative flex items-center justify-between">
           <div className="flex-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <img 
-                src="/cybersoluce.png" 
-                alt="CyberSoluce" 
-                className="h-16 w-16 object-contain drop-shadow-lg"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                }}
-              />
-              <div>
-                <h1 className="text-4xl font-semibold leading-none tracking-tight">
-                  CyberSoluce<sup className="text-sm font-semibold">™</sup>
-                </h1>
-                <h2 className="text-xl font-bold opacity-100 leading-none">
-                  Asset Intelligence
-                </h2>
-                <p className="text-xs opacity-90 tracking-wide">
-                  by ERMITS
-                </p>
-              </div>
-            </div>
-            <p className="text-lg opacity-95 mb-6 mt-2 max-w-2xl leading-relaxed">
+            <p className="text-lg opacity-95 mb-4 max-w-2xl leading-relaxed">
               Comprehensive asset inventory management platform for cybersecurity professionals
             </p>
             <div className="flex flex-wrap items-center gap-6 text-sm">
@@ -238,7 +216,11 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           </div>
           <div className="hidden lg:block ml-8">
             <div className="w-40 h-40 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center shadow-2xl border border-white/30">
-              <Shield className="h-20 w-20 text-white drop-shadow-lg" />
+              <img 
+                src="/cybersoluce.png" 
+                alt="CyberSoluce Logo" 
+                className="h-20 w-20 object-contain drop-shadow-lg"
+              />
             </div>
           </div>
         </div>
