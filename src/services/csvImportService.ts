@@ -11,6 +11,7 @@ import { signalHistoryStore, BackendSignalHistoryStore, SignalSnapshotWithBatch 
 import { parseCsvFile, mapCsvRowToAsset, buildInitialSignalsForCsvAsset, assetToContract, ParsedCsvAssetRow } from '@/import/csvAssetImportService';
 import { Asset } from '@/types/asset';
 import { CyberSoluceAssetContract } from '@/contracts/cyberSoluce.asset.contract';
+import { assetService } from './assetService';
 
 /**
  * Import batch result
@@ -19,6 +20,7 @@ export interface ImportBatchResult {
   batchId: string;
   assetCount: number;
   vendorLinkedAssets: number;
+  errors?: Array<{ assetName: string; error: string }>;
 }
 
 /**
@@ -97,18 +99,82 @@ export async function importCsvAssets(
     throw new Error('CSV import requires backend signal history store. Set VITE_HISTORY_STORE_MODE=backend');
   }
 
-  for (const { signals: snapshot } of snapshots) {
-    await store.recordSnapshot(snapshot);
+  // Persist assets to the assets table
+  const persistedAssets: Asset[] = [];
+  const errors: Array<{ asset: Asset; error: string }> = [];
+
+  for (const asset of assets) {
+    try {
+      // Create asset using assetService (handles database persistence)
+      const persistedAsset = await assetService.createAsset({
+        name: asset.name,
+        type: asset.type,
+        criticality: asset.criticality,
+        owner: asset.owner,
+        location: asset.location,
+        ipAddress: asset.ipAddress,
+        description: asset.description,
+        complianceFrameworks: asset.complianceFrameworks,
+        riskScore: asset.riskScore,
+        lastAssessed: asset.lastAssessed,
+        tags: asset.tags,
+        relationships: asset.relationships,
+        vulnerabilities: asset.vulnerabilities,
+        status: asset.status,
+        dataClassification: asset.dataClassification,
+        dataTypes: asset.dataTypes,
+        retentionPeriod: asset.retentionPeriod,
+        legalBasis: asset.legalBasis,
+        dataSubjectRights: asset.dataSubjectRights,
+        crossBorderTransfer: asset.crossBorderTransfer,
+        thirdPartySharing: asset.thirdPartySharing,
+        encryptionStatus: asset.encryptionStatus,
+        accessControls: asset.accessControls,
+        privacyImpactAssessment: asset.privacyImpactAssessment,
+        dataBreachHistory: asset.dataBreachHistory,
+        dependencies: asset.dependencies,
+        requirements: asset.requirements,
+      });
+      persistedAssets.push(persistedAsset);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      errors.push({ asset, error: errorMessage });
+      // Continue processing other assets even if one fails
+    }
   }
 
-  // TODO: Persist assets to your asset storage mechanism
-  // For now, assets are only stored in signal history
-  // You may want to also persist them to an assets table if you have one
+  // Record signal snapshots for successfully persisted assets
+  // Update snapshots with actual persisted asset IDs
+  for (const { asset, signals: snapshot } of snapshots) {
+    const persistedAsset = persistedAssets.find(pa => 
+      pa.name === asset.name && 
+      pa.type === asset.type &&
+      pa.owner === asset.owner
+    );
+    
+    if (persistedAsset) {
+      // Update snapshot with persisted asset ID
+      const updatedSnapshot: SignalSnapshotWithBatch = {
+        ...snapshot,
+        assetId: persistedAsset.id,
+      };
+      await store.recordSnapshot(updatedSnapshot);
+    } else {
+      // Still record snapshot with original asset ID if persistence failed
+      await store.recordSnapshot(snapshot);
+    }
+  }
+
+  // Log errors if any assets failed to persist
+  if (errors.length > 0) {
+    console.warn(`CSV import completed with ${errors.length} asset persistence errors:`, errors);
+  }
 
   return {
     batchId,
-    assetCount: assets.length,
+    assetCount: persistedAssets.length,
     vendorLinkedAssets,
+    errors: errors.length > 0 ? errors.map(e => ({ assetName: e.asset.name, error: e.error })) : undefined,
   };
 }
 

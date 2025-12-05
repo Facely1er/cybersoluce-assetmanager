@@ -7,13 +7,14 @@
 import React, { useState, useEffect } from 'react';
 import { CsvAssetImportPanel } from '../features/import/CsvAssetImportPanel';
 import { SbomUploadPanel } from '../features/technoSoluce/SbomUploadPanel';
-import { FileText, Package, Database, RefreshCw } from 'lucide-react';
+import { TechnoSoluceSignalImportPanel } from '../features/technoSoluce/TechnoSoluceSignalImportPanel';
+import { FileText, Package, Database, RefreshCw, Code } from 'lucide-react';
 import { listImportBatches } from '../services/csvImportService';
 import { supabase, isSupabaseEnabled } from '../lib/supabase';
 import { useAssetInventory } from '../contexts/AssetInventoryContext';
 
 export default function DataImports() {
-  const [activeTab, setActiveTab] = useState<'csv' | 'sbom'>('csv');
+  const [activeTab, setActiveTab] = useState<'csv' | 'sbom' | 'technosoluce'>('csv');
   const [recentBatches, setRecentBatches] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { assets } = useAssetInventory();
@@ -84,16 +85,33 @@ export default function DataImports() {
               <span>SBOM Upload</span>
             </div>
           </button>
+          <button
+            onClick={() => setActiveTab('technosoluce')}
+            className={`px-6 py-3 font-semibold transition-colors border-b-2 ${
+              activeTab === 'technosoluce'
+                ? 'border-command-blue-600 text-command-blue-600 dark:text-command-blue-400'
+                : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+            }`}
+          >
+            <div className="flex items-center space-x-2">
+              <Code className="h-5 w-5" />
+              <span>TechnoSoluce Signals</span>
+            </div>
+          </button>
         </div>
 
         {/* Content */}
         <div className="space-y-6">
           {activeTab === 'csv' ? (
             <CsvAssetImportPanel onImportComplete={handleImportComplete} />
-          ) : (
+          ) : activeTab === 'sbom' ? (
             <SbomUploadPanel 
               availableAssetIds={availableAssetIds}
               onUploadComplete={handleImportComplete} 
+            />
+          ) : (
+            <TechnoSoluceSignalImportPanel 
+              onImportComplete={handleImportComplete} 
             />
           )}
 
@@ -164,6 +182,7 @@ export default function DataImports() {
             <ul className="space-y-2 text-sm text-blue-800 dark:text-blue-300">
               <li>• CSV imports create asset visibility snapshots and establish signal history</li>
               <li>• SBOM uploads link software composition data to assets for TechnoSoluce integration</li>
+              <li>• TechnoSoluce signal imports bring in SBOM-derived visibility signals (signal-only, no risk data)</li>
               <li>• Each import creates a batch record for tracking and audit purposes</li>
               <li>• Signal history enables drift analysis and change-over-time intelligence</li>
               <li>• All imports are qualitative - no risk scoring or compliance assessment</li>

@@ -9,7 +9,7 @@
  * Uses language that suggests focus, not solutions.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Shield, 
   Lock, 
@@ -20,13 +20,20 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from './ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
+import { Button } from './ui/button';
 import { FocusSignal } from '../types/enrichment';
 import { SECTOR_SIGNAL_NARRATIVES, FocusSignalType } from '../demo/sectorNarratives';
 import { getDemoContext } from '../demo/demoDataManager';
 import { SectorKey } from '../demo/sampleAssetInventoryGenerator';
+import { AssetSelector } from './funnel/AssetSelector';
+import { ActiveFunnelRouter } from '../funnel/activeFunnelRouter';
+import { useAssetInventory } from '../contexts/AssetInventoryContext';
+import { useNavigate } from 'react-router-dom';
 
 interface FocusFunnelProps {
   signals: FocusSignal[];
+  enableActiveRouting?: boolean; // New prop to enable active routing
 }
 
 interface ServiceMapping {
@@ -87,10 +94,22 @@ const SERVICE_MAPPINGS: ServiceMapping[] = [
   },
 ];
 
-export const FocusFunnel: React.FC<FocusFunnelProps> = ({ signals }) => {
+export const FocusFunnel: React.FC<FocusFunnelProps> = ({ signals, enableActiveRouting = false }) => {
   // Get demo context for sector-aware narratives
   const demoContext = getDemoContext();
   const sector = demoContext.sector || 'saas'; // Default to saas if no demo context
+  
+  // State for active routing
+  const [showAssetSelector, setShowAssetSelector] = useState(false);
+  const [selectedDomain, setSelectedDomain] = useState<FocusSignal['signal_domain'] | null>(null);
+  const [routingInProgress, setRoutingInProgress] = useState(false);
+  
+  // Get assets from context
+  const { assets } = useAssetInventory();
+  const navigate = useNavigate();
+  
+  // Dependencies can be empty array for now (can be enhanced later)
+  const dependencies: any[] = [];
 
   // Group signals by domain
   const signalsByDomain = signals.reduce((acc, signal) => {
@@ -220,19 +239,99 @@ export const FocusFunnel: React.FC<FocusFunnelProps> = ({ signals }) => {
                 <p className="text-xs text-muted-foreground mb-3">
                   These signals may warrant deeper evaluation
                 </p>
-                <a
-                  href={serviceMapping.serviceUrl}
-                  className={`inline-flex items-center text-sm font-medium ${serviceMapping.color} hover:underline`}
-                >
-                  Explore {serviceMapping.serviceName}
-                  <ArrowRight className="h-4 w-4 ml-1" />
-                </a>
+                {enableActiveRouting ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedDomain(domain);
+                      setShowAssetSelector(true);
+                    }}
+                    disabled={routingInProgress}
+                    className={`${serviceMapping.color} border-current`}
+                  >
+                    {routingInProgress ? 'Routing...' : `Route to ${serviceMapping.serviceName}`}
+                    <ArrowRight className="h-4 w-4 ml-1" />
+                  </Button>
+                ) : (
+                  <a
+                    href={serviceMapping.serviceUrl}
+                    className={`inline-flex items-center text-sm font-medium ${serviceMapping.color} hover:underline`}
+                  >
+                    Explore {serviceMapping.serviceName}
+                    <ArrowRight className="h-4 w-4 ml-1" />
+                  </a>
+                )}
               </div>
               </CardContent>
             </Card>
           );
         })}
       </div>
+
+      {/* Asset Selector Dialog for Active Routing */}
+      {enableActiveRouting && showAssetSelector && selectedDomain && (
+        <Dialog open={showAssetSelector} onOpenChange={setShowAssetSelector}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>
+                Select Assets to Route to {SERVICE_MAPPINGS.find(s => s.domain === selectedDomain)?.serviceName}
+              </DialogTitle>
+            </DialogHeader>
+            <AssetSelector
+              assets={assets}
+              signals={signals}
+              signalDomain={selectedDomain}
+              onConfirm={async (selectedAssetIds) => {
+                setRoutingInProgress(true);
+                try {
+                  const selectedAssets = assets.filter(a => selectedAssetIds.includes(a.id));
+                  const domainSignals = signals.filter(s => s.signal_domain === selectedDomain);
+                  
+                  let result;
+                  switch (selectedDomain) {
+                    case 'privacy':
+                      result = await ActiveFunnelRouter.routeToCyberCorrect(selectedAssets, domainSignals, dependencies);
+                      break;
+                    case 'vendor':
+                      result = await ActiveFunnelRouter.routeToVendorSoluce(selectedAssets, domainSignals, dependencies);
+                      break;
+                    case 'software':
+                      result = await ActiveFunnelRouter.routeToTechnoSoluce(selectedAssets, domainSignals, dependencies);
+                      break;
+                    default:
+                      result = {
+                        success: false,
+                        destination: 'CyberCorrect',
+                        assetCount: 0,
+                        exportPayloadSize: 0,
+                        navigationUrl: '/',
+                        error: 'Unsupported domain',
+                      };
+                  }
+                  
+                  if (result.success) {
+                    // Navigate to the target service
+                    navigate(result.navigationUrl);
+                    setShowAssetSelector(false);
+                  } else {
+                    alert(`Routing failed: ${result.error}`);
+                  }
+                } catch (error) {
+                  console.error('Routing error:', error);
+                  alert('Failed to route assets. Please try again.');
+                } finally {
+                  setRoutingInProgress(false);
+                }
+              }}
+              onCancel={() => {
+                setShowAssetSelector(false);
+                setSelectedDomain(null);
+              }}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

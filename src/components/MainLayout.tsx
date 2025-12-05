@@ -125,6 +125,16 @@ const CyberCautionPreCheck = lazy(() =>
   import('../pages/CyberCautionPreCheck')
     .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load CyberCaution Pre-Check</div> }))
 );
+const TechnoSoluceExportPage = lazy(() => 
+  import('../pages/TechnoSoluceExport')
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load TechnoSoluce Export</div> }))
+);
+
+const TechnoSoluceExportPage = lazy(() => 
+  import('../pages/TechnoSoluceExport')
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load TechnoSoluce Export</div> }))
+);
+
 const VendorSoluceWatchlistPage = lazy(() => 
   import('../pages/VendorSoluceWatchlist')
     .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load VendorSoluce Watchlist</div> }))
@@ -164,6 +174,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
     if (path === '/cybercaution/precheck') {
       return 'cybercaution-precheck';
     }
+    // Handle TechnoSoluce export route
+    if (path === '/technosoluce/export') {
+      return 'technosoluce-export';
+    }
     // Handle VendorSoluce watchlist route
     if (path === '/vendorsoluce/watchlist') {
       return 'vendorsoluce-watchlist';
@@ -200,6 +214,8 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
       navigate('/dashboard', { replace: true });
     } else if (view === 'cybercaution-precheck') {
       navigate('/cybercaution/precheck', { replace: true });
+    } else if (view === 'technosoluce-export') {
+      navigate('/technosoluce/export', { replace: true });
     } else if (view === 'vendorsoluce-watchlist') {
       navigate('/vendorsoluce/watchlist', { replace: true });
     } else if (view === 'ermits-advisory-visibility-annex') {
@@ -494,6 +510,12 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
         return (
           <Suspense fallback={<LoadingFallback />}>
             <CyberCautionPreCheck />
+          </Suspense>
+        );
+      case 'technosoluce-export':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <TechnoSoluceExportPage />
           </Suspense>
         );
       case 'vendorsoluce-watchlist':

@@ -249,7 +249,11 @@ class ExternalDataIntegrationService {
             logger.warn('Nmap scanner URL not configured or uses localhost in production. Integration disabled.');
             return '';
           }
-          return url || 'http://localhost:8080/api';
+          // In development, allow localhost; otherwise require valid URL
+          if (!url) {
+            return import.meta.env.DEV ? 'http://localhost:8080/api' : '';
+          }
+          return url;
         })(),
         isActive: false,
         syncFrequency: 'daily',
@@ -301,7 +305,11 @@ class ExternalDataIntegrationService {
             logger.warn('Prometheus URL not configured or uses localhost in production. Integration disabled.');
             return '';
           }
-          return url || 'http://localhost:9090/api/v1';
+          // In development, allow localhost; otherwise require valid URL
+          if (!url) {
+            return import.meta.env.DEV ? 'http://localhost:9090/api/v1' : '';
+          }
+          return url;
         })(),
         isActive: false,
         syncFrequency: 'realtime',

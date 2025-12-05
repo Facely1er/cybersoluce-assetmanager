@@ -98,6 +98,9 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
     if (viewId === 'cybercaution-precheck') {
       return '/cybercaution/precheck';
     }
+    if (viewId === 'technosoluce-export') {
+      return '/technosoluce/export';
+    }
     if (viewId === 'vendorsoluce-watchlist') {
       return '/vendorsoluce/watchlist';
     }
@@ -124,6 +127,9 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
     }
     if (viewId === 'cybercaution-precheck') {
       return currentPath === '/cybercaution/precheck';
+    }
+    if (viewId === 'technosoluce-export') {
+      return currentPath === '/technosoluce/export';
     }
     if (viewId === 'vendorsoluce-watchlist') {
       return currentPath === '/vendorsoluce/watchlist';
@@ -218,6 +224,13 @@ export const NavigationSidebar: React.FC<NavigationSidebarProps> = ({
           label: 'Scenario Pre-Check',
           icon: Shield,
           description: 'Visibility readiness for scenarios',
+          group: 'security'
+        },
+        {
+          id: 'technosoluce-export',
+          label: 'TechnoSoluce Export',
+          icon: Code,
+          description: 'Export software assets for SBOM analysis',
           group: 'security'
         },
         {

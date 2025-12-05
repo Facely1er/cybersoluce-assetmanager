@@ -25,7 +25,6 @@ import { SectorDemoLauncher } from './demo/SectorDemoLauncher';
 import { SectorDemoOrchestratorWrapper } from './features/demo/SectorDemoOrchestratorWrapper';
 import { HowAssetIntelligenceWorks } from './pages/HowAssetIntelligenceWorks';
 import DataImports from './pages/DataImports';
-import TechnoSoluceExport from './pages/TechnoSoluceExport';
 import { ServicePlaceholder } from './components/ServicePlaceholder';
 
 const App: React.FC = () => {

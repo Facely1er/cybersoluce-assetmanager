@@ -184,14 +184,48 @@ export async function uploadSBOM(
 
   const batchId = batchData.id;
 
-  // Build signals from SBOM
-  const signals = buildSBOMSignals(sbomIntake, linkedAssetIds);
-
-  // Record signal snapshots for each linked asset
+  // Get historical data for change-over-time analysis
   const store = signalHistoryStore;
   if (!(store instanceof BackendSignalHistoryStore)) {
     throw new Error('SBOM upload requires backend signal history store. Set VITE_HISTORY_STORE_MODE=backend');
   }
+
+  // Get historical signal data for the primary asset (last 30 days)
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const history = await store.getHistory(linkedAssetIds[0], {
+    since: thirtyDaysAgo.toISOString(),
+  });
+
+  // Extract previous component count from historical signals if available
+  let previousComponentCount: number | undefined;
+  if (history && history.snapshots.length > 0) {
+    // Look for the most recent SBOM-related signal with component count
+    const recentSnapshots = [...history.snapshots].reverse(); // Most recent first
+    for (const snapshot of recentSnapshots) {
+      const sbomSignals = snapshot.signals.filter(
+        sig => sig.signalDomain === 'software' && 
+               (sig.signalType === 'dependency' || sig.description.includes('component'))
+      );
+      for (const sig of sbomSignals) {
+        const match = sig.description.match(/(\d+)\s+components?/i) || 
+                     sig.concentrationDescription?.match(/(\d+)\s+components?/i);
+        if (match) {
+          previousComponentCount = parseInt(match[1], 10);
+          break;
+        }
+      }
+      if (previousComponentCount !== undefined) break;
+    }
+  }
+
+  // Build signals from SBOM with historical data
+  const signals = buildSBOMSignals(sbomIntake, linkedAssetIds, {
+    history,
+    previousComponentCount,
+  });
+
+  // Record signal snapshots for each linked asset (store already retrieved above)
 
   // Create a snapshot per asset (or combine all assets in one snapshot)
   // For simplicity, we'll create one snapshot with all linked assets

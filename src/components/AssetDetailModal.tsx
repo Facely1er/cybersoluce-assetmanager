@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { signalHistoryStore } from '../time/signalHistoryStore';
 import { analyzeSignalDrift } from '../time/signalDriftAnalyzer';
 import { DriftInsight } from '../contracts/cyberSoluce.drift.contract';
+import { EnrichedDataDisplay } from './assets/EnrichedDataDisplay';
 
 interface AssetDetailModalProps {
   asset: Asset | null;
@@ -291,6 +292,9 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
                   <p className="text-gray-500 text-sm">No vulnerabilities found</p>
                 )}
               </div>
+
+              {/* Enriched Data from Other Services */}
+              <EnrichedDataDisplay asset={asset} />
 
               {/* Activity Log */}
               <div className="bg-white border border-gray-200 rounded-lg p-4">

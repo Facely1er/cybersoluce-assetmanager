@@ -498,7 +498,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
       {/* Focus Funnel */}
       {!loadingSignals && signals.length > 0 && (
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <FocusFunnel signals={signals} />
+          <FocusFunnel signals={signals} enableActiveRouting={true} />
         </div>
       )}
 

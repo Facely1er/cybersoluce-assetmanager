@@ -34,6 +34,35 @@ export interface Asset {
   requirements: ComplianceRequirement[];
   // Temporary field for bulk editing
   addTags?: string;
+  // Product-specific extensions (for enriched data from other services)
+  cyberCorrectData?: {
+    privacyAssessment?: any;
+    dpias?: any[];
+    dataSubjectRequests?: any;
+    lastEnrichedAt?: string;
+    enrichedBy?: string;
+    [key: string]: any;
+  };
+  vendorSoluceData?: {
+    vendorAssessment?: any;
+    vendorDetails?: any;
+    riskGaps?: any[];
+    lastEnrichedAt?: string;
+    enrichedBy?: string;
+    [key: string]: any;
+  };
+  technoSoluceData?: {
+    sbomAvailable?: boolean;
+    sbomAnalysis?: any;
+    components?: any[];
+    vulnerabilities?: any[];
+    complianceStatus?: any;
+    lastEnrichedAt?: string;
+    enrichedBy?: string;
+    [key: string]: any;
+  };
+  assetType?: string; // Alias for type field (for compatibility)
+  businessCriticality?: string; // Alias for criticality field (for compatibility)
 }
 
 // Extract enums for better type safety
