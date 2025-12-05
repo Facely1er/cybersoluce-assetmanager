@@ -367,3 +367,153 @@ export const exportAssetsToCSV = (assets: Asset[]): void => {
 export const generateEnhancedCSVTemplate = (): void => {
   generateCSVTemplate();
 };
+
+// Data Inventory CSV functions
+export const exportDataInventoryToCSV = (items: any[]): void => {
+  const headers = [
+    'Name',
+    'Data Type',
+    'Classification',
+    'Location',
+    'Owner',
+    'Description',
+    'Retention Period (days)',
+    'Supporting Assets',
+    'Tags',
+    'Created At',
+    'Updated At'
+  ];
+
+  const csvContent = [
+    headers.join(','),
+    ...items.map(item => [
+      `"${item.name || ''}"`,
+      `"${item.dataType || ''}"`,
+      `"${item.classification || ''}"`,
+      `"${item.location || ''}"`,
+      `"${item.owner || ''}"`,
+      `"${(item.description || '').replace(/"/g, '""')}"`,
+      item.retentionPeriod?.toString() || '',
+      `"${(item.supportingAssets || []).join('; ')}"`,
+      `"${(item.tags || []).join('; ')}"`,
+      item.createdAt ? new Date(item.createdAt).toISOString().split('T')[0] : '',
+      item.updatedAt ? new Date(item.updatedAt).toISOString().split('T')[0] : ''
+    ].join(','))
+  ].join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  
+  link.setAttribute('href', url);
+  link.setAttribute('download', `data-inventory-export-${new Date().toISOString().split('T')[0]}.csv`);
+  link.style.visibility = 'hidden';
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  URL.revokeObjectURL(url);
+};
+
+export const generateDataInventoryTemplate = (): void => {
+  const headers = [
+    'Name',
+    'Data Type',
+    'Classification',
+    'Location',
+    'Owner',
+    'Description',
+    'Retention Period (days)',
+    'Supporting Assets',
+    'Tags'
+  ];
+
+  const sampleRows = [
+    [
+      'Customer Email Addresses',
+      'PII',
+      'Confidential',
+      'Customer Database',
+      'Data Protection Officer',
+      'Customer email addresses stored in CRM system',
+      '2555',
+      '',
+      'customer-data; pii; crm'
+    ],
+    [
+      'Payment Card Numbers',
+      'Financial',
+      'Restricted',
+      'Payment Processing System',
+      'Finance Team',
+      'Encrypted payment card numbers',
+      '365',
+      '',
+      'financial; pci-dss; payment'
+    ]
+  ];
+
+  const csvContent = [
+    headers.join(','),
+    ...sampleRows.map(row => 
+      row.map(cell => `"${cell}"`).join(',')
+    )
+  ].join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'data-inventory-template.csv');
+  link.style.visibility = 'hidden';
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  URL.revokeObjectURL(url);
+};
+
+export const generateDataInventoryJSONTemplate = (): void => {
+  const template = [
+    {
+      name: 'Customer Email Addresses',
+      dataType: 'PII',
+      classification: 'Confidential',
+      location: 'Customer Database',
+      owner: 'Data Protection Officer',
+      description: 'Customer email addresses stored in CRM system',
+      retentionPeriod: 2555,
+      supportingAssets: [],
+      tags: ['customer-data', 'pii', 'crm']
+    },
+    {
+      name: 'Payment Card Numbers',
+      dataType: 'Financial',
+      classification: 'Restricted',
+      location: 'Payment Processing System',
+      owner: 'Finance Team',
+      description: 'Encrypted payment card numbers',
+      retentionPeriod: 365,
+      supportingAssets: [],
+      tags: ['financial', 'pci-dss', 'payment']
+    }
+  ];
+
+  const jsonContent = JSON.stringify(template, null, 2);
+  const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'data-inventory-template.json');
+  link.style.visibility = 'hidden';
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  URL.revokeObjectURL(url);
+};

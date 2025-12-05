@@ -1,4 +1,5 @@
 import { APP_CONFIG } from './constants';
+import { DataInventoryItem } from '../types/dataInventory';
 
 // Input sanitization for security
 export const sanitizeInput = (input: string): string => {
@@ -201,5 +202,63 @@ export const createDebouncedValidator = <T>(
       const result = validator(value);
       callback(result);
     }, delay);
+  };
+};
+
+// Validate data inventory item
+export const validateDataInventoryItem = (item: Partial<DataInventoryItem>): { isValid: boolean; errors: string[] } => {
+  const errors: string[] = [];
+  
+  // Required fields
+  if (!item.name || item.name.trim().length === 0) {
+    errors.push('Name is required');
+  }
+  
+  if (!item.dataType) {
+    errors.push('Data Type is required');
+  } else {
+    const validDataTypes: DataInventoryItem['dataType'][] = ['PII', 'PHI', 'Financial', 'Intellectual Property', 'Business Data', 'Other'];
+    if (!validDataTypes.includes(item.dataType)) {
+      errors.push(`Invalid data type. Must be one of: ${validDataTypes.join(', ')}`);
+    }
+  }
+  
+  if (!item.classification) {
+    errors.push('Classification is required');
+  } else {
+    const validClassifications: DataInventoryItem['classification'][] = ['Public', 'Internal', 'Confidential', 'Restricted', 'Top Secret'];
+    if (!validClassifications.includes(item.classification)) {
+      errors.push(`Invalid classification. Must be one of: ${validClassifications.join(', ')}`);
+    }
+  }
+  
+  if (!item.location || item.location.trim().length === 0) {
+    errors.push('Location is required');
+  }
+  
+  if (!item.owner || item.owner.trim().length === 0) {
+    errors.push('Owner is required');
+  }
+  
+  // Validate retention period if provided
+  if (item.retentionPeriod !== undefined) {
+    if (typeof item.retentionPeriod !== 'number' || item.retentionPeriod < 0) {
+      errors.push('Retention period must be a non-negative number');
+    }
+  }
+  
+  // Validate tags if provided
+  if (item.tags && Array.isArray(item.tags)) {
+    for (const tag of item.tags) {
+      if (typeof tag !== 'string' || tag.trim().length === 0) {
+        errors.push('All tags must be non-empty strings');
+        break;
+      }
+    }
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    errors
   };
 };

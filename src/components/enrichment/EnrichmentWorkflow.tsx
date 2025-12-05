@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Database, Tag, Package, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
-import { EnrichmentOrchestrator } from '../../services/enrichmentOrchestrator';
+import { EnrichmentOrchestrator, EnrichmentResult } from '../../services/enrichmentOrchestrator';
 import { StorageService } from '../../services/storageServiceLite';
 import { DataInventoryItem } from '../../types/dataInventory';
 import { LiteAsset } from '../../types/assetLite';
@@ -13,7 +13,7 @@ import { toast } from 'react-hot-toast';
 export const EnrichmentWorkflow: React.FC = () => {
   const [direction, setDirection] = useState<'data-to-assets' | 'assets-to-data' | null>(null);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<EnrichmentResult | null>(null);
   const [dataItems, setDataItems] = useState<DataInventoryItem[]>([]);
   const [assets, setAssets] = useState<LiteAsset[]>([]);
 
@@ -157,7 +157,7 @@ export const EnrichmentWorkflow: React.FC = () => {
               </Button>
               <Link
                 to="/dashboard/asset-discovery"
-                className="block mt-4 text-sm text-[#005B96] dark:text-[#33A1DE] hover:underline flex items-center gap-1"
+                className="flex items-center gap-1 mt-4 text-sm text-[#005B96] dark:text-[#33A1DE] hover:underline"
               >
                 View Asset Discovery <ArrowRight className="w-4 h-4" />
               </Link>
@@ -185,7 +185,7 @@ export const EnrichmentWorkflow: React.FC = () => {
               </Button>
               <Link
                 to="/dashboard/data-classification"
-                className="block mt-4 text-sm text-[#005B96] dark:text-[#33A1DE] hover:underline flex items-center gap-1"
+                className="flex items-center gap-1 mt-4 text-sm text-[#005B96] dark:text-[#33A1DE] hover:underline"
               >
                 View Classification <ArrowRight className="w-4 h-4" />
               </Link>
