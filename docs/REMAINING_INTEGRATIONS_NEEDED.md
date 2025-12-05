@@ -109,8 +109,20 @@ export interface SteelReadinessSummary {
 - ✅ SBOM contracts (`contracts/technoSoluce.sbom.*.ts`)
 - ✅ Historical tracking for component churn
 - ✅ Export adapter (`exports/toTechnoSoluce.ts`)
+- ✅ Import adapter (`imports/fromTechnoSoluce.ts`)
+- ✅ Import/Export UI components
+- ✅ Signal history integration
+- ✅ **✅ RELATIONSHIP FINALIZED** - See [TECHNOSOLUCE_RELATIONSHIP_FINALIZED.md](./implementation/TECHNOSOLUCE_RELATIONSHIP_FINALIZED.md)
 
 ### What TechnoSoluce Needs to Do ⏳
+
+**Required Tasks** (in TechnoSoluce repository):
+
+1. **Export SBOM Signals to CyberSoluce**
+   - Generate SBOM signals following `SBOMSignal` contract
+   - Export signals as JSON in specified format
+   - Include asset IDs and metadata
+   - See format specification in [TECHNOSOLUCE_RELATIONSHIP_FINALIZED.md](./implementation/TECHNOSOLUCE_RELATIONSHIP_FINALIZED.md)
 
 **Optional Tasks** (in TechnoSoluce repository):
 
@@ -119,14 +131,16 @@ export interface SteelReadinessSummary {
    - Use signals for prioritization
    - Display visibility status
 
-2. **Optional: Export Enhanced SBOM Analysis**
-   - Export detailed SBOM analysis back to CyberSoluce (if desired)
-   - Follow signal contract format
-   - Use `software` signal domain
+2. **Export UI Enhancement**
+   - Add "Export Signals to CyberSoluce" button
+   - Generate JSON file for download
+   - Include user-friendly export summary
 
-**Status**: ⏳ **Optional** - CyberSoluce can ingest SBOMs directly, TechnoSoluce integration enhances analysis
+**Status**: ⏳ **CyberSoluce Side Complete** - TechnoSoluce signal export needed for full integration
 
-**Note**: CyberSoluce can work standalone with SBOM uploads. TechnoSoluce integration would provide deeper analysis but is not required.
+**Note**: CyberSoluce can work standalone with SBOM uploads. TechnoSoluce integration enhances analysis and enables bidirectional signal exchange.
+
+**Reference**: See [TECHNOSOLUCE_RELATIONSHIP_FINALIZED.md](./implementation/TECHNOSOLUCE_RELATIONSHIP_FINALIZED.md) for complete relationship documentation.
 
 ---
 
@@ -216,15 +230,21 @@ export interface SteelReadinessSummary {
 
 ---
 
-### TechnoSoluce ⏳ **OPTIONAL**
+### TechnoSoluce ✅ **CYBERSOLUCE SIDE COMPLETE**
 
-- [ ] **TechnoSoluce**: Consume SBOM signals from CyberSoluce
-- [ ] **TechnoSoluce**: Export enhanced SBOM analysis (optional)
-- [x] **CyberSoluce**: SBOM upload service ready ✅
-- [x] **CyberSoluce**: SBOM signal builder ready ✅
-- [x] **CyberSoluce**: Historical tracking ready ✅
+- [x] **CyberSoluce**: Export adapter ready ✅
+- [x] **CyberSoluce**: Import adapter ready ✅
+- [x] **CyberSoluce**: Export/Import UI components ready ✅
+- [x] **CyberSoluce**: Signal history integration ready ✅
+- [x] **CyberSoluce**: Contracts defined and enforced ✅
+- [x] **CyberSoluce**: Documentation complete ✅
+- [ ] **TechnoSoluce**: Export SBOM signals as JSON (required)
+- [ ] **TechnoSoluce**: Consume SBOM signals from CyberSoluce (optional)
+- [ ] **TechnoSoluce**: Export UI enhancement (optional)
 
-**Blocking**: No - CyberSoluce can ingest SBOMs directly
+**Blocking**: No - CyberSoluce can ingest SBOMs directly, but signal export from TechnoSoluce enables full integration
+
+**Status**: ✅ **CyberSoluce Side Finalized** - See [TECHNOSOLUCE_RELATIONSHIP_FINALIZED.md](./implementation/TECHNOSOLUCE_RELATIONSHIP_FINALIZED.md)
 
 ---
 

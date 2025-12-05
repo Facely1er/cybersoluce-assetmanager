@@ -314,3 +314,11 @@ Both approaches are supported and complementary.
 **Status**: ✅ **CYBERSOLUCE SIDE COMPLETE**  
 **Remaining**: TechnoSoluce signal export (coordination needed)
 
+---
+
+## 📋 Related Documentation
+
+- **[TECHNOSOLUCE_RELATIONSHIP_FINALIZED.md](./TECHNOSOLUCE_RELATIONSHIP_FINALIZED.md)** - Complete relationship finalization document
+- **[cyberSoluce-to-technoSoluce.md](../data-contracts/cyberSoluce-to-technoSoluce.md)** - Data contract specification
+- **[ecosystem-data-boundaries.md](../ecosystem-data-boundaries.md)** - Ecosystem architecture
+
