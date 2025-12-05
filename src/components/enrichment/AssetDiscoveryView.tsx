@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, CheckCircle, AlertCircle, ArrowRight, Plus, X, Check, Database, Server, Package } from 'lucide-react';
-import { AssetDiscoveryService } from '../../services/assetDiscoveryService';
+import { AssetDiscoveryService, AssetDiscoveryResult } from '../../services/assetDiscoveryService';
 import { DataInventoryItem } from '../../types/dataInventory';
 import { LiteAsset } from '../../types/assetLite';
 import { StorageService } from '../../services/storageServiceLite';
@@ -22,7 +22,7 @@ interface MappingDisplay {
 export const AssetDiscoveryView: React.FC = () => {
   const [dataItems, setDataItems] = useState<DataInventoryItem[]>([]);
   const [assets, setAssets] = useState<LiteAsset[]>([]);
-  const [discoveryResult, setDiscoveryResult] = useState<any>(null);
+  const [discoveryResult, setDiscoveryResult] = useState<AssetDiscoveryResult | null>(null);
   const [mappings, setMappings] = useState<MappingDisplay[]>([]);
   const [selectedMapping, setSelectedMapping] = useState<MappingDisplay | null>(null);
   const [isCreateAssetDialogOpen, setIsCreateAssetDialogOpen] = useState(false);
@@ -110,6 +110,10 @@ export const AssetDiscoveryView: React.FC = () => {
 
   const handleCreateNewAsset = (mapping: MappingDisplay) => {
     const suggestedAsset = mapping.suggestedAssets[0];
+    if (!suggestedAsset) {
+      toast.error('No suggested asset found');
+      return;
+    }
     setNewAssetData({
       name: suggestedAsset.name,
       type: suggestedAsset.type,

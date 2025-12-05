@@ -580,6 +580,48 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
             <ERMITSAdvisoryVisibilityAnnexPage />
           </Suspense>
         );
+      case 'enrichment-workflow':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <EnrichmentWorkflow />
+          </Suspense>
+        );
+      case 'data-inventory':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <DataInventoryView />
+          </Suspense>
+        );
+      case 'asset-discovery':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <AssetDiscoveryView />
+          </Suspense>
+        );
+      case 'data-classification':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <DataClassificationView />
+          </Suspense>
+        );
+      case 'sbom':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <SBOMManager />
+          </Suspense>
+        );
+      case 'data-ingestion':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <DataIngestionView />
+          </Suspense>
+        );
+      case 'enrichment-reports':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <ReportsView />
+          </Suspense>
+        );
       default:
         return (
           <DashboardHome
