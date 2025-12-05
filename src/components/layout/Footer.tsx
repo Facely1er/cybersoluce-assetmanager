@@ -139,7 +139,8 @@ export const Footer: React.FC = () => {
         <div className="border-t border-gray-200 dark:border-gray-800 mt-4 pt-3">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-600 dark:text-gray-400 text-xs">
-              © 2025 ERMITS LLC. All rights reserved.
+              <div>CyberSoluce™ v1.0 – Asset Intelligence & Dependency Visibility</div>
+              <div className="mt-1">© 2025 ERMITS. All rights reserved.</div>
             </div>
             <div className="mt-2 md:mt-0">
               <Link 

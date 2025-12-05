@@ -174,6 +174,18 @@ export const HowAssetIntelligenceWorks: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Guardrail Disclaimer */}
+        <Card className="mb-8 bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800">
+          <CardContent className="pt-6">
+            <div className="flex items-start">
+              <Info className="h-5 w-5 text-orange-600 dark:text-orange-400 mr-3 mt-0.5 flex-shrink-0" />
+              <p className="text-sm text-gray-700 dark:text-gray-300">
+                CyberSoluce highlights focus areas based on qualitative signals; it does not automatically prescribe or enforce remediation.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Back to Dashboard Link */}
         <div className="flex justify-center mt-8">
           <Link
