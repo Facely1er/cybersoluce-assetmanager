@@ -130,11 +130,6 @@ const TechnoSoluceExportPage = lazy(() =>
     .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load TechnoSoluce Export</div> }))
 );
 
-const TechnoSoluceExportPage = lazy(() => 
-  import('../pages/TechnoSoluceExport')
-    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load TechnoSoluce Export</div> }))
-);
-
 const VendorSoluceWatchlistPage = lazy(() => 
   import('../pages/VendorSoluceWatchlist')
     .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load VendorSoluce Watchlist</div> }))
