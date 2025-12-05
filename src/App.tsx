@@ -26,6 +26,7 @@ import { SectorDemoOrchestratorWrapper } from './features/demo/SectorDemoOrchest
 import { HowAssetIntelligenceWorks } from './pages/HowAssetIntelligenceWorks';
 import DataImports from './pages/DataImports';
 import { ServicePlaceholder } from './components/ServicePlaceholder';
+import FeedbackPage from './pages/FeedbackPage';
 
 const App: React.FC = () => {
   return (
@@ -213,6 +214,27 @@ const App: React.FC = () => {
                           <>
                             <Header />
                             <DataImports />
+                            <Footer />
+                          </>
+                        </AuthGuard>
+                      } 
+                    />
+                    
+                    {/* Feedback route */}
+                    <Route 
+                      path="/feedback" 
+                      element={
+                        <AuthGuard 
+                          requireAuth={false}
+                          fallback={
+                            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                              <LoadingSpinner size="lg" text="Initializing..." />
+                            </div>
+                          }
+                        >
+                          <>
+                            <Header />
+                            <FeedbackPage />
                             <Footer />
                           </>
                         </AuthGuard>

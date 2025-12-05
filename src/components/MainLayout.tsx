@@ -9,6 +9,7 @@ import { useAssetInventory } from '../contexts/AssetInventoryContext';
 import { generateDemoDataPackage } from '../data/demoDataGenerator';
 import toast from 'react-hot-toast';
 import { logger } from '../utils/logger';
+import { FeedbackWidget } from './feedback/FeedbackWidget';
 
 // Lazy load components for better performance with error handling
 // Using .then() to handle named exports properly
@@ -672,6 +673,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ onShowStartScreen }) => 
           </div>
         </footer>
       </div>
+      
+      {/* Feedback Widget - Floating Button */}
+      <FeedbackWidget />
     </div>
   );
 };
