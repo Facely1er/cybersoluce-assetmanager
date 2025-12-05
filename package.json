@@ -1,7 +1,7 @@
 {
   "name": "ermits-cybersoluce-asset-inventory",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "CyberSoluce™ Asset Manager by ERMITS - Comprehensive Asset Inventory Management Tool",
   "keywords": [
