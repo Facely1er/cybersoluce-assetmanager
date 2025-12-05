@@ -48,10 +48,15 @@
 
         function updateThemeIcon(theme) {
             const icon = document.getElementById('theme-icon');
+            const iconHeader = document.getElementById('theme-icon-header');
+            const iconContent = theme === 'dark' 
+                ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>'
+                : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
             if (icon) {
-                icon.innerHTML = theme === 'dark' 
-                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>'
-                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+                icon.innerHTML = iconContent;
+            }
+            if (iconHeader) {
+                iconHeader.innerHTML = iconContent;
             }
         }
 
@@ -69,10 +74,37 @@
             display: block;
         }
         .btn-primary {
-            @apply bg-[#33A1DE] hover:bg-[#2A8BC4] dark:bg-[#5BB8E8] dark:hover:bg-[#33A1DE] text-white px-4 py-2 rounded-lg transition-colors;
+            background-color: #33A1DE;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.15s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #2A8BC4;
+        }
+        .dark .btn-primary {
+            background-color: #5BB8E8;
+        }
+        .dark .btn-primary:hover {
+            background-color: #33A1DE;
         }
         .btn-secondary {
-            @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg transition-colors;
+            background-color: #e5e7eb;
+            color: #1f2937;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.15s ease-in-out;
+        }
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+        .dark .btn-secondary {
+            background-color: #374151;
+            color: #e5e7eb;
+        }
+        .dark .btn-secondary:hover {
+            background-color: #4b5563;
         }
         .modal {
             display: none;
@@ -85,16 +117,32 @@
             width: var(--progress-width, 0%);
         }
         .badge {
-            @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.125rem 0.625rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
         .card {
-            @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+        .dark .card {
+            background-color: #1f2937;
+            border-color: #374151;
         }
         .card-header {
-            @apply px-6 py-4 border-b border-gray-200 dark:border-gray-700;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .dark .card-header {
+            border-bottom-color: #374151;
         }
         .card-body {
-            @apply px-6 py-4;
+            padding: 1rem 1.5rem;
         }
     </style>
 </head>
@@ -124,6 +172,12 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                         </svg>
                         Import Register
+                    </button>
+                    <button onclick="downloadTool()" class="btn-secondary flex items-center gap-2" title="Download this tool as a standalone HTML file">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Download Tool
                     </button>
                     <button onclick="exportVendors('csv', true)" class="btn-secondary flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1414,6 +1468,56 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+        }
+
+        // Download Tool Functionality
+        function downloadTool() {
+            // Get the current HTML content
+            const htmlContent = document.documentElement.outerHTML;
+            
+            // Create a modified version with branding and disclaimers
+            const disclaimer = `
+<!--
+================================================================================
+CYBERSOLUCE VENDOR REGISTER MANAGER - STANDALONE VERSION
+================================================================================
+This tool is provided by ERMITS LLC under the CyberSoluce™ brand.
+
+DISCLAIMER:
+This tool is provided "as is" without warranty of any kind, express or implied.
+ERMITS LLC does not guarantee the accuracy, completeness, or usefulness of
+this tool or any information provided. Use of this tool is at your own risk.
+
+LICENSE:
+This tool is provided for personal and commercial use. You may download,
+modify, and distribute this tool, but you must include this disclaimer and
+attribution to ERMITS LLC and CyberSoluce™.
+
+For the latest version and support, visit: https://cybersoluce.ermits-advisory.com
+
+© 2025 ERMITS LLC. All rights reserved.
+CyberSoluce™ is a trademark of ERMITS LLC.
+================================================================================
+-->
+
+`;
+            
+            // Inject disclaimer at the beginning of the HTML
+            const modifiedContent = htmlContent.replace('<!DOCTYPE html>', '<!DOCTYPE html>\n' + disclaimer);
+            
+            // Create download
+            const blob = new Blob([modifiedContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'CyberSoluce-Vendor-Register-Manager.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Show notification
+            alert('Tool downloaded successfully!\n\nThe downloaded file includes:\n- Full CyberSoluce branding\n- All functionality\n- Disclaimer and license information\n\nYou can use this tool offline or share it with others.');
         }
     </script>
 </body>
