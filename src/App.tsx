@@ -25,7 +25,8 @@ import { SectorDemoLauncher } from './demo/SectorDemoLauncher';
 import { SectorDemoOrchestratorWrapper } from './features/demo/SectorDemoOrchestratorWrapper';
 import { HowAssetIntelligenceWorks } from './pages/HowAssetIntelligenceWorks';
 import DataImports from './pages/DataImports';
-import CyberCautionPreCheck from './pages/CyberCautionPreCheck';
+import TechnoSoluceExport from './pages/TechnoSoluceExport';
+import { ServicePlaceholder } from './components/ServicePlaceholder';
 
 const App: React.FC = () => {
   return (
@@ -266,6 +267,103 @@ const App: React.FC = () => {
                           }
                         >
                           <MainLayout />
+                        </AuthGuard>
+                      } 
+                    />
+                    
+                    {/* Service Routes - Placeholder for external services */}
+                    <Route 
+                      path="/services/cybercorrect" 
+                      element={
+                        <AuthGuard 
+                          requireAuth={false}
+                          fallback={
+                            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                              <LoadingSpinner size="lg" text="Initializing..." />
+                            </div>
+                          }
+                        >
+                          <>
+                            <Header />
+                            <ServicePlaceholder service="CyberCorrect" />
+                            <Footer />
+                          </>
+                        </AuthGuard>
+                      } 
+                    />
+                    <Route 
+                      path="/services/vendorsoluce" 
+                      element={
+                        <AuthGuard 
+                          requireAuth={false}
+                          fallback={
+                            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                              <LoadingSpinner size="lg" text="Initializing..." />
+                            </div>
+                          }
+                        >
+                          <>
+                            <Header />
+                            <ServicePlaceholder service="VendorSoluce" />
+                            <Footer />
+                          </>
+                        </AuthGuard>
+                      } 
+                    />
+                    <Route 
+                      path="/services/technosoluce" 
+                      element={
+                        <AuthGuard 
+                          requireAuth={false}
+                          fallback={
+                            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                              <LoadingSpinner size="lg" text="Initializing..." />
+                            </div>
+                          }
+                        >
+                          <>
+                            <Header />
+                            <ServicePlaceholder service="TechnoSoluce" />
+                            <Footer />
+                          </>
+                        </AuthGuard>
+                      } 
+                    />
+                    <Route 
+                      path="/services/cybercaution" 
+                      element={
+                        <AuthGuard 
+                          requireAuth={false}
+                          fallback={
+                            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                              <LoadingSpinner size="lg" text="Initializing..." />
+                            </div>
+                          }
+                        >
+                          <>
+                            <Header />
+                            <ServicePlaceholder service="CyberCaution" />
+                            <Footer />
+                          </>
+                        </AuthGuard>
+                      } 
+                    />
+                    <Route 
+                      path="/services/advisory" 
+                      element={
+                        <AuthGuard 
+                          requireAuth={false}
+                          fallback={
+                            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                              <LoadingSpinner size="lg" text="Initializing..." />
+                            </div>
+                          }
+                        >
+                          <>
+                            <Header />
+                            <ServicePlaceholder service="ERMITSAdvisory" />
+                            <Footer />
+                          </>
                         </AuthGuard>
                       } 
                     />
