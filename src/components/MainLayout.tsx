@@ -149,6 +149,43 @@ const SteelSummaryImportPanel = lazy(() =>
     .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load STEEL Summary Import</div> }))
 );
 
+// Enrichment components
+const EnrichmentWorkflow = lazy(() => 
+  import('./enrichment/EnrichmentWorkflow')
+    .then(module => ({ default: module.EnrichmentWorkflow }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Enrichment Workflow</div> }))
+);
+const DataInventoryView = lazy(() => 
+  import('./enrichment/DataInventoryView')
+    .then(module => ({ default: module.DataInventoryView }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Data Inventory View</div> }))
+);
+const AssetDiscoveryView = lazy(() => 
+  import('./enrichment/AssetDiscoveryView')
+    .then(module => ({ default: module.AssetDiscoveryView }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Asset Discovery View</div> }))
+);
+const DataClassificationView = lazy(() => 
+  import('./enrichment/DataClassificationView')
+    .then(module => ({ default: module.DataClassificationView }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Data Classification View</div> }))
+);
+const SBOMManager = lazy(() => 
+  import('./enrichment/SBOMManager')
+    .then(module => ({ default: module.SBOMManager }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load SBOM Manager</div> }))
+);
+const DataIngestionView = lazy(() => 
+  import('./enrichment/DataIngestionView')
+    .then(module => ({ default: module.DataIngestionView }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Data Ingestion View</div> }))
+);
+const ReportsView = lazy(() => 
+  import('./enrichment/ReportsView')
+    .then(module => ({ default: module.ReportsView }))
+    .catch(() => ({ default: () => <div className="p-8 text-center text-red-600">Failed to load Reports View</div> }))
+);
+
 interface MainLayoutProps {
   onShowStartScreen?: () => void;
 }
