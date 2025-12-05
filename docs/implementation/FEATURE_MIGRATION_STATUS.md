@@ -20,7 +20,7 @@
 - ⏳ storageService.ts
 - ⏳ reportGenerationService.ts
 - ⏳ sbom/sbomAutogenerationService.ts
-- ⏳ sbom/baselineSBOMService.ts
+- ✅ sbom/baselineSBOMService.ts (Enhanced with business applications, dependency mappings, and heat maps)
 
 ### Utilities (Remaining)
 - ⏳ csvUtils.ts

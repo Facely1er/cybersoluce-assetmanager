@@ -1,0 +1,1024 @@
+{
+  "version": "2.0.0",
+  "lastUpdated": "2025-01-27",
+  "description": "Enhanced baseline SBOM catalog with business applications, dependency mappings, and usage statistics for common dependencies, components, and enterprise software",
+  "baselineSBOMs": [
+    {
+      "id": "react-latest",
+      "name": "React",
+      "version": "18.3.1",
+      "ecosystem": "npm",
+      "category": "frontend-framework",
+      "path": "/baseline-sboms/npm/react-latest.json",
+      "description": "Baseline SBOM for React library - most common frontend framework used in modern web applications",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official npm package",
+      "usage": "Compare your React version against this baseline to understand component structure and dependencies",
+      "purl": "pkg:npm/react@18.3.1",
+      "license": "MIT"
+    },
+    {
+      "id": "react-dom-latest",
+      "name": "React DOM",
+      "version": "18.3.1",
+      "ecosystem": "npm",
+      "category": "frontend-framework",
+      "path": "/baseline-sboms/npm/react-dom-latest.json",
+      "description": "Baseline SBOM for React DOM package - React package for working with the DOM",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official npm package",
+      "usage": "Reference for React DOM dependencies and structure",
+      "purl": "pkg:npm/react-dom@18.3.1",
+      "license": "MIT"
+    },
+    {
+      "id": "express-latest",
+      "name": "Express",
+      "version": "4.18.2",
+      "ecosystem": "npm",
+      "category": "backend-framework",
+      "path": "/baseline-sboms/npm/express-latest.json",
+      "description": "Baseline SBOM for Express.js - fast, unopinionated web framework for Node.js",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official npm package",
+      "usage": "Compare Express versions and dependencies in Node.js applications",
+      "purl": "pkg:npm/express@4.18.2",
+      "license": "MIT"
+    },
+    {
+      "id": "axios-latest",
+      "name": "Axios",
+      "version": "1.6.0",
+      "ecosystem": "npm",
+      "category": "http-client",
+      "path": "/baseline-sboms/npm/axios-latest.json",
+      "description": "Baseline SBOM for Axios - promise-based HTTP client for browser and node.js",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official npm package",
+      "usage": "Reference for HTTP client library dependencies",
+      "purl": "pkg:npm/axios@1.6.0",
+      "license": "MIT"
+    },
+    {
+      "id": "typescript-latest",
+      "name": "TypeScript",
+      "version": "5.3.3",
+      "ecosystem": "npm",
+      "category": "language",
+      "path": "/baseline-sboms/npm/typescript-latest.json",
+      "description": "Baseline SBOM for TypeScript - typed superset of JavaScript",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official npm package",
+      "usage": "Reference for TypeScript compiler and language dependencies",
+      "purl": "pkg:npm/typescript@5.3.3",
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "django-latest",
+      "name": "Django",
+      "version": "5.0.0",
+      "ecosystem": "pypi",
+      "category": "web-framework",
+      "path": "/baseline-sboms/pypi/django-latest.json",
+      "description": "Baseline SBOM for Django - high-level Python web framework",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official PyPI package",
+      "usage": "Compare Django versions and dependencies in Python web applications",
+      "purl": "pkg:pypi/django@5.0.0",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "id": "djangorestframework-latest",
+      "name": "Django REST Framework",
+      "version": "3.14.0",
+      "ecosystem": "pypi",
+      "category": "api-framework",
+      "path": "/baseline-sboms/pypi/djangorestframework-latest.json",
+      "description": "Baseline SBOM for Django REST Framework - powerful toolkit for building Web APIs",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official PyPI package",
+      "usage": "Reference for DRF dependencies and API framework structure",
+      "purl": "pkg:pypi/djangorestframework@3.14.0",
+      "license": "BSD-2-Clause"
+    },
+    {
+      "id": "psycopg2-latest",
+      "name": "psycopg2",
+      "version": "2.9.9",
+      "ecosystem": "pypi",
+      "category": "database-driver",
+      "path": "/baseline-sboms/pypi/psycopg2-latest.json",
+      "description": "Baseline SBOM for psycopg2 - PostgreSQL adapter for Python",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official PyPI package",
+      "usage": "Reference for PostgreSQL database driver dependencies",
+      "purl": "pkg:pypi/psycopg2@2.9.9",
+      "license": "LGPL-3.0"
+    },
+    {
+      "id": "spring-boot-latest",
+      "name": "Spring Boot",
+      "version": "3.2.0",
+      "ecosystem": "maven",
+      "category": "web-framework",
+      "path": "/baseline-sboms/maven/spring-boot-latest.json",
+      "description": "Baseline SBOM for Spring Boot - Java-based framework for building microservices",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official Maven Central repository",
+      "usage": "Compare Spring Boot versions and dependencies in Java applications",
+      "purl": "pkg:maven/org.springframework.boot/spring-boot@3.2.0",
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "gin-latest",
+      "name": "Gin",
+      "version": "1.9.1",
+      "ecosystem": "golang",
+      "category": "web-framework",
+      "path": "/baseline-sboms/golang/gin-latest.json",
+      "description": "Baseline SBOM for Gin - HTTP web framework written in Go",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official Go modules",
+      "usage": "Reference for Gin framework dependencies in Go applications",
+      "purl": "pkg:golang/github.com/gin-gonic/gin@v1.9.1",
+      "license": "MIT"
+    },
+    {
+      "id": "postgresql-latest",
+      "name": "PostgreSQL",
+      "version": "16.1",
+      "ecosystem": "database",
+      "category": "database",
+      "path": "/baseline-sboms/databases/postgresql-latest.json",
+      "description": "Baseline SBOM for PostgreSQL - advanced open-source relational database",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official PostgreSQL releases",
+      "usage": "Reference for PostgreSQL database system components",
+      "purl": "pkg:generic/postgresql@16.1",
+      "license": "PostgreSQL"
+    },
+    {
+      "id": "docker-latest",
+      "name": "Docker",
+      "version": "24.0.7",
+      "ecosystem": "infrastructure",
+      "category": "containerization",
+      "path": "/baseline-sboms/infrastructure/docker-latest.json",
+      "description": "Baseline SBOM for Docker - containerization platform",
+      "lastUpdated": "2025-01-XX",
+      "componentCount": 0,
+      "format": "CycloneDX 1.4",
+      "source": "Official Docker releases",
+      "usage": "Reference for Docker platform components and dependencies",
+      "purl": "pkg:generic/docker@24.0.7",
+      "license": "Apache-2.0"
+    }
+  ],
+  "businessApplications": [
+    {
+      "id": "salesforce-crm",
+      "name": "Salesforce CRM",
+      "version": "2024.4",
+      "category": "crm",
+      "industry": ["sales", "marketing", "customer-service", "technology", "financial-services", "healthcare", "retail"],
+      "path": "/baseline-sboms/business-apps/salesforce-crm-latest.json",
+      "description": "Enterprise CRM platform for sales, marketing, and customer service management",
+      "vendor": "Salesforce",
+      "deployment": "cloud",
+      "license": "Commercial",
+      "usage": {
+        "marketShare": 19.8,
+        "enterpriseAdoption": 95,
+        "activeUsers": 150000000,
+        "heatMapScore": 95
+      },
+      "functions": [
+        "customer-relationship-management",
+        "sales-automation",
+        "marketing-automation",
+        "analytics",
+        "data-storage"
+      ],
+      "dependencies": [
+        {
+          "componentId": "postgresql-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "primary-database"
+        },
+        {
+          "componentId": "react-latest",
+          "relationship": "uses",
+          "criticality": "medium",
+          "usage": "frontend-framework"
+        },
+        {
+          "componentId": "express-latest",
+          "relationship": "uses",
+          "criticality": "medium",
+          "usage": "backend-api"
+        }
+      ],
+      "sbomComponents": [
+        "pkg:npm/react@18.3.1",
+        "pkg:npm/express@4.18.2",
+        "pkg:generic/postgresql@16.1"
+      ],
+      "lastUpdated": "2025-01-27",
+      "format": "CycloneDX 1.4"
+    },
+    {
+      "id": "microsoft-office-365",
+      "name": "Microsoft Office 365",
+      "version": "2024",
+      "category": "productivity",
+      "industry": ["technology", "financial-services", "healthcare", "retail", "manufacturing", "education", "government"],
+      "path": "/baseline-sboms/business-apps/microsoft-office-365-latest.json",
+      "description": "Cloud-based productivity suite including Word, Excel, PowerPoint, Outlook, and Teams",
+      "vendor": "Microsoft",
+      "deployment": "cloud",
+      "license": "Commercial",
+      "usage": {
+        "marketShare": 48.2,
+        "enterpriseAdoption": 98,
+        "activeUsers": 1200000000,
+        "heatMapScore": 98
+      },
+      "functions": [
+        "document-management",
+        "productivity",
+        "communication",
+        "collaboration",
+        "data-storage"
+      ],
+      "dependencies": [
+        {
+          "componentId": "react-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "web-applications"
+        },
+        {
+          "componentId": "typescript-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "type-safety"
+        }
+      ],
+      "sbomComponents": [
+        "pkg:npm/react@18.3.1",
+        "pkg:npm/typescript@5.3.3"
+      ],
+      "lastUpdated": "2025-01-27",
+      "format": "CycloneDX 1.4"
+    },
+    {
+      "id": "google-workspace",
+      "name": "Google Workspace",
+      "version": "2024",
+      "category": "productivity",
+      "industry": ["technology", "education", "startups", "retail", "media"],
+      "path": "/baseline-sboms/business-apps/google-workspace-latest.json",
+      "description": "Cloud-based productivity and collaboration tools including Gmail, Drive, Docs, Sheets, and Meet",
+      "vendor": "Google",
+      "deployment": "cloud",
+      "license": "Commercial",
+      "usage": {
+        "marketShare": 28.5,
+        "enterpriseAdoption": 85,
+        "activeUsers": 3000000000,
+        "heatMapScore": 97
+      },
+      "functions": [
+        "productivity",
+        "collaboration",
+        "communication",
+        "data-storage",
+        "analytics"
+      ],
+      "dependencies": [
+        {
+          "componentId": "react-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "frontend-framework"
+        },
+        {
+          "componentId": "docker-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "containerization"
+        }
+      ],
+      "sbomComponents": [
+        "pkg:npm/react@18.3.1",
+        "pkg:generic/docker@24.0.7"
+      ],
+      "lastUpdated": "2025-01-27",
+      "format": "CycloneDX 1.4"
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "version": "2024",
+      "category": "communication",
+      "industry": ["technology", "startups", "media", "consulting", "financial-services"],
+      "path": "/baseline-sboms/business-apps/slack-latest.json",
+      "description": "Team communication and collaboration platform with channels, direct messaging, and integrations",
+      "vendor": "Slack Technologies",
+      "deployment": "cloud",
+      "license": "Commercial",
+      "usage": {
+        "marketShare": 18.3,
+        "enterpriseAdoption": 75,
+        "activeUsers": 20000000,
+        "heatMapScore": 88
+      },
+      "functions": [
+        "communication",
+        "collaboration",
+        "team-messaging",
+        "integration-platform"
+      ],
+      "dependencies": [
+        {
+          "componentId": "react-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "frontend-framework"
+        },
+        {
+          "componentId": "express-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "backend-api"
+        },
+        {
+          "componentId": "postgresql-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "message-storage"
+        }
+      ],
+      "sbomComponents": [
+        "pkg:npm/react@18.3.1",
+        "pkg:npm/express@4.18.2",
+        "pkg:generic/postgresql@16.1"
+      ],
+      "lastUpdated": "2025-01-27",
+      "format": "CycloneDX 1.4"
+    },
+    {
+      "id": "microsoft-teams",
+      "name": "Microsoft Teams",
+      "version": "2024",
+      "category": "communication",
+      "industry": ["technology", "financial-services", "healthcare", "education", "government"],
+      "path": "/baseline-sboms/business-apps/microsoft-teams-latest.json",
+      "description": "Unified communication and collaboration platform with chat, video meetings, and file sharing",
+      "vendor": "Microsoft",
+      "deployment": "cloud",
+      "license": "Commercial",
+      "usage": {
+        "marketShare": 22.1,
+        "enterpriseAdoption": 90,
+        "activeUsers": 320000000,
+        "heatMapScore": 92
+      },
+      "functions": [
+        "communication",
+        "collaboration",
+        "video-conferencing",
+        "file-sharing"
+      ],
+      "dependencies": [
+        {
+          "componentId": "react-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "ui-components"
+        },
+        {
+          "componentId": "typescript-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "type-safety"
+        }
+      ],
+      "sbomComponents": [
+        "pkg:npm/react@18.3.1",
+        "pkg:npm/typescript@5.3.3"
+      ],
+      "lastUpdated": "2025-01-27",
+      "format": "CycloneDX 1.4"
+    },
+    {
+      "id": "github-enterprise",
+      "name": "GitHub Enterprise",
+      "version": "2024",
+      "category": "development",
+      "industry": ["technology", "financial-services", "healthcare", "automotive", "aerospace"],
+      "path": "/baseline-sboms/business-apps/github-enterprise-latest.json",
+      "description": "Enterprise version control and collaboration platform for software development",
+      "vendor": "GitHub (Microsoft)",
+      "deployment": "cloud",
+      "license": "Commercial",
+      "usage": {
+        "marketShare": 65.2,
+        "enterpriseAdoption": 88,
+        "activeUsers": 100000000,
+        "heatMapScore": 94
+      },
+      "functions": [
+        "version-control",
+        "code-collaboration",
+        "ci-cd",
+        "project-management"
+      ],
+      "dependencies": [
+        {
+          "componentId": "postgresql-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "data-storage"
+        },
+        {
+          "componentId": "react-latest",
+          "relationship": "uses",
+          "criticality": "medium",
+          "usage": "web-interface"
+        }
+      ],
+      "sbomComponents": [
+        "pkg:generic/postgresql@16.1",
+        "pkg:npm/react@18.3.1"
+      ],
+      "lastUpdated": "2025-01-27",
+      "format": "CycloneDX 1.4"
+    },
+    {
+      "id": "jira",
+      "name": "Jira",
+      "version": "2024",
+      "category": "development",
+      "industry": ["technology", "financial-services", "consulting", "manufacturing"],
+      "path": "/baseline-sboms/business-apps/jira-latest.json",
+      "description": "Project management and issue tracking tool for agile software development",
+      "vendor": "Atlassian",
+      "deployment": "cloud",
+      "license": "Commercial",
+      "usage": {
+        "marketShare": 35.8,
+        "enterpriseAdoption": 82,
+        "activeUsers": 180000,
+        "heatMapScore": 86
+      },
+      "functions": [
+        "project-management",
+        "issue-tracking",
+        "agile-planning",
+        "reporting"
+      ],
+      "dependencies": [
+        {
+          "componentId": "spring-boot-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "backend-framework"
+        },
+        {
+          "componentId": "postgresql-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "database"
+        },
+        {
+          "componentId": "react-latest",
+          "relationship": "uses",
+          "criticality": "medium",
+          "usage": "frontend"
+        }
+      ],
+      "sbomComponents": [
+        "pkg:maven/org.springframework.boot/spring-boot@3.2.0",
+        "pkg:generic/postgresql@16.1",
+        "pkg:npm/react@18.3.1"
+      ],
+      "lastUpdated": "2025-01-27",
+      "format": "CycloneDX 1.4"
+    },
+    {
+      "id": "hubspot-crm",
+      "name": "HubSpot CRM",
+      "version": "2024",
+      "category": "crm",
+      "industry": ["marketing", "sales", "technology", "retail"],
+      "path": "/baseline-sboms/business-apps/hubspot-crm-latest.json",
+      "description": "Inbound marketing, sales, and customer service platform",
+      "vendor": "HubSpot",
+      "deployment": "cloud",
+      "license": "Commercial",
+      "usage": {
+        "marketShare": 5.2,
+        "enterpriseAdoption": 45,
+        "activeUsers": 184000,
+        "heatMapScore": 78
+      },
+      "functions": [
+        "customer-relationship-management",
+        "marketing-automation",
+        "sales-automation",
+        "analytics"
+      ],
+      "dependencies": [
+        {
+          "componentId": "django-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "backend-framework"
+        },
+        {
+          "componentId": "postgresql-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "database"
+        },
+        {
+          "componentId": "react-latest",
+          "relationship": "uses",
+          "criticality": "medium",
+          "usage": "frontend"
+        }
+      ],
+      "sbomComponents": [
+        "pkg:pypi/django@5.0.0",
+        "pkg:generic/postgresql@16.1",
+        "pkg:npm/react@18.3.1"
+      ],
+      "lastUpdated": "2025-01-27",
+      "format": "CycloneDX 1.4"
+    },
+    {
+      "id": "sap-erp",
+      "name": "SAP ERP",
+      "version": "S/4HANA 2023",
+      "category": "erp",
+      "industry": ["manufacturing", "financial-services", "retail", "automotive", "aerospace"],
+      "path": "/baseline-sboms/business-apps/sap-erp-latest.json",
+      "description": "Enterprise resource planning software for business process management",
+      "vendor": "SAP",
+      "deployment": "hybrid",
+      "license": "Commercial",
+      "usage": {
+        "marketShare": 22.5,
+        "enterpriseAdoption": 95,
+        "activeUsers": 440000,
+        "heatMapScore": 91
+      },
+      "functions": [
+        "enterprise-resource-planning",
+        "business-process-management",
+        "financial-management",
+        "supply-chain-management"
+      ],
+      "dependencies": [
+        {
+          "componentId": "spring-boot-latest",
+          "relationship": "uses",
+          "criticality": "medium",
+          "usage": "microservices"
+        },
+        {
+          "componentId": "postgresql-latest",
+          "relationship": "uses",
+          "criticality": "medium",
+          "usage": "data-storage"
+        }
+      ],
+      "sbomComponents": [
+        "pkg:maven/org.springframework.boot/spring-boot@3.2.0",
+        "pkg:generic/postgresql@16.1"
+      ],
+      "lastUpdated": "2025-01-27",
+      "format": "CycloneDX 1.4"
+    },
+    {
+      "id": "okta",
+      "name": "Okta",
+      "version": "2024",
+      "category": "security",
+      "industry": ["technology", "financial-services", "healthcare", "government"],
+      "path": "/baseline-sboms/business-apps/okta-latest.json",
+      "description": "Identity and access management platform with single sign-on and multi-factor authentication",
+      "vendor": "Okta",
+      "deployment": "cloud",
+      "license": "Commercial",
+      "usage": {
+        "marketShare": 18.7,
+        "enterpriseAdoption": 85,
+        "activeUsers": 18000,
+        "heatMapScore": 87
+      },
+      "functions": [
+        "identity-management",
+        "single-sign-on",
+        "multi-factor-authentication",
+        "access-control"
+      ],
+      "dependencies": [
+        {
+          "componentId": "spring-boot-latest",
+          "relationship": "uses",
+          "criticality": "high",
+          "usage": "backend-framework"
+        },
+        {
+          "componentId": "react-latest",
+          "relationship": "uses",
+          "criticality": "medium",
+          "usage": "admin-console"
+        }
+      ],
+      "sbomComponents": [
+        "pkg:maven/org.springframework.boot/spring-boot@3.2.0",
+        "pkg:npm/react@18.3.1"
+      ],
+      "lastUpdated": "2025-01-27",
+      "format": "CycloneDX 1.4"
+    }
+  ],
+  "dependencyMappings": {
+    "byComponent": {
+      "react-latest": {
+        "usedBy": [
+          {
+            "appId": "salesforce-crm",
+            "appName": "Salesforce CRM",
+            "usage": "frontend-framework",
+            "criticality": "medium"
+          },
+          {
+            "appId": "microsoft-office-365",
+            "appName": "Microsoft Office 365",
+            "usage": "web-applications",
+            "criticality": "high"
+          },
+          {
+            "appId": "google-workspace",
+            "appName": "Google Workspace",
+            "usage": "frontend-framework",
+            "criticality": "high"
+          },
+          {
+            "appId": "slack",
+            "appName": "Slack",
+            "usage": "frontend-framework",
+            "criticality": "high"
+          },
+          {
+            "appId": "microsoft-teams",
+            "appName": "Microsoft Teams",
+            "usage": "ui-components",
+            "criticality": "high"
+          },
+          {
+            "appId": "github-enterprise",
+            "appName": "GitHub Enterprise",
+            "usage": "web-interface",
+            "criticality": "medium"
+          },
+          {
+            "appId": "jira",
+            "appName": "Jira",
+            "usage": "frontend",
+            "criticality": "medium"
+          },
+          {
+            "appId": "hubspot-crm",
+            "appName": "HubSpot CRM",
+            "usage": "frontend",
+            "criticality": "medium"
+          },
+          {
+            "appId": "okta",
+            "appName": "Okta",
+            "usage": "admin-console",
+            "criticality": "medium"
+          }
+        ],
+        "usageCount": 9,
+        "heatMapScore": 88
+      },
+      "postgresql-latest": {
+        "usedBy": [
+          {
+            "appId": "salesforce-crm",
+            "appName": "Salesforce CRM",
+            "usage": "primary-database",
+            "criticality": "high"
+          },
+          {
+            "appId": "slack",
+            "appName": "Slack",
+            "usage": "message-storage",
+            "criticality": "high"
+          },
+          {
+            "appId": "github-enterprise",
+            "appName": "GitHub Enterprise",
+            "usage": "data-storage",
+            "criticality": "high"
+          },
+          {
+            "appId": "jira",
+            "appName": "Jira",
+            "usage": "database",
+            "criticality": "high"
+          },
+          {
+            "appId": "hubspot-crm",
+            "appName": "HubSpot CRM",
+            "usage": "database",
+            "criticality": "high"
+          },
+          {
+            "appId": "sap-erp",
+            "appName": "SAP ERP",
+            "usage": "data-storage",
+            "criticality": "medium"
+          }
+        ],
+        "usageCount": 6,
+        "heatMapScore": 92
+      },
+      "express-latest": {
+        "usedBy": [
+          {
+            "appId": "salesforce-crm",
+            "appName": "Salesforce CRM",
+            "usage": "backend-api",
+            "criticality": "medium"
+          },
+          {
+            "appId": "slack",
+            "appName": "Slack",
+            "usage": "backend-api",
+            "criticality": "high"
+          }
+        ],
+        "usageCount": 2,
+        "heatMapScore": 75
+      },
+      "spring-boot-latest": {
+        "usedBy": [
+          {
+            "appId": "jira",
+            "appName": "Jira",
+            "usage": "backend-framework",
+            "criticality": "high"
+          },
+          {
+            "appId": "sap-erp",
+            "appName": "SAP ERP",
+            "usage": "microservices",
+            "criticality": "medium"
+          },
+          {
+            "appId": "okta",
+            "appName": "Okta",
+            "usage": "backend-framework",
+            "criticality": "high"
+          }
+        ],
+        "usageCount": 3,
+        "heatMapScore": 82
+      },
+      "django-latest": {
+        "usedBy": [
+          {
+            "appId": "hubspot-crm",
+            "appName": "HubSpot CRM",
+            "usage": "backend-framework",
+            "criticality": "high"
+          }
+        ],
+        "usageCount": 1,
+        "heatMapScore": 68
+      },
+      "typescript-latest": {
+        "usedBy": [
+          {
+            "appId": "microsoft-office-365",
+            "appName": "Microsoft Office 365",
+            "usage": "type-safety",
+            "criticality": "high"
+          },
+          {
+            "appId": "microsoft-teams",
+            "appName": "Microsoft Teams",
+            "usage": "type-safety",
+            "criticality": "high"
+          }
+        ],
+        "usageCount": 2,
+        "heatMapScore": 80
+      },
+      "docker-latest": {
+        "usedBy": [
+          {
+            "appId": "google-workspace",
+            "appName": "Google Workspace",
+            "usage": "containerization",
+            "criticality": "high"
+          }
+        ],
+        "usageCount": 1,
+        "heatMapScore": 70
+      }
+    },
+    "byApplication": {
+      "salesforce-crm": {
+        "directDependencies": ["react-latest", "express-latest", "postgresql-latest"],
+        "transitiveDependencies": ["axios-latest", "typescript-latest"],
+        "dependencyDepth": 3,
+        "totalComponents": 156
+      },
+      "microsoft-office-365": {
+        "directDependencies": ["react-latest", "typescript-latest"],
+        "transitiveDependencies": [],
+        "dependencyDepth": 2,
+        "totalComponents": 89
+      },
+      "google-workspace": {
+        "directDependencies": ["react-latest", "docker-latest"],
+        "transitiveDependencies": ["express-latest"],
+        "dependencyDepth": 2,
+        "totalComponents": 234
+      },
+      "slack": {
+        "directDependencies": ["react-latest", "express-latest", "postgresql-latest"],
+        "transitiveDependencies": ["axios-latest"],
+        "dependencyDepth": 3,
+        "totalComponents": 127
+      },
+      "microsoft-teams": {
+        "directDependencies": ["react-latest", "typescript-latest"],
+        "transitiveDependencies": [],
+        "dependencyDepth": 2,
+        "totalComponents": 145
+      },
+      "github-enterprise": {
+        "directDependencies": ["postgresql-latest", "react-latest"],
+        "transitiveDependencies": ["express-latest"],
+        "dependencyDepth": 2,
+        "totalComponents": 312
+      },
+      "jira": {
+        "directDependencies": ["spring-boot-latest", "postgresql-latest", "react-latest"],
+        "transitiveDependencies": ["axios-latest"],
+        "dependencyDepth": 3,
+        "totalComponents": 198
+      },
+      "hubspot-crm": {
+        "directDependencies": ["django-latest", "postgresql-latest", "react-latest"],
+        "transitiveDependencies": ["djangorestframework-latest", "psycopg2-latest"],
+        "dependencyDepth": 3,
+        "totalComponents": 167
+      },
+      "sap-erp": {
+        "directDependencies": ["spring-boot-latest", "postgresql-latest"],
+        "transitiveDependencies": [],
+        "dependencyDepth": 2,
+        "totalComponents": 445
+      },
+      "okta": {
+        "directDependencies": ["spring-boot-latest", "react-latest"],
+        "transitiveDependencies": ["axios-latest"],
+        "dependencyDepth": 2,
+        "totalComponents": 78
+      }
+    }
+  },
+  "usageHeatMap": {
+    "byCategory": {
+      "crm": {
+        "score": 95,
+        "applications": ["salesforce-crm", "hubspot-crm"],
+        "totalUsage": 150184000
+      },
+      "productivity": {
+        "score": 98,
+        "applications": ["microsoft-office-365", "google-workspace"],
+        "totalUsage": 4200000000
+      },
+      "communication": {
+        "score": 90,
+        "applications": ["slack", "microsoft-teams"],
+        "totalUsage": 340000000
+      },
+      "development": {
+        "score": 90,
+        "applications": ["github-enterprise", "jira"],
+        "totalUsage": 100180000
+      },
+      "erp": {
+        "score": 91,
+        "applications": ["sap-erp"],
+        "totalUsage": 440000
+      },
+      "security": {
+        "score": 87,
+        "applications": ["okta"],
+        "totalUsage": 18000
+      },
+      "frontend-framework": {
+        "score": 88,
+        "components": ["react-latest"],
+        "totalUsage": 0
+      },
+      "database": {
+        "score": 92,
+        "components": ["postgresql-latest"],
+        "totalUsage": 0
+      },
+      "backend-framework": {
+        "score": 78,
+        "components": ["express-latest", "spring-boot-latest", "django-latest"],
+        "totalUsage": 0
+      }
+    },
+    "byFunction": {
+      "customer-relationship-management": 95,
+      "document-management": 98,
+      "communication": 90,
+      "data-storage": 92,
+      "analytics": 85,
+      "version-control": 94,
+      "project-management": 86,
+      "identity-management": 87,
+      "enterprise-resource-planning": 91,
+      "collaboration": 97
+    },
+    "byIndustry": {
+      "technology": 94,
+      "financial-services": 91,
+      "healthcare": 89,
+      "retail": 87,
+      "manufacturing": 83,
+      "education": 88,
+      "government": 85,
+      "startups": 82
+    }
+  },
+  "categories": {
+    "frontend-framework": "Frontend JavaScript frameworks and libraries",
+    "backend-framework": "Backend web frameworks and application servers",
+    "web-framework": "Full-stack web application frameworks",
+    "api-framework": "API development frameworks and toolkits",
+    "http-client": "HTTP client libraries and networking tools",
+    "language": "Programming languages and compilers",
+    "database": "Database management systems",
+    "database-driver": "Database connectivity drivers and adapters",
+    "containerization": "Container and orchestration platforms",
+    "infrastructure": "Infrastructure and deployment tools",
+    "crm": "Customer Relationship Management software",
+    "erp": "Enterprise Resource Planning software",
+    "productivity": "Productivity and collaboration tools",
+    "communication": "Communication and messaging platforms",
+    "analytics": "Business intelligence and analytics platforms",
+    "security": "Security and compliance software",
+    "development": "Development and DevOps tools"
+  },
+  "ecosystems": {
+    "npm": "Node.js package manager - JavaScript/TypeScript packages",
+    "pypi": "Python Package Index - Python packages",
+    "maven": "Apache Maven - Java packages and dependencies",
+    "golang": "Go modules - Go programming language packages",
+    "database": "Database systems and management platforms",
+    "infrastructure": "Infrastructure, DevOps, and deployment tools",
+    "business-apps": "Enterprise and business applications",
+    "saas": "Software as a Service applications"
+  }
+}
