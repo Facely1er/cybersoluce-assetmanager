@@ -31,9 +31,9 @@ export const Logo: React.FC<LogoProps> = ({
       
       {showText && (
         <div className="flex flex-col justify-center min-w-0 ml-2 -space-y-0.5">
-          {/* CyberSoluce - Increased size, refined styling */}
+          {/* CyberSoluce - Reduced size to match line below */}
           <div className="flex items-baseline gap-0.5 leading-none">
-            <span className="font-outfit text-3xl font-semibold tracking-tight bg-gradient-to-r from-gray-900 via-command-blue-600 to-action-cyan-400 dark:from-white dark:via-command-blue-400 dark:to-action-cyan-400 bg-clip-text text-transparent transition-all duration-300 whitespace-nowrap">
+            <span className="font-outfit text-base font-semibold tracking-tight bg-gradient-to-r from-gray-900 via-command-blue-600 to-action-cyan-400 dark:from-white dark:via-command-blue-400 dark:to-action-cyan-400 bg-clip-text text-transparent transition-all duration-300 whitespace-nowrap">
               CyberSoluce
             </span>
             <sup className="font-outfit text-xs font-semibold text-action-cyan-400 dark:text-action-cyan-300 leading-none relative -top-1">™</sup>
