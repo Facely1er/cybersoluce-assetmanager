@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Database, FileText, Building2, CheckCircle, Lock, Zap, FileDown, Award } from 'lucide-react';
+import { Database, FileText, Building2, CheckCircle, Lock, Zap, FileDown, Award, ArrowLeft } from 'lucide-react';
 
 /**
  * ToolsPage component - Displays the free cybersecurity tools page
@@ -20,7 +20,15 @@ const ToolsPage: React.FC = () => {
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-[#005B96] to-[#33A1DE] text-white pt-8 pb-16">
         <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="text-center">
+          <div className="text-center relative">
+            {/* Back to Main Site Button */}
+            <Link
+              to="/"
+              className="absolute top-0 left-0 flex items-center gap-2 text-white/90 hover:text-white transition-colors text-sm font-medium"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Main Site
+            </Link>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Free Cybersecurity Assessment Tools</h1>
             <p className="text-lg md:text-xl text-gray-100 mb-8 max-w-3xl mx-auto">
               Start your cybersecurity journey with our professional, browser-based tools. No installation, no account required. Privacy-first design.

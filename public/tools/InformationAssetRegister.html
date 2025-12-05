@@ -48,10 +48,15 @@
 
         function updateThemeIcon(theme) {
             const icon = document.getElementById('theme-icon');
+            const iconHeader = document.getElementById('theme-icon-header');
+            const iconContent = theme === 'dark' 
+                ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>'
+                : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
             if (icon) {
-                icon.innerHTML = theme === 'dark' 
-                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>'
-                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+                icon.innerHTML = iconContent;
+            }
+            if (iconHeader) {
+                iconHeader.innerHTML = iconContent;
             }
         }
 
@@ -103,8 +108,37 @@
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <!-- CyberSoluce Header -->
+    <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo and Branding -->
+                <a href="/" class="flex items-center group flex-shrink-0">
+                    <img src="/cybersoluce.png" alt="CyberSoluce Logo" class="h-12 w-12 object-contain group-hover:scale-105 transition-transform duration-300" />
+                    <div class="flex flex-col justify-center min-w-0 ml-2">
+                        <h1 class="text-foreground font-bold text-lg leading-none">
+                            CyberSoluce<sup class="text-xs font-bold leading-none relative -top-0.5">™</sup>
+                        </h1>
+                        <p class="text-muted-foreground text-xs leading-none mt-0.5">Asset Intelligence</p>
+                    </div>
+                </a>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center space-x-4">
+                    <a href="/" class="text-gray-700 dark:text-gray-300 hover:text-[#005B96] dark:hover:text-[#33A1DE] transition-colors text-sm font-medium">Home</a>
+                    <a href="/tools/" class="text-gray-700 dark:text-gray-300 hover:text-[#005B96] dark:hover:text-[#33A1DE] transition-colors text-sm font-medium">Free Tools</a>
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition-colors" title="Toggle theme">
+                        <svg id="theme-icon-header" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
     <div class="max-w-7xl mx-auto p-6">
-        <!-- Header -->
+        <!-- Tool Header -->
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
@@ -133,7 +167,13 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                         </svg>
-                        Export
+                        Export Data
+                    </button>
+                    <button onclick="downloadTool()" class="btn-secondary flex items-center gap-2" title="Download this tool as a standalone HTML file">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Download Tool
                     </button>
                     <button onclick="showAddDialog()" class="btn-primary flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +181,18 @@
                         </svg>
                         Add Asset
                     </button>
+                    <button onclick="showHelpDialog()" class="btn-secondary flex items-center gap-2" title="View user guide and framework support">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Help & Guide
+                    </button>
                 </div>
+            </div>
+            <!-- Autosave Indicator -->
+            <div id="autosave-indicator" class="mt-2 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                <span id="autosave-status" class="hidden">Auto-saving...</span>
+                <span id="autosave-saved" class="hidden text-green-600 dark:text-green-400">✓ Saved</span>
             </div>
         </div>
 
@@ -1439,6 +1490,7 @@
             filteredAssets = assets;
             renderAssets();
             updateStatistics();
+            triggerAutosave();
         }
 
         // Reset Import
@@ -1618,6 +1670,231 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
+
+        // Download Tool Functionality
+        function downloadTool() {
+            const htmlContent = document.documentElement.outerHTML;
+            const disclaimer = `
+<!--
+================================================================================
+CYBERSOLUCE INFORMATION ASSET REGISTER - STANDALONE VERSION
+================================================================================
+This tool is provided by ERMITS LLC under the CyberSoluce™ brand.
+
+DISCLAIMER:
+This tool is provided "as is" without warranty of any kind, express or implied.
+ERMITS LLC does not guarantee the accuracy, completeness, or usefulness of
+this tool or any information provided. Use of this tool is at your own risk.
+
+LICENSE:
+This tool is provided for personal and commercial use. You may download,
+modify, and distribute this tool, but you must include this disclaimer and
+attribution to ERMITS LLC and CyberSoluce™.
+
+For the latest version and support, visit: https://cybersoluce.ermits-advisory.com
+
+© 2025 ERMITS LLC. All rights reserved.
+CyberSoluce™ is a trademark of ERMITS LLC.
+================================================================================
+-->
+
+`;
+            const modifiedContent = htmlContent.replace('<!DOCTYPE html>', '<!DOCTYPE html>\n' + disclaimer);
+            const blob = new Blob([modifiedContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'CyberSoluce-Information-Asset-Register.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert('Tool downloaded successfully!\n\nThe downloaded file includes:\n- Full CyberSoluce branding\n- All functionality\n- Disclaimer and license information\n\nYou can use this tool offline or share it with others.');
+        }
+
+        // Show Help Dialog
+        function showHelpDialog() {
+            document.getElementById('help-dialog').classList.add('active');
+        }
+
+        // Close Help Dialog
+        function closeHelpDialog() {
+            document.getElementById('help-dialog').classList.remove('active');
+        }
     </script>
+
+    <!-- Help & Guide Dialog -->
+    <div id="help-dialog" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto m-4">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">User Guide & Framework Support</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Learn how to use this tool and what requirements it supports</p>
+                </div>
+                <button onclick="closeHelpDialog()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="px-6 py-4 space-y-6">
+                <!-- Getting Started -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Getting Started</h3>
+                    <div class="space-y-3 text-sm text-gray-700 dark:text-gray-300">
+                        <div>
+                            <h4 class="font-semibold mb-1">1. Add Assets</h4>
+                            <p>Click "Add Asset" to manually enter information assets. Complete all fields for better compliance scoring.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">2. Import Existing Register</h4>
+                            <p>Use "Import Register" to upload CSV or JSON files with your existing asset data.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">3. Auto-Save</h4>
+                            <p>Your data is automatically saved to your browser's local storage. No manual saving required.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">4. Gap Analysis</h4>
+                            <p>Review the automated gap analysis to identify missing controls and compliance gaps.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Framework Support -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Compliance Framework Support</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="font-semibold text-[#005B96] dark:text-[#33A1DE] mb-2">ISO 27001</h4>
+                                <ul class="text-xs space-y-1 text-gray-600 dark:text-gray-400">
+                                    <li>• A.8.1.1 - Inventory of Assets</li>
+                                    <li>• A.8.2.1 - Classification of Information</li>
+                                    <li>• A.8.1.2 - Ownership of Assets</li>
+                                    <li>• A.8.2.2 - Labeling of Information</li>
+                                    <li>• A.8.2.3 - Handling of Assets</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="font-semibold text-[#005B96] dark:text-[#33A1DE] mb-2">SOC 2</h4>
+                                <ul class="text-xs space-y-1 text-gray-600 dark:text-gray-400">
+                                    <li>• CC6.1 - Logical and Physical Access Controls</li>
+                                    <li>• CC6.6 - Data Classification</li>
+                                    <li>• CC7.2 - System Monitoring</li>
+                                    <li>• Asset inventory and management</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="font-semibold text-[#005B96] dark:text-[#33A1DE] mb-2">NIST CSF</h4>
+                                <ul class="text-xs space-y-1 text-gray-600 dark:text-gray-400">
+                                    <li>• ID.AM - Asset Management</li>
+                                    <li>• PR.AC - Access Control</li>
+                                    <li>• PR.DS - Data Security</li>
+                                    <li>• PR.IP - Information Protection</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="font-semibold text-[#005B96] dark:text-[#33A1DE] mb-2">GDPR</h4>
+                                <ul class="text-xs space-y-1 text-gray-600 dark:text-gray-400">
+                                    <li>• Article 30 - Records of Processing</li>
+                                    <li>• Article 32 - Security of Processing</li>
+                                    <li>• Data protection by design</li>
+                                    <li>• Asset classification and protection</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Best Practices</h3>
+                    <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <p><strong>Complete all control fields:</strong> Higher completeness scores indicate better compliance readiness.</p>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <p><strong>Use proper classification:</strong> Classify assets as Public, Internal, Confidential, or Restricted.</p>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <p><strong>Review gap analysis regularly:</strong> Address missing controls to improve your compliance posture.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex justify-end">
+                <button onclick="closeHelpDialog()" class="btn-primary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CyberSoluce Footer -->
+    <footer class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white border-t border-gray-200 dark:border-gray-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="mb-3">
+                        <img src="/cybersoluce.png" alt="CyberSoluce Logo" class="h-12 w-12 object-contain" />
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">
+                        Track, manage, and secure your digital assets with advanced filtering and compliance mapping.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-base font-semibold mb-2 text-gray-900 dark:text-white">Product</h3>
+                    <ul class="space-y-1">
+                        <li><a href="/" class="text-gray-600 dark:text-gray-400 hover:text-[#005B96] dark:hover:text-[#33A1DE] transition-colors text-xs">Home</a></li>
+                        <li><a href="/tools/" class="text-gray-600 dark:text-gray-400 hover:text-[#005B96] dark:hover:text-[#33A1DE] transition-colors text-xs">Free Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-base font-semibold mb-2 text-gray-900 dark:text-white">Resources</h3>
+                    <ul class="space-y-1">
+                        <li><a href="/tools/" class="text-gray-600 dark:text-gray-400 hover:text-[#005B96] dark:hover:text-[#33A1DE] transition-colors text-xs">Free Tools</a></li>
+                        <li><a href="/tools/DataInventoryTool.html" class="text-gray-600 dark:text-gray-400 hover:text-[#005B96] dark:hover:text-[#33A1DE] transition-colors text-xs">Data Inventory</a></li>
+                        <li><a href="/tools/InformationAssetRegister.html" class="text-gray-600 dark:text-gray-400 hover:text-[#005B96] dark:hover:text-[#33A1DE] transition-colors text-xs">Asset Register</a></li>
+                        <li><a href="/tools/VendorRegisterManager.html" class="text-gray-600 dark:text-gray-400 hover:text-[#005B96] dark:hover:text-[#33A1DE] transition-colors text-xs">Vendor Register</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-base font-semibold mb-2 text-gray-900 dark:text-white">Legal</h3>
+                    <ul class="space-y-1">
+                        <li><a href="/legal/privacy" class="text-gray-600 dark:text-gray-400 hover:text-[#005B96] dark:hover:text-[#33A1DE] transition-colors text-xs">Privacy Policy</a></li>
+                        <li><a href="/legal/terms" class="text-gray-600 dark:text-gray-400 hover:text-[#005B96] dark:hover:text-[#33A1DE] transition-colors text-xs">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 dark:border-gray-800 mt-6 pt-4">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="text-gray-600 dark:text-gray-400 text-xs">
+                        © 2025 ERMITS LLC. All rights reserved.
+                    </div>
+                    <div class="mt-2 md:mt-0">
+                        <a href="/" class="inline-flex items-center px-3 py-1 bg-[#005B96] hover:bg-[#004A7A] dark:bg-[#0066B3] dark:hover:bg-[#005B96] text-white rounded-lg transition-colors text-xs font-medium">
+                            Back to Main Site
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
