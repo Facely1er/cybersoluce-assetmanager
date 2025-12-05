@@ -36,19 +36,40 @@ export async function submitFeedback(
       submittedAt: new Date().toISOString(),
     };
 
-    // If Supabase is not enabled, fall back to console logging
+    // If Supabase is not enabled, fall back to localStorage
     if (!isSupabaseEnabled || !supabase) {
       logger.info('Feedback submission (demo mode):', feedback);
-      // In demo mode, we could also store in localStorage as a fallback
-      const existingFeedback = JSON.parse(
-        localStorage.getItem('cybersoluce_feedback') || '[]'
-      );
-      existingFeedback.push({
-        ...feedback,
-        id: `demo_${Date.now()}`,
-        createdAt: new Date().toISOString(),
-      });
-      localStorage.setItem('cybersoluce_feedback', JSON.stringify(existingFeedback));
+      // In demo mode, store in localStorage as a fallback
+      try {
+        const stored = localStorage.getItem('cybersoluce_feedback');
+        const existingFeedback = stored ? JSON.parse(stored) : [];
+        
+        if (!Array.isArray(existingFeedback)) {
+          throw new Error('Invalid stored feedback format');
+        }
+        
+        existingFeedback.push({
+          ...feedback,
+          id: `demo_${Date.now()}`,
+          createdAt: new Date().toISOString(),
+        });
+        localStorage.setItem('cybersoluce_feedback', JSON.stringify(existingFeedback));
+      } catch (error) {
+        logger.warn('Failed to store feedback in localStorage, resetting storage', error);
+        // Reset corrupted storage
+        try {
+          localStorage.removeItem('cybersoluce_feedback');
+          // Try storing just this feedback
+          localStorage.setItem('cybersoluce_feedback', JSON.stringify([{
+            ...feedback,
+            id: `demo_${Date.now()}`,
+            createdAt: new Date().toISOString(),
+          }]));
+        } catch (storageError) {
+          logger.error('Failed to reset localStorage for feedback', storageError);
+          // Continue anyway - feedback is logged
+        }
+      }
       
       return { success: true };
     }
@@ -80,15 +101,27 @@ export async function submitFeedback(
 export async function getUserFeedback(
   userId: string
 ): Promise<FeedbackSubmission[]> {
-  try {
-    if (!isSupabaseEnabled || !supabase) {
-      // In demo mode, return from localStorage
-      const stored = localStorage.getItem('cybersoluce_feedback');
-      if (!stored) return [];
-      
-      const allFeedback = JSON.parse(stored);
-      return allFeedback.filter((f: FeedbackSubmission) => f.userId === userId);
-    }
+    try {
+      if (!isSupabaseEnabled || !supabase) {
+        // In demo mode, return from localStorage
+        try {
+          const stored = localStorage.getItem('cybersoluce_feedback');
+          if (!stored) return [];
+          
+          const allFeedback = JSON.parse(stored);
+          if (!Array.isArray(allFeedback)) {
+            logger.warn('Invalid feedback storage format, resetting');
+            localStorage.removeItem('cybersoluce_feedback');
+            return [];
+          }
+          
+          return allFeedback.filter((f: FeedbackSubmission) => f.userId === userId);
+        } catch (error) {
+          logger.warn('Failed to parse stored feedback, resetting storage', error);
+          localStorage.removeItem('cybersoluce_feedback');
+          return [];
+        }
+      }
 
     const { data, error } = await supabase
       .from('feedback_submissions')

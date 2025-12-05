@@ -5,6 +5,7 @@ import { submitFeedback } from '@/services/feedbackService';
 import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
 import { MessageSquare } from 'lucide-react';
+import { logger } from '@/utils/logger';
 const FeedbackPage: React.FC = () => {
   const { user } = useAuth();
   const [loading, setLoading] = React.useState(false);
@@ -23,7 +24,7 @@ const FeedbackPage: React.FC = () => {
       }
     } catch (error) {
       toast.error('An unexpected error occurred. Please try again.');
-      console.error('Error submitting feedback:', error);
+      logger.error('Error submitting feedback', error instanceof Error ? error : new Error(String(error)));
     } finally {
       setLoading(false);
     }

@@ -36,22 +36,55 @@ class ServiceFallbackManager {
   private readonly MAX_CONSECUTIVE_FAILURES = 3;
   private readonly NETWORK_CHECK_INTERVAL = 30000; // 30 seconds
 
+  // Store references for cleanup
+  private onlineHandler?: () => void;
+  private offlineHandler?: () => void;
+  private networkCheckInterval?: number;
+
   constructor() {
     // Monitor network status
     if (typeof window !== 'undefined') {
-      window.addEventListener('online', () => {
+      // Store handler references for cleanup
+      this.onlineHandler = () => {
         this.networkStatus.isOnline = true;
         this.networkStatus.consecutiveFailures = 0;
         logger.info('Network connection restored');
-      });
+      };
 
-      window.addEventListener('offline', () => {
+      this.offlineHandler = () => {
         this.networkStatus.isOnline = false;
         logger.warn('Network connection lost');
-      });
+      };
 
-      // Periodic network check
-      setInterval(() => this.checkNetworkStatus(), this.NETWORK_CHECK_INTERVAL);
+      window.addEventListener('online', this.onlineHandler);
+      window.addEventListener('offline', this.offlineHandler);
+
+      // Periodic network check - store interval ID for cleanup
+      this.networkCheckInterval = window.setInterval(
+        () => this.checkNetworkStatus(),
+        this.NETWORK_CHECK_INTERVAL
+      );
+    }
+  }
+
+  /**
+   * Cleanup method to remove event listeners and clear intervals
+   * Call this when the service is no longer needed (e.g., app unmount)
+   */
+  cleanup(): void {
+    if (typeof window !== 'undefined') {
+      if (this.onlineHandler) {
+        window.removeEventListener('online', this.onlineHandler);
+        this.onlineHandler = undefined;
+      }
+      if (this.offlineHandler) {
+        window.removeEventListener('offline', this.offlineHandler);
+        this.offlineHandler = undefined;
+      }
+      if (this.networkCheckInterval !== undefined) {
+        window.clearInterval(this.networkCheckInterval);
+        this.networkCheckInterval = undefined;
+      }
     }
   }
 

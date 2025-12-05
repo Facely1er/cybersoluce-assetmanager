@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { AssetStats } from '../types/asset';
 import { format, subDays } from 'date-fns';
+import { logger } from '../utils/logger';
 import { useAssetInventory } from '../contexts/AssetInventoryContext';
 import { FocusFunnel } from './FocusFunnel';
 import { signalDetectionService } from '../services/signalDetectionService';
@@ -88,7 +89,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
         const detectedSignals = await signalDetectionService.detectSignals(assets, { isDemo });
         setSignals(detectedSignals);
       } catch (error) {
-        console.error('Failed to detect signals:', error);
+        logger.error('Failed to detect signals', error instanceof Error ? error : new Error(String(error)));
         setSignals([]);
       } finally {
         setLoadingSignals(false);
