@@ -1,25 +1,12 @@
 import { Asset } from '../types/asset';
+import { DataInventoryItem } from '../types/dataInventory';
+import { isDemoMode } from '../demo/demoDataManager';
 
 export interface CSVParseResult {
   success: boolean;
   assets: Partial<Asset>[];
   errors: string[];
 }
-
-// CSV column mapping
-const CSV_COLUMNS = {
-  name: 'Name',
-  type: 'Type',
-  criticality: 'Criticality',
-  owner: 'Owner',
-  location: 'Location',
-  ipAddress: 'IP Address',
-  description: 'Description',
-  riskScore: 'Risk Score',
-  status: 'Status',
-  complianceFrameworks: 'Compliance Frameworks',
-  tags: 'Tags'
-};
 
 const REQUIRED_COLUMNS = ['Name', 'Type', 'Criticality', 'Owner', 'Location'];
 
@@ -36,7 +23,7 @@ export const parseCSVContent = (content: string): CSVParseResult => {
     }
 
     // Parse header
-    const headers = parseCSVLine(lines[0]);
+    const headers = parseCSVLine(lines[0]!);
     const headerMap = createHeaderMap(headers);
     
     // Validate required columns
@@ -55,8 +42,8 @@ export const parseCSVContent = (content: string): CSVParseResult => {
 
     for (let i = 1; i < lines.length; i++) {
       try {
-        const values = parseCSVLine(lines[i]);
-        const asset = parseAssetFromRow(values, headerMap, i + 1);
+        const values = parseCSVLine(lines[i]!);
+        const asset = parseAssetFromRow(values, headerMap);
         
         if (asset) {
           assets.push(asset);
@@ -125,11 +112,13 @@ const createHeaderMap = (headers: string[]): Map<string, number> => {
   return map;
 };
 
-const parseAssetFromRow = (values: string[], headerMap: Map<string, number>, rowNumber: number): Partial<Asset> | null => {
+const parseAssetFromRow = (values: string[], headerMap: Map<string, number>): Partial<Asset> | null => {
   const getValue = (columnName: string): string => {
     const index = headerMap.get(columnName);
     if (index === undefined || index >= values.length) return '';
-    return values[index].replace(/"/g, '').trim();
+    const value = values[index];
+    if (value === undefined) return '';
+    return value.replace(/"/g, '').trim();
   };
 
   const name = getValue('Name');
@@ -289,11 +278,7 @@ export const exportAssetsToCSV = (assets: Asset[]): void => {
   // Check for demo mode
   let isDemo = false;
   try {
-    // Dynamic import to avoid circular dependencies
-    const demoModule = require('../demo/demoDataManager');
-    if (demoModule && typeof demoModule.isDemoMode === 'function') {
-      isDemo = demoModule.isDemoMode();
-    }
+    isDemo = isDemoMode();
   } catch {
     // Demo module not available, assume not demo mode
   }
@@ -369,7 +354,7 @@ export const generateEnhancedCSVTemplate = (): void => {
 };
 
 // Data Inventory CSV functions
-export const exportDataInventoryToCSV = (items: any[]): void => {
+export const exportDataInventoryToCSV = (items: DataInventoryItem[]): void => {
   const headers = [
     'Name',
     'Data Type',
@@ -509,6 +494,56 @@ export const generateDataInventoryJSONTemplate = (): void => {
   
   link.setAttribute('href', url);
   link.setAttribute('download', 'data-inventory-template.json');
+  link.style.visibility = 'hidden';
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  URL.revokeObjectURL(url);
+};
+
+export const generateAssetsTemplate = (): void => {
+  generateCSVTemplate();
+};
+
+export const generateAssetsJSONTemplate = (): void => {
+  const template = [
+    {
+      name: 'Production Web Server',
+      type: 'Server',
+      criticality: 'Critical',
+      owner: 'DevOps Team',
+      location: 'Data Center A',
+      ipAddress: '192.168.1.10',
+      description: 'Primary web server for customer applications',
+      riskScore: 85,
+      status: 'Active',
+      complianceFrameworks: ['SOC 2', 'PCI DSS'],
+      tags: ['production', 'web-server', 'customer-facing']
+    },
+    {
+      name: 'Customer Database',
+      type: 'Database',
+      criticality: 'Critical',
+      owner: 'Database Team',
+      location: 'Data Center A',
+      ipAddress: '192.168.1.20',
+      description: 'Primary customer data repository',
+      riskScore: 92,
+      status: 'Active',
+      complianceFrameworks: ['SOC 2', 'PCI DSS', 'GDPR'],
+      tags: ['production', 'database', 'customer-data']
+    }
+  ];
+
+  const jsonContent = JSON.stringify(template, null, 2);
+  const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'assets-template.json');
   link.style.visibility = 'hidden';
   
   document.body.appendChild(link);
