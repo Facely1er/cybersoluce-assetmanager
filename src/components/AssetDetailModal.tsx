@@ -7,6 +7,7 @@ import { signalHistoryStore } from '../time/signalHistoryStore';
 import { analyzeSignalDrift } from '../time/signalDriftAnalyzer';
 import { DriftInsight } from '../contracts/cyberSoluce.drift.contract';
 import { EnrichedDataDisplay } from './assets/EnrichedDataDisplay';
+import { logger } from '../utils/logger';
 
 interface AssetDetailModalProps {
   asset: Asset | null;
@@ -40,7 +41,7 @@ export const AssetDetailModal: React.FC<AssetDetailModalProps> = ({
         }
       } catch (error) {
         if (process.env.NODE_ENV === 'development') {
-          console.warn('[AssetDetailModal] Failed to load drift insight:', error);
+          logger.warn('[AssetDetailModal] Failed to load drift insight:', error);
         }
         if (isMounted) {
           setDriftInsight(null);

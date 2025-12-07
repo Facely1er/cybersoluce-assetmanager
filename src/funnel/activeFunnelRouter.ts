@@ -13,6 +13,7 @@ import { FocusSignal } from '../types/enrichment';
 import { Dependency } from '../types/dependency';
 import { exportToCyberCorrect, CyberCorrectExport } from '../exports/toCyberCorrect';
 import { exportToVendorSoluce, VendorSoluceExport } from '../exports/toVendorSoluce';
+import { logger } from '../utils/logger';
 import { exportToTechnoSoluce, TechnoSoluceExport } from '../exports/toTechnoSoluce';
 
 export type FunnelDestination = 'CyberCorrect' | 'VendorSoluce' | 'TechnoSoluce' | 'CyberCaution' | 'ERMITSAdvisory';
@@ -320,7 +321,7 @@ export class ActiveFunnelRouter {
         JSON.stringify(context)
       );
     } catch (error) {
-      console.error('Failed to store export payload:', error);
+      logger.error('Failed to store export payload', error instanceof Error ? error : new Error(String(error)));
     }
   }
 

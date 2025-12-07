@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../ui/dialog';
 import { Input } from '../ui/input';
 import { toast } from 'react-hot-toast';
+import { logger } from '../../utils/logger';
 
 interface ValidationErrors {
   title?: string;
@@ -185,7 +186,7 @@ export const ReportsView: React.FC = () => {
           break;
       }
     } catch (error) {
-      console.error('Report generation failed:', error);
+      logger.error('Report generation failed', error instanceof Error ? error : new Error(String(error)), { reportType: selectedReport, format: selectedFormat });
       toast.error(`Failed to generate report: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setGenerating(false);

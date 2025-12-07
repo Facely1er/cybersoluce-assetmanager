@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { toast } from 'react-hot-toast';
+import { logger } from '../../utils/logger';
 
 export const DataInventoryView: React.FC = () => {
   const [dataItems, setDataItems] = useState<DataInventoryItem[]>([]);
@@ -195,7 +196,7 @@ export const DataInventoryView: React.FC = () => {
           }
           if (skipped > 0 || errors.length > 0) {
             toast.error(`${skipped} skipped, ${errors.length} errors. Check console for details.`);
-            console.warn('Import errors:', errors);
+            logger.warn('Import errors:', errors);
           }
         } else {
           toast.error(`Import failed: ${parseResult.errors.join(', ')}`);

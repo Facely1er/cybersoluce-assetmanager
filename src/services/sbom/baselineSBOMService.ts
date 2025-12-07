@@ -4,6 +4,8 @@
  * Ported from CyberSoluce-Lite with full feature parity
  */
 
+import { logger } from '../../utils/logger';
+
 export interface BaselineSBOM {
   id: string;
   name: string;
@@ -122,7 +124,7 @@ class BaselineSBOMService {
       .then(response => {
         if (!response.ok) {
           // If baseline directory not available, return empty index
-          console.warn('Baseline SBOM index not available, using empty index');
+          logger.warn('Baseline SBOM index not available, using empty index');
           return {
             version: '1.0.0',
             lastUpdated: new Date().toISOString(),
@@ -142,7 +144,7 @@ class BaselineSBOMService {
         return data;
       })
       .catch(error => {
-        console.error('Error loading baseline SBOM index:', error);
+        logger.error('Error loading baseline SBOM index', error instanceof Error ? error : new Error(String(error)));
         this.loadPromise = null;
         // Return empty index on error
         return {
@@ -241,7 +243,7 @@ class BaselineSBOMService {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error downloading baseline:', error);
+      logger.error('Error downloading baseline', error instanceof Error ? error : new Error(String(error)));
       throw error;
     }
   }

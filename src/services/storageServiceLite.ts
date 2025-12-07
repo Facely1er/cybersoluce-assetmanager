@@ -6,6 +6,7 @@
 import { APP_CONFIG } from '../utils/constantsLite';
 import { DataInventoryItem } from '../types/dataInventory';
 import { LiteAsset } from '../types/assetLite';
+import { logger } from '../utils/logger';
 
 export class StorageService {
   /**
@@ -26,7 +27,7 @@ export class StorageService {
           updatedAt: new Date(item.updatedAt || Date.now()),
         } as DataInventoryItem));
     } catch (error) {
-      console.error('Error loading data inventory:', error);
+      logger.error('Error loading data inventory', error instanceof Error ? error : new Error(String(error)));
       return [];
     }
   }
@@ -35,7 +36,7 @@ export class StorageService {
     try {
       localStorage.setItem(APP_CONFIG.STORAGE_KEYS.DATA_INVENTORY, JSON.stringify(items));
     } catch (error) {
-      console.error('Error saving data inventory:', error);
+      logger.error('Error saving data inventory', error instanceof Error ? error : new Error(String(error)));
       throw new Error('Failed to save data inventory');
     }
   }
@@ -87,7 +88,7 @@ export class StorageService {
           updatedAt: new Date(asset.updatedAt || Date.now()),
         } as LiteAsset));
     } catch (error) {
-      console.error('Error loading assets:', error);
+      logger.error('Error loading assets', error instanceof Error ? error : new Error(String(error)));
       return [];
     }
   }
@@ -96,7 +97,7 @@ export class StorageService {
     try {
       localStorage.setItem(APP_CONFIG.STORAGE_KEYS.ASSETS, JSON.stringify(assets));
     } catch (error) {
-      console.error('Error saving assets:', error);
+      logger.error('Error saving assets', error instanceof Error ? error : new Error(String(error)));
       throw new Error('Failed to save assets');
     }
   }

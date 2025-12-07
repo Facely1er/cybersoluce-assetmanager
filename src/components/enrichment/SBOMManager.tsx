@@ -10,6 +10,7 @@ import { Button } from '../ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog';
 import { toast } from 'react-hot-toast';
+import { logger } from '../../utils/logger';
 
 interface SBOMComponent {
   name: string;
@@ -117,7 +118,7 @@ export const SBOMManager: React.FC = () => {
       setSbomResults(convertedResults);
       toast.success(`Processed ${convertedResults.length} software assets`);
     } catch (error) {
-      console.error('SBOM processing failed:', error);
+      logger.error('SBOM processing failed', error instanceof Error ? error : new Error(String(error)));
       toast.error('Failed to process SBOMs');
     } finally {
       setLoading(false);

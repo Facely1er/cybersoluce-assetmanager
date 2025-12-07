@@ -12,6 +12,7 @@ import { parseCsvFile, mapCsvRowToAsset, buildInitialSignalsForCsvAsset, assetTo
 import { Asset } from '@/types/asset';
 import { CyberSoluceAssetContract } from '@/contracts/cyberSoluce.asset.contract';
 import { assetService } from './assetService';
+import { logger } from '../utils/logger';
 
 /**
  * Import batch result
@@ -167,7 +168,7 @@ export async function importCsvAssets(
 
   // Log errors if any assets failed to persist
   if (errors.length > 0) {
-    console.warn(`CSV import completed with ${errors.length} asset persistence errors:`, errors);
+    logger.warn(`CSV import completed with ${errors.length} asset persistence errors:`, errors);
   }
 
   return {

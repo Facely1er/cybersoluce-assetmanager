@@ -30,6 +30,7 @@ import { AssetSelector } from './funnel/AssetSelector';
 import { ActiveFunnelRouter } from '../funnel/activeFunnelRouter';
 import { useAssetInventory } from '../contexts/AssetInventoryContext';
 import { useNavigate } from 'react-router-dom';
+import { logger } from '../utils/logger';
 
 interface FocusFunnelProps {
   signals: FocusSignal[];
@@ -318,7 +319,7 @@ export const FocusFunnel: React.FC<FocusFunnelProps> = ({ signals, enableActiveR
                     alert(`Routing failed: ${result.error}`);
                   }
                 } catch (error) {
-                  console.error('Routing error:', error);
+                  logger.error('Routing error', error instanceof Error ? error : new Error(String(error)));
                   alert('Failed to route assets. Please try again.');
                 } finally {
                   setRoutingInProgress(false);

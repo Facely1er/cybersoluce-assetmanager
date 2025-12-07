@@ -13,6 +13,7 @@ import { Badge } from '../ui/badge';
 import { Asset } from '../../types/asset';
 import { SBOMAutogenerationService, SBOMAutogenerationResult } from '../../services/sbom/sbomAutogenerationService';
 import BaselineSBOMService, { BaselineSBOM } from '../../services/sbom/baselineSBOMService';
+import { logger } from '../../utils/logger';
 
 interface SBOMAutogenerationPanelProps {
   assets: Asset[];
@@ -39,7 +40,7 @@ export const SBOMAutogenerationPanel: React.FC<SBOMAutogenerationPanelProps> = (
       const allBaselines = await BaselineSBOMService.getAllBaselines();
       setBaselines(allBaselines);
     } catch (error) {
-      console.error('Failed to load baselines:', error);
+      logger.error('Failed to load baselines', error instanceof Error ? error : new Error(String(error)));
     }
   };
 
@@ -60,7 +61,7 @@ export const SBOMAutogenerationPanel: React.FC<SBOMAutogenerationPanelProps> = (
         }
       });
     } catch (error) {
-      console.error('Autogeneration failed:', error);
+      logger.error('Autogeneration failed', error instanceof Error ? error : new Error(String(error)));
     } finally {
       setLoading(false);
       setProcessing(false);

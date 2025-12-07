@@ -1,3 +1,5 @@
+import { logger } from './logger';
+
 export const APP_CONFIG = {
   NAME: 'CyberSoluce Lite',
   VERSION: '1.0.0',
@@ -62,7 +64,7 @@ export const getFileSizeLimit = (fileType: 'csv' | 'json' | 'xlsx'): number => {
       }
     }
   } catch (e) {
-    console.warn('Failed to load custom file size limits:', e);
+    logger.warn('Failed to load custom file size limits:', e);
   }
   
   // Return default limit for file type

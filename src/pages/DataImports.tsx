@@ -12,6 +12,7 @@ import { FileText, Package, Database, RefreshCw, Code } from 'lucide-react';
 import { listImportBatches } from '../services/csvImportService';
 import { supabase, isSupabaseEnabled } from '../lib/supabase';
 import { useAssetInventory } from '../contexts/AssetInventoryContext';
+import { logger } from '../utils/logger';
 
 export default function DataImports() {
   const [activeTab, setActiveTab] = useState<'csv' | 'sbom' | 'technosoluce'>('csv');
@@ -30,7 +31,7 @@ export default function DataImports() {
       const batches = await listImportBatches(5);
       setRecentBatches(batches);
     } catch (error) {
-      console.error('Failed to load import batches:', error);
+      logger.error('Failed to load import batches', error instanceof Error ? error : new Error(String(error)));
     } finally {
       setLoading(false);
     }

@@ -9,6 +9,7 @@ import { DataClassification } from '../../types/classification';
 import { Button } from '../ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 import { toast } from 'react-hot-toast';
+import { logger } from '../../utils/logger';
 
 export const EnrichmentWorkflow: React.FC = () => {
   const [direction, setDirection] = useState<'data-to-assets' | 'assets-to-data' | null>(null);
@@ -62,7 +63,7 @@ export const EnrichmentWorkflow: React.FC = () => {
       }
       setResult(enrichmentResult);
     } catch (error) {
-      console.error('Enrichment failed:', error);
+      logger.error('Enrichment failed', error instanceof Error ? error : new Error(String(error)));
       toast.error('Enrichment failed. Please try again.');
     } finally {
       setLoading(false);

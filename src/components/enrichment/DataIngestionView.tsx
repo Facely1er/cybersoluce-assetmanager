@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Input } from '../ui/input';
 import { toast } from 'react-hot-toast';
 import { formatFileSize, getFileSizeLimit, APP_CONFIG } from '../../utils/constantsLite';
+import { logger } from '../../utils/logger';
 
 interface ImportResult {
   success: boolean;
@@ -55,7 +56,7 @@ export const DataIngestionView: React.FC = () => {
         setCustomLimits(JSON.parse(saved));
       }
     } catch (e) {
-      console.error('Failed to load file size limits:', e);
+      logger.error('Failed to load file size limits', e instanceof Error ? e : new Error(String(e)));
     }
   }, []);
 

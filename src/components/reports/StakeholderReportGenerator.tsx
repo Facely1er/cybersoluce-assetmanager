@@ -12,6 +12,7 @@ import { Button } from '../ui/button';
 import { Select } from '../ui/select';
 import { Asset } from '../../types/asset';
 import { FocusSignal } from '../../types/enrichment';
+import { logger } from '../../utils/logger';
 import {
   MultistakeholderReportService,
   StakeholderType,
@@ -48,7 +49,7 @@ export const StakeholderReportGenerator: React.FC<StakeholderReportGeneratorProp
       );
       setReport(generatedReport);
     } catch (error) {
-      console.error('Report generation failed:', error);
+      logger.error('Report generation failed', error instanceof Error ? error : new Error(String(error)));
     } finally {
       setGenerating(false);
     }
