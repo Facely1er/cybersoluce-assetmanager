@@ -32,7 +32,7 @@ export const Logo: React.FC<LogoProps> = ({
       {showText && (
         <div className="flex flex-col justify-center min-w-0 ml-2">
           {/* CyberSoluce - Main brand name matching CyberCaution pattern */}
-          <h1 className="text-foreground font-bold text-lg leading-none">
+          <h1 className="text-foreground font-bold text-base leading-none">
             CyberSoluce<sup className="text-xs font-bold leading-none relative -top-0.5">™</sup>
           </h1>
           {/* Asset Intelligence - Subtitle matching CyberCaution pattern */}

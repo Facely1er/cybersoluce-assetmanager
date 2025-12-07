@@ -197,28 +197,28 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
         
         <div className="relative flex items-center justify-between">
           <div className="flex-1">
-            <p className="text-lg opacity-95 mb-4 max-w-2xl leading-relaxed">
+            <p className="text-lg text-white mb-4 max-w-2xl leading-relaxed">
               Comprehensive asset inventory management platform for cybersecurity professionals
             </p>
             <div className="flex flex-wrap items-center gap-6 text-sm">
               <div className="flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
-                <Building2 className="h-4 w-4 mr-2" />
-                <span className="font-semibold">{stats.total} Total Assets</span>
+                <Building2 className="h-4 w-4 mr-2 text-white" />
+                <span className="font-semibold text-white">{stats.total} Total Assets</span>
               </div>
               <div className="flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
-                <Users className="h-4 w-4 mr-2" />
-                <span className="font-semibold">{Object.keys(stats.byType).length} Asset Types</span>
+                <Users className="h-4 w-4 mr-2 text-white" />
+                <span className="font-semibold text-white">{Object.keys(stats.byType).length} Asset Types</span>
               </div>
               <div className="flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
-                <Clock className="h-4 w-4 mr-2" />
-                <span className="font-semibold">Updated: {format(new Date(), 'MMM dd, yyyy HH:mm')}</span>
+                <Clock className="h-4 w-4 mr-2 text-white" />
+                <span className="font-semibold text-white">Updated: {format(new Date(), 'MMM dd, yyyy HH:mm')}</span>
               </div>
             </div>
           </div>
           <div className="hidden lg:block ml-8">
             <div className="w-40 h-40 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center shadow-2xl border border-white/30">
               <img 
-                src="/cybersoluce.png" 
+                src="/cybersoluce-logo.svg" 
                 alt="CyberSoluce Logo" 
                 className="h-20 w-20 object-contain drop-shadow-lg"
               />
