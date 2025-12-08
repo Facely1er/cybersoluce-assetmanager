@@ -3,6 +3,7 @@ import { exportToERMITSAdvisory, ERMITSAdvisoryExport } from '../../exports/toER
 import { useAssetInventory } from '../../contexts/AssetInventoryContext';
 import { Dependency } from '../../types/dependency';
 import { FocusSignal } from '../../types/enrichment';
+import { logger } from '../../utils/logger';
 
 /**
  * Hook to fetch ERMITS Advisory export data
@@ -36,7 +37,7 @@ export function useERMITSAdvisoryExport() {
       } catch (err) {
         const error = err instanceof Error ? err : new Error('Failed to export to ERMITS Advisory');
         setError(error);
-        console.error('Error exporting to ERMITS Advisory:', error);
+        logger.error('Error exporting to ERMITS Advisory', error);
       } finally {
         setLoading(false);
       }

@@ -13,6 +13,8 @@
  * @internal Hard stop enforcement of CyberSoluce data contract boundaries.
  */
 
+import { logger } from '../utils/logger';
+
 /**
  * Forbidden keywords that must never appear in exported data
  * These represent interpretations that belong to other ERMITS products, not CyberSoluce.
@@ -167,8 +169,8 @@ export function validateContract(
     violations.push(...keywordViolations);
     
     // Log in dev mode
-    if (process.env.NODE_ENV === 'development') {
-      console.warn(`[ContractGuard] Blocked forbidden keywords in ${context}:`, keywordViolations);
+    if (import.meta.env.DEV) {
+      logger.warn(`[ContractGuard] Blocked forbidden keywords in ${context}:`, ...keywordViolations);
     }
   }
   
@@ -179,8 +181,8 @@ export function validateContract(
       violations.push(...fieldValidation.violations);
       
       // Log in dev mode
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(`[ContractGuard] Blocked disallowed fields in ${context}:`, fieldValidation.violations);
+      if (import.meta.env.DEV) {
+        logger.warn(`[ContractGuard] Blocked disallowed fields in ${context}:`, ...fieldValidation.violations);
       }
     }
   }
@@ -208,8 +210,8 @@ export function enforceContract(
     const errorMessage = `Contract violation in ${context}:\n${result.violations.join('\n')}`;
     
     // Log in dev mode
-    if (process.env.NODE_ENV === 'development') {
-      console.error(`[ContractGuard] ${errorMessage}`);
+    if (import.meta.env.DEV) {
+      logger.error(errorMessage);
     }
     
     throw new Error(errorMessage);

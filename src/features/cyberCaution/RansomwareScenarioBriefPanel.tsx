@@ -19,6 +19,7 @@ import { computeAssetScenarioReadiness } from '@/cybercaution/readiness/assetRea
 import { FocusSignal } from '@/types/enrichment';
 import { getDemoContext } from '@/demo/demoDataManager';
 import { Copy, Check } from 'lucide-react';
+import { logger } from '@/utils/logger';
 
 type Props = {
   orgName?: string;
@@ -54,7 +55,7 @@ export function RansomwareScenarioBriefPanel({ orgName, sector, exposureBand }: 
         const detectedSignals = await signalDetectionService.detectSignals(assets, { isDemo });
         setSignals(detectedSignals);
       } catch (err) {
-        console.error('Failed to detect signals:', err);
+        logger.error('Failed to detect signals', err instanceof Error ? err : new Error(String(err)));
         setSignals([]);
       } finally {
         setSignalsLoading(false);
@@ -76,7 +77,7 @@ export function RansomwareScenarioBriefPanel({ orgName, sector, exposureBand }: 
         setReadiness(result);
         setError(null);
       } catch (e) {
-        console.error('Failed to compute readiness for scenario brief:', e);
+        logger.error('Failed to compute readiness for scenario brief', e instanceof Error ? e : new Error(String(e)));
         if (!isMounted) return;
         setError('Could not generate scenario brief data. Please try again.');
       }
@@ -106,7 +107,7 @@ export function RansomwareScenarioBriefPanel({ orgName, sector, exposureBand }: 
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (e) {
-      console.error('Failed to copy scenario brief:', e);
+      logger.error('Failed to copy scenario brief', e instanceof Error ? e : new Error(String(e)));
     }
   };
 

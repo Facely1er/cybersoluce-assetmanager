@@ -23,6 +23,7 @@ import { assetEnrichmentService } from './assetEnrichmentService';
 import { toSignalContract, AssetSignal } from '../contracts/cyberSoluce.signal.contract';
 import { signalHistoryStore } from '../time/signalHistoryStore';
 import { SignalSnapshot } from '../contracts/cyberSoluce.signalHistory.contract';
+import { logger } from '../utils/logger';
 
 class SignalDetectionService {
   /**
@@ -86,9 +87,7 @@ class SignalDetectionService {
     // Record all snapshots (fire and forget - don't block signal detection)
     Promise.all(snapshotPromises).catch(error => {
       // Log but don't throw - snapshot recording is non-blocking
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('[SignalDetectionService] Failed to record signal snapshots:', error);
-      }
+      logger.warn('[SignalDetectionService] Failed to record signal snapshots:', error);
     });
   }
 
