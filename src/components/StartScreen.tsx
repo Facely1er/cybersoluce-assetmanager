@@ -207,13 +207,13 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
         <DomainBackground color="0, 91, 150" secondaryColor="51, 161, 222" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex justify-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Hero Content */}
             <motion.div 
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="text-white text-center max-w-4xl"
+              className="text-white"
             >
               <motion.div
                 variants={itemVariants}
@@ -227,7 +227,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
               
               <motion.div 
                 variants={itemVariants}
-                className="flex flex-wrap gap-4 mb-8 justify-center"
+                className="flex flex-wrap gap-4 mb-8"
               >
                 <button
                   onClick={handleGetStarted}
@@ -243,6 +243,49 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
                   View Demo
                 </button>
               </motion.div>
+            </motion.div>
+
+            {/* Feature Capabilities Showcase */}
+            <motion.div 
+              variants={fadeInRightVariants}
+              initial="hidden"
+              animate="visible"
+              className="relative"
+            >
+              <div className="bg-command-blue-600/30 backdrop-blur-sm rounded-xl p-8 border border-command-blue-400/30 shadow-inner">
+                <div className="mb-6 text-center">
+                  <h3 className="text-white text-sm mb-1 uppercase tracking-wider font-medium">
+                    Platform Capabilities
+                  </h3>
+                  <p className="text-command-blue-100 text-xs">
+                    Comprehensive asset management features
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  {coreModules.slice(0, 4).map((module, index) => {
+                    const Icon = module.icon;
+                    return (
+                      <motion.div
+                        key={module.title}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 + index * 0.1 }}
+                        className="bg-command-blue-700/40 p-4 rounded-lg backdrop-blur-sm border border-command-blue-400/20 hover:bg-command-blue-700/50 transition-colors"
+                      >
+                        <div className="flex flex-col items-center text-center">
+                          <div className="p-2 bg-command-blue-600/50 rounded-lg mb-2">
+                            <Icon className="w-5 h-5 text-action-cyan-300" />
+                          </div>
+                          <div className="text-xs text-command-blue-100 font-medium leading-tight">
+                            {module.title}
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
