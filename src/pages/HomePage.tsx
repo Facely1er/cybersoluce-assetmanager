@@ -21,7 +21,9 @@ import {
   Gift,
   FileText,
   Building2,
-  ExternalLink
+  ExternalLink,
+  AlertTriangle,
+  Activity
 } from 'lucide-react';
 import DomainBackground from '../components/common/DomainBackground';
 import TextCarousel from '../components/common/TextCarousel';
@@ -228,123 +230,155 @@ const HomePage: React.FC = () => {
               animate="visible"
               className="relative rounded-2xl overflow-hidden shadow-2xl mt-8 lg:mt-0"
             >
-              <div className="bg-command-blue-600/30 backdrop-blur-sm rounded-xl p-8 border border-command-blue-400/30 shadow-inner">
-                {/* Asset Score */}
-                <div className="mb-8 text-center">
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.7 }}
-                    className="text-white text-sm mb-1 uppercase tracking-wider font-medium"
-                  >
-                    Asset Management Score
-                  </motion.div>
-                  <motion.div 
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ 
-                      type: "spring", 
-                      stiffness: 100, 
-                      delay: 0.9 
-                    }}
-                    className="text-white text-4xl font-bold mb-2"
-                  >
-                    4.2
-                  </motion.div>
-                  
-                  <div className="h-3 bg-command-blue-900/50 rounded-full mt-4 mb-8">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: "84%" }}
-                      transition={{ duration: 1.5, delay: 1.1, ease: "easeOut" }}
-                      className="h-3 bg-gradient-to-r from-command-blue-400 to-action-cyan-400 rounded-full"
-                    ></motion.div>
+              <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl p-6 border border-command-blue-400/30 shadow-inner">
+                {/* Dashboard Header */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
+                  className="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wide">Command Center</h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Real-time Dashboard</p>
+                    </div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                   </div>
-                </div>
+                </motion.div>
                 
-                {/* Asset Modules Grid */}
+                {/* Key Metrics Grid */}
                 <motion.div 
                   variants={staggerVariants}
                   initial="hidden"
                   animate="visible"
-                  className="grid grid-cols-2 gap-4"
+                  className="grid grid-cols-2 gap-3 mb-6"
                 >
                   <motion.div 
                     variants={itemVariants}
-                    className="bg-command-blue-700/40 p-4 rounded-lg backdrop-blur-sm border border-command-blue-400/20"
+                    className="bg-gradient-to-br from-command-blue-50 to-action-cyan-50 dark:from-command-blue-900/30 dark:to-action-cyan-900/30 p-3 rounded-lg border border-command-blue-200/50 dark:border-command-blue-700/50"
                   >
-                    <div className="flex justify-between mb-2">
-                      <div className="text-sm text-command-blue-100 font-medium">Asset Tracking</div>
-                      <div className="text-sm text-action-cyan-300 font-bold">96%</div>
+                    <div className="flex items-center justify-between mb-1">
+                      <Shield className="h-4 w-4 text-command-blue-600 dark:text-command-blue-400" />
+                      <span className="text-xs text-gray-500 dark:text-gray-400">Total</span>
                     </div>
-                    <div className="h-2 bg-command-blue-900/50 rounded-full">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: '96%' }}
-                        transition={{ duration: 1, delay: 0.8 }}
-                        className="h-2 bg-gradient-to-r from-action-cyan-400 to-action-cyan-500 rounded-full"
-                      ></motion.div>
-                    </div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">247</div>
+                    <div className="text-xs text-green-600 dark:text-green-400 mt-1">+12 this month</div>
                   </motion.div>
                   
                   <motion.div 
                     variants={itemVariants}
-                    className="bg-command-blue-700/40 p-4 rounded-lg backdrop-blur-sm border border-command-blue-400/20"
+                    className="bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-900/30 dark:to-orange-900/30 p-3 rounded-lg border border-red-200/50 dark:border-red-700/50"
                   >
-                    <div className="flex justify-between mb-2">
-                      <div className="text-sm text-command-blue-100 font-medium">Risk Analysis</div>
-                      <div className="text-sm text-action-cyan-300 font-bold">89%</div>
+                    <div className="flex items-center justify-between mb-1">
+                      <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                      <span className="text-xs text-gray-500 dark:text-gray-400">Critical</span>
                     </div>
-                    <div className="h-2 bg-command-blue-900/50 rounded-full">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: '89%' }}
-                        transition={{ duration: 1, delay: 0.9 }}
-                        className="h-2 bg-gradient-to-r from-action-cyan-400 to-action-cyan-500 rounded-full"
-                      ></motion.div>
-                    </div>
+                    <div className="text-2xl font-bold text-red-600 dark:text-red-400">18</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">7% of total</div>
                   </motion.div>
                   
                   <motion.div 
                     variants={itemVariants}
-                    className="bg-command-blue-700/40 p-4 rounded-lg backdrop-blur-sm border border-command-blue-400/20"
+                    className="bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/30 dark:to-amber-900/30 p-3 rounded-lg border border-yellow-200/50 dark:border-yellow-700/50"
                   >
-                    <div className="flex justify-between mb-2">
-                      <div className="text-sm text-command-blue-100 font-medium">Compliance</div>
-                      <div className="text-sm text-action-cyan-300 font-bold">92%</div>
+                    <div className="flex items-center justify-between mb-1">
+                      <Activity className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                      <span className="text-xs text-gray-500 dark:text-gray-400">Risk</span>
                     </div>
-                    <div className="h-2 bg-command-blue-900/50 rounded-full">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: '92%' }}
-                        transition={{ duration: 1, delay: 1.0 }}
-                        className="h-2 bg-gradient-to-r from-action-cyan-400 to-action-cyan-500 rounded-full"
-                      ></motion.div>
-                    </div>
+                    <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">42</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">Moderate</div>
                   </motion.div>
                   
                   <motion.div 
                     variants={itemVariants}
-                    className="bg-command-blue-700/40 p-4 rounded-lg backdrop-blur-sm border border-command-blue-400/20"
+                    className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-lg border border-green-200/50 dark:border-green-700/50"
                   >
-                    <div className="flex justify-between mb-2">
-                      <div className="text-sm text-command-blue-100 font-medium">Integration</div>
-                      <div className="text-sm text-action-cyan-300 font-bold">87%</div>
+                    <div className="flex items-center justify-between mb-1">
+                      <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+                      <span className="text-xs text-gray-500 dark:text-gray-400">Compliance</span>
                     </div>
-                    <div className="h-2 bg-command-blue-900/50 rounded-full">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: '87%' }}
-                        transition={{ duration: 1, delay: 1.1 }}
-                        className="h-2 bg-gradient-to-r from-action-cyan-400 to-action-cyan-500 rounded-full"
-                      ></motion.div>
-                    </div>
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">94%</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">Assets tagged</div>
                   </motion.div>
+                </motion.div>
+                
+                {/* Asset Distribution Chart */}
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 1.0 }}
+                  className="mb-4"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Asset Distribution</h4>
+                    <BarChart3 className="h-3 w-3 text-gray-400" />
+                  </div>
+                  <div className="space-y-2">
+                    {[
+                      { type: 'Server', count: 89, color: 'bg-blue-500', width: '36%' },
+                      { type: 'Database', count: 52, color: 'bg-green-500', width: '21%' },
+                      { type: 'Application', count: 67, color: 'bg-purple-500', width: '27%' },
+                      { type: 'Network', count: 39, color: 'bg-orange-500', width: '16%' },
+                    ].map((item, index) => (
+                      <div key={item.type} className="flex items-center justify-between">
+                        <div className="flex items-center flex-1">
+                          <div className={`w-2 h-2 rounded-full mr-2 ${item.color}`}></div>
+                          <span className="text-xs text-gray-600 dark:text-gray-400">{item.type}</span>
+                        </div>
+                        <div className="flex items-center space-x-2 flex-1 max-w-[100px]">
+                          <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                            <motion.div 
+                              initial={{ width: 0 }}
+                              animate={{ width: item.width }}
+                              transition={{ duration: 1, delay: 1.2 + index * 0.1 }}
+                              className={`h-1.5 rounded-full ${item.color}`}
+                            ></motion.div>
+                          </div>
+                          <span className="text-xs text-gray-500 dark:text-gray-500 w-6 text-right">{item.count}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+                
+                {/* Quick Actions */}
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 1.4 }}
+                  className="pt-4 border-t border-gray-200 dark:border-gray-700"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Quick Actions</span>
+                    <Zap className="h-3 w-3 text-gray-400" />
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 mt-2">
+                    {[
+                      { icon: Shield, label: 'Assets', color: 'text-command-blue-600 dark:text-command-blue-400' },
+                      { icon: BarChart3, label: 'Reports', color: 'text-action-cyan-600 dark:text-action-cyan-400' },
+                      { icon: Target, label: 'Settings', color: 'text-purple-600 dark:text-purple-400' },
+                    ].map((action, index) => {
+                      const Icon = action.icon;
+                      return (
+                        <motion.div
+                          key={action.label}
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ type: "spring", stiffness: 200, delay: 1.5 + index * 0.1 }}
+                          className="flex flex-col items-center p-2 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+                        >
+                          <Icon className={`h-4 w-4 ${action.color} mb-1`} />
+                          <span className="text-xs text-gray-600 dark:text-gray-400">{action.label}</span>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
                 </motion.div>
               </div>
               
               {/* Reflection effect */}
-              <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-command-blue-400/10 to-transparent"></div>
+              <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-white/20 to-transparent dark:from-gray-900/20"></div>
             </motion.div>
           </div>
         </div>
