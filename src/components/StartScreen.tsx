@@ -207,17 +207,17 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
         <DomainBackground color="0, 91, 150" secondaryColor="51, 161, 222" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="flex justify-center">
             {/* Hero Content */}
             <motion.div 
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="text-white"
+              className="text-white text-center max-w-4xl"
             >
               <motion.div
                 variants={itemVariants}
-                className="mb-8 max-w-lg"
+                className="mb-8"
               >
                 <TextCarousel 
                   items={heroCarouselItems}
@@ -227,7 +227,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
               
               <motion.div 
                 variants={itemVariants}
-                className="flex flex-wrap gap-4 mb-8"
+                className="flex flex-wrap gap-4 mb-8 justify-center"
               >
                 <button
                   onClick={handleGetStarted}
@@ -243,132 +243,6 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onGetStarted, onLoadDe
                   View Demo
                 </button>
               </motion.div>
-            </motion.div>
-            
-            {/* Dashboard Visualization */}
-            <motion.div 
-              variants={fadeInRightVariants}
-              initial="hidden"
-              animate="visible"
-              className="relative rounded-2xl overflow-hidden shadow-2xl mt-8 lg:mt-0"
-            >
-              <div className="bg-command-blue-600/30 backdrop-blur-sm rounded-xl p-8 border border-command-blue-400/30 shadow-inner">
-                {/* Asset Score */}
-                <div className="mb-8 text-center">
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.7 }}
-                    className="text-white text-sm mb-1 uppercase tracking-wider font-medium"
-                  >
-                    Asset Management Score
-                  </motion.div>
-                  <motion.div 
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ 
-                      type: "spring", 
-                      stiffness: 100, 
-                      delay: 0.9 
-                    }}
-                    className="text-white text-4xl font-bold mb-2"
-                  >
-                    4.2
-                  </motion.div>
-                  
-                  <div className="h-3 bg-command-blue-900/50 rounded-full mt-4 mb-8">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: "84%" }}
-                      transition={{ duration: 1.5, delay: 1.1, ease: "easeOut" }}
-                      className="h-3 bg-gradient-to-r from-command-blue-400 to-action-cyan-400 rounded-full"
-                    ></motion.div>
-                  </div>
-                </div>
-                
-                {/* Asset Modules Grid */}
-                <motion.div 
-                  variants={staggerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="grid grid-cols-2 gap-4"
-                >
-                  <motion.div 
-                    variants={itemVariants}
-                    className="bg-command-blue-700/40 p-4 rounded-lg backdrop-blur-sm border border-command-blue-400/20"
-                  >
-                    <div className="flex justify-between mb-2">
-                      <div className="text-sm text-command-blue-100 font-medium">Asset Tracking</div>
-                      <div className="text-sm text-action-cyan-300 font-bold">96%</div>
-                    </div>
-                    <div className="h-2 bg-command-blue-900/50 rounded-full">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: '96%' }}
-                        transition={{ duration: 1, delay: 0.8 }}
-                        className="h-2 bg-gradient-to-r from-action-cyan-400 to-action-cyan-500 rounded-full"
-                      ></motion.div>
-                    </div>
-                  </motion.div>
-                  
-                  <motion.div 
-                    variants={itemVariants}
-                    className="bg-command-blue-700/40 p-4 rounded-lg backdrop-blur-sm border border-command-blue-400/20"
-                  >
-                    <div className="flex justify-between mb-2">
-                      <div className="text-sm text-command-blue-100 font-medium">Risk Assessment</div>
-                      <div className="text-sm text-action-cyan-300 font-bold">89%</div>
-                    </div>
-                    <div className="h-2 bg-command-blue-900/50 rounded-full">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: '89%' }}
-                        transition={{ duration: 1, delay: 0.9 }}
-                        className="h-2 bg-gradient-to-r from-action-cyan-400 to-action-cyan-500 rounded-full"
-                      ></motion.div>
-                    </div>
-                  </motion.div>
-                  
-                  <motion.div 
-                    variants={itemVariants}
-                    className="bg-command-blue-700/40 p-4 rounded-lg backdrop-blur-sm border border-command-blue-400/20"
-                  >
-                    <div className="flex justify-between mb-2">
-                      <div className="text-sm text-command-blue-100 font-medium">Compliance</div>
-                      <div className="text-sm text-action-cyan-300 font-bold">92%</div>
-                    </div>
-                    <div className="h-2 bg-command-blue-900/50 rounded-full">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: '92%' }}
-                        transition={{ duration: 1, delay: 1.0 }}
-                        className="h-2 bg-gradient-to-r from-action-cyan-400 to-action-cyan-500 rounded-full"
-                      ></motion.div>
-                    </div>
-                  </motion.div>
-                  
-                  <motion.div 
-                    variants={itemVariants}
-                    className="bg-command-blue-700/40 p-4 rounded-lg backdrop-blur-sm border border-command-blue-400/20"
-                  >
-                    <div className="flex justify-between mb-2">
-                      <div className="text-sm text-command-blue-100 font-medium">Integration</div>
-                      <div className="text-sm text-action-cyan-300 font-bold">87%</div>
-                    </div>
-                    <div className="h-2 bg-command-blue-900/50 rounded-full">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: '87%' }}
-                        transition={{ duration: 1, delay: 1.1 }}
-                        className="h-2 bg-gradient-to-r from-action-cyan-400 to-action-cyan-500 rounded-full"
-                      ></motion.div>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              </div>
-              
-              {/* Reflection effect */}
-              <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-command-blue-400/10 to-transparent"></div>
             </motion.div>
           </div>
         </div>
