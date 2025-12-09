@@ -72,81 +72,41 @@ export const Header: React.FC<HeaderProps> = (props) => {
               <Logo size="lg" showText={true} className="group-hover:scale-105 transition-transform duration-300" />
             </Link>
 
-            {/* Center Navigation - Desktop - Combined with top menu items */}
+            {/* Center Navigation - Desktop - All menu items in order */}
             <nav className="hidden md:flex items-center space-x-2 flex-1 justify-center mx-4">
-              {/* Top menu items integrated here */}
-              <Link 
-                to="/offerings" 
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive('/offerings')
-                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                }`}
-              >
-                Products
-              </Link>
-              <span className="text-gray-300 dark:text-gray-600">|</span>
-              <Link 
-                to="/ecosystem" 
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive('/ecosystem')
-                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                }`}
-              >
-                Platform Ecosystem
-              </Link>
-              <span className="text-gray-300 dark:text-gray-600">|</span>
-              <Link 
-                to="/tools" 
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive('/tools')
-                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                }`}
-              >
-                Free Tools
-              </Link>
-              <span className="text-gray-300 dark:text-gray-600">|</span>
-              <a 
-                href="https://www.ermits-advisory.com" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400"
-              >
-                Advisory Services
-              </a>
-              <span className="text-gray-300 dark:text-gray-600">|</span>
-              <Link 
-                to="/pricing" 
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive('/pricing')
-                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                }`}
-              >
-                Pricing
-              </Link>
-              
-              {/* Home navigation item */}
-              {navigationItems.map((item) => {
+              {navigationItems.map((item, index) => {
                 const Icon = item.icon;
                 const active = isActive(item.href);
                 const iconClassName = active ? 'text-command-blue-600 dark:text-command-blue-400' : '';
+                const linkClassName = `flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  active
+                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                }`;
                 
                 return (
-                  <Link
-                    key={item.label}
-                    to={item.href}
-                    className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      active
-                        ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                    }`}
-                  >
-                    {Icon && <Icon className={`h-4 w-4 mr-2 ${iconClassName}`} />}
-                    <span>{item.label}</span>
-                  </Link>
+                  <React.Fragment key={item.label}>
+                    {index > 0 && <span className="text-gray-300 dark:text-gray-600">|</span>}
+                    {item.external ? (
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={linkClassName}
+                      >
+                        {Icon && <Icon className={`h-4 w-4 mr-2 ${iconClassName}`} />}
+                        <span>{item.label}</span>
+                      </a>
+                    ) : (
+                      <Link
+                        to={item.href}
+                        className={linkClassName}
+                      >
+                        {Icon && <Icon className={`h-4 w-4 mr-2 ${iconClassName}`} />}
+                        <span>{item.label}</span>
+                      </Link>
+                    )}
+                  </React.Fragment>
                 );
               })}
             </nav>
@@ -178,76 +138,36 @@ export const Header: React.FC<HeaderProps> = (props) => {
                 const Icon = item.icon;
                 const active = isActive(item.href);
                 const iconClassName = active ? 'text-command-blue-600 dark:text-command-blue-400' : '';
+                const linkClassName = `flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  active
+                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                }`;
                 
-                return (
+                return item.external ? (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={linkClassName}
+                  >
+                    {Icon && <Icon className={`h-5 w-5 mr-3 ${iconClassName}`} />}
+                    <span>{item.label}</span>
+                  </a>
+                ) : (
                   <Link
                     key={item.label}
                     to={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      active
-                        ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                    }`}
+                    className={linkClassName}
                   >
                     {Icon && <Icon className={`h-5 w-5 mr-3 ${iconClassName}`} />}
                     <span>{item.label}</span>
                   </Link>
                 );
               })}
-              <Link
-                to="/offerings"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive('/offerings')
-                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                }`}
-              >
-                <span>Products</span>
-              </Link>
-              <Link
-                to="/ecosystem"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive('/ecosystem')
-                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                }`}
-              >
-                <span>Platform Ecosystem</span>
-              </Link>
-              <Link
-                to="/tools"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive('/tools')
-                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                }`}
-              >
-                <span>Free Tools</span>
-              </Link>
-              <a
-                href="https://www.ermits-advisory.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400"
-              >
-                <span>Advisory Services</span>
-              </a>
-              <Link
-                to="/pricing"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isActive('/pricing')
-                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                }`}
-              >
-                <span>Pricing</span>
-              </Link>
               {/* Theme Toggle in Mobile Menu */}
               <div className="px-4 pt-2 border-t border-gray-200 dark:border-gray-800 mt-2">
                 <ThemeToggle variant="mobile" />
