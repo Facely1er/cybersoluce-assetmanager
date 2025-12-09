@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { Logo } from '../common/Logo';
-import { Home, BarChart3, Menu, X, Shield } from 'lucide-react';
+import { Home, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   className?: string;
@@ -24,14 +24,30 @@ export const Header: React.FC<HeaderProps> = (props) => {
       icon: Home,
     },
     {
-      label: 'STEEL Assessment',
-      href: '/steel',
-      icon: Shield,
+      label: 'Products',
+      href: '/offerings',
+      icon: null,
+    },
+    {
+      label: 'Platform Ecosystem',
+      href: '/ecosystem',
+      icon: null,
+    },
+    {
+      label: 'Free Tools',
+      href: '/tools',
+      icon: null,
+    },
+    {
+      label: 'Advisory Services',
+      href: 'https://www.ermits-advisory.com',
+      icon: null,
+      external: true,
     },
     {
       label: 'Pricing',
       href: '/pricing',
-      icon: BarChart3,
+      icon: null,
     },
   ];
 
@@ -47,53 +63,6 @@ export const Header: React.FC<HeaderProps> = (props) => {
 
   return (
     <>
-      {/* Top Navigation Bar */}
-      <div className="bg-command-blue-600 dark:bg-command-blue-900 text-white text-xs py-1.5 border-b border-command-blue-700 dark:border-command-blue-800 hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link 
-                to="/offerings" 
-                className="hover:text-action-cyan-300 transition-colors"
-              >
-                Products
-              </Link>
-              <span className="text-command-blue-400 dark:text-command-blue-600">|</span>
-              <Link 
-                to="/ecosystem" 
-                className="hover:text-action-cyan-300 transition-colors"
-              >
-                Platform Ecosystem
-              </Link>
-              <span className="text-command-blue-400 dark:text-command-blue-600">|</span>
-              <Link 
-                to="/tools" 
-                className="hover:text-action-cyan-300 transition-colors"
-              >
-                Free Tools
-              </Link>
-            </div>
-            <div className="flex items-center space-x-4">
-              <a 
-                href="https://www.ermits-advisory.com" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-action-cyan-300 transition-colors"
-              >
-                Advisory Services
-              </a>
-              <span className="text-command-blue-400 dark:text-command-blue-600">|</span>
-              <Link 
-                to="/pricing" 
-                className="hover:text-action-cyan-300 transition-colors"
-              >
-                Pricing
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Header */}
       <header className={`bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm sticky top-0 z-50 ${headerClassName}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -103,8 +72,63 @@ export const Header: React.FC<HeaderProps> = (props) => {
               <Logo size="lg" showText={true} className="group-hover:scale-105 transition-transform duration-300" />
             </Link>
 
-            {/* Center Navigation - Desktop */}
+            {/* Center Navigation - Desktop - Combined with top menu items */}
             <nav className="hidden md:flex items-center space-x-2 flex-1 justify-center mx-4">
+              {/* Top menu items integrated here */}
+              <Link 
+                to="/offerings" 
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive('/offerings')
+                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                }`}
+              >
+                Products
+              </Link>
+              <span className="text-gray-300 dark:text-gray-600">|</span>
+              <Link 
+                to="/ecosystem" 
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive('/ecosystem')
+                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                }`}
+              >
+                Platform Ecosystem
+              </Link>
+              <span className="text-gray-300 dark:text-gray-600">|</span>
+              <Link 
+                to="/tools" 
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive('/tools')
+                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                }`}
+              >
+                Free Tools
+              </Link>
+              <span className="text-gray-300 dark:text-gray-600">|</span>
+              <a 
+                href="https://www.ermits-advisory.com" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400"
+              >
+                Advisory Services
+              </a>
+              <span className="text-gray-300 dark:text-gray-600">|</span>
+              <Link 
+                to="/pricing" 
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive('/pricing')
+                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                }`}
+              >
+                Pricing
+              </Link>
+              
+              {/* Home navigation item */}
               {navigationItems.map((item) => {
                 const Icon = item.icon;
                 const active = isActive(item.href);
@@ -171,6 +195,59 @@ export const Header: React.FC<HeaderProps> = (props) => {
                   </Link>
                 );
               })}
+              <Link
+                to="/offerings"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive('/offerings')
+                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                }`}
+              >
+                <span>Products</span>
+              </Link>
+              <Link
+                to="/ecosystem"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive('/ecosystem')
+                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                }`}
+              >
+                <span>Platform Ecosystem</span>
+              </Link>
+              <Link
+                to="/tools"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive('/tools')
+                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                }`}
+              >
+                <span>Free Tools</span>
+              </Link>
+              <a
+                href="https://www.ermits-advisory.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400"
+              >
+                <span>Advisory Services</span>
+              </a>
+              <Link
+                to="/pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive('/pricing')
+                    ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                }`}
+              >
+                <span>Pricing</span>
+              </Link>
               {/* Theme Toggle in Mobile Menu */}
               <div className="px-4 pt-2 border-t border-gray-200 dark:border-gray-800 mt-2">
                 <ThemeToggle variant="mobile" />
