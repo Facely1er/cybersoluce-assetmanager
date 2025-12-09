@@ -1,4 +1,4 @@
-import { supabase, handleSupabaseError, isSupabaseEnabled } from '../lib/supabase';
+import { supabase, handleSupabaseError, isSupabaseEnabled, getCurrentSession } from '../lib/supabase';
 import { retryRequest } from '../lib/supabase';
 import { Asset, AssetRelationship, Vulnerability } from '../types/asset';
 import { Database } from '../types/database';
@@ -157,6 +157,19 @@ export const assetService = {
       return sampleAssets;
     }
     
+    // Check if user is authenticated before making request
+    // This prevents 401 errors when Supabase is configured but user is not logged in
+    try {
+      const session = await getCurrentSession();
+      if (!session) {
+        // User not authenticated - return fallback immediately without making request
+        return sampleAssets;
+      }
+    } catch (error) {
+      // If session check fails, use fallback to avoid 401 errors
+      return sampleAssets;
+    }
+    
     return withFallback(
       async () => {
         const { data, error } = await supabase!
@@ -166,6 +179,10 @@ export const assetService = {
           .limit(1000);
         
         if (error) {
+          // Handle 401 errors gracefully - return fallback instead of throwing
+          if (error.code === 'PGRST301' || (error as any).status === 401) {
+            return sampleAssets;
+          }
           throw new Error(handleSupabaseError(error));
         }
 
@@ -174,7 +191,7 @@ export const assetService = {
       },
       sampleAssets,
       'assetService.getAssets',
-      { throwOnError: false, maxRetries: 2 }
+      { throwOnError: false, maxRetries: 0 } // Don't retry on auth errors
     );
   },
 

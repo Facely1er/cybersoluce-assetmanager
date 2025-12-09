@@ -158,7 +158,13 @@ class ServiceFallbackManager {
 
         // Don't retry on certain errors (auth, validation, etc.)
         if (this.isNonRetryableError(lastError)) {
-          logger.error(`${errorContext}: Non-retryable error`, lastError);
+          // Log 401/403 errors at debug level since they're expected when not authenticated
+          const isAuthError = this.isAuthError(lastError);
+          if (isAuthError) {
+            logger.debug(`${errorContext}: Authentication required, using fallback`);
+          } else {
+            logger.error(`${errorContext}: Non-retryable error`, lastError);
+          }
           if (throwOnError) {
             throw lastError;
           }
@@ -167,7 +173,13 @@ class ServiceFallbackManager {
 
         // Last attempt failed
         if (attempt === maxRetries) {
-          logger.error(`${errorContext}: All retries exhausted, using fallback`, lastError);
+          // Check if it's an auth error before logging as error
+          const isAuthError = this.isAuthError(lastError);
+          if (isAuthError) {
+            logger.debug(`${errorContext}: Authentication required, using fallback`);
+          } else {
+            logger.error(`${errorContext}: All retries exhausted, using fallback`, lastError);
+          }
           if (throwOnError) {
             throw lastError;
           }
@@ -208,9 +220,51 @@ class ServiceFallbackManager {
   }
 
   /**
+   * Check if error is an authentication/authorization error
+   */
+  private isAuthError(error: Error): boolean {
+    // Check for status codes in error object (Supabase errors may have status property)
+    if (error && typeof error === 'object') {
+      const errorObj = error as any;
+      if (errorObj.status === 401 || errorObj.status === 403) {
+        return true;
+      }
+      // Check for Supabase error codes related to auth
+      if (errorObj.code === 'PGRST301') {
+        return true;
+      }
+    }
+
+    const authErrorPatterns = [
+      '401',
+      '403',
+      'authentication',
+      'authorization',
+      'unauthorized',
+      'not authorized',
+      'forbidden'
+    ];
+
+    const errorMessage = error.message.toLowerCase();
+    return authErrorPatterns.some(pattern => errorMessage.includes(pattern.toLowerCase()));
+  }
+
+  /**
    * Check if error should not be retried
    */
   private isNonRetryableError(error: Error): boolean {
+    // Check for status codes in error object (Supabase errors may have status property)
+    if (error && typeof error === 'object') {
+      const errorObj = error as any;
+      if (errorObj.status === 401 || errorObj.status === 403 || errorObj.status === 404) {
+        return true;
+      }
+      // Check for Supabase error codes
+      if (errorObj.code === 'PGRST301' || errorObj.code === 'PGRST116') {
+        return true;
+      }
+    }
+
     const nonRetryablePatterns = [
       '401', // Unauthorized
       '403', // Forbidden
@@ -221,7 +275,9 @@ class ServiceFallbackManager {
       'authorization',
       'permission',
       'invalid',
-      'validation'
+      'validation',
+      'unauthorized', // Additional check for unauthorized errors
+      'not authorized'
     ];
 
     const errorMessage = error.message.toLowerCase();
