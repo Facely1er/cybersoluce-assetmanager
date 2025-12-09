@@ -6,6 +6,7 @@
 import { DataInventoryItem } from '../types/dataInventory';
 import { LiteAsset } from '../types/assetLite';
 import { parseDataInventoryCSV, parseAssetsCSV } from '../utils/csvUtilsLite';
+import { getFileSizeLimit, ERROR_MESSAGES } from '../utils/constantsLite';
 
 export type FileFormat = 'csv' | 'json' | 'xlsx';
 export type DataType = 'data-inventory' | 'assets';
@@ -40,6 +41,31 @@ export class FileIngestionService {
         if (file.type.includes('spreadsheet') || file.type.includes('excel')) return 'xlsx';
         return 'csv'; // Default to CSV
     }
+  }
+
+  /**
+   * Validate file size against format-specific limits
+   */
+  static validateFileSize(file: File, format: FileFormat): {
+    valid: boolean;
+    limit: number;
+    error?: string;
+  } {
+    const limit = getFileSizeLimit(format);
+    const fileSize = file.size;
+
+    if (fileSize > limit) {
+      return {
+        valid: false,
+        limit,
+        error: ERROR_MESSAGES.FILE_TOO_LARGE(fileSize, limit),
+      };
+    }
+
+    return {
+      valid: true,
+      limit,
+    };
   }
 
   /**

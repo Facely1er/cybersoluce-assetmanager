@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Upload, FileDown, Database, Server, CheckCircle, AlertCircle, FileText, X, FileJson, FileSpreadsheet, Settings } from 'lucide-react';
 import { StorageService } from '../../services/storageServiceLite';
 import { FileIngestionService, FileFormat } from '../../services/fileIngestionService';
-import { generateDataInventoryTemplate, generateAssetsTemplate, generateDataInventoryJSONTemplate, generateAssetsJSONTemplate } from '../../utils/csvUtils';
+import { generateDataInventoryTemplate, generateAssetsTemplate, generateDataInventoryJSONTemplate, generateAssetsJSONTemplate, exportDataInventoryToCSV } from '../../utils/csvUtilsLite';
 import { validateDataInventoryItem, validateAsset } from '../../utils/validation';
 import { DataInventoryItem } from '../../types/dataInventory';
 import { LiteAsset } from '../../types/assetLite';
@@ -123,7 +123,7 @@ export const DataIngestionView: React.FC = () => {
       localStorage.setItem(APP_CONFIG.STORAGE_KEYS.FILE_SIZE_LIMITS, JSON.stringify(customLimits));
       toast.success('File size limits updated');
       setShowSettings(false);
-    } catch (e) {
+    } catch {
       toast.error('Failed to save file size limits');
     }
   };
@@ -308,7 +308,7 @@ export const DataIngestionView: React.FC = () => {
           if (type === 'data-inventory') {
             exportDataInventoryToCSV(data as DataInventoryItem[]);
           } else {
-            const { exportAssetsToCSV } = await import('../../utils/csvUtils');
+            const { exportAssetsToCSV } = await import('../../utils/csvUtilsLite');
             exportAssetsToCSV(data as LiteAsset[]);
           }
           toast.success('Exported to CSV');
@@ -350,9 +350,8 @@ export const DataIngestionView: React.FC = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-6 flex flex-col sm:flex-row justify-between items-start gap-4">
+    <div className="w-full">
+      <div className="mb-6 flex flex-col sm:flex-row justify-between items-start gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
               Data Ingestion
@@ -814,7 +813,6 @@ export const DataIngestionView: React.FC = () => {
             </div>
           </DialogContent>
         </Dialog>
-      </div>
     </div>
   );
 };

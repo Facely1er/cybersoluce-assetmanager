@@ -98,46 +98,47 @@ export const Header: React.FC<HeaderProps> = (props) => {
       <header className={`bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm sticky top-0 z-50 ${headerClassName}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 py-2">
-          {/* Logo and Branding - Enhanced */}
-          <Link to="/" className="flex items-center group flex-shrink-0">
-            <Logo size="lg" showText={true} className="group-hover:scale-105 transition-transform duration-300" />
-          </Link>
+            {/* Logo and Branding - Enhanced */}
+            <Link to="/" className="flex items-center group flex-shrink-0">
+              <Logo size="lg" showText={true} className="group-hover:scale-105 transition-transform duration-300" />
+            </Link>
 
-          {/* Center Navigation - Desktop */}
-          <nav className="hidden md:flex items-center space-x-2 flex-1 justify-center mx-8">
-            {navigationItems.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.href);
-              const iconClassName = active ? 'text-command-blue-600 dark:text-command-blue-400' : '';
-              
-              return (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    active
-                      ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
-                  }`}
-                >
-                  {Icon && <Icon className={`h-4 w-4 mr-2 ${iconClassName}`} />}
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
+            {/* Center Navigation - Desktop */}
+            <nav className="hidden md:flex items-center space-x-2 flex-1 justify-center mx-4">
+              {navigationItems.map((item) => {
+                const Icon = item.icon;
+                const active = isActive(item.href);
+                const iconClassName = active ? 'text-command-blue-600 dark:text-command-blue-400' : '';
+                
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      active
+                        ? 'bg-command-blue-50 dark:bg-command-blue-900/30 text-command-blue-700 dark:text-command-blue-300'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-command-blue-600 dark:hover:text-command-blue-400'
+                    }`}
+                  >
+                    {Icon && <Icon className={`h-4 w-4 mr-2 ${iconClassName}`} />}
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
 
-          {/* Right side utilities */}
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+            {/* Right side utilities */}
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <ThemeToggle />
+              {/* Mobile menu button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -177,8 +178,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
             </nav>
           </div>
         )}
-      </div>
-    </header>
+      </header>
     </>
   );
 };
