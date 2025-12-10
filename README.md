@@ -352,11 +352,20 @@ The application includes built-in performance monitoring and optimization:
 ## 🚀 Deployment
 
 ### Production Deployment
+
+**🚀 Ready for deployment!** See deployment documentation for step-by-step instructions.
+
+**Quick Start**: See [DEPLOYMENT_QUICK_START.md](./DEPLOYMENT_QUICK_START.md)  
+**Full Guide**: See [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md)  
+**Status**: See [DEPLOYMENT_READY.md](./DEPLOYMENT_READY.md)
+
+#### Basic Steps:
 1. **Build the application**: `npm run build`
-2. **Deploy to hosting platform**: Netlify, Vercel, or AWS
-3. **Configure environment variables**: Set production values
-4. **Enable monitoring**: Configure error tracking and analytics
-5. **Verify free tools**: Test `/tools/` URLs after deployment
+2. **Apply database migrations**: See `scripts/apply-migrations-guide.md`
+3. **Deploy to hosting platform**: Netlify, Vercel, or AWS
+4. **Configure environment variables**: Use `.env.example` as reference
+5. **Configure Supabase authentication**: Set redirect URLs
+6. **Test deployment**: Verify all features work
 
 ### Recommended Hosting
 - **Frontend**: Netlify, Vercel, or AWS Amplify
