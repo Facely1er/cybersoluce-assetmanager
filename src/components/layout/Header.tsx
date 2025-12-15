@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { Logo } from '../common/Logo';
-import { Home, Menu, X } from 'lucide-react';
+import { Home, Menu, X, Database, BarChart3, AlertTriangle, Upload, LucideIcon } from 'lucide-react';
 
 interface HeaderProps {
   className?: string;
   [key: string]: unknown; // Allow other props but ignore them
+}
+
+interface NavigationItem {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  external?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = (props) => {
@@ -17,43 +24,40 @@ export const Header: React.FC<HeaderProps> = (props) => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  const navigationItems = [
+  const navigationItems: NavigationItem[] = [
     {
-      label: 'Home',
-      href: '/',
+      label: 'Dashboard',
+      href: '/dashboard',
       icon: Home,
     },
     {
-      label: 'Products',
-      href: '/offerings',
-      icon: null,
+      label: 'Assets',
+      href: '/dashboard/assets',
+      icon: Database,
     },
     {
-      label: 'Platform Ecosystem',
-      href: '/ecosystem',
-      icon: null,
+      label: 'Analytics',
+      href: '/dashboard/analytics',
+      icon: BarChart3,
     },
     {
-      label: 'Free Tools',
-      href: '/tools',
-      icon: null,
+      label: 'Vulnerabilities',
+      href: '/dashboard/vulnerabilities',
+      icon: AlertTriangle,
     },
     {
-      label: 'Advisory Services',
-      href: 'https://www.ermits-advisory.com',
-      icon: null,
-      external: true,
-    },
-    {
-      label: 'Pricing',
-      href: '/pricing',
-      icon: null,
+      label: 'Imports',
+      href: '/imports',
+      icon: Upload,
     },
   ];
 
   const isActive = (href: string) => {
     if (href === '/') {
       return location.pathname === '/';
+    }
+    if (href === '/dashboard') {
+      return location.pathname === '/dashboard' || location.pathname === '/dashboard/';
     }
     return location.pathname.startsWith(href);
   };
@@ -69,7 +73,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
           <div className="flex items-center justify-between h-14 py-2">
             {/* Logo and Branding - Enhanced */}
             <Link to="/" className="flex items-center group flex-shrink-0">
-              <Logo size="lg" showText={true} className="group-hover:scale-105 transition-transform duration-300" />
+              <Logo size="sm" showText={true} className="group-hover:scale-105 transition-transform duration-300" />
             </Link>
 
             {/* Center Navigation - Desktop - All menu items in order */}
@@ -131,7 +135,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
           <div className="md:hidden border-t border-gray-200 dark:border-gray-700 py-4 bg-white dark:bg-gray-900">
             {/* Mobile Logo Display */}
             <div className="flex items-center mb-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800">
-              <Logo size="md" showText={true} />
+              <Logo size="sm" showText={true} />
             </div>
             <nav className="flex flex-col space-y-2">
               {navigationItems.map((item) => {

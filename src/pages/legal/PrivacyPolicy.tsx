@@ -29,7 +29,7 @@ export const PrivacyPolicy: React.FC = () => {
                 </h1>
                 <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                   <p><strong>Effective Date:</strong> November 19, 2025</p>
-                  <p><strong>Last Updated:</strong> October 31, 2025</p>
+                  <p><strong>Last Updated:</strong> December 13, 2025</p>
                 </div>
               </div>
             </div>
@@ -52,12 +52,12 @@ export const PrivacyPolicy: React.FC = () => {
                 
                 <div className="space-y-4 mb-4">
                   <div>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">ERMITS Advisory + STEEL™:</p>
+                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">CyberSoluce™:</p>
                     <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                      <li>Strategic cybersecurity assessments and advisory services</li>
-                      <li>STEEL™ (Strategic Threat & Enterprise Evaluation Layer) framework assessments</li>
-                      <li>vCISO services and security consulting</li>
-                      <li>Compliance advisory and implementation services</li>
+                      <li>Enhanced Asset Inventory Management Platform</li>
+                      <li>Dependency-aware visibility into asset inventory</li>
+                      <li>Focus signals for attention areas</li>
+                      <li>Service funneling guidance toward appropriate ERMITS services</li>
                     </ul>
                   </div>
 
@@ -146,7 +146,8 @@ export const PrivacyPolicy: React.FC = () => {
                       All core computational functions are performed locally within your browser or self-managed environment whenever technically feasible:
                     </p>
                     <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                      <li><strong>Security Assessments:</strong> STEEL™, CMMC, cybersecurity assessments processed in your browser</li>
+                      <li><strong>Security Assessments:</strong> CMMC, cybersecurity assessments processed in your browser</li>
+                      <li><strong>Asset Inventory:</strong> CyberSoluce asset data processed client-side</li>
                       <li><strong>SBOM Analysis:</strong> TechnoSoluce processes SBOM files entirely client-side</li>
                       <li><strong>Risk Scoring:</strong> All risk calculations performed locally</li>
                       <li><strong>Compliance Evaluations:</strong> Assessment scoring and gap analysis done in your browser</li>
@@ -240,9 +241,11 @@ export const PrivacyPolicy: React.FC = () => {
                   <strong>ERMITS explicitly does NOT collect, access, store, or transmit:</strong>
                 </p>
                 <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Asset inventory data and dependency information</li>
                   <li>Security assessment responses or scores</li>
                   <li>CMMC compliance assessments or documentation</li>
-                  <li>STEEL™ assessment responses or risk scores</li>
+                  <li>Cybersecurity evaluation results</li>
+                  <li>Privacy assessments or persona analysis results</li>
                   <li>SBOM (Software Bill of Materials) files or contents</li>
                   <li>Software component lists or dependency graphs</li>
                   <li>Vulnerability scan results or CVE findings</li>
@@ -456,7 +459,7 @@ export const PrivacyPolicy: React.FC = () => {
                 <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">13. EFFECTIVE DATE AND ACCEPTANCE</h2>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   <strong>Effective Date:</strong> November 19, 2025<br />
-                  <strong>Last Updated:</strong> October 31, 2025
+                  <strong>Last Updated:</strong> December 13, 2025
                 </p>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   <strong>By using ERMITS Services, you acknowledge that you have read, understood, and agree to be bound by this Privacy Policy.</strong>

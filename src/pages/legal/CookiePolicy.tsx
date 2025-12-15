@@ -29,7 +29,7 @@ export const CookiePolicy: React.FC = () => {
                 </h1>
                 <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                   <p><strong>Effective Date:</strong> October 31, 2025</p>
-                  <p><strong>Last Updated:</strong> October 31, 2025</p>
+                  <p><strong>Last Updated:</strong> December 13, 2025</p>
                 </div>
               </div>
             </div>
