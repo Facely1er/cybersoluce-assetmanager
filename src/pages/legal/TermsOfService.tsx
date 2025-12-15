@@ -696,21 +696,183 @@ export const TermsOfService: React.FC = () => {
               <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">13 Governing Law and Dispute Resolution</h2>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">Governing Law:</p>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
-                  These Terms are governed by and construed in accordance with the laws of the District of Columbia, United States, without regard to conflict of law principles.
-                </p>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Binding Arbitration:</p>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
-                  Any dispute, controversy, or claim arising out of or relating to these Terms shall be resolved by binding arbitration administered by the American Arbitration Association (AAA) under its Commercial Arbitration Rules. Arbitration shall be conducted in Washington, D.C. by a single arbitrator applying District of Columbia law.
-                </p>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
-                  YOU AND ERMITS AGREE THAT DISPUTES MUST BE BROUGHT ON AN INDIVIDUAL BASIS ONLY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, REPRESENTATIVE, OR COLLECTIVE PROCEEDING. CLASS ARBITRATIONS, CLASS ACTIONS, AND REPRESENTATIVE ACTIONS ARE NOT PERMITTED.
-                </p>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
-                  You may opt out of the arbitration provision by sending written notice to ERMITS at legal@ermits.com within 30 days of first accepting these Terms.
-                </p>
+                <h2 id="section-17" className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">17. Force Majeure</h2>
+                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-4">ERMITS shall not be liable for any failure or delay in performance due to causes beyond its reasonable control, including but not limited to:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Acts of God (natural disasters, pandemics, epidemics)</li>
+                  <li>War, terrorism, civil unrest, or government actions</li>
+                  <li>Internet service provider failures or disruptions</li>
+                  <li>Power outages or telecommunications failures</li>
+                  <li>Cyberattacks, DDoS attacks, or security incidents</li>
+                  <li>Labor disputes or strikes</li>
+                  <li>Failures of third-party service providers</li>
+                </ul>
+                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-4">During force majeure events, ERMITS will use commercially reasonable efforts to minimize service disruptions and provide timely updates.</p>
+              </section>
+
+              <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
+
+              <section className="mb-8">
+                <h2 id="section-18" className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">18. Service Level Commitments</h2>
+                
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">18.1 Uptime Commitment</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">ERMITS targets 99.9% uptime for production Services (excluding Beta Products), calculated monthly. Uptime excludes:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Scheduled maintenance (announced 48 hours in advance)</li>
+                  <li>Emergency maintenance for security or critical issues</li>
+                  <li>Force majeure events</li>
+                  <li>User error or misuse</li>
+                  <li>Third-party service failures</li>
+                  <li>Beta Products</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">18.2 Scheduled Maintenance</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">ERMITS may perform scheduled maintenance during low-usage windows. ERMITS will:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Provide 48 hours' advance notice for planned maintenance</li>
+                  <li>Schedule maintenance during off-peak hours when possible</li>
+                  <li>Minimize duration of service disruptions</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">18.3 SLA Credits</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">Detailed uptime guarantees, measurement methodologies, and SLA credits for Enterprise customers are set forth in the Service Level Agreement (Enterprise Policies).</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">18.4 Beta Product Exclusions</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">Beta Products are explicitly excluded from uptime commitments and SLA credits. ERMITS makes no guarantees regarding Beta Product availability, performance, or data integrity.</p>
+              </section>
+
+              <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
+
+              <section className="mb-8">
+                <h2 id="section-19" className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">19. Modifications to Services and Terms</h2>
+                
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">19.1 Service Modifications</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">ERMITS reserves the right to:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Modify, suspend, or discontinue Services at any time</li>
+                  <li>Add or remove features or functionality</li>
+                  <li>Change pricing with 30 days' notice for existing customers</li>
+                  <li>Update technical requirements or system specifications</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">19.2 Terms Modifications</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">ERMITS may update these Terms periodically. For material changes:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>ERMITS will provide 30 days' advance notice via email or in-app notification</li>
+                  <li>Continued use after the effective date constitutes acceptance</li>
+                  <li>If you do not agree to changes, you must discontinue use and may cancel your account</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">19.3 Non-Material Changes</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">For non-material changes (clarifications, typo corrections, formatting):</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>ERMITS will update the "Last Updated" date</li>
+                  <li>Changes are effective immediately upon posting</li>
+                  <li>Continued use constitutes acceptance</li>
+                </ul>
+              </section>
+
+              <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
+
+              <section className="mb-8">
+                <h2 id="section-20" className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">20. Governing Law and Dispute Resolution</h2>
+                
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">20.1 Governing Law</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">These Terms are governed by and construed in accordance with the laws of the District of Columbia, United States, without regard to conflict of law principles. The United Nations Convention on Contracts for the International Sale of Goods does not apply.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">20.2 Jurisdiction and Venue</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">Subject to the arbitration provision below, any legal action or proceeding relating to these Terms shall be brought exclusively in the federal or state courts located in Washington, D.C. You consent to the personal jurisdiction of such courts and waive any objection to venue.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">20.3 Binding Arbitration</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">Any dispute, controversy, or claim arising out of or relating to these Terms or the breach, termination, enforcement, interpretation, or validity thereof (collectively, "Disputes") shall be resolved by binding arbitration administered by the American Arbitration Association (AAA) under its Commercial Arbitration Rules.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Arbitration Procedures:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Arbitration shall be conducted in Washington, D.C.</li>
+                  <li>Arbitration shall be by a single arbitrator</li>
+                  <li>Arbitrator shall apply District of Columbia law</li>
+                  <li>Discovery shall be limited as determined by the arbitrator</li>
+                  <li>Each party bears its own costs and fees</li>
+                  <li>Arbitrator's decision is final and binding</li>
+                  <li>Judgment may be entered in any court with jurisdiction</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Exceptions to Arbitration:</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">The following may be brought in court without arbitration:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Claims seeking injunctive or equitable relief for intellectual property infringement</li>
+                  <li>Small claims court actions within jurisdictional limits</li>
+                  <li>Claims for violation of computer fraud and abuse statutes</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Class Action Waiver:</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">YOU AND ERMITS AGREE THAT DISPUTES MUST BE BROUGHT ON AN INDIVIDUAL BASIS ONLY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, REPRESENTATIVE, OR COLLECTIVE PROCEEDING. CLASS ARBITRATIONS, CLASS ACTIONS, AND REPRESENTATIVE ACTIONS ARE NOT PERMITTED.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">20.4 Opt-Out of Arbitration</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">You may opt out of the arbitration provision by sending written notice to ERMITS at <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a> within 30 days of first accepting these Terms. The notice must include your name, address, and a clear statement that you wish to opt out of arbitration. If you opt out, disputes will be resolved in court pursuant to Section 20.2.</p>
+              </section>
+
+              <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
+
+              <section className="mb-8">
+                <h2 id="section-21" className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">21. General Provisions</h2>
+                
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">21.1 Entire Agreement</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">These Terms, together with the Privacy Policy and any product-specific addendums, constitute the entire agreement between you and ERMITS regarding the Services and supersede all prior agreements, understandings, and communications.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">21.2 Severability</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">If any provision of these Terms is found to be invalid, illegal, or unenforceable, the remaining provisions shall continue in full force and effect. The invalid provision shall be modified to the minimum extent necessary to make it valid and enforceable.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">21.3 Waiver</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">The failure of ERMITS to enforce any right or provision of these Terms shall not constitute a waiver of such right or provision. Any waiver must be in writing and signed by an authorized representative of ERMITS.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">21.4 Assignment</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">You may not assign or transfer these Terms or any rights hereunder without ERMITS' prior written consent. ERMITS may assign these Terms without restriction, including to any successor or acquirer. Any attempted assignment in violation of this provision is void.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">21.5 No Third-Party Beneficiaries</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">These Terms are for the benefit of you and ERMITS only and are not intended to benefit or create any right or cause of action in any third party.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">21.6 Notices</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">All notices under these Terms must be in writing and shall be deemed given:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>When delivered personally or by confirmed delivery service</li>
+                  <li>When sent by email to <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a> (for notices to ERMITS)</li>
+                  <li>When sent by email to your registered email address (for notices to you)</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">21.7 Export Controls</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">The Services and related technology may be subject to U.S. export control laws and regulations. You agree to comply with all applicable export and re-export restrictions and may not export or re-export the Services to prohibited countries, entities, or persons.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">21.8 U.S. Government Rights</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">The Services are "commercial computer software" and "commercial computer software documentation" as defined in FAR 12.212 and DFARS 227.7202. U.S. Government rights are limited to those set forth in these Terms.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">21.9 Independent Contractors</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">The parties are independent contractors. These Terms do not create a partnership, joint venture, agency, or employment relationship.</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">21.10 Survival</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">Provisions that by their nature should survive termination shall survive, including: data ownership, intellectual property, disclaimers, limitations of liability, indemnification, and dispute resolution.</p>
+              </section>
+
+              <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
+
+              <section className="mb-8">
+                <h2 id="section-22" className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">22. Contact Information</h2>
+                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-4">For questions, concerns, or notices regarding these Terms:</p>
+
+                <div className="my-4">
+                  <p className="text-gray-700 dark:text-gray-300"><strong>ERMITS LLC</strong></p>
+                  <p className="text-gray-700 dark:text-gray-300">Email: <a href="mailto:contact@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">contact@ermits.com</a></p>
+                  <p className="text-gray-700 dark:text-gray-300">Website: <a href="https://www.ermits.com" target="_blank" rel="noopener noreferrer" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">www.ermits.com</a></p>
+                </div>
+
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-4">For technical support inquiries:<br />
+                Email: <a href="mailto:support@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">support@ermits.com</a></p>
+
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-4">For privacy inquiries:<br />
+                Email: <a href="mailto:privacy@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">privacy@ermits.com</a></p>
+
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-4">For compliance and legal inquiries:<br />
+                Email: <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a></p>
               </section>
 
               <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
