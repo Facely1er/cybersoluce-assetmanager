@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
           {/* Company Info - Left Side */}
           <div className="md:col-span-1">
             <div className="mb-3">
-              <Logo size="sm" showText={true} />
+              <Logo size="md" showText={true} />
             </div>
             <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">
               Track, manage, and secure your digital assets with advanced filtering and compliance mapping.

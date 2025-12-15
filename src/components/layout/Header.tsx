@@ -73,7 +73,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
           <div className="flex items-center justify-between h-14 py-2">
             {/* Logo and Branding - Enhanced */}
             <Link to="/" className="flex items-center group flex-shrink-0">
-              <Logo size="sm" showText={true} className="group-hover:scale-105 transition-transform duration-300" />
+              <Logo size="md" showText={true} className="group-hover:scale-105 transition-transform duration-300" />
             </Link>
 
             {/* Center Navigation - Desktop - All menu items in order */}
@@ -135,7 +135,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
           <div className="md:hidden border-t border-gray-200 dark:border-gray-700 py-4 bg-white dark:bg-gray-900">
             {/* Mobile Logo Display */}
             <div className="flex items-center mb-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800">
-              <Logo size="sm" showText={true} />
+              <Logo size="md" showText={true} />
             </div>
             <nav className="flex flex-col space-y-2">
               {navigationItems.map((item) => {
