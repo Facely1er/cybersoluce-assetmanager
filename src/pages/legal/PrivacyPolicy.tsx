@@ -25,7 +25,7 @@ export const PrivacyPolicy: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                  MASTER PRIVACY POLICY
+                  Master Privacy Policy
                 </h1>
                 <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                   <p><strong>Effective Date:</strong> October 31, 2025</p>
@@ -34,100 +34,183 @@ export const PrivacyPolicy: React.FC = () => {
               </div>
             </div>
 
-            <div className="prose prose-gray dark:prose-invert max-w-none">
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                ERMITS LLC ("ERMITS," "we," "our," or "us") is committed to protecting your privacy through a Privacy-First Architecture that ensures you maintain control over your data. This Privacy Policy explains how we collect, use, disclose, and safeguard information when you use our Services across all ERMITS product lines.
-              </p>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                By using our Services, you consent to the data practices described in this policy. If you do not agree with this Privacy Policy, please do not use our Services.
-              </p>
+            <div className="prose prose-gray dark:prose-invert max-w-none text-slate-200 space-y-8">
+              <div className="bg-slate-800/50 dark:bg-gray-800/50 border-l-4 border-command-blue-500 dark:border-command-blue-400 p-6 rounded-r-lg mb-8">
+                <p className="text-base text-gray-700 dark:text-slate-200 leading-relaxed m-0">
+                  ERMITS LLC ("ERMITS," "we," "our," or "us") is committed to protecting your privacy through a Privacy-First Architecture that ensures you maintain control over your data. This Privacy Policy explains how we collect, use, disclose, and safeguard information when you use our Services across all ERMITS product lines.
+                </p>
+                <p className="text-base text-gray-700 dark:text-slate-200 leading-relaxed mt-4 mb-0">
+                  By using our Services, you consent to the data practices described in this policy. If you do not agree with this Privacy Policy, please do not use our Services.
+                </p>
+              </div>
 
               <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">1. SCOPE AND APPLICABILITY</h2>
-                
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">1.1 Services Covered</h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">This Privacy Policy applies to all ERMITS products and services, including:</p>
-                
-                <div className="space-y-4 mb-4">
-                  <div>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">CyberSoluce™:</p>
-                    <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                      <li>Enhanced Asset Inventory Management Platform</li>
-                      <li>Dependency-aware visibility into asset inventory</li>
-                      <li>Focus signals for attention areas</li>
-                      <li>Service funneling guidance toward appropriate ERMITS services</li>
-                    </ul>
-                  </div>
+              <h2 id="section-1" className="text-2xl font-bold text-gray-900 dark:text-slate-50 mt-12 mb-6 pb-3 border-b border-gray-300 dark:border-slate-700">1. SCOPE AND APPLICABILITY</h2>
 
-                  <div>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">SocialCaution:</p>
-                    <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                      <li>Personalized privacy platform</li>
-                      <li>AI-powered persona detection</li>
-                      <li>Privacy exposure index and risk scoring</li>
-                      <li>Service catalog with privacy risk profiles</li>
-                    </ul>
-                  </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">1.1 Services Covered</h3>
 
-                  <div>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">TechnoSoluce™:</p>
-                    <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                      <li>SBOM (Software Bill of Materials) Analyzer</li>
-                      <li>Software supply chain security and vulnerability analysis</li>
-                      <li>Client-side SBOM processing</li>
-                    </ul>
-                  </div>
+              <p className="text-sm text-gray-700 dark:text-slate-200 leading-relaxed mb-4">This Privacy Policy applies to all ERMITS products and services, including:</p>
 
-                  <div>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">CyberCertitude™:</p>
-                    <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                      <li>CMMC 2.0 Level 1 Implementation Suite</li>
-                      <li>CMMC 2.0 Level 2 Compliance Platform</li>
-                      <li>NIST SP 800-171 assessment and compliance tools</li>
-                      <li>Original Toolkit (localStorage-based compliance management)</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">VendorSoluce™:</p>
-                    <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                      <li>Supply Chain Risk Management Platform</li>
-                      <li>Vendor assessment and monitoring</li>
-                      <li>Third-party risk evaluation</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">CyberCorrect™:</p>
-                    <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                      <li>Privacy Portal (workplace privacy compliance)</li>
-                      <li>Privacy Platform (multi-regulation privacy management)</li>
-                      <li>Data subject rights management</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">CyberCaution™:</p>
-                    <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                      <li>RansomCheck (ransomware readiness assessment)</li>
-                      <li>Security Toolkit (comprehensive cybersecurity assessments)</li>
-                      <li>RiskProfessional (CISA-aligned security assessments)</li>
-                    </ul>
-                  </div>
+              <div className="bg-slate-800/30 dark:bg-gray-800/30 rounded-lg p-6 my-6 space-y-4">
+                <div className="border-l-4 border-command-blue-500 dark:border-command-blue-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-2">CyberSoluce™:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li>Enhanced Asset Inventory Management Platform</li>
+                    <li>Dependency-aware visibility into asset inventory</li>
+                    <li>Focus signals for attention areas</li>
+                    <li>Service funneling guidance toward appropriate ERMITS services</li>
+                  </ul>
                 </div>
 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">1.2 Geographic Scope</h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">This Privacy Policy applies to users worldwide and complies with:</p>
-                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-                  <li>General Data Protection Regulation (GDPR) - European Union, United Kingdom, Switzerland</li>
-                  <li>California Consumer Privacy Act (CCPA) / California Privacy Rights Act (CPRA)</li>
-                  <li>Personal Information Protection and Electronic Documents Act (PIPEDA) - Canada</li>
-                  <li>Lei Geral de Proteção de Dados (LGPD) - Brazil</li>
-                  <li>Other applicable privacy and data protection laws</li>
-                </ul>
-              </section>
+                <div className="border-l-4 border-indigo-500 dark:border-indigo-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-2">SocialCaution:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li>Personalized privacy platform</li>
+                    <li>AI-powered persona detection</li>
+                    <li>Privacy exposure index and risk scoring</li>
+                    <li>Service catalog with privacy risk profiles</li>
+                  </ul>
+                </div>
+
+                <div className="border-l-4 border-yellow-500 dark:border-yellow-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-2">TechnoSoluce™:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li>SBOM (Software Bill of Materials) Analyzer</li>
+                    <li>Software supply chain security and vulnerability analysis</li>
+                    <li>Client-side SBOM processing</li>
+                  </ul>
+                </div>
+
+                <div className="border-l-4 border-orange-500 dark:border-orange-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-2">CyberCertitude™:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li>CMMC 2.0 Level 1 Implementation Suite</li>
+                    <li>CMMC 2.0 Level 2 Compliance Platform</li>
+                    <li>NIST SP 800-171 assessment and compliance tools</li>
+                    <li>Original Toolkit (localStorage-based compliance management)</li>
+                  </ul>
+                </div>
+
+                <div className="border-l-4 border-green-500 dark:border-green-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-2">VendorSoluce™:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li>Supply Chain Risk Management Platform</li>
+                    <li>Vendor assessment and monitoring</li>
+                    <li>Third-party risk evaluation</li>
+                  </ul>
+                </div>
+
+                <div className="border-l-4 border-green-500 dark:border-green-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-2">CyberCorrect™:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li>Privacy Portal (Workplace privacy compliance)</li>
+                    <li>Privacy Platform (Multi-regulation privacy compliance automation)</li>
+                  </ul>
+                </div>
+
+                <div className="border-l-4 border-indigo-500 dark:border-indigo-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-2">CyberCaution™:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li>RansomCheck (ransomware readiness assessment)</li>
+                    <li>Security Toolkit (comprehensive cybersecurity assessments)</li>
+                    <li>RiskProfessional (CISA-aligned security assessments)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">1.2 Geographic Scope</h3>
+
+              <p className="text-sm text-gray-700 dark:text-slate-200 leading-relaxed mb-4">This Privacy Policy applies to users worldwide and complies with:</p>
+
+              <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-slate-300">
+                <li>General Data Protection Regulation (GDPR) - European Union, United Kingdom, Switzerland</li>
+                <li>California Consumer Privacy Act (CCPA) / California Privacy Rights Act (CPRA)</li>
+                <li>Personal Information Protection and Electronic Documents Act (PIPEDA) - Canada</li>
+                <li>Lei Geral de Proteção de Dados (LGPD) - Brazil</li>
+                <li>Other applicable privacy and data protection laws</li>
+              </ul>
+
+              <h2 id="section-2" className="text-2xl font-bold text-gray-900 dark:text-slate-50 mt-12 mb-6 pb-3 border-b border-gray-300 dark:border-slate-700">2. PRIVACY-FIRST ARCHITECTURE OVERVIEW</h2>
+
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">2.1 Core Privacy Principles</h3>
+
+              <p className="text-sm text-gray-700 dark:text-slate-200 leading-relaxed mb-4">ERMITS implements Privacy-First Architecture built on five fundamental principles that distinguish our approach:</p>
+
+              <div className="bg-slate-800/30 dark:bg-gray-800/30 rounded-lg p-6 my-6 space-y-6">
+                <div className="border-l-4 border-yellow-500 dark:border-yellow-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">1. Client-Side Processing</p>
+                  <p className="text-gray-700 dark:text-slate-300 leading-relaxed mb-2">All core computational functions are performed locally within your browser or self-managed environment whenever technically feasible:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li>Security Assessments: CMMC, cybersecurity assessments processed in your browser</li>
+                    <li>Asset Inventory: CyberSoluce asset data processed client-side</li>
+                    <li>SBOM Analysis: TechnoSoluce processes SBOM files entirely client-side</li>
+                    <li>Risk Scoring: All risk calculations performed locally</li>
+                    <li>Compliance Evaluations: Assessment scoring and gap analysis done in your browser</li>
+                    <li>Privacy Analysis: SocialCaution persona detection runs entirely client-side</li>
+                  </ul>
+                  <p className="text-gray-700 dark:text-slate-300 leading-relaxed mt-2 italic">Your data remains under your control throughout the analysis process.</p>
+                </div>
+
+                <div className="border-l-4 border-command-blue-500 dark:border-command-blue-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">2. Data Sovereignty Options</p>
+                  <p className="text-gray-700 dark:text-slate-300 leading-relaxed mb-2">You choose where your data resides:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li><strong>Local-Only Mode:</strong> All data stored exclusively in your browser (IndexedDB, localStorage)</li>
+                    <li><strong>Self-Managed Cloud:</strong> Deploy to your own cloud infrastructure with full control (AWS, Azure, GCP)</li>
+                    <li><strong>ERMITS-Managed Cloud:</strong> Optional encrypted cloud synchronization with zero-knowledge architecture</li>
+                    <li><strong>Hybrid Deployment:</strong> Local processing with selective encrypted cloud backup</li>
+                    <li><strong>On-Premises:</strong> Enterprise customers can deploy on their own infrastructure</li>
+                  </ul>
+                </div>
+
+                <div className="border-l-4 border-indigo-500 dark:border-indigo-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">3. Zero-Knowledge Encryption</p>
+                  <p className="text-gray-700 dark:text-slate-300 leading-relaxed mb-2">When using ERMITS-managed cloud features with encryption enabled:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li>Data is encrypted client-side using <strong>AES-256-GCM</strong> before transmission</li>
+                    <li>Encryption keys are <strong>derived from your credentials</strong> using PBKDF2 and never transmitted to ERMITS</li>
+                    <li>ERMITS <strong>cannot decrypt, access, or view</strong> your encrypted data</li>
+                    <li>You are <strong>solely responsible</strong> for maintaining access to encryption keys</li>
+                    <li><strong>Lost keys = permanent data loss</strong> (we cannot recover your data)</li>
+                  </ul>
+                </div>
+
+                <div className="border-l-4 border-orange-500 dark:border-orange-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">4. Data Minimization</p>
+                  <p className="text-gray-700 dark:text-slate-300 leading-relaxed mb-2">We collect only the minimum data necessary for service functionality:</p>
+                  <p className="font-semibold text-gray-800 dark:text-slate-200 mt-3 mb-1">Never Collected:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300 mb-3">
+                    <li>Asset inventory data and dependency information</li>
+                    <li>Raw SBOM files, component lists, dependency graphs</li>
+                    <li>Assessment content, responses, or findings</li>
+                    <li>Vulnerability scan results or CVE data</li>
+                    <li>Compliance documentation (SSPs, POA&Ms, evidence)</li>
+                    <li>CUI (Controlled Unclassified Information)</li>
+                    <li>FCI (Federal Contract Information)</li>
+                    <li>PHI (Protected Health Information)</li>
+                    <li>Proprietary business data or trade secrets</li>
+                  </ul>
+                  <p className="font-semibold text-gray-800 dark:text-slate-200 mt-3 mb-1">Optionally Collected:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li>Account information (name, email, company) - only when you create an account</li>
+                    <li>Pseudonymized telemetry (anonymous performance metrics) - opt-in only</li>
+                    <li>Encrypted user data (if cloud sync enabled) - we cannot decrypt</li>
+                  </ul>
+                </div>
+
+                <div className="border-l-4 border-green-500 dark:border-green-400 pl-4">
+                  <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">5. Transparency and Control</p>
+                  <p className="text-gray-700 dark:text-slate-300 leading-relaxed mb-2">You have complete control over your data:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                    <li><strong>Export</strong> all data at any time in standard formats (JSON, CSV, PDF)</li>
+                    <li><strong>Delete</strong> all data permanently with one click</li>
+                    <li><strong>Opt in or opt out</strong> of telemetry collection anytime</li>
+                    <li><strong>Choose</strong> your deployment and storage model</li>
+                    <li><strong>Review</strong> detailed data flow documentation for each product</li>
+                  </ul>
+                </div>
+              </div>
 
               <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
 
@@ -222,254 +305,254 @@ export const PrivacyPolicy: React.FC = () => {
 
               <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">3. INFORMATION WE COLLECT</h2>
+              <h2 id="section-3" className="text-2xl font-bold text-gray-900 dark:text-slate-50 mt-12 mb-6 pb-3 border-b border-gray-300 dark:border-slate-700">3. INFORMATION WE COLLECT</h2>
                 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">3.1 Information You Provide Directly</h3>
-                
-                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 my-4">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">Account Information (Optional):</p>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2">When you create an account or subscribe to paid features, we collect:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-                    <li><strong>Name:</strong> Your full name or preferred name</li>
-                    <li><strong>Email Address:</strong> For authentication, communications, and billing</li>
-                    <li><strong>Company Name and Job Title:</strong> Optional, for business context</li>
-                    <li><strong>Billing Information:</strong> Processed by Stripe, Inc. (our payment processor)
-                      <ul className="list-circle pl-6 mt-1">
-                        <li>ERMITS does not store complete payment card information</li>
-                        <li>We receive only: transaction status, last 4 digits of card, billing address</li>
-                      </ul>
-                    </li>
-                    <li><strong>Password:</strong> Cryptographically hashed using bcrypt, never stored in plaintext</li>
-                  </ul>
-                </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">3.1 Information You Provide Directly</h3>
 
-                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 my-4">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">User-Generated Content:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
-                    <li><strong>Support Requests:</strong> Questions, issues, or feedback sent to support@ermits.com</li>
-                    <li><strong>Survey Responses:</strong> Feedback provided through user surveys</li>
-                    <li><strong>Customization Preferences:</strong> UI preferences, notification settings, feature preferences</li>
-                  </ul>
-                </div>
+              <div className="bg-slate-800/30 dark:bg-gray-800/30 rounded-lg p-6 my-6">
+                <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">Account Information (Optional):</p>
+                <p className="text-gray-700 dark:text-slate-300 mb-2">When you create an account or subscribe to paid features, we collect:</p>
+                <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-slate-300">
+                  <li><strong>Name:</strong> Your full name or preferred name</li>
+                  <li><strong>Email Address:</strong> For authentication, communications, and billing</li>
+                  <li><strong>Company Name and Job Title:</strong> Optional, for business context</li>
+                  <li><strong>Billing Information:</strong> Processed by Stripe, Inc. (our payment processor)
+                    <ul className="list-circle pl-6 mt-1">
+                      <li>ERMITS does not store complete payment card information</li>
+                      <li>We receive only: transaction status, last 4 digits of card, billing address</li>
+                    </ul>
+                  </li>
+                  <li><strong>Password:</strong> Cryptographically hashed using bcrypt, never stored in plaintext</li>
+                </ul>
+              </div>
 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">3.2 Information We Do NOT Collect</h3>
-                
-                <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-6 rounded-r-lg my-4">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3 font-semibold">
-                    ERMITS explicitly does NOT collect, access, store, or transmit:
-                  </p>
+              <div className="bg-slate-800/30 dark:bg-gray-800/30 rounded-lg p-6 my-6">
+                <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">User-Generated Content:</p>
+                <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-slate-300">
+                  <li><strong>Support Requests:</strong> Questions, issues, or feedback sent to support@ermits.com</li>
+                  <li><strong>Survey Responses:</strong> Feedback provided through user surveys</li>
+                  <li><strong>Customization Preferences:</strong> UI preferences, notification settings, feature preferences</li>
+                </ul>
+              </div>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Assessment and Analysis Data:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>Asset inventory data and dependency information</li>
-                    <li>Security assessment responses or scores</li>
-                    <li>CMMC compliance assessments or documentation</li>
-                    <li>Cybersecurity evaluation results</li>
-                    <li>Privacy assessments or persona analysis results</li>
-                  </ul>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">3.2 Information We Do NOT Collect</h3>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Technical Data:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>SBOM (Software Bill of Materials) files or contents</li>
-                    <li>Software component lists or dependency graphs</li>
-                    <li>Vulnerability scan results or CVE findings</li>
-                    <li>Package metadata or software inventories</li>
-                  </ul>
+              <div className="bg-red-900/20 dark:bg-red-900/20 border-l-4 border-red-500 p-6 rounded-r-lg my-6">
+                <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">ERMITS explicitly does NOT collect, access, store, or transmit:</p>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Compliance and Regulatory Data:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>System Security Plans (SSPs)</li>
-                    <li>Plans of Action and Milestones (POA&Ms)</li>
-                    <li>Compliance evidence or audit documentation</li>
-                    <li>Certification materials or assessment reports</li>
-                  </ul>
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-4 mb-2">Assessment and Analysis Data:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>Asset inventory data and dependency information</li>
+                  <li>Security assessment responses or scores</li>
+                  <li>CMMC compliance assessments or documentation</li>
+                  <li>Cybersecurity evaluation results</li>
+                  <li>Privacy assessments or persona analysis results</li>
+                </ul>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Controlled Information:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>CUI (Controlled Unclassified Information)</li>
-                    <li>FCI (Federal Contract Information)</li>
-                    <li>PHI (Protected Health Information) under HIPAA</li>
-                    <li>PCI data (payment card information) except via Stripe</li>
-                  </ul>
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-4 mb-2">Technical Data:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>SBOM (Software Bill of Materials) files or contents</li>
+                  <li>Software component lists or dependency graphs</li>
+                  <li>Vulnerability scan results or CVE findings</li>
+                  <li>Package metadata or software inventories</li>
+                </ul>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Business Data:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>Trade secrets or proprietary information</li>
-                    <li>Confidential business strategies</li>
-                    <li>Financial records (except billing data)</li>
-                    <li>Customer lists or business relationships</li>
-                  </ul>
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-4 mb-2">Compliance and Regulatory Data:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>System Security Plans (SSPs)</li>
+                  <li>Plans of Action and Milestones (POA&Ms)</li>
+                  <li>Compliance evidence or audit documentation</li>
+                  <li>Certification materials or assessment reports</li>
+                </ul>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 mt-4 italic">
-                    Due to our client-side processing model, this data is processed entirely in your browser or local environment. It never leaves your device unless you explicitly enable cloud sync with encryption.
-                  </p>
-                </div>
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-4 mb-2">Controlled Information:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>CUI (Controlled Unclassified Information)</li>
+                  <li>FCI (Federal Contract Information)</li>
+                  <li>PHI (Protected Health Information) under HIPAA</li>
+                  <li>PCI data (payment card information) except via Stripe</li>
+                </ul>
 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">3.3 Automatically Collected Information</h3>
-                
-                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 my-4">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">Pseudonymized Telemetry (Optional - Opt-In Required):</p>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2">With your explicit consent, we collect anonymous, aggregated performance data:</p>
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-4 mb-2">Business Data:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>Trade secrets or proprietary information</li>
+                  <li>Confidential business strategies</li>
+                  <li>Financial records (except billing data)</li>
+                  <li>Customer lists or business relationships</li>
+                </ul>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-3">What We Collect:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>Feature usage statistics (which tools are used, how often)</li>
-                    <li>Performance metrics (page load times, API response times)</li>
-                    <li>Error reports (crash logs, exceptions) with PII automatically scrubbed by Sentry</li>
-                    <li>Browser and device information (browser type/version, OS, screen resolution)</li>
-                    <li>Session metadata (session duration, navigation paths, timestamps)</li>
-                  </ul>
+                <p className="text-gray-700 dark:text-slate-300 italic mt-4">Due to our client-side processing model, this data is processed entirely in your browser or local environment. It never leaves your device unless you explicitly enable cloud sync with encryption.</p>
+              </div>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Privacy Protections:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li><strong>Irreversible Pseudonymization:</strong> User identifiers are cryptographically hashed (SHA-256) and cannot be reverse-engineered</li>
-                    <li><strong>No Content Data:</strong> Telemetry never includes file contents, assessment results, or user inputs</li>
-                    <li><strong>Differential Privacy:</strong> PostHog analytics use differential privacy techniques to prevent individual identification</li>
-                    <li><strong>Opt-Out Available:</strong> You can disable telemetry at any time in account settings with retroactive deletion</li>
-                    <li><strong>Aggregate Only:</strong> Data used only in aggregate; individual user behavior cannot be identified</li>
-                  </ul>
-                </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">3.3 Automatically Collected Information</h3>
 
-                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 my-4">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">Technical and Security Data:</p>
+              <div className="bg-slate-800/30 dark:bg-gray-800/30 rounded-lg p-6 my-6">
+                <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">Pseudonymized Telemetry (Optional - Opt-In Required):</p>
+                <p className="text-gray-700 dark:text-slate-300 mb-2">With your explicit consent, we collect anonymous, aggregated performance data:</p>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-3">IP Addresses:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li><strong>Collected for:</strong> Security monitoring, rate limiting, geolocation for service delivery</li>
-                    <li><strong>Not linked to:</strong> User accounts or identifiable information</li>
-                    <li><strong>Retention:</strong> 90 days in server logs, then automatically deleted</li>
-                    <li><strong>Use:</strong> Fraud prevention, DDoS protection, regional service optimization</li>
-                  </ul>
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-3 mb-1">What We Collect:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>Feature usage statistics (which tools are used, how often)</li>
+                  <li>Performance metrics (page load times, API response times)</li>
+                  <li>Error reports (crash logs, exceptions) with PII automatically scrubbed by Sentry</li>
+                  <li>Browser and device information (browser type/version, OS, screen resolution)</li>
+                  <li>Session metadata (session duration, navigation paths, timestamps)</li>
+                </ul>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-3">Server Logs:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>Standard web server access logs (timestamp, HTTP method, endpoint, status code, IP)</li>
-                    <li>Error logs for debugging and system monitoring</li>
-                    <li>Retention: 90 days, then automatically deleted</li>
-                    <li>Access: Restricted to security and engineering teams only</li>
-                  </ul>
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-4 mb-1">Privacy Protections:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li><strong>Irreversible Pseudonymization:</strong> User identifiers are cryptographically hashed (SHA-256) and cannot be reverse-engineered</li>
+                  <li><strong>No Content Data:</strong> Telemetry never includes file contents, assessment results, or user inputs</li>
+                  <li><strong>Differential Privacy:</strong> PostHog analytics use differential privacy techniques to prevent individual identification</li>
+                  <li><strong>Opt-Out Available:</strong> You can disable telemetry at any time in account settings with retroactive deletion</li>
+                  <li><strong>Aggregate Only:</strong> Data used only in aggregate; individual user behavior cannot be identified</li>
+                </ul>
+              </div>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-3">Cookies and Similar Technologies:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>See our separate <Link to="/legal/cookie-policy" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">Cookie Policy</Link> for detailed information</li>
-                    <li>Essential cookies for authentication and security only (required)</li>
-                    <li>Optional cookies for analytics and preferences (opt-in)</li>
-                  </ul>
-                </div>
+              <div className="bg-slate-800/30 dark:bg-gray-800/30 rounded-lg p-6 my-6">
+                <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">Technical and Security Data:</p>
 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">3.4 Information from Third Parties</h3>
-                
-                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 my-4">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">Authentication Providers (OAuth):</p>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2">If you use OAuth for authentication (Google, Microsoft, GitHub), we receive:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>Name and email address from the provider</li>
-                    <li>Profile information you choose to share with the provider's permission</li>
-                    <li>Provider's unique identifier for your account (for account linking)</li>
-                  </ul>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 mt-2 italic">We do not access your contacts, files, or other data from these providers.</p>
-                </div>
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-3 mb-1">IP Addresses:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li><strong>Collected for:</strong> Security monitoring, rate limiting, geolocation for service delivery</li>
+                  <li><strong>Not linked to:</strong> User accounts or identifiable information</li>
+                  <li><strong>Retention:</strong> 90 days in server logs, then automatically deleted</li>
+                  <li><strong>Use:</strong> Fraud prevention, DDoS protection, regional service optimization</li>
+                </ul>
 
-                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 my-4">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">Payment Processor (Stripe):</p>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2">Stripe provides us with:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>Payment success/failure status</li>
-                    <li>Subscription status and billing cycle information</li>
-                    <li>Last 4 digits of payment method (for your reference)</li>
-                    <li>Billing address (for tax compliance)</li>
-                  </ul>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 mt-2 italic">We do not receive or store complete payment card numbers.</p>
-                </div>
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-3 mb-1">Server Logs:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>Standard web server access logs (timestamp, HTTP method, endpoint, status code, IP)</li>
+                  <li>Error logs for debugging and system monitoring</li>
+                  <li>Retention: 90 days, then automatically deleted</li>
+                  <li>Access: Restricted to security and engineering teams only</li>
+                </ul>
 
-                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-6 my-4">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">Vulnerability Databases (Public APIs):</p>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2">When you use SBOM analysis or security assessment tools, your browser makes anonymous, client-side queries to:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li><strong>OSV.dev</strong> (Google Open Source Vulnerabilities)</li>
-                    <li><strong>NIST National Vulnerability Database (NVD)</strong></li>
-                    <li><strong>CISA Known Exploited Vulnerabilities (KEV) catalog</strong></li>
-                  </ul>
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-3 mb-1">Cookies and Similar Technologies:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>See our separate <Link to="/legal/cookie-policy" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">Cookie Policy</Link> for detailed information</li>
+                  <li>Essential cookies for authentication and security only (required)</li>
+                  <li>Optional cookies for analytics and preferences (opt-in)</li>
+                </ul>
+              </div>
 
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Privacy Protection:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>Queries performed <strong>client-side</strong> directly from your browser</li>
-                    <li>Only public component identifiers sent (package name, version)</li>
-                    <li>No proprietary information, file paths, or business context transmitted</li>
-                    <li>ERMITS does not track or log your queries to these services</li>
-                    <li>These services may have their own logging policies (outside ERMITS control)</li>
-                  </ul>
-                </div>
-              </section>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">3.4 Information from Third Parties</h3>
+
+              <div className="bg-slate-800/30 dark:bg-gray-800/30 rounded-lg p-6 my-6">
+                <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">Authentication Providers (OAuth):</p>
+                <p className="text-gray-700 dark:text-slate-300 mb-2">If you use OAuth for authentication (Google, Microsoft, GitHub), we receive:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>Name and email address from the provider</li>
+                  <li>Profile information you choose to share with the provider's permission</li>
+                  <li>Provider's unique identifier for your account (for account linking)</li>
+                </ul>
+                <p className="text-gray-700 dark:text-slate-300 italic mt-2">We do not access your contacts, files, or other data from these providers.</p>
+              </div>
+
+              <div className="bg-slate-800/30 dark:bg-gray-800/30 rounded-lg p-6 my-6">
+                <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">Payment Processor (Stripe):</p>
+                <p className="text-gray-700 dark:text-slate-300 mb-2">Stripe provides us with:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>Payment success/failure status</li>
+                  <li>Subscription status and billing cycle information</li>
+                  <li>Last 4 digits of payment method (for your reference)</li>
+                  <li>Billing address (for tax compliance)</li>
+                </ul>
+                <p className="text-gray-700 dark:text-slate-300 italic mt-2">We do not receive or store complete payment card numbers.</p>
+              </div>
+
+              <div className="bg-slate-800/30 dark:bg-gray-800/30 rounded-lg p-6 my-6">
+                <p className="font-bold text-gray-900 dark:text-slate-50 mb-3">Vulnerability Databases (Public APIs):</p>
+                <p className="text-gray-700 dark:text-slate-300 mb-2">When you use SBOM analysis or security assessment tools, your browser makes anonymous, client-side queries to:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li><strong>OSV.dev</strong> (Google Open Source Vulnerabilities)</li>
+                  <li><strong>NIST National Vulnerability Database (NVD)</strong></li>
+                  <li><strong>CISA Known Exploited Vulnerabilities (KEV) catalog</strong></li>
+                </ul>
+
+                <p className="font-semibold text-gray-800 dark:text-slate-200 mt-4 mb-1">Privacy Protection:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>Queries performed <strong>client-side</strong> directly from your browser</li>
+                  <li>Only public component identifiers sent (package name, version)</li>
+                  <li>No proprietary information, file paths, or business context transmitted</li>
+                  <li>ERMITS does not track or log your queries to these services</li>
+                  <li>These services may have their own logging policies (outside ERMITS control)</li>
+                </ul>
+              </div>
+
+              <h2 id="section-4" className="text-2xl font-bold text-gray-900 dark:text-slate-50 mt-12 mb-6 pb-3 border-b border-gray-300 dark:border-slate-700">4. HOW WE USE INFORMATION</h2>
 
               <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">4. HOW WE USE INFORMATION</h2>
-                
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">4.1 Service Delivery and Operation</h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2">We use collected information to:</p>
-                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-                  <li><strong>Provide Services:</strong> Deliver CyberSoluce, SocialCaution, TechnoSoluce, CyberCertitude, VendorSoluce, CyberCorrect, and CyberCaution services</li>
-                  <li><strong>Process Transactions:</strong> Handle subscriptions, billing, and payment confirmations</li>
-                  <li><strong>Authenticate Users:</strong> Verify identity and maintain account security</li>
-                  <li><strong>Enable Features:</strong> Provide cloud synchronization, multi-device access, collaboration features (when opted-in)</li>
-                  <li><strong>Customer Support:</strong> Respond to inquiries, troubleshoot issues, provide technical assistance</li>
-                </ul>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">4.1 Service Delivery and Operation</h3>
 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">4.2 Service Improvement and Analytics</h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2">We use pseudonymized, aggregate data to:</p>
-                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-                  <li><strong>Analyze Usage Patterns:</strong> Understand which features are used and how often (aggregate only)</li>
-                  <li><strong>Identify Issues:</strong> Detect and fix bugs, errors, and performance problems</li>
-                  <li><strong>Develop Features:</strong> Plan and build new features based on anonymized usage trends</li>
-                  <li><strong>Conduct Research:</strong> Perform security and privacy research using aggregated, anonymous data</li>
-                  <li><strong>Benchmark Performance:</strong> Measure and improve service performance and reliability</li>
-                </ul>
+              <p className="text-gray-700 dark:text-slate-300 mb-2">We use collected information to:</p>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-slate-300">
+                <li><strong>Provide Services:</strong> Deliver CyberSoluce, SocialCaution, TechnoSoluce, CyberCertitude, VendorSoluce, CyberCorrect, and CyberCaution services</li>
+                <li><strong>Process Transactions:</strong> Handle subscriptions, billing, and payment confirmations</li>
+                <li><strong>Authenticate Users:</strong> Verify identity and maintain account security</li>
+                <li><strong>Enable Features:</strong> Provide cloud synchronization, multi-device access, collaboration features (when opted-in)</li>
+                <li><strong>Customer Support:</strong> Respond to inquiries, troubleshoot issues, provide technical assistance</li>
+              </ul>
 
-                <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 rounded-r-lg my-4">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">We do NOT:</p>
-                  <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
-                    <li>Analyze your individual assessment results or SBOM data</li>
-                    <li>Use your data to train AI models or machine learning systems</li>
-                    <li>Profile users for behavioral targeting or marketing</li>
-                    <li>Sell or monetize your data in any way</li>
-                  </ul>
-                </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">4.2 Service Improvement and Analytics</h3>
 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">4.3 Communication</h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2">We use your contact information to:</p>
-                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-                  <li><strong>Service Announcements:</strong> Notify you of system updates, maintenance, or service changes</li>
-                  <li><strong>Security Alerts:</strong> Send critical security notifications or breach notifications</li>
-                  <li><strong>Support Responses:</strong> Reply to your support requests and feedback</li>
-                  <li><strong>Transactional Emails:</strong> Send receipts, invoices, account confirmations</li>
-                  <li><strong>Product Updates:</strong> Inform you of new features or product launches (opt-in only)</li>
-                  <li><strong>Marketing Communications:</strong> Send promotional content only with your explicit consent (easy opt-out)</li>
-                </ul>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 mt-3 italic">You can opt out of marketing emails anytime. You cannot opt out of critical service/security notifications.</p>
+              <p className="text-gray-700 dark:text-slate-300 mb-2">We use pseudonymized, aggregate data to:</p>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-slate-300">
+                <li><strong>Analyze Usage Patterns:</strong> Understand which features are used and how often (aggregate only)</li>
+                <li><strong>Identify Issues:</strong> Detect and fix bugs, errors, and performance problems</li>
+                <li><strong>Develop Features:</strong> Plan and build new features based on anonymized usage trends</li>
+                <li><strong>Conduct Research:</strong> Perform security and privacy research using aggregated, anonymous data</li>
+                <li><strong>Benchmark Performance:</strong> Measure and improve service performance and reliability</li>
+              </ul>
 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">4.4 Security and Fraud Prevention</h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2">We use technical data to:</p>
-                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-                  <li><strong>Detect Threats:</strong> Identify and prevent security threats, attacks, and abuse</li>
-                  <li><strong>Monitor Security:</strong> Track unauthorized access attempts or account compromise</li>
-                  <li><strong>Enforce Policies:</strong> Ensure compliance with <Link to="/legal/terms-of-service" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">Terms of Service</Link> and <Link to="/legal/acceptable-use-policy" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">Acceptable Use Policy</Link></li>
-                  <li><strong>Prevent Fraud:</strong> Detect fraudulent transactions, account creation, or service abuse</li>
-                  <li><strong>Protect Users:</strong> Safeguard ERMITS, our users, and third parties from harm</li>
+              <div className="bg-red-900/20 dark:bg-red-900/20 border-l-4 border-red-500 p-4 rounded-r-lg my-4">
+                <p className="font-bold text-gray-900 dark:text-slate-50 mb-2">We do NOT:</p>
+                <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-slate-300">
+                  <li>Analyze your individual assessment results or SBOM data</li>
+                  <li>Use your data to train AI models or machine learning systems</li>
+                  <li>Profile users for behavioral targeting or marketing</li>
+                  <li>Sell or monetize your data in any way</li>
                 </ul>
+              </div>
 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">4.5 Legal and Compliance</h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2">We process information as required to:</p>
-                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-                  <li><strong>Comply with Laws:</strong> Fulfill legal obligations and respond to lawful requests</li>
-                  <li><strong>Enforce Rights:</strong> Protect ERMITS' legal rights and enforce agreements</li>
-                  <li><strong>Liability Protection:</strong> Defend against legal claims or liability</li>
-                  <li><strong>Audits:</strong> Conduct internal audits and maintain business records</li>
-                  <li><strong>Regulatory Compliance:</strong> Meet requirements under GDPR, CCPA, HIPAA, and other laws</li>
-                </ul>
-              </section>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">4.3 Communication</h3>
+
+              <p className="text-gray-700 dark:text-slate-300 mb-2">We use your contact information to:</p>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-slate-300">
+                <li><strong>Service Announcements:</strong> Notify you of system updates, maintenance, or service changes</li>
+                <li><strong>Security Alerts:</strong> Send critical security notifications or breach notifications</li>
+                <li><strong>Support Responses:</strong> Reply to your support requests and feedback</li>
+                <li><strong>Transactional Emails:</strong> Send receipts, invoices, account confirmations</li>
+                <li><strong>Product Updates:</strong> Inform you of new features or product launches (opt-in only)</li>
+                <li><strong>Marketing Communications:</strong> Send promotional content only with your explicit consent (easy opt-out)</li>
+              </ul>
+
+              <p className="text-gray-700 dark:text-slate-300 italic mt-3">You can opt out of marketing emails anytime. You cannot opt out of critical service/security notifications.</p>
+
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">4.4 Security and Fraud Prevention</h3>
+
+              <p className="text-gray-700 dark:text-slate-300 mb-2">We use technical data to:</p>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-slate-300">
+                <li><strong>Detect Threats:</strong> Identify and prevent security threats, attacks, and abuse</li>
+                <li><strong>Monitor Security:</strong> Track unauthorized access attempts or account compromise</li>
+                <li><strong>Enforce Policies:</strong> Ensure compliance with <Link to="/legal/terms-of-service" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">Terms of Service</Link> and <Link to="/legal/acceptable-use-policy" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">Acceptable Use Policy</Link></li>
+                <li><strong>Prevent Fraud:</strong> Detect fraudulent transactions, account creation, or service abuse</li>
+                <li><strong>Protect Users:</strong> Safeguard ERMITS, our users, and third parties from harm</li>
+              </ul>
+
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-50 mt-8 mb-4">4.5 Legal and Compliance</h3>
+
+              <p className="text-gray-700 dark:text-slate-300 mb-2">We process information as required to:</p>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-slate-300">
+                <li><strong>Comply with Laws:</strong> Fulfill legal obligations and respond to lawful requests</li>
+                <li><strong>Enforce Rights:</strong> Protect ERMITS' legal rights and enforce agreements</li>
+                <li><strong>Liability Protection:</strong> Defend against legal claims or liability</li>
+                <li><strong>Audits:</strong> Conduct internal audits and maintain business records</li>
+                <li><strong>Regulatory Compliance:</strong> Meet requirements under GDPR, CCPA, HIPAA, and other laws</li>
+              </ul>
+
+              <h2 id="section-5" className="text-2xl font-bold text-gray-900 dark:text-slate-50 mt-12 mb-6 pb-3 border-b border-gray-300 dark:border-slate-700">5. INFORMATION SHARING AND DISCLOSURE</h2>
 
               <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
 
