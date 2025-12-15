@@ -141,7 +141,7 @@ export const AcceptableUsePolicy: React.FC = () => {
                 
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">Permitted Activities:</p>
                 <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-                  <li>Responsibly report vulnerabilities to contact@ermits.com</li>
+                  <li>Responsibly report vulnerabilities to <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a></li>
                   <li>Conduct good-faith security research on your own accounts</li>
                   <li>Test security features within scope of your own data</li>
                 </ul>
@@ -238,7 +238,7 @@ export const AcceptableUsePolicy: React.FC = () => {
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">6.1 How to Report</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">If you become aware of violations of this AUP:</p>
                 <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-                  <li><strong>Email:</strong> contact@ermits.com (Subject: "AUP Violation Report")</li>
+                  <li><strong>Email:</strong> <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a> (Subject: "AUP Violation Report")</li>
                   <li><strong>Include:</strong> Detailed description, evidence, affected accounts/systems</li>
                   <li><strong>Confidential:</strong> Reports are treated confidentially</li>
                 </ul>
@@ -310,7 +310,7 @@ export const AcceptableUsePolicy: React.FC = () => {
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">7.3 Appeals</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">If you believe an enforcement action was made in error:</p>
                 <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-                  <li>Contact contact@ermits.com (Subject: "AUP Enforcement Appeal")</li>
+                  <li>Contact <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a> (Subject: "AUP Enforcement Appeal")</li>
                   <li>Provide detailed explanation and evidence</li>
                   <li>ERMITS will review and respond within 10 business days</li>
                   <li>Decision is final and at ERMITS' sole discretion</li>
@@ -378,15 +378,15 @@ export const AcceptableUsePolicy: React.FC = () => {
                 <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">11 Contact Information</h2>
                 <div className="space-y-3 text-gray-700 dark:text-gray-300">
                   <p><strong>AUP Violation Reports:</strong><br />
-                  Email: contact@ermits.com<br />
+                  Email: <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a><br />
                   Subject: "AUP Violation Report"</p>
                   
                   <p><strong>AUP Questions:</strong><br />
-                  Email: contact@ermits.com<br />
+                  Email: <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a><br />
                   Subject: "AUP Inquiry"</p>
                   
                   <p><strong>Appeals:</strong><br />
-                  Email: contact@ermits.com<br />
+                  Email: <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a><br />
                   Subject: "AUP Enforcement Appeal"</p>
                 </div>
               </section>

@@ -338,9 +338,31 @@ export const CookiePolicy: React.FC = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">8 Cookies and International Privacy Laws</h2>
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">8 Mobile Applications</h2>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">For ERMITS mobile applications (if applicable):</p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">8.1 GDPR Compliance (EU/UK/Swiss)</h3>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Mobile SDKs:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Similar functionality to cookies</li>
+                  <li>Device identifiers may be collected</li>
+                  <li>Opt-out available in app settings</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Mobile Privacy Controls:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li><strong>iOS:</strong> Settings → Privacy → Tracking → Allow Apps to Request to Track (disable)</li>
+                  <li><strong>Android:</strong> Settings → Privacy → Ads → Opt out of Ads Personalization</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 italic">
+                  <strong>Note:</strong> ERMITS current products are web-based. Mobile-specific policies will be added if mobile apps are released.
+                </p>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">9 Cookies and International Privacy Laws</h2>
+                
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">9.1 GDPR Compliance (EU/UK/Swiss)</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">For users in the European Economic Area, United Kingdom, or Switzerland:</p>
                 <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
                   <li><strong>Consent Required:</strong> We obtain consent before setting non-essential cookies</li>
@@ -349,19 +371,28 @@ export const CookiePolicy: React.FC = () => {
                   <li><strong>Pre-Checked Boxes Prohibited:</strong> Cookie preferences start with only essential cookies enabled</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">8.2 CCPA Compliance (California)</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">9.2 CCPA Compliance (California)</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">For California residents:</p>
                 <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
                   <li><strong>No Sale of Data:</strong> We do not sell personal information collected via cookies</li>
                   <li><strong>Opt-Out Rights:</strong> You can disable optional cookies anytime</li>
                   <li><strong>Disclosure:</strong> This policy discloses all cookies used</li>
                 </ul>
+
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">9.3 Other Jurisdictions</h3>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">We comply with cookie laws in all jurisdictions where we operate, including:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Canada's PIPEDA</li>
+                  <li>Brazil's LGPD</li>
+                  <li>Australia's Privacy Act</li>
+                  <li>Other applicable data protection laws</li>
+                </ul>
               </section>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">9 Cookies and Security</h2>
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">10 Cookies and Security</h2>
                 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">9.1 Secure Cookie Practices</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">10.1 Secure Cookie Practices</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">ERMITS implements secure cookie handling:</p>
                 <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
                   <li><strong>Secure Flag:</strong> Cookies transmitted only over HTTPS</li>
@@ -370,12 +401,68 @@ export const CookiePolicy: React.FC = () => {
                   <li><strong>Encrypted Values:</strong> Sensitive cookie values are encrypted</li>
                   <li><strong>Short Expiration:</strong> Session cookies expire quickly</li>
                 </ul>
+
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">10.2 Cookie Security Risks</h3>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">Be aware of cookie-related security risks:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li><strong>Session Hijacking:</strong> Attackers stealing session cookies</li>
+                  <li><strong>XSS Attacks:</strong> Malicious scripts accessing cookies</li>
+                  <li><strong>CSRF Attacks:</strong> Unauthorized actions using your cookies</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Protect Yourself:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Use strong, unique passwords</li>
+                  <li>Enable multi-factor authentication</li>
+                  <li>Log out when finished (especially on shared devices)</li>
+                  <li>Clear cookies on shared/public computers</li>
+                  <li>Keep browser and OS updated</li>
+                  <li>Use antivirus and security software</li>
+                </ul>
               </section>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">10 Updates to This Cookie Policy</h2>
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">11 Local Storage and IndexedDB</h2>
                 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">10.1 Policy Changes</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">11.1 Privacy-First Local Storage</h3>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">ERMITS products extensively use browser local storage (localStorage, IndexedDB) for Privacy-First Architecture:</p>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Purpose:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Store assessment data locally (never transmitted to servers)</li>
+                  <li>Enable offline functionality</li>
+                  <li>Reduce server data storage</li>
+                  <li>Provide faster performance</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Privacy Benefits:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li><strong>Data stays local:</strong> Your data remains on your device</li>
+                  <li><strong>No server transmission:</strong> ERMITS doesn't access local storage data</li>
+                  <li><strong>User control:</strong> You can clear local storage anytime</li>
+                  <li><strong>Encryption option:</strong> Sensitive data can be encrypted locally</li>
+                </ul>
+
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">11.2 Managing Local Storage</h3>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">Clear Local Storage:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li><strong>Within Services:</strong> Account Settings → Data → Clear Local Data</li>
+                  <li><strong>Browser Settings:</strong> Developer Tools → Application → Storage → Clear</li>
+                  <li><strong>Warning:</strong> Clearing local storage deletes locally-stored assessments and data</li>
+                </ul>
+
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold mt-4">Backup Local Data:</p>
+                <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li>Export data before clearing: Account Settings → Export Data</li>
+                  <li>Download JSON/CSV backups</li>
+                  <li>Store backups securely</li>
+                </ul>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">12 Updates to This Cookie Policy</h2>
+                
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">12.1 Policy Changes</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">We may update this Cookie Policy to reflect:</p>
                 <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
                   <li>New cookies or technologies</li>
@@ -384,7 +471,7 @@ export const CookiePolicy: React.FC = () => {
                   <li>User feedback</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">10.2 Notification</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 mt-6">12.2 Notification</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-2 font-semibold">Material Changes:</p>
                 <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
                   <li>30 days' advance notice via email</li>
@@ -400,21 +487,21 @@ export const CookiePolicy: React.FC = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">11 Contact Information</h2>
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">13 Contact Information</h2>
                 <div className="space-y-3 text-gray-700 dark:text-gray-300">
                   <p><strong>Cookie Policy Questions:</strong><br />
-                  Email: contact@ermits.com<br />
+                  Email: <a href="mailto:privacy@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">privacy@ermits.com</a><br />
                   Subject: "Cookie Policy Inquiry"</p>
                   
                   <p><strong>Cookie Preferences:</strong><br />
                   Account Settings → Privacy → Cookie Preferences</p>
                   
                   <p><strong>Data Protection Officer (EU/UK/Swiss):</strong><br />
-                  Email: contact@ermits.com<br />
+                  Email: <a href="mailto:privacy@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">privacy@ermits.com</a><br />
                   Subject: "Cookie GDPR Inquiry"</p>
                   
                   <p><strong>Technical Support:</strong><br />
-                  Email: contact@ermits.com</p>
+                  Email: <a href="mailto:support@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">support@ermits.com</a></p>
                 </div>
               </section>
             </div>
