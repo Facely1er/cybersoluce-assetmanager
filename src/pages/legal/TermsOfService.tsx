@@ -875,26 +875,6 @@ export const TermsOfService: React.FC = () => {
                 Email: <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a></p>
               </section>
 
-              <div className="border-t border-gray-300 dark:border-gray-600 my-8"></div>
-
-              <section className="mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">14 Contact Information</h2>
-                <div className="space-y-3 text-gray-700 dark:text-gray-300">
-                  <p><strong>For questions, concerns, or notices regarding these Terms:</strong><br />
-                  ERMITS LLC<br />
-                  Email: <a href="mailto:contact@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">contact@ermits.com</a><br />
-                  Website: <a href="https://www.ermits.com" target="_blank" rel="noopener noreferrer" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">www.ermits.com</a></p>
-                  
-                  <p><strong>For technical support inquiries:</strong><br />
-                  Email: <a href="mailto:contact@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">contact@ermits.com</a></p>
-                  
-                  <p><strong>For privacy inquiries:</strong><br />
-                  Email: <a href="mailto:privacy@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">privacy@ermits.com</a></p>
-                  
-                  <p><strong>For compliance and legal inquiries:</strong><br />
-                  Email: <a href="mailto:legal@ermits.com" className="text-command-blue-600 dark:text-command-blue-400 hover:underline">legal@ermits.com</a></p>
-                </div>
-              </section>
             </div>
           </div>
         </div>
