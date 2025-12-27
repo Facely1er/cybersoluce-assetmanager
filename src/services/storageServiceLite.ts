@@ -1,6 +1,7 @@
 /**
  * Storage Service for CyberSoluce Lite
  * Handles localStorage persistence for data inventory and assets
+ * Enhanced with workspace isolation support (migrated from Lite version)
  */
 
 import { APP_CONFIG } from '../utils/constantsLite';
@@ -10,11 +11,91 @@ import { logger } from '../utils/logger';
 
 export class StorageService {
   /**
+   * Get workspace ID (for multi-tenant isolation)
+   * Defaults to 'default' for single-tenant use
+   */
+  private static getWorkspaceId(): string {
+    try {
+      const workspaceId = localStorage.getItem(`${APP_CONFIG.STORAGE_KEYS.SETTINGS}-workspace-id`);
+      return workspaceId || 'default';
+    } catch {
+      return 'default';
+    }
+  }
+
+  /**
+   * Get storage key with workspace prefix
+   */
+  private static getStorageKey(key: string): string {
+    const workspaceId = this.getWorkspaceId();
+    return `${workspaceId}-${key}`;
+  }
+
+  /**
+   * Set workspace ID (for multi-tenant isolation)
+   */
+  static setWorkspaceId(workspaceId: string): void {
+    try {
+      localStorage.setItem(`${APP_CONFIG.STORAGE_KEYS.SETTINGS}-workspace-id`, workspaceId);
+    } catch (error) {
+      logger.error('Error setting workspace ID', error instanceof Error ? error : new Error(String(error)));
+    }
+  }
+
+  /**
+   * Verify data persistence
+   */
+  static verifyPersistence(): {
+    assets: boolean;
+    dependencies: boolean;
+    dataInventory: boolean;
+    settings: boolean;
+  } {
+    try {
+      // Check if we can read/write to localStorage
+      const testKey = 'cybersoluce-persistence-test';
+      localStorage.setItem(testKey, 'test');
+      const canWrite = localStorage.getItem(testKey) === 'test';
+      localStorage.removeItem(testKey);
+
+      if (!canWrite) {
+        return {
+          assets: false,
+          dependencies: false,
+          dataInventory: false,
+          settings: false,
+        };
+      }
+
+      // Check if data exists (null is OK, means empty but accessible)
+      const assets = localStorage.getItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.ASSETS));
+      const dependencies = localStorage.getItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.DEPENDENCIES));
+      const dataInventory = localStorage.getItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.DATA_INVENTORY));
+      const settings = localStorage.getItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.SETTINGS));
+
+      // Return true if key exists (even if empty array) or if we can access localStorage
+      return {
+        assets: assets !== null || canWrite,
+        dependencies: dependencies !== null || canWrite,
+        dataInventory: dataInventory !== null || canWrite,
+        settings: settings !== null || canWrite,
+      };
+    } catch {
+      return {
+        assets: false,
+        dependencies: false,
+        dataInventory: false,
+        settings: false,
+      };
+    }
+  }
+
+  /**
    * Data Inventory Operations
    */
   static getDataInventory(): DataInventoryItem[] {
     try {
-      const stored = localStorage.getItem(APP_CONFIG.STORAGE_KEYS.DATA_INVENTORY);
+      const stored = localStorage.getItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.DATA_INVENTORY));
       if (!stored) return [];
       
       const items = JSON.parse(stored) as Partial<DataInventoryItem>[];
@@ -34,7 +115,7 @@ export class StorageService {
 
   static saveDataInventory(items: DataInventoryItem[]): void {
     try {
-      localStorage.setItem(APP_CONFIG.STORAGE_KEYS.DATA_INVENTORY, JSON.stringify(items));
+      localStorage.setItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.DATA_INVENTORY), JSON.stringify(items));
     } catch (error) {
       logger.error('Error saving data inventory', error instanceof Error ? error : new Error(String(error)));
       throw new Error('Failed to save data inventory');
@@ -75,7 +156,7 @@ export class StorageService {
    */
   static getAssets(): LiteAsset[] {
     try {
-      const stored = localStorage.getItem(APP_CONFIG.STORAGE_KEYS.ASSETS);
+      const stored = localStorage.getItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.ASSETS));
       if (!stored) return [];
       
       const assets = JSON.parse(stored) as Partial<LiteAsset>[];
@@ -95,7 +176,7 @@ export class StorageService {
 
   static saveAssets(assets: LiteAsset[]): void {
     try {
-      localStorage.setItem(APP_CONFIG.STORAGE_KEYS.ASSETS, JSON.stringify(assets));
+      localStorage.setItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.ASSETS), JSON.stringify(assets));
     } catch (error) {
       logger.error('Error saving assets', error instanceof Error ? error : new Error(String(error)));
       throw new Error('Failed to save assets');
@@ -135,9 +216,19 @@ export class StorageService {
    * Clear all data
    */
   static clearAll(): void {
-    localStorage.removeItem(APP_CONFIG.STORAGE_KEYS.DATA_INVENTORY);
-    localStorage.removeItem(APP_CONFIG.STORAGE_KEYS.ASSETS);
-    localStorage.removeItem(APP_CONFIG.STORAGE_KEYS.SETTINGS);
+    localStorage.removeItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.DATA_INVENTORY));
+    localStorage.removeItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.ASSETS));
+    localStorage.removeItem(this.getStorageKey(APP_CONFIG.STORAGE_KEYS.SETTINGS));
+  }
+
+  /**
+   * Clear session data only (not persistent data)
+   * Used for logout - preserves user data
+   */
+  static clearSession(): void {
+    // Only clear session-specific data, not user data
+    // In a real app, this would clear auth tokens, etc.
+    // For now, we preserve all data as per requirements
   }
 
   /**

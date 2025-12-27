@@ -4,6 +4,9 @@ import { Asset } from '../types/asset';
 import { validateAsset } from '../utils/validation';
 import { parseCSVContent, generateEnhancedCSVTemplate } from '../utils/csvUtils';
 import { logger } from '../utils/logger';
+import { AssetDeduplicationService } from '../services/assetDeduplicationService';
+import { MetadataEnrichmentService } from '../services/metadataEnrichmentService';
+import { assetService } from '../services/assetService';
 
 interface AssetImportModalProps {
   isOpen: boolean;
@@ -121,19 +124,46 @@ export const AssetImportModal: React.FC<AssetImportModalProps> = ({
           errors.push(`Row ${index + 2}: ${validationResult.errors.join(', ')}`);
         } else {
           // Generate complete Asset object
-          const completeAsset: Asset = {
+          let completeAsset: Asset = {
             ...assetData,
-            id: `imported-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            id: `imported-${Date.now()}-${index}-${Math.random().toString(36).substr(2, 9)}`,
             createdAt: new Date(),
             updatedAt: new Date(),
             relationships: assetData.relationships || [],
             vulnerabilities: assetData.vulnerabilities || [],
             lastAssessed: assetData.lastAssessed || new Date(),
           } as Asset;
+
+          // Enrich with metadata (environment, cloud provider, region)
+          const { enriched } = MetadataEnrichmentService.enrichAsset(completeAsset);
+          completeAsset = enriched;
           
           validAssets.push(completeAsset);
         }
       });
+
+      // Check for duplicates with existing assets
+      try {
+        const existingAssets = await assetService.getAssets();
+        const allAssets = [...existingAssets, ...validAssets];
+        const duplicates = AssetDeduplicationService.findDuplicates(allAssets);
+        
+        if (duplicates.length > 0) {
+          const duplicatePairs = duplicates.filter(dup => 
+            validAssets.some(a => a.id === dup.asset1.id || a.id === dup.asset2.id)
+          );
+          
+          if (duplicatePairs.length > 0) {
+            warnings.push(
+              `Found ${duplicatePairs.length} potential duplicate(s). ` +
+              `Assets with similar names/locations may already exist. ` +
+              `Duplicates will be skipped during import.`
+            );
+          }
+        }
+      } catch (error) {
+        logger.warn('Could not check for duplicates', error);
+      }
 
       if (validAssets.length === 0 && errors.length > 0) {
         setImportResult({

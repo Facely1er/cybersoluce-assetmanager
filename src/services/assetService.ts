@@ -6,6 +6,7 @@ import { sampleAssets } from '../data/sampleAssets';
 import { logError } from '../utils/errorHandling';
 import { APP_CONFIG } from '../utils/constants';
 import { withFallback, isServiceAvailable } from '../utils/serviceFallback';
+import { MetadataEnrichmentService } from './metadataEnrichmentService';
 
 type AssetRow = Database['public']['Tables']['assets']['Row'];
 type AssetInsert = Database['public']['Tables']['assets']['Insert'];
@@ -229,9 +230,26 @@ export const assetService = {
     if (assetData.tags?.includes('DEMO_ONLY_NOT_REAL')) {
       throw new Error('Cannot persist demo assets. Demo assets are for demonstration purposes only.');
     }
+
+    // Enrich asset with metadata (environment, cloud provider, region) if not already enriched
+    let enrichedAssetData = assetData;
+    if (!assetData.tags?.some(tag => tag.startsWith('metadata-inferred'))) {
+      const tempAsset: Asset = {
+        ...assetData,
+        id: 'temp',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const { enriched } = MetadataEnrichmentService.enrichAsset(tempAsset);
+      enrichedAssetData = {
+        ...assetData,
+        tags: enriched.tags, // Use enriched tags
+      };
+    }
+
     if (!isSupabaseEnabled || !supabase) {
       const newAsset: Asset = {
-        ...assetData,
+        ...enrichedAssetData,
         id: `demo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -246,7 +264,7 @@ export const assetService = {
         throw new Error('User not authenticated');
       }
 
-      const insertData = mapAssetToInsert(assetData, userId);
+      const insertData = mapAssetToInsert(enrichedAssetData, userId);
       const { data, error } = await supabase
         .from('assets')
         .insert(insertData)
@@ -280,24 +298,46 @@ export const assetService = {
     }
     
     // Check if existing asset is a demo asset
-    const existingAsset = await this.getAssetById(id);
+    const existingAsset = await this.getAsset(id);
     if (existingAsset && (existingAsset.tags?.includes('DEMO_ONLY_NOT_REAL') || existingAsset.id.startsWith('DEMO-'))) {
       throw new Error('Cannot update demo assets. Demo assets are for demonstration purposes only.');
     }
+
+    // Re-enrich metadata if name or location changed
+    let enrichedUpdates = updates;
+    if (updates.name || updates.location) {
+      const currentAsset = existingAsset || sampleAssets.find(a => a.id === id);
+      if (currentAsset) {
+        const mergedAsset: Asset = {
+          ...currentAsset,
+          ...updates,
+        };
+        const { enriched } = MetadataEnrichmentService.enrichAsset(mergedAsset);
+        // Merge enriched tags with existing tags
+        const existingTags = currentAsset.tags || [];
+        const enrichedTags = enriched.tags || [];
+        const mergedTags = [...new Set([...existingTags, ...enrichedTags])];
+        enrichedUpdates = {
+          ...updates,
+          tags: mergedTags,
+        };
+      }
+    }
+
     if (!isSupabaseEnabled || !supabase) {
       const existingAsset = sampleAssets.find(asset => asset.id === id);
       if (!existingAsset) throw new Error('Asset not found');
       
       const updatedAsset: Asset = {
         ...existingAsset,
-        ...updates,
+        ...enrichedUpdates,
         updatedAt: new Date(),
       };
       return updatedAsset;
     }
     
     try {
-      const updateData = mapAssetToUpdate(updates);
+      const updateData = mapAssetToUpdate(enrichedUpdates);
       const { data, error } = await supabase
         .from('assets')
         .update(updateData)

@@ -8,11 +8,12 @@
 import { supabase, isSupabaseEnabled } from '@/lib/supabase';
 import { handleSupabaseError } from '@/lib/supabase';
 import { signalHistoryStore, BackendSignalHistoryStore, SignalSnapshotWithBatch } from '@/time/signalHistoryStore';
-import { parseCsvFile, mapCsvRowToAsset, buildInitialSignalsForCsvAsset, assetToContract, ParsedCsvAssetRow } from '@/import/csvAssetImportService';
+import { parseCsvFile, mapCsvRowToAsset, buildInitialSignalsForCsvAsset } from '@/import/csvAssetImportService';
 import { Asset } from '@/types/asset';
-import { CyberSoluceAssetContract } from '@/contracts/cyberSoluce.asset.contract';
 import { assetService } from './assetService';
 import { logger } from '../utils/logger';
+import { AssetDeduplicationService } from './assetDeduplicationService';
+import { MetadataEnrichmentService } from './metadataEnrichmentService';
 
 /**
  * Import batch result
@@ -21,6 +22,8 @@ export interface ImportBatchResult {
   batchId: string;
   assetCount: number;
   vendorLinkedAssets: number;
+  duplicatesFound?: number;
+  duplicatesMerged?: number;
   errors?: Array<{ assetName: string; error: string }>;
 }
 
@@ -65,6 +68,14 @@ export async function importCsvAssets(
 
   const batchId = batchData.id;
 
+  // Get existing assets for duplicate detection
+  let existingAssets: Asset[] = [];
+  try {
+    existingAssets = await assetService.getAssets();
+  } catch (error) {
+    logger.warn('Could not fetch existing assets for duplicate detection', error);
+  }
+
   // Process each row
   let vendorLinkedAssets = 0;
   const assets: Asset[] = [];
@@ -72,7 +83,15 @@ export async function importCsvAssets(
 
   for (const row of rows) {
     // Map to asset
-    const asset = mapCsvRowToAsset(row);
+    let asset = mapCsvRowToAsset(row);
+
+    // Enrich with metadata (environment, cloud provider, region)
+    const { enriched } = MetadataEnrichmentService.enrichAsset(asset);
+    asset = enriched;
+
+    // Mark as imported
+    asset = AssetDeduplicationService.markAsImported(asset);
+
     assets.push(asset);
 
     // Build signals
@@ -93,6 +112,35 @@ export async function importCsvAssets(
     snapshots.push({ asset, signals: snapshot });
   }
 
+  // Detect duplicates before importing
+  const allAssetsForCheck = [...existingAssets, ...assets];
+  const duplicates = AssetDeduplicationService.findDuplicates(allAssetsForCheck);
+  const duplicateCount = duplicates.length;
+  
+  // Filter out duplicates from new assets (keep existing ones, skip new duplicates)
+  const duplicateAssetIds = new Set<string>();
+  duplicates.forEach(dup => {
+    // If both assets are in the new import, mark the second one as duplicate
+    const asset1IsNew = assets.some(a => a.id === dup.asset1.id);
+    const asset2IsNew = assets.some(a => a.id === dup.asset2.id);
+    
+    if (asset1IsNew && asset2IsNew) {
+      // Both are new - keep the first, mark second as duplicate
+      duplicateAssetIds.add(dup.asset2.id);
+    } else if (asset2IsNew && !asset1IsNew) {
+      // Asset2 is new but asset1 exists - mark asset2 as duplicate
+      duplicateAssetIds.add(dup.asset2.id);
+    }
+  });
+
+  // Filter out duplicate assets
+  const assetsToImport = assets.filter(asset => !duplicateAssetIds.has(asset.id));
+  const duplicatesSkipped = assets.length - assetsToImport.length;
+
+  if (duplicateCount > 0) {
+    logger.info(`Found ${duplicateCount} duplicate pairs. Skipping ${duplicatesSkipped} duplicate assets from import.`);
+  }
+
   // Record signal snapshots
   // Use BackendSignalHistoryStore directly to ensure we're using the backend
   const store = signalHistoryStore;
@@ -100,11 +148,11 @@ export async function importCsvAssets(
     throw new Error('CSV import requires backend signal history store. Set VITE_HISTORY_STORE_MODE=backend');
   }
 
-  // Persist assets to the assets table
+  // Persist assets to the assets table (only non-duplicates)
   const persistedAssets: Asset[] = [];
   const errors: Array<{ asset: Asset; error: string }> = [];
 
-  for (const asset of assets) {
+  for (const asset of assetsToImport) {
     try {
       // Create asset using assetService (handles database persistence)
       const persistedAsset = await assetService.createAsset({
@@ -175,6 +223,8 @@ export async function importCsvAssets(
     batchId,
     assetCount: persistedAssets.length,
     vendorLinkedAssets,
+    duplicatesFound: duplicateCount,
+    duplicatesMerged: duplicatesSkipped,
     errors: errors.length > 0 ? errors.map(e => ({ assetName: e.asset.name, error: e.error })) : undefined,
   };
 }
