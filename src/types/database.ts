@@ -310,6 +310,58 @@ export interface Database {
           created_at?: string
         }
       }
+      asset_import_batch: {
+        Row: {
+          id: string
+          type: string
+          source_label: string
+          created_at: string
+          created_by: string | null
+        }
+        Insert: {
+          id?: string
+          type: string
+          source_label: string
+          created_at?: string
+          created_by?: string | null
+        }
+        Update: {
+          id?: string
+          type?: string
+          source_label?: string
+          created_at?: string
+          created_by?: string | null
+        }
+      }
+      signal_history: {
+        Row: {
+          id: string
+          asset_id: string
+          captured_at: string
+          source: string
+          signals_json: Json
+          import_batch_id: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          asset_id: string
+          captured_at: string
+          source: string
+          signals_json: Json
+          import_batch_id?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          asset_id?: string
+          captured_at?: string
+          source?: string
+          signals_json?: Json
+          import_batch_id?: string | null
+          created_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

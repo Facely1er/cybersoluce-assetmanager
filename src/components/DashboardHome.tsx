@@ -218,7 +218,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           <div className="hidden lg:block ml-8">
             <div className="w-40 h-40 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center shadow-2xl border border-white/30">
               <img 
-                src="/cybersoluce-logo.svg" 
+                src="/cybersoluce.png" 
                 alt="CyberSoluce Logo" 
                 className="h-20 w-20 object-contain drop-shadow-lg"
               />
